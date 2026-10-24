@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.0.2
+ * Version: 1.1.0
  * Author: Mantie Reid
  * License: MIT
  * Requires PHP: 7.4
@@ -17,6 +17,8 @@ const MTA_RIDERSHIP_OPTION = 'mta_ridership_data';
 const MTA_RIDERSHIP_HOOK   = 'mta_ridership_daily_refresh';
 const MTA_RIDERSHIP_WHERE  = "transit_mode = 'subway'";
 
+require_once __DIR__ . '/includes/trends.php';
+
 /* ---------- scheduling ---------- */
 
 register_activation_hook(__FILE__, function () {
@@ -29,6 +31,7 @@ register_activation_hook(__FILE__, function () {
 
 register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook(MTA_RIDERSHIP_HOOK);
+    wp_clear_scheduled_hook(MTA_RIDERSHIP_TRENDS_HOOK);
 });
 
 add_action(MTA_RIDERSHIP_HOOK, 'mta_ridership_refresh');
@@ -232,7 +235,9 @@ function mta_ridership_refresh()
             'top_seasons'   => $top_seasons,
         ], false);
         delete_option('mta_ridership_last_error');
-    } catch (Exception $e) {
+        // Trends run as a separate cron request so each stays within the host's time limit.
+        mta_ridership_schedule_trends(60);
+    } catch (Throwable $e) {
         update_option('mta_ridership_last_error', gmdate('c') . ' ' . $e->getMessage(), false);
     }
 }
@@ -240,7 +245,7 @@ function mta_ridership_refresh()
 /* ---------- shortcode ---------- */
 
 add_shortcode('mta_ridership', function ($atts) {
-    $atts = shortcode_atts(['show' => 'top5,monthly,hourly,dow,seasons,topstations'], $atts, 'mta_ridership');
+    $atts = shortcode_atts(['show' => 'top5,spikes,monthly,hourly,dow,seasons,topstations,quiet,weekend,latenight,transfers'], $atts, 'mta_ridership');
     $data = get_option(MTA_RIDERSHIP_OPTION);
     if (!$data) {
         if (!wp_next_scheduled(MTA_RIDERSHIP_HOOK)) {
@@ -249,9 +254,10 @@ add_shortcode('mta_ridership', function ($atts) {
         return '<p class="mta-ridership-empty">Subway ridership data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(__FILE__);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.0.2');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.1.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', ['chartjs'], '1.0.2', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', ['chartjs'], '1.1.0', true);
+    $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($data) . ';', 'before');
 
     $show = array_map('trim', explode(',', $atts['show']));
@@ -286,7 +292,9 @@ function mta_ridership_admin_page()
     <div class="wrap">
         <h1>MTA Subway Ridership</h1>
         <p>Add <code>[mta_ridership]</code> to any page or post. Limit sections with
-            <code>[mta_ridership show="top5,monthly"]</code> (options: top5, monthly, hourly, dow, seasons, topstations).</p>
+            <code>[mta_ridership show="top5,monthly"]</code> (options: top5, spikes, monthly, hourly, dow, seasons, topstations, quiet, weekend, latenight, transfers).</p>
+        <p>Trends (unusual days, weekend/late-night/transfer stations):
+            <?php echo esc_html(mta_ridership_trends_status()); ?></p>
         <table class="form-table">
             <tr><th>Last updated</th><td><?php echo $data ? esc_html($data['updated']) : 'Never'; ?></td></tr>
             <tr><th>Latest MTA data</th><td><?php echo $data ? esc_html($data['latest_day']) : '–'; ?></td></tr>

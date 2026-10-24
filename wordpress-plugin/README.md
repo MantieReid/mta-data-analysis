@@ -5,6 +5,10 @@ Shows NYC subway ridership charts on any WordPress page with the shortcode `[mta
 - Top 5 stations on the latest day MTA has published, and over the last 7 days
 - Riders per month, by hour of day, by day of week, and by season
 - Top stations per year (top 10) and per season (top 5)
+- Unusually busy and quiet days per station (vs. its 26-week same-weekday median, adjusted for the whole system)
+- Weekend vs weekday stations, late-night share, most transfers
+
+A public read-only copy of the data is at `/wp-json/mta-ridership/v1/data`.
 
 Data comes from data.ny.gov dataset `5wq4-mkjj`. MTA does all the summing; the plugin
 downloads only small aggregated results. WP-Cron refreshes them once a day and stores them

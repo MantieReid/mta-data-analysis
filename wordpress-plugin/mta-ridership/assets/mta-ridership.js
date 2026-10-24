@@ -62,7 +62,163 @@
     return ol;
   }
 
+  function times(r) { return r >= 1 ? r.toFixed(1) + '× normal' : Math.round(r * 100) + '% of normal'; }
+  function range(e) {
+    return e.days > 1 ? niceDate(e.first_day) + ' – ' + niceDate(e.last_day) + ' (' + e.days + ' days)' : niceDate(e.peak_day);
+  }
+
+  // A clickable list of unusual days, with a chart of the selected station around that day.
+  function eventList(parent, events, chartBox) {
+    var ol = el('ol', 'mta-events');
+    events.forEach(function (e, i) {
+      var li = el('li');
+      var btn = el('button', 'mta-event', null);
+      btn.type = 'button';
+      btn.innerHTML =
+        '<span class="mta-top-name">' + esc(stationLabel(e.name)) + ' <span class="mta-lines">' + esc(lines(e.name)) + '</span></span>' +
+        '<span class="mta-ratio">' + times(e.ratio) + '</span>' +
+        '<span class="mta-borough">' + esc(range(e)) + ' · ' + fmt(e.riders) + ' riders vs normal ' + fmt(e.baseline) + '</span>';
+      btn.addEventListener('click', function () { showEvent(chartBox, e, ol, li); });
+      li.appendChild(btn);
+      ol.appendChild(li);
+    });
+    parent.appendChild(ol);
+    if (events.length) showEvent(chartBox, events[0], ol, ol.firstChild);
+  }
+
+  function showEvent(box, e, ol, li) {
+    Array.prototype.forEach.call(ol.children, function (x) { x.classList.toggle('on', x === li); });
+    box.innerHTML = '';
+    box.appendChild(el('p', 'mta-note', '<strong>' + esc(stationLabel(e.name)) + '</strong>: daily riders around ' + niceDate(e.peak_day) +
+      '. Dashed line = its normal level for that weekday.'));
+    var labels = [], start = new Date(e.series_start + 'T00:00:00Z');
+    e.series.forEach(function (_, i) {
+      var d = new Date(start.getTime() + i * 86400000);
+      labels.push(MONTHS[d.getUTCMonth()] + ' ' + d.getUTCDate());
+    });
+    var peakIdx = Math.round((new Date(e.peak_day + 'T00:00:00Z') - start) / 86400000);
+    chart(box, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          { label: 'Riders', data: e.series, borderColor: '#2a6fdb', backgroundColor: '#2a6fdb', tension: 0.2,
+            pointRadius: e.series.map(function (_, i) { return i === peakIdx ? 6 : 1.5; }),
+            pointBackgroundColor: e.series.map(function (_, i) { return i === peakIdx ? '#e8590c' : '#2a6fdb'; }) },
+          { label: 'Normal', data: e.series.map(function () { return e.baseline; }), borderColor: '#999', borderDash: [6, 4], pointRadius: 0 }
+        ]
+      },
+      options: { plugins: { tooltip: tipRiders }, scales: { y: yMillions } }
+    });
+  }
+
+  function eventsSection(root, title, note, byYear, recent) {
+    var s = section(root, title, note);
+    var grid = el('div', 'mta-grid mta-grid-events');
+    var left = el('div');
+    var box = el('div', 'mta-card');
+    var sel = el('select', 'mta-select');
+    sel.setAttribute('aria-label', 'Choose a time frame');
+    var groups = [];
+    if (recent) groups.push({ label: 'Last 14 days of data', events: recent });
+    Object.keys(byYear).reverse().forEach(function (y) { groups.push({ label: 'Biggest in ' + y, events: byYear[y] }); });
+    groups.forEach(function (g, i) { var o = el('option', null, esc(g.label)); o.value = i; sel.appendChild(o); });
+    var listBox = el('div');
+    function update() {
+      listBox.innerHTML = '';
+      box.innerHTML = '';
+      var g = groups[sel.value];
+      if (!g.events.length) {
+        listBox.appendChild(el('p', 'mta-note', 'Nothing unusual in this time frame.'));
+        return;
+      }
+      eventList(listBox, g.events, box);
+    }
+    sel.addEventListener('change', update);
+    left.appendChild(sel);
+    left.appendChild(listBox);
+    grid.appendChild(left);
+    grid.appendChild(box);
+    s.appendChild(grid);
+    // open on the first time frame that has something in it
+    for (var i = 0; i < groups.length; i++) { if (groups[i].events.length) { sel.value = i; break; } }
+    update();
+  }
+
+  function barList(parent, items, value, label) {
+    chart(parent, {
+      type: 'bar',
+      data: { labels: items.map(function (x) { return stationLabel(x.name); }),
+              datasets: [{ data: items.map(value), backgroundColor: '#5f6caf' }] },
+      options: {
+        indexAxis: 'y',
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (it) { return items[it[0].dataIndex].name; },
+          label: function (it) { return label(items[it.dataIndex]); }
+        } } },
+        scales: { x: { beginAtZero: true, ticks: { callback: function (v) { return value === pct ? Math.round(v * 100) + '%' : short(v); } } } }
+      }
+    }, true);
+  }
+  function pct(x) { return x.share; }
+
+  var T = D.trends;
+  var trendsMissing = function (root, title) {
+    section(root, title, 'This trend is still being calculated. Check back later today.');
+  };
+
   var render = {
+    spikes: function (root) {
+      if (!T) return trendsMissing(root, 'Unusually busy days');
+      eventsSection(root, 'Unusually busy days',
+        'Days when a station had far more riders than usual: at least ' + T.settings.spike_ratio + '× its normal level for that weekday ' +
+        '(the median of the 26 weeks before), after allowing for how busy the whole system was. Back-to-back days are grouped together. Click one to see it.',
+        T.spikes, T.recent);
+    },
+
+    quiet: function (root) {
+      if (!T) return trendsMissing(root, 'Unusually quiet days');
+      eventsSection(root, 'Unusually quiet days',
+        'Days when a station had far fewer riders than usual (' + Math.round(T.settings.quiet_ratio * 100) + '% of normal or less), ' +
+        'compared with the rest of the system that day. Often a station closure or service change.', T.quiet, null);
+    },
+
+    weekend: function (root) {
+      if (!T) return trendsMissing(root, 'Weekend vs weekday stations');
+      var s = section(root, 'Weekend vs weekday stations',
+        'Average daily riders on weekends compared with weekdays, ' + niceDate(T.year_from) + ' – ' + niceDate(T.latest_day) + '.');
+      var grid = el('div', 'mta-grid');
+      [['Busier on weekends', T.weekend], ['Mostly weekday commuters', T.weekday]].forEach(function (p) {
+        var card = el('div', 'mta-card');
+        card.appendChild(el('h4', null, p[0]));
+        var ol = el('ol', 'mta-top');
+        p[1].forEach(function (x) {
+          ol.appendChild(el('li', null,
+            '<div class="mta-top-row"><span class="mta-top-name">' + esc(stationLabel(x.name)) + ' <span class="mta-lines">' + esc(lines(x.name)) + '</span></span>' +
+            '<span class="mta-top-num">' + (x.ratio >= 1 ? '+' : '') + Math.round((x.ratio - 1) * 100) + '%</span></div>' +
+            '<div class="mta-borough">Weekend ' + fmt(x.weekend_avg) + '/day · weekday ' + fmt(x.weekday_avg) + '/day</div>'));
+        });
+        card.appendChild(ol);
+        grid.appendChild(card);
+      });
+      s.appendChild(grid);
+    },
+
+    latenight: function (root) {
+      if (!T) return trendsMissing(root, 'Late-night stations');
+      var s = section(root, 'Late-night stations',
+        'Share of each station’s riders who enter between midnight and 5 AM, over the last year (stations with 2,000+ riders a day).');
+      barList(s, T.late_night, pct, function (x) { return Math.round(x.share * 1000) / 10 + '% (' + fmt(x.night_riders) + ' late-night riders)'; });
+    },
+
+    transfers: function (root) {
+      if (!T) return trendsMissing(root, 'Most transfers');
+      var s = section(root, 'Most transfers',
+        'Entries MTA counts as transfers (for example, a free transfer from a bus) over the last year.');
+      barList(s, T.transfers, function (x) { return x.transfers; },
+        function (x) { return fmt(x.transfers) + ' transfers (' + Math.round(x.share * 100) + '% of entries)'; });
+    },
+
     top5: function (root) {
       var s = section(root, 'Busiest stations',
         'Latest data from MTA: <strong>' + niceDate(D.latest_day) + '</strong> (' + fmt(D.latest_total) +

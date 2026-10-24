@@ -19,4 +19,12 @@
 .mta-ridership .mta-select { margin-bottom: .8em; padding: .4em .6em; max-width: 100%; color: inherit; background: transparent; border: 1px solid var(--mta-border); border-radius: 6px; font: inherit; }
 /* the open list is drawn by the browser on a light background, so don't inherit a light theme text color */
 .mta-ridership .mta-select option { color: #111; background: #fff; }
+.mta-ridership .mta-grid-events { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); align-items: start; }
+.mta-ridership .mta-events { list-style: none; margin: 0; padding: 0; }
+.mta-ridership .mta-events li { margin-bottom: .5em; }
+.mta-ridership .mta-event { display: grid; grid-template-columns: 1fr auto; gap: .1em 1em; width: 100%; text-align: left; padding: .6em .8em; font: inherit; color: inherit; background: transparent; border: 1px solid var(--mta-border); border-radius: 8px; cursor: pointer; }
+.mta-ridership .mta-event:hover, .mta-ridership .mta-events li.on .mta-event { border-color: var(--mta-accent); }
+.mta-ridership .mta-event .mta-top-name { font-weight: 600; }
+.mta-ridership .mta-event .mta-borough { grid-column: 1 / -1; }
+.mta-ridership .mta-ratio { font-weight: 700; color: var(--mta-accent); white-space: nowrap; }
 @media (prefers-color-scheme: dark) { .mta-ridership { --mta-muted: #98a2b3; --mta-accent: #6ea8fe; } }
