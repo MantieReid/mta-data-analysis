@@ -135,6 +135,8 @@ add_action('rest_api_init', function () {
             $data = get_option(MTA_RIDERSHIP_OPTION) ?: [];
             $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
             $data['trends_status'] = mta_ridership_trends_status();
+            $next = wp_next_scheduled(MTA_RIDERSHIP_HOOK);
+            $data['next_refresh'] = $next ? gmdate('c', $next) : null;
             return $data;
         },
     ]);
