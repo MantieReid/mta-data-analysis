@@ -16,5 +16,7 @@
 .mta-ridership .mta-bar span { display: block; height: 100%; background: var(--mta-accent); border-radius: 3px; }
 .mta-ridership .mta-chart { position: relative; height: 320px; }
 .mta-ridership .mta-chart-tall { height: 380px; }
-.mta-ridership .mta-select { margin-bottom: .8em; padding: .3em .5em; max-width: 100%; }
+.mta-ridership .mta-select { margin-bottom: .8em; padding: .4em .6em; max-width: 100%; color: inherit; background: transparent; border: 1px solid var(--mta-border); border-radius: 6px; font: inherit; }
+/* the open list is drawn by the browser on a light background, so don't inherit a light theme text color */
+.mta-ridership .mta-select option { color: #111; background: #fff; }
 @media (prefers-color-scheme: dark) { .mta-ridership { --mta-muted: #98a2b3; --mta-accent: #6ea8fe; } }
