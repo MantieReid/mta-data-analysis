@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.0.1
+ * Version: 1.0.2
  * Author: Mantie Reid
  * License: MIT
  * Requires PHP: 7.4
@@ -249,9 +249,9 @@ add_shortcode('mta_ridership', function ($atts) {
         return '<p class="mta-ridership-empty">Subway ridership data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(__FILE__);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.0.1');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.0.2');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', ['chartjs'], '1.0.1', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', ['chartjs'], '1.0.2', true);
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($data) . ';', 'before');
 
     $show = array_map('trim', explode(',', $atts['show']));

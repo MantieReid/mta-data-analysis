@@ -166,6 +166,7 @@
         opts.push({ label: k + (D.top_seasons[k].partial ? ' (partial)' : '') + ' — top 5', data: D.top_seasons[k].stations });
       });
       opts.forEach(function (o, i) { var op = el('option', null, esc(o.label)); op.value = i; sel.appendChild(op); });
+      sel.value = Object.keys(D.top_years).length - 1; // default to the latest year
       s.appendChild(sel);
       var c = chart(s, {
         type: 'bar',
