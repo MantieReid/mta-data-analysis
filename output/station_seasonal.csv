@@ -1,0 +1,3395 @@
+station_complex_id,station_complex,season,riders,days_with_data,partial
+1,"Astoria-Ditmars Blvd (N,W)",fall 2025,937494,91,False
+1,"Astoria-Ditmars Blvd (N,W)",fall 2026,451988,44,True
+1,"Astoria-Ditmars Blvd (N,W)",spring 2025,932600,92,False
+1,"Astoria-Ditmars Blvd (N,W)",spring 2026,955323,92,False
+1,"Astoria-Ditmars Blvd (N,W)",summer 2025,875752,92,False
+1,"Astoria-Ditmars Blvd (N,W)",summer 2026,892683,92,False
+1,"Astoria-Ditmars Blvd (N,W)",winter 2024-25,554853,59,True
+1,"Astoria-Ditmars Blvd (N,W)",winter 2025-26,870202,90,False
+10,"49 St (N,R,W)",fall 2025,1938137,91,False
+10,"49 St (N,R,W)",fall 2026,890784,44,True
+10,"49 St (N,R,W)",spring 2025,1798616,92,False
+10,"49 St (N,R,W)",spring 2026,1984811,92,False
+10,"49 St (N,R,W)",summer 2025,1835638,92,False
+10,"49 St (N,R,W)",summer 2026,2022406,92,False
+10,"49 St (N,R,W)",winter 2024-25,1045716,59,True
+10,"49 St (N,R,W)",winter 2025-26,1913004,90,False
+100,"Hewes St (M,J)",fall 2025,170585,91,False
+100,"Hewes St (M,J)",fall 2026,89755,44,True
+100,"Hewes St (M,J)",spring 2025,178875,92,False
+100,"Hewes St (M,J)",spring 2026,169701,92,False
+100,"Hewes St (M,J)",summer 2025,165935,92,False
+100,"Hewes St (M,J)",summer 2026,163249,92,False
+100,"Hewes St (M,J)",winter 2024-25,109428,59,True
+100,"Hewes St (M,J)",winter 2025-26,169200,90,False
+101,"Marcy Av (M,J,Z)",fall 2025,800517,91,False
+101,"Marcy Av (M,J,Z)",fall 2026,446371,44,True
+101,"Marcy Av (M,J,Z)",spring 2025,775708,92,False
+101,"Marcy Av (M,J,Z)",spring 2026,853142,92,False
+101,"Marcy Av (M,J,Z)",summer 2025,744970,92,False
+101,"Marcy Av (M,J,Z)",summer 2026,785465,92,False
+101,"Marcy Av (M,J,Z)",winter 2024-25,437067,59,True
+101,"Marcy Av (M,J,Z)",winter 2025-26,760696,90,False
+103,"Bowery (J,Z)",fall 2025,288319,91,False
+103,"Bowery (J,Z)",fall 2026,146826,44,True
+103,"Bowery (J,Z)",spring 2025,246734,92,False
+103,"Bowery (J,Z)",spring 2026,281726,92,False
+103,"Bowery (J,Z)",summer 2025,253798,92,False
+103,"Bowery (J,Z)",summer 2026,275965,92,False
+103,"Bowery (J,Z)",winter 2024-25,138145,59,True
+103,"Bowery (J,Z)",winter 2025-26,251076,90,False
+107,"Broad St (J,Z)",fall 2025,379649,91,False
+107,"Broad St (J,Z)",fall 2026,196200,44,True
+107,"Broad St (J,Z)",spring 2025,368965,92,False
+107,"Broad St (J,Z)",spring 2026,406840,92,False
+107,"Broad St (J,Z)",summer 2025,355281,92,False
+107,"Broad St (J,Z)",summer 2026,391260,92,False
+107,"Broad St (J,Z)",winter 2024-25,208898,59,True
+107,"Broad St (J,Z)",winter 2025-26,357728,90,False
+108,Middle Village-Metropolitan Av (M),fall 2025,236642,91,False
+108,Middle Village-Metropolitan Av (M),fall 2026,122781,44,True
+108,Middle Village-Metropolitan Av (M),spring 2025,240002,92,False
+108,Middle Village-Metropolitan Av (M),spring 2026,240932,92,False
+108,Middle Village-Metropolitan Av (M),summer 2025,216163,92,False
+108,Middle Village-Metropolitan Av (M),summer 2026,228988,92,False
+108,Middle Village-Metropolitan Av (M),winter 2024-25,140775,59,True
+108,Middle Village-Metropolitan Av (M),winter 2025-26,218935,90,False
+109,Fresh Pond Rd (M),fall 2025,358141,91,False
+109,Fresh Pond Rd (M),fall 2026,188062,44,True
+109,Fresh Pond Rd (M),spring 2025,345909,92,False
+109,Fresh Pond Rd (M),spring 2026,381619,92,False
+109,Fresh Pond Rd (M),summer 2025,326961,92,False
+109,Fresh Pond Rd (M),summer 2026,352005,92,False
+109,Fresh Pond Rd (M),winter 2024-25,203778,59,True
+109,Fresh Pond Rd (M),winter 2025-26,353018,90,False
+110,Forest Av (M),fall 2025,279126,91,False
+110,Forest Av (M),fall 2026,152325,44,True
+110,Forest Av (M),spring 2025,262905,92,False
+110,Forest Av (M),spring 2026,297147,92,False
+110,Forest Av (M),summer 2025,249651,92,False
+110,Forest Av (M),summer 2026,281531,92,False
+110,Forest Av (M),winter 2024-25,161831,59,True
+110,Forest Av (M),winter 2025-26,280974,90,False
+111,Seneca Av (M),fall 2025,180800,91,False
+111,Seneca Av (M),fall 2026,99733,44,True
+111,Seneca Av (M),spring 2025,167478,92,False
+111,Seneca Av (M),spring 2026,193342,92,False
+111,Seneca Av (M),summer 2025,165736,92,False
+111,Seneca Av (M),summer 2026,180791,92,False
+111,Seneca Av (M),winter 2024-25,102605,59,True
+111,Seneca Av (M),winter 2025-26,191374,90,False
+113,Knickerbocker Av (M),fall 2025,267157,91,False
+113,Knickerbocker Av (M),fall 2026,149387,44,True
+113,Knickerbocker Av (M),spring 2025,250826,92,False
+113,Knickerbocker Av (M),spring 2026,294868,92,False
+113,Knickerbocker Av (M),summer 2025,249978,92,False
+113,Knickerbocker Av (M),summer 2026,273644,92,False
+113,Knickerbocker Av (M),winter 2024-25,150066,59,True
+113,Knickerbocker Av (M),winter 2025-26,282675,90,False
+114,Central Av (M),fall 2025,239581,91,False
+114,Central Av (M),fall 2026,140519,44,True
+114,Central Av (M),spring 2025,232260,92,False
+114,Central Av (M),spring 2026,268999,92,False
+114,Central Av (M),summer 2025,227256,92,False
+114,Central Av (M),summer 2026,260259,92,False
+114,Central Av (M),winter 2024-25,142043,59,True
+114,Central Av (M),winter 2025-26,247897,90,False
+118,3 Av (L),fall 2025,498912,91,False
+118,3 Av (L),fall 2026,226913,44,True
+118,3 Av (L),spring 2025,503028,92,False
+118,3 Av (L),spring 2026,514166,92,False
+118,3 Av (L),summer 2025,434086,92,False
+118,3 Av (L),summer 2026,472644,92,False
+118,3 Av (L),winter 2024-25,301993,59,True
+118,3 Av (L),winter 2025-26,451239,90,False
+119,1 Av (L),fall 2025,1912041,91,False
+119,1 Av (L),fall 2026,846739,44,True
+119,1 Av (L),spring 2025,1924816,92,False
+119,1 Av (L),spring 2026,2000836,92,False
+119,1 Av (L),summer 2025,1743407,92,False
+119,1 Av (L),summer 2026,1855031,92,False
+119,1 Av (L),winter 2024-25,1148996,59,True
+119,1 Av (L),winter 2025-26,1742104,90,False
+120,Bedford Av (L),fall 2025,2574935,91,False
+120,Bedford Av (L),fall 2026,1139079,44,True
+120,Bedford Av (L),spring 2025,2603333,92,False
+120,Bedford Av (L),spring 2026,2772872,92,False
+120,Bedford Av (L),summer 2025,2414166,92,False
+120,Bedford Av (L),summer 2026,2609942,92,False
+120,Bedford Av (L),winter 2024-25,1441952,59,True
+120,Bedford Av (L),winter 2025-26,2273253,90,False
+122,Graham Av (L),fall 2025,653739,91,False
+122,Graham Av (L),fall 2026,310991,44,True
+122,Graham Av (L),spring 2025,656690,92,False
+122,Graham Av (L),spring 2026,668605,92,False
+122,Graham Av (L),summer 2025,574043,92,False
+122,Graham Av (L),summer 2026,630460,92,False
+122,Graham Av (L),winter 2024-25,383523,59,True
+122,Graham Av (L),winter 2025-26,550759,90,False
+123,Grand St (L),fall 2025,433129,91,False
+123,Grand St (L),fall 2026,194249,44,True
+123,Grand St (L),spring 2025,458227,92,False
+123,Grand St (L),spring 2026,436090,92,False
+123,Grand St (L),summer 2025,398357,92,False
+123,Grand St (L),summer 2026,419733,92,False
+123,Grand St (L),winter 2024-25,280033,59,True
+123,Grand St (L),winter 2025-26,362810,90,False
+124,Montrose Av (L),fall 2025,471715,91,False
+124,Montrose Av (L),fall 2026,233562,44,True
+124,Montrose Av (L),spring 2025,490353,92,False
+124,Montrose Av (L),spring 2026,488095,92,False
+124,Montrose Av (L),summer 2025,428485,92,False
+124,Montrose Av (L),summer 2026,488978,92,False
+124,Montrose Av (L),winter 2024-25,291066,59,True
+124,Montrose Av (L),winter 2025-26,402722,90,False
+125,Morgan Av (L),fall 2025,539721,91,False
+125,Morgan Av (L),fall 2026,257927,44,True
+125,Morgan Av (L),spring 2025,557756,92,False
+125,Morgan Av (L),spring 2026,568186,92,False
+125,Morgan Av (L),summer 2025,489299,92,False
+125,Morgan Av (L),summer 2026,535494,92,False
+125,Morgan Av (L),winter 2024-25,319414,59,True
+125,Morgan Av (L),winter 2025-26,463907,90,False
+126,Jefferson St (L),fall 2025,663655,91,False
+126,Jefferson St (L),fall 2026,316449,44,True
+126,Jefferson St (L),spring 2025,709369,92,False
+126,Jefferson St (L),spring 2026,681978,92,False
+126,Jefferson St (L),summer 2025,632277,92,False
+126,Jefferson St (L),summer 2026,670750,92,False
+126,Jefferson St (L),winter 2024-25,408930,59,True
+126,Jefferson St (L),winter 2025-26,529078,90,False
+127,DeKalb Av (L),fall 2025,831005,91,False
+127,DeKalb Av (L),fall 2026,397234,44,True
+127,DeKalb Av (L),spring 2025,879961,92,False
+127,DeKalb Av (L),spring 2026,862443,92,False
+127,DeKalb Av (L),summer 2025,763645,92,False
+127,DeKalb Av (L),summer 2026,827733,92,False
+127,DeKalb Av (L),winter 2024-25,518225,59,True
+127,DeKalb Av (L),winter 2025-26,714998,90,False
+129,Halsey St (L),fall 2025,551155,91,False
+129,Halsey St (L),fall 2026,262222,44,True
+129,Halsey St (L),spring 2025,575277,92,False
+129,Halsey St (L),spring 2026,520657,92,False
+129,Halsey St (L),summer 2025,494803,92,False
+129,Halsey St (L),summer 2026,507821,92,False
+129,Halsey St (L),winter 2024-25,329752,59,True
+129,Halsey St (L),winter 2025-26,466034,90,False
+13,"28 St (R,W)",fall 2025,854422,91,False
+13,"28 St (R,W)",fall 2026,409643,44,True
+13,"28 St (R,W)",spring 2025,801780,92,False
+13,"28 St (R,W)",spring 2026,860678,92,False
+13,"28 St (R,W)",summer 2025,806415,92,False
+13,"28 St (R,W)",summer 2026,855394,92,False
+13,"28 St (R,W)",winter 2024-25,488977,59,True
+13,"28 St (R,W)",winter 2025-26,819716,90,False
+130,Wilson Av (L),fall 2025,296184,91,False
+130,Wilson Av (L),fall 2026,150510,44,True
+130,Wilson Av (L),spring 2025,311534,92,False
+130,Wilson Av (L),spring 2026,312568,92,False
+130,Wilson Av (L),summer 2025,280438,92,False
+130,Wilson Av (L),summer 2026,308502,92,False
+130,Wilson Av (L),winter 2024-25,176968,59,True
+130,Wilson Av (L),winter 2025-26,255466,90,False
+131,Bushwick Av-Aberdeen St (L),fall 2025,152176,91,False
+131,Bushwick Av-Aberdeen St (L),fall 2026,84393,44,True
+131,Bushwick Av-Aberdeen St (L),spring 2025,165677,92,False
+131,Bushwick Av-Aberdeen St (L),spring 2026,166026,92,False
+131,Bushwick Av-Aberdeen St (L),summer 2025,143341,92,False
+131,Bushwick Av-Aberdeen St (L),summer 2026,166798,92,False
+131,Bushwick Av-Aberdeen St (L),winter 2024-25,98784,59,True
+131,Bushwick Av-Aberdeen St (L),winter 2025-26,133029,90,False
+133,Atlantic Av (L),fall 2025,142785,91,False
+133,Atlantic Av (L),fall 2026,72504,44,True
+133,Atlantic Av (L),spring 2025,165461,92,False
+133,Atlantic Av (L),spring 2026,164154,92,False
+133,Atlantic Av (L),summer 2025,144632,92,False
+133,Atlantic Av (L),summer 2026,149886,92,False
+133,Atlantic Av (L),winter 2024-25,95711,59,True
+133,Atlantic Av (L),winter 2025-26,140112,90,False
+134,Sutter Av (L),fall 2025,144289,91,False
+134,Sutter Av (L),fall 2026,77070,44,True
+134,Sutter Av (L),spring 2025,178842,92,False
+134,Sutter Av (L),spring 2026,177080,92,False
+134,Sutter Av (L),summer 2025,155055,92,False
+134,Sutter Av (L),summer 2026,159906,92,False
+134,Sutter Av (L),winter 2024-25,116092,59,True
+134,Sutter Av (L),winter 2025-26,144809,90,False
+135,Livonia Av (L),fall 2025,158145,91,False
+135,Livonia Av (L),fall 2026,86226,44,True
+135,Livonia Av (L),spring 2025,179719,92,False
+135,Livonia Av (L),spring 2026,172476,92,False
+135,Livonia Av (L),summer 2025,164401,92,False
+135,Livonia Av (L),summer 2026,174305,92,False
+135,Livonia Av (L),winter 2024-25,104263,59,True
+135,Livonia Av (L),winter 2025-26,153792,90,False
+136,New Lots Av (L),fall 2025,189641,91,False
+136,New Lots Av (L),fall 2026,105845,44,True
+136,New Lots Av (L),spring 2025,213555,92,False
+136,New Lots Av (L),spring 2026,247904,92,False
+136,New Lots Av (L),summer 2025,201957,92,False
+136,New Lots Av (L),summer 2026,221998,92,False
+136,New Lots Av (L),winter 2024-25,124797,59,True
+136,New Lots Av (L),winter 2025-26,198137,90,False
+137,East 105 St (L),fall 2025,148959,91,False
+137,East 105 St (L),fall 2026,80116,44,True
+137,East 105 St (L),spring 2025,152974,92,False
+137,East 105 St (L),spring 2026,165569,92,False
+137,East 105 St (L),summer 2025,152843,92,False
+137,East 105 St (L),summer 2026,184165,92,False
+137,East 105 St (L),winter 2024-25,91009,59,True
+137,East 105 St (L),winter 2025-26,151090,90,False
+138,Canarsie-Rockaway Pkwy (L),fall 2025,786996,91,False
+138,Canarsie-Rockaway Pkwy (L),fall 2026,359795,44,True
+138,Canarsie-Rockaway Pkwy (L),spring 2025,294689,92,False
+138,Canarsie-Rockaway Pkwy (L),spring 2026,816378,92,False
+138,Canarsie-Rockaway Pkwy (L),summer 2025,836265,92,False
+138,Canarsie-Rockaway Pkwy (L),summer 2026,698068,92,False
+138,Canarsie-Rockaway Pkwy (L),winter 2024-25,87137,59,True
+138,Canarsie-Rockaway Pkwy (L),winter 2025-26,729489,90,False
+14,"23 St (R,W)",fall 2025,1281567,91,False
+14,"23 St (R,W)",fall 2026,633345,44,True
+14,"23 St (R,W)",spring 2025,1206912,92,False
+14,"23 St (R,W)",spring 2026,1305760,92,False
+14,"23 St (R,W)",summer 2025,1154455,92,False
+14,"23 St (R,W)",summer 2026,1233070,92,False
+14,"23 St (R,W)",winter 2024-25,730458,59,True
+14,"23 St (R,W)",winter 2025-26,1230432,90,False
+141,Park Pl (S),fall 2025,106806,91,False
+141,Park Pl (S),fall 2026,54482,44,True
+141,Park Pl (S),spring 2025,109743,92,False
+141,Park Pl (S),spring 2026,113138,92,False
+141,Park Pl (S),summer 2025,107471,92,False
+141,Park Pl (S),summer 2026,106872,92,False
+141,Park Pl (S),winter 2024-25,65393,59,True
+141,Park Pl (S),winter 2025-26,102181,90,False
+143,Inwood-207 St (A),fall 2025,501134,91,False
+143,Inwood-207 St (A),fall 2026,258324,44,True
+143,Inwood-207 St (A),spring 2025,511374,92,False
+143,Inwood-207 St (A),spring 2026,550182,92,False
+143,Inwood-207 St (A),summer 2025,461693,92,False
+143,Inwood-207 St (A),summer 2026,515553,92,False
+143,Inwood-207 St (A),winter 2024-25,289898,59,True
+143,Inwood-207 St (A),winter 2025-26,462158,90,False
+144,Dyckman St (A),fall 2025,394711,91,False
+144,Dyckman St (A),fall 2026,197380,44,True
+144,Dyckman St (A),spring 2025,388282,92,False
+144,Dyckman St (A),spring 2026,425901,92,False
+144,Dyckman St (A),summer 2025,359495,92,False
+144,Dyckman St (A),summer 2026,400693,92,False
+144,Dyckman St (A),winter 2024-25,210088,59,True
+144,Dyckman St (A),winter 2025-26,351732,90,False
+145,190 St (A),fall 2025,255087,91,False
+145,190 St (A),fall 2026,133993,44,True
+145,190 St (A),spring 2025,258728,92,False
+145,190 St (A),spring 2026,276353,92,False
+145,190 St (A),summer 2025,223870,92,False
+145,190 St (A),summer 2026,260417,92,False
+145,190 St (A),winter 2024-25,147238,59,True
+145,190 St (A),winter 2025-26,229301,90,False
+146,181 St (A),fall 2025,586430,91,False
+146,181 St (A),fall 2026,294696,44,True
+146,181 St (A),spring 2025,585171,92,False
+146,181 St (A),spring 2026,632745,92,False
+146,181 St (A),summer 2025,507293,92,False
+146,181 St (A),summer 2026,577928,92,False
+146,181 St (A),winter 2024-25,322404,59,True
+146,181 St (A),winter 2025-26,546261,90,False
+147,175 St (A),fall 2025,623029,91,False
+147,175 St (A),fall 2026,311004,44,True
+147,175 St (A),spring 2025,602442,92,False
+147,175 St (A),spring 2026,661247,92,False
+147,175 St (A),summer 2025,566222,92,False
+147,175 St (A),summer 2026,633528,92,False
+147,175 St (A),winter 2024-25,340831,59,True
+147,175 St (A),winter 2025-26,561587,90,False
+149,163 St-Amsterdam Av (C),fall 2025,247418,91,False
+149,163 St-Amsterdam Av (C),fall 2026,114899,44,True
+149,163 St-Amsterdam Av (C),spring 2025,239087,92,False
+149,163 St-Amsterdam Av (C),spring 2026,253015,92,False
+149,163 St-Amsterdam Av (C),summer 2025,230115,92,False
+149,163 St-Amsterdam Av (C),summer 2026,236129,92,False
+149,163 St-Amsterdam Av (C),winter 2024-25,136513,59,True
+149,163 St-Amsterdam Av (C),winter 2025-26,240030,90,False
+150,155 St (C),fall 2025,153357,91,False
+150,155 St (C),fall 2026,71098,44,True
+150,155 St (C),spring 2025,148343,92,False
+150,155 St (C),spring 2026,157431,92,False
+150,155 St (C),summer 2025,141623,92,False
+150,155 St (C),summer 2026,146449,92,False
+150,155 St (C),winter 2024-25,85544,59,True
+150,155 St (C),winter 2025-26,145317,90,False
+151,"145 St (A,C,B,D)",fall 2025,1409714,91,False
+151,"145 St (A,C,B,D)",fall 2026,694455,44,True
+151,"145 St (A,C,B,D)",spring 2025,1396178,92,False
+151,"145 St (A,C,B,D)",spring 2026,1389017,92,False
+151,"145 St (A,C,B,D)",summer 2025,1241112,92,False
+151,"145 St (A,C,B,D)",summer 2026,1268210,92,False
+151,"145 St (A,C,B,D)",winter 2024-25,780715,59,True
+151,"145 St (A,C,B,D)",winter 2025-26,1229426,90,False
+152,"135 St (C,B)",fall 2025,347062,91,False
+152,"135 St (C,B)",fall 2026,162847,44,True
+152,"135 St (C,B)",spring 2025,321137,92,False
+152,"135 St (C,B)",spring 2026,342899,92,False
+152,"135 St (C,B)",summer 2025,278760,92,False
+152,"135 St (C,B)",summer 2026,296964,92,False
+152,"135 St (C,B)",winter 2024-25,177199,59,True
+152,"135 St (C,B)",winter 2025-26,296030,90,False
+153,"125 St (A,C,B,D)",fall 2025,1611892,91,False
+153,"125 St (A,C,B,D)",fall 2026,860944,44,True
+153,"125 St (A,C,B,D)",spring 2025,1699117,92,False
+153,"125 St (A,C,B,D)",spring 2026,1769877,92,False
+153,"125 St (A,C,B,D)",summer 2025,1572267,92,False
+153,"125 St (A,C,B,D)",summer 2026,1663620,92,False
+153,"125 St (A,C,B,D)",winter 2024-25,918678,59,True
+153,"125 St (A,C,B,D)",winter 2025-26,1443914,90,False
+154,"116 St (C,B)",fall 2025,399712,91,False
+154,"116 St (C,B)",fall 2026,174565,44,True
+154,"116 St (C,B)",spring 2025,418950,92,False
+154,"116 St (C,B)",spring 2026,411545,92,False
+154,"116 St (C,B)",summer 2025,362439,92,False
+154,"116 St (C,B)",summer 2026,371172,92,False
+154,"116 St (C,B)",winter 2024-25,232430,59,True
+154,"116 St (C,B)",winter 2025-26,359935,90,False
+155,"Cathedral Pkwy (110 St) (C,B)",fall 2025,491020,91,False
+155,"Cathedral Pkwy (110 St) (C,B)",fall 2026,228431,44,True
+155,"Cathedral Pkwy (110 St) (C,B)",spring 2025,510953,92,False
+155,"Cathedral Pkwy (110 St) (C,B)",spring 2026,500644,92,False
+155,"Cathedral Pkwy (110 St) (C,B)",summer 2025,457923,92,False
+155,"Cathedral Pkwy (110 St) (C,B)",summer 2026,464004,92,False
+155,"Cathedral Pkwy (110 St) (C,B)",winter 2024-25,264138,59,True
+155,"Cathedral Pkwy (110 St) (C,B)",winter 2025-26,418737,90,False
+156,"103 St (C,B)",fall 2025,290393,91,False
+156,"103 St (C,B)",fall 2026,136949,44,True
+156,"103 St (C,B)",spring 2025,300657,92,False
+156,"103 St (C,B)",spring 2026,303476,92,False
+156,"103 St (C,B)",summer 2025,277271,92,False
+156,"103 St (C,B)",summer 2026,291953,92,False
+156,"103 St (C,B)",winter 2024-25,156083,59,True
+156,"103 St (C,B)",winter 2025-26,256152,90,False
+157,"96 St (C,B)",fall 2025,608712,91,False
+157,"96 St (C,B)",fall 2026,275864,44,True
+157,"96 St (C,B)",spring 2025,611640,92,False
+157,"96 St (C,B)",spring 2026,627858,92,False
+157,"96 St (C,B)",summer 2025,552945,92,False
+157,"96 St (C,B)",summer 2026,581633,92,False
+157,"96 St (C,B)",winter 2024-25,322188,59,True
+157,"96 St (C,B)",winter 2025-26,533720,90,False
+158,"86 St (C,B)",fall 2025,729518,91,False
+158,"86 St (C,B)",fall 2026,319767,44,True
+158,"86 St (C,B)",spring 2025,733100,92,False
+158,"86 St (C,B)",spring 2026,754572,92,False
+158,"86 St (C,B)",summer 2025,618783,92,False
+158,"86 St (C,B)",summer 2026,652025,92,False
+158,"86 St (C,B)",winter 2024-25,398367,59,True
+158,"86 St (C,B)",winter 2025-26,630024,90,False
+159,"81 St-Museum of Natural History (C,B)",fall 2025,864389,91,False
+159,"81 St-Museum of Natural History (C,B)",fall 2026,369182,44,True
+159,"81 St-Museum of Natural History (C,B)",spring 2025,942009,92,False
+159,"81 St-Museum of Natural History (C,B)",spring 2026,935530,92,False
+159,"81 St-Museum of Natural History (C,B)",summer 2025,905366,92,False
+159,"81 St-Museum of Natural History (C,B)",summer 2026,928069,92,False
+159,"81 St-Museum of Natural History (C,B)",winter 2024-25,459455,59,True
+159,"81 St-Museum of Natural History (C,B)",winter 2025-26,797146,90,False
+16,"8 St-NYU (R,W)",fall 2025,1228142,91,False
+16,"8 St-NYU (R,W)",fall 2026,584120,44,True
+16,"8 St-NYU (R,W)",spring 2025,1072224,92,False
+16,"8 St-NYU (R,W)",spring 2026,1171454,92,False
+16,"8 St-NYU (R,W)",summer 2025,973162,92,False
+16,"8 St-NYU (R,W)",summer 2026,1020743,92,False
+16,"8 St-NYU (R,W)",winter 2024-25,670923,59,True
+16,"8 St-NYU (R,W)",winter 2025-26,1049231,90,False
+160,"72 St (C,B)",fall 2025,715931,91,False
+160,"72 St (C,B)",fall 2026,303717,44,True
+160,"72 St (C,B)",spring 2025,725872,92,False
+160,"72 St (C,B)",spring 2026,770487,92,False
+160,"72 St (C,B)",summer 2025,676929,92,False
+160,"72 St (C,B)",summer 2026,724053,92,False
+160,"72 St (C,B)",winter 2024-25,319656,59,True
+160,"72 St (C,B)",winter 2025-26,575171,90,False
+162,"50 St (C,E)",fall 2025,1510759,91,False
+162,"50 St (C,E)",fall 2026,745136,44,True
+162,"50 St (C,E)",spring 2025,1462003,92,False
+162,"50 St (C,E)",spring 2026,1621757,92,False
+162,"50 St (C,E)",summer 2025,1493533,92,False
+162,"50 St (C,E)",summer 2026,1583292,92,False
+162,"50 St (C,E)",winter 2024-25,861655,59,True
+162,"50 St (C,E)",winter 2025-26,1460555,90,False
+164,"34 St-Penn Station (A,C,E)",fall 2025,5348768,91,False
+164,"34 St-Penn Station (A,C,E)",fall 2026,2707620,44,True
+164,"34 St-Penn Station (A,C,E)",spring 2025,5076208,92,False
+164,"34 St-Penn Station (A,C,E)",spring 2026,5462269,92,False
+164,"34 St-Penn Station (A,C,E)",summer 2025,5100920,92,False
+164,"34 St-Penn Station (A,C,E)",summer 2026,5756175,92,False
+164,"34 St-Penn Station (A,C,E)",winter 2024-25,2952404,59,True
+164,"34 St-Penn Station (A,C,E)",winter 2025-26,4903502,90,False
+165,"23 St (C,E)",fall 2025,1347209,91,False
+165,"23 St (C,E)",fall 2026,689366,44,True
+165,"23 St (C,E)",spring 2025,1308941,92,False
+165,"23 St (C,E)",spring 2026,1420149,92,False
+165,"23 St (C,E)",summer 2025,1240538,92,False
+165,"23 St (C,E)",summer 2026,1345035,92,False
+165,"23 St (C,E)",winter 2024-25,798283,59,True
+165,"23 St (C,E)",winter 2025-26,1219646,90,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",fall 2025,3231520,91,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",fall 2026,1682846,44,True
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",spring 2025,3155835,92,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",spring 2026,3384216,92,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",summer 2025,2926304,92,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",summer 2026,3274368,92,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",winter 2024-25,1701930,59,True
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",winter 2025-26,2891731,90,False
+168,"Spring St (C,E)",fall 2025,1036129,91,False
+168,"Spring St (C,E)",fall 2026,541441,44,True
+168,"Spring St (C,E)",spring 2025,904321,92,False
+168,"Spring St (C,E)",spring 2026,1069584,92,False
+168,"Spring St (C,E)",summer 2025,921095,92,False
+168,"Spring St (C,E)",summer 2026,1070779,92,False
+168,"Spring St (C,E)",winter 2024-25,572998,59,True
+168,"Spring St (C,E)",winter 2025-26,948019,90,False
+169,"Canal St (A,C,E)",fall 2025,1137023,91,False
+169,"Canal St (A,C,E)",fall 2026,591301,44,True
+169,"Canal St (A,C,E)",spring 2025,1134753,92,False
+169,"Canal St (A,C,E)",spring 2026,1130417,92,False
+169,"Canal St (A,C,E)",summer 2025,1084736,92,False
+169,"Canal St (A,C,E)",summer 2026,1192452,92,False
+169,"Canal St (A,C,E)",winter 2024-25,647706,59,True
+169,"Canal St (A,C,E)",winter 2025-26,1017288,90,False
+17,"Prince St (R,W)",fall 2025,1001939,91,False
+17,"Prince St (R,W)",fall 2026,537553,44,True
+17,"Prince St (R,W)",spring 2025,834365,92,False
+17,"Prince St (R,W)",spring 2026,962888,92,False
+17,"Prince St (R,W)",summer 2025,903550,92,False
+17,"Prince St (R,W)",summer 2026,1061948,92,False
+17,"Prince St (R,W)",winter 2024-25,505264,59,True
+17,"Prince St (R,W)",winter 2025-26,930587,90,False
+173,"High St (A,C)",fall 2025,754785,91,False
+173,"High St (A,C)",fall 2026,385656,44,True
+173,"High St (A,C)",spring 2025,719817,92,False
+173,"High St (A,C)",spring 2026,727232,92,False
+173,"High St (A,C)",summer 2025,780326,92,False
+173,"High St (A,C)",summer 2026,871117,92,False
+173,"High St (A,C)",winter 2024-25,310039,59,True
+173,"High St (A,C)",winter 2025-26,657163,90,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",fall 2025,829287,91,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",fall 2026,407997,44,True
+175,"Hoyt-Schermerhorn Sts (A,C,G)",spring 2025,782644,92,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",spring 2026,847853,92,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",summer 2025,744923,92,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",summer 2026,792373,92,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",winter 2024-25,465034,59,True
+175,"Hoyt-Schermerhorn Sts (A,C,G)",winter 2025-26,756282,90,False
+176,Lafayette Av (C),fall 2025,360697,91,False
+176,Lafayette Av (C),fall 2026,181531,44,True
+176,Lafayette Av (C),spring 2025,369895,92,False
+176,Lafayette Av (C),spring 2026,366692,92,False
+176,Lafayette Av (C),summer 2025,328966,92,False
+176,Lafayette Av (C),summer 2026,364226,92,False
+176,Lafayette Av (C),winter 2024-25,215585,59,True
+176,Lafayette Av (C),winter 2025-26,333905,90,False
+177,Clinton-Washington Avs (C),fall 2025,507429,91,False
+177,Clinton-Washington Avs (C),fall 2026,261826,44,True
+177,Clinton-Washington Avs (C),spring 2025,495290,92,False
+177,Clinton-Washington Avs (C),spring 2026,538468,92,False
+177,Clinton-Washington Avs (C),summer 2025,436947,92,False
+177,Clinton-Washington Avs (C),summer 2026,511705,92,False
+177,Clinton-Washington Avs (C),winter 2024-25,289883,59,True
+177,Clinton-Washington Avs (C),winter 2025-26,477000,90,False
+179,"Nostrand Av (A,C)",fall 2025,1127495,91,False
+179,"Nostrand Av (A,C)",fall 2026,578539,44,True
+179,"Nostrand Av (A,C)",spring 2025,1118063,92,False
+179,"Nostrand Av (A,C)",spring 2026,1200497,92,False
+179,"Nostrand Av (A,C)",summer 2025,1067274,92,False
+179,"Nostrand Av (A,C)",summer 2026,1150790,92,False
+179,"Nostrand Av (A,C)",winter 2024-25,649921,59,True
+179,"Nostrand Av (A,C)",winter 2025-26,1022898,90,False
+180,Kingston-Throop Avs (C),fall 2025,439866,91,False
+180,Kingston-Throop Avs (C),fall 2026,216023,44,True
+180,Kingston-Throop Avs (C),spring 2025,424917,92,False
+180,Kingston-Throop Avs (C),spring 2026,444038,92,False
+180,Kingston-Throop Avs (C),summer 2025,384606,92,False
+180,Kingston-Throop Avs (C),summer 2026,413826,92,False
+180,Kingston-Throop Avs (C),winter 2024-25,255897,59,True
+180,Kingston-Throop Avs (C),winter 2025-26,409694,90,False
+181,"Utica Av (A,C)",fall 2025,938999,91,False
+181,"Utica Av (A,C)",fall 2026,447138,44,True
+181,"Utica Av (A,C)",spring 2025,935992,92,False
+181,"Utica Av (A,C)",spring 2026,955760,92,False
+181,"Utica Av (A,C)",summer 2025,861587,92,False
+181,"Utica Av (A,C)",summer 2026,890083,92,False
+181,"Utica Av (A,C)",winter 2024-25,537021,59,True
+181,"Utica Av (A,C)",winter 2025-26,853301,90,False
+182,Ralph Av (C),fall 2025,336639,91,False
+182,Ralph Av (C),fall 2026,162063,44,True
+182,Ralph Av (C),spring 2025,312464,92,False
+182,Ralph Av (C),spring 2026,367687,92,False
+182,Ralph Av (C),summer 2025,300280,92,False
+182,Ralph Av (C),summer 2026,337839,92,False
+182,Ralph Av (C),winter 2024-25,185950,59,True
+182,Ralph Av (C),winter 2025-26,316675,90,False
+183,Rockaway Av (C),fall 2025,317654,91,False
+183,Rockaway Av (C),fall 2026,148423,44,True
+183,Rockaway Av (C),spring 2025,340583,92,False
+183,Rockaway Av (C),spring 2026,314193,92,False
+183,Rockaway Av (C),summer 2025,298492,92,False
+183,Rockaway Av (C),summer 2026,287417,92,False
+183,Rockaway Av (C),winter 2024-25,212477,59,True
+183,Rockaway Av (C),winter 2025-26,295882,90,False
+185,Liberty Av (C),fall 2025,152431,91,False
+185,Liberty Av (C),fall 2026,85491,44,True
+185,Liberty Av (C),spring 2025,139390,92,False
+185,Liberty Av (C),spring 2026,168332,92,False
+185,Liberty Av (C),summer 2025,133276,92,False
+185,Liberty Av (C),summer 2026,161380,92,False
+185,Liberty Av (C),winter 2024-25,82531,59,True
+185,Liberty Av (C),winter 2025-26,146880,90,False
+186,Van Siclen Av (C),fall 2025,182307,91,False
+186,Van Siclen Av (C),fall 2026,93649,44,True
+186,Van Siclen Av (C),spring 2025,175239,92,False
+186,Van Siclen Av (C),spring 2026,189751,92,False
+186,Van Siclen Av (C),summer 2025,158426,92,False
+186,Van Siclen Av (C),summer 2026,179067,92,False
+186,Van Siclen Av (C),winter 2024-25,102118,59,True
+186,Van Siclen Av (C),winter 2025-26,171222,90,False
+187,Shepherd Av (C),fall 2025,151289,91,False
+187,Shepherd Av (C),fall 2026,81462,44,True
+187,Shepherd Av (C),spring 2025,155763,92,False
+187,Shepherd Av (C),spring 2026,154186,92,False
+187,Shepherd Av (C),summer 2025,140730,92,False
+187,Shepherd Av (C),summer 2026,154398,92,False
+187,Shepherd Av (C),winter 2024-25,93492,59,True
+187,Shepherd Av (C),winter 2025-26,142528,90,False
+188,"Euclid Av (A,C)",fall 2025,556853,91,False
+188,"Euclid Av (A,C)",fall 2026,213807,44,True
+188,"Euclid Av (A,C)",spring 2025,578648,92,False
+188,"Euclid Av (A,C)",spring 2026,496186,92,False
+188,"Euclid Av (A,C)",summer 2025,559008,92,False
+188,"Euclid Av (A,C)",summer 2026,451863,92,False
+188,"Euclid Av (A,C)",winter 2024-25,340217,59,True
+188,"Euclid Av (A,C)",winter 2025-26,478897,90,False
+189,Grant Av (A),fall 2025,299183,91,False
+189,Grant Av (A),fall 2026,145857,44,True
+189,Grant Av (A),spring 2025,307020,92,False
+189,Grant Av (A),spring 2026,301325,92,False
+189,Grant Av (A),summer 2025,291003,92,False
+189,Grant Av (A),summer 2026,295840,92,False
+189,Grant Av (A),winter 2024-25,180831,59,True
+189,Grant Av (A),winter 2025-26,276934,90,False
+190,80 St (A),fall 2025,248149,91,False
+190,80 St (A),fall 2026,123376,44,True
+190,80 St (A),spring 2025,249315,92,False
+190,80 St (A),spring 2026,247670,92,False
+190,80 St (A),summer 2025,245298,92,False
+190,80 St (A),summer 2026,262336,92,False
+190,80 St (A),winter 2024-25,146645,59,True
+190,80 St (A),winter 2025-26,226124,90,False
+191,88 St (A),fall 2025,164729,91,False
+191,88 St (A),fall 2026,76430,44,True
+191,88 St (A),spring 2025,162791,92,False
+191,88 St (A),spring 2026,163536,92,False
+191,88 St (A),summer 2025,150325,92,False
+191,88 St (A),summer 2026,144285,92,False
+191,88 St (A),winter 2024-25,96478,59,True
+191,88 St (A),winter 2025-26,149467,90,False
+192,Rockaway Blvd (A),fall 2025,420600,91,False
+192,Rockaway Blvd (A),fall 2026,178457,44,True
+192,Rockaway Blvd (A),spring 2025,445634,92,False
+192,Rockaway Blvd (A),spring 2026,397495,92,False
+192,Rockaway Blvd (A),summer 2025,389175,92,False
+192,Rockaway Blvd (A),summer 2026,357427,92,False
+192,Rockaway Blvd (A),winter 2024-25,265418,59,True
+192,Rockaway Blvd (A),winter 2025-26,366708,90,False
+193,104 St (A),fall 2025,101698,91,False
+193,104 St (A),fall 2026,46976,44,True
+193,104 St (A),spring 2025,103837,92,False
+193,104 St (A),spring 2026,101101,92,False
+193,104 St (A),summer 2025,92589,92,False
+193,104 St (A),summer 2026,89562,92,False
+193,104 St (A),winter 2024-25,61643,59,True
+193,104 St (A),winter 2025-26,91677,90,False
+194,111 St (A),fall 2025,119858,91,False
+194,111 St (A),fall 2026,54188,44,True
+194,111 St (A),spring 2025,124724,92,False
+194,111 St (A),spring 2026,115621,92,False
+194,111 St (A),summer 2025,115329,92,False
+194,111 St (A),summer 2026,104522,92,False
+194,111 St (A),winter 2024-25,73173,59,True
+194,111 St (A),winter 2025-26,104397,90,False
+195,Ozone Park-Lefferts Blvd (A),fall 2025,367288,91,False
+195,Ozone Park-Lefferts Blvd (A),fall 2026,158667,44,True
+195,Ozone Park-Lefferts Blvd (A),spring 2025,372500,92,False
+195,Ozone Park-Lefferts Blvd (A),spring 2026,348595,92,False
+195,Ozone Park-Lefferts Blvd (A),summer 2025,357421,92,False
+195,Ozone Park-Lefferts Blvd (A),summer 2026,312677,92,False
+195,Ozone Park-Lefferts Blvd (A),winter 2024-25,214202,59,True
+195,Ozone Park-Lefferts Blvd (A),winter 2025-26,319306,90,False
+196,Aqueduct Racetrack (A),fall 2025,41606,91,False
+196,Aqueduct Racetrack (A),fall 2026,27725,44,True
+196,Aqueduct Racetrack (A),spring 2025,48646,92,False
+196,Aqueduct Racetrack (A),spring 2026,50055,92,False
+196,Aqueduct Racetrack (A),summer 2025,45375,92,False
+196,Aqueduct Racetrack (A),summer 2026,59123,92,False
+196,Aqueduct Racetrack (A),winter 2024-25,25487,59,True
+196,Aqueduct Racetrack (A),winter 2025-26,31945,90,False
+197,Aqueduct-N Conduit Av (A),fall 2025,49751,91,False
+197,Aqueduct-N Conduit Av (A),fall 2026,24923,44,True
+197,Aqueduct-N Conduit Av (A),spring 2025,45649,92,False
+197,Aqueduct-N Conduit Av (A),spring 2026,51992,92,False
+197,Aqueduct-N Conduit Av (A),summer 2025,46952,92,False
+197,Aqueduct-N Conduit Av (A),summer 2026,51283,92,False
+197,Aqueduct-N Conduit Av (A),winter 2024-25,26057,59,True
+197,Aqueduct-N Conduit Av (A),winter 2025-26,45927,90,False
+198,Howard Beach-JFK Airport (A),fall 2025,278378,91,False
+198,Howard Beach-JFK Airport (A),fall 2026,136487,44,True
+198,Howard Beach-JFK Airport (A),spring 2025,602648,92,False
+198,Howard Beach-JFK Airport (A),spring 2026,256966,92,False
+198,Howard Beach-JFK Airport (A),summer 2025,298287,92,False
+198,Howard Beach-JFK Airport (A),summer 2026,278176,92,False
+198,Howard Beach-JFK Airport (A),winter 2024-25,303141,59,True
+198,Howard Beach-JFK Airport (A),winter 2025-26,231956,90,False
+199,"Broad Channel (A,S)",fall 2025,15921,91,False
+199,"Broad Channel (A,S)",fall 2026,8548,44,True
+199,"Broad Channel (A,S)",spring 2025,2188,92,False
+199,"Broad Channel (A,S)",spring 2026,17289,92,False
+199,"Broad Channel (A,S)",summer 2025,16988,92,False
+199,"Broad Channel (A,S)",summer 2026,17434,92,False
+199,"Broad Channel (A,S)",winter 2024-25,2721,59,True
+199,"Broad Channel (A,S)",winter 2025-26,14607,90,False
+2,"Astoria Blvd (N,W)",fall 2025,673687,91,False
+2,"Astoria Blvd (N,W)",fall 2026,320985,44,True
+2,"Astoria Blvd (N,W)",spring 2025,681712,92,False
+2,"Astoria Blvd (N,W)",spring 2026,680354,92,False
+2,"Astoria Blvd (N,W)",summer 2025,662863,92,False
+2,"Astoria Blvd (N,W)",summer 2026,650645,92,False
+2,"Astoria Blvd (N,W)",winter 2024-25,398949,59,True
+2,"Astoria Blvd (N,W)",winter 2025-26,609250,90,False
+20,"City Hall (R,W)",fall 2025,303492,91,False
+20,"City Hall (R,W)",fall 2026,168577,44,True
+20,"City Hall (R,W)",spring 2025,310113,92,False
+20,"City Hall (R,W)",spring 2026,335447,92,False
+20,"City Hall (R,W)",summer 2025,296430,92,False
+20,"City Hall (R,W)",summer 2026,333115,92,False
+20,"City Hall (R,W)",winter 2024-25,176880,59,True
+20,"City Hall (R,W)",winter 2025-26,283638,90,False
+200,"Beach 90 St (A,S)",fall 2025,42763,91,False
+200,"Beach 90 St (A,S)",fall 2026,32594,44,True
+200,"Beach 90 St (A,S)",spring 2025,5530,92,False
+200,"Beach 90 St (A,S)",spring 2026,46023,92,False
+200,"Beach 90 St (A,S)",summer 2025,79310,92,False
+200,"Beach 90 St (A,S)",summer 2026,84150,92,False
+200,"Beach 90 St (A,S)",winter 2024-25,5402,59,True
+200,"Beach 90 St (A,S)",winter 2025-26,32475,90,False
+201,"Beach 98 St (A,S)",fall 2025,22557,91,False
+201,"Beach 98 St (A,S)",fall 2026,14697,44,True
+201,"Beach 98 St (A,S)",spring 2025,3298,92,False
+201,"Beach 98 St (A,S)",spring 2026,21316,92,False
+201,"Beach 98 St (A,S)",summer 2025,43146,92,False
+201,"Beach 98 St (A,S)",summer 2026,47861,92,False
+201,"Beach 98 St (A,S)",winter 2024-25,3374,59,True
+201,"Beach 98 St (A,S)",winter 2025-26,19014,90,False
+202,"Beach 105 St (A,S)",fall 2025,14453,91,False
+202,"Beach 105 St (A,S)",fall 2026,9942,44,True
+202,"Beach 105 St (A,S)",spring 2025,1953,92,False
+202,"Beach 105 St (A,S)",spring 2026,13855,92,False
+202,"Beach 105 St (A,S)",summer 2025,34451,92,False
+202,"Beach 105 St (A,S)",summer 2026,35734,92,False
+202,"Beach 105 St (A,S)",winter 2024-25,1919,59,True
+202,"Beach 105 St (A,S)",winter 2025-26,12192,90,False
+203,"Rockaway Park-Beach 116 St (A,S)",fall 2025,43105,91,False
+203,"Rockaway Park-Beach 116 St (A,S)",fall 2026,25589,44,True
+203,"Rockaway Park-Beach 116 St (A,S)",spring 2025,6165,92,False
+203,"Rockaway Park-Beach 116 St (A,S)",spring 2026,44802,92,False
+203,"Rockaway Park-Beach 116 St (A,S)",summer 2025,63701,92,False
+203,"Rockaway Park-Beach 116 St (A,S)",summer 2026,67203,92,False
+203,"Rockaway Park-Beach 116 St (A,S)",winter 2024-25,6767,59,True
+203,"Rockaway Park-Beach 116 St (A,S)",winter 2025-26,40200,90,False
+204,Beach 67 St (A),fall 2025,118395,91,False
+204,Beach 67 St (A),fall 2026,60601,44,True
+204,Beach 67 St (A),spring 2025,18033,92,False
+204,Beach 67 St (A),spring 2026,126439,92,False
+204,Beach 67 St (A),summer 2025,154968,92,False
+204,Beach 67 St (A),summer 2026,159819,92,False
+204,Beach 67 St (A),winter 2024-25,19130,59,True
+204,Beach 67 St (A),winter 2025-26,103691,90,False
+205,Beach 60 St (A),fall 2025,87566,91,False
+205,Beach 60 St (A),fall 2026,46095,44,True
+205,Beach 60 St (A),spring 2025,12470,92,False
+205,Beach 60 St (A),spring 2026,94983,92,False
+205,Beach 60 St (A),summer 2025,90861,92,False
+205,Beach 60 St (A),summer 2026,102692,92,False
+205,Beach 60 St (A),winter 2024-25,14913,59,True
+205,Beach 60 St (A),winter 2025-26,84009,90,False
+206,Beach 44 St (A),fall 2025,37608,91,False
+206,Beach 44 St (A),fall 2026,15955,44,True
+206,Beach 44 St (A),spring 2025,5411,92,False
+206,Beach 44 St (A),spring 2026,38708,92,False
+206,Beach 44 St (A),summer 2025,36536,92,False
+206,Beach 44 St (A),summer 2026,38145,92,False
+206,Beach 44 St (A),winter 2024-25,6909,59,True
+206,Beach 44 St (A),winter 2025-26,35628,90,False
+207,Beach 36 St (A),fall 2025,40324,91,False
+207,Beach 36 St (A),fall 2026,25425,44,True
+207,Beach 36 St (A),spring 2025,5276,92,False
+207,Beach 36 St (A),spring 2026,47386,92,False
+207,Beach 36 St (A),summer 2025,40453,92,False
+207,Beach 36 St (A),summer 2026,54321,92,False
+207,Beach 36 St (A),winter 2024-25,6559,59,True
+207,Beach 36 St (A),winter 2025-26,38491,90,False
+208,Beach 25 St (A),fall 2025,79019,91,False
+208,Beach 25 St (A),fall 2026,38732,44,True
+208,Beach 25 St (A),spring 2025,10541,92,False
+208,Beach 25 St (A),spring 2026,82814,92,False
+208,Beach 25 St (A),summer 2025,71189,92,False
+208,Beach 25 St (A),summer 2026,81316,92,False
+208,Beach 25 St (A),winter 2024-25,13892,59,True
+208,Beach 25 St (A),winter 2025-26,72296,90,False
+209,Far Rockaway-Mott Av (A),fall 2025,296183,91,False
+209,Far Rockaway-Mott Av (A),fall 2026,130120,44,True
+209,Far Rockaway-Mott Av (A),spring 2025,41557,92,False
+209,Far Rockaway-Mott Av (A),spring 2026,292922,92,False
+209,Far Rockaway-Mott Av (A),summer 2025,290442,92,False
+209,Far Rockaway-Mott Av (A),summer 2026,287387,92,False
+209,Far Rockaway-Mott Av (A),winter 2024-25,47665,59,True
+209,Far Rockaway-Mott Av (A),winter 2025-26,273448,90,False
+210,Norwood-205 St (D),fall 2025,351826,91,False
+210,Norwood-205 St (D),fall 2026,167412,44,True
+210,Norwood-205 St (D),spring 2025,381193,92,False
+210,Norwood-205 St (D),spring 2026,375824,92,False
+210,Norwood-205 St (D),summer 2025,335372,92,False
+210,Norwood-205 St (D),summer 2026,317954,92,False
+210,Norwood-205 St (D),winter 2024-25,214058,59,True
+210,Norwood-205 St (D),winter 2025-26,334681,90,False
+211,"Bedford Park Blvd (B,D)",fall 2025,359408,91,False
+211,"Bedford Park Blvd (B,D)",fall 2026,185562,44,True
+211,"Bedford Park Blvd (B,D)",spring 2025,394034,92,False
+211,"Bedford Park Blvd (B,D)",spring 2026,410618,92,False
+211,"Bedford Park Blvd (B,D)",summer 2025,351361,92,False
+211,"Bedford Park Blvd (B,D)",summer 2026,381986,92,False
+211,"Bedford Park Blvd (B,D)",winter 2024-25,203541,59,True
+211,"Bedford Park Blvd (B,D)",winter 2025-26,314702,90,False
+212,"Kingsbridge Rd (B,D)",fall 2025,345919,91,False
+212,"Kingsbridge Rd (B,D)",fall 2026,153675,44,True
+212,"Kingsbridge Rd (B,D)",spring 2025,366188,92,False
+212,"Kingsbridge Rd (B,D)",spring 2026,357085,92,False
+212,"Kingsbridge Rd (B,D)",summer 2025,329831,92,False
+212,"Kingsbridge Rd (B,D)",summer 2026,304295,92,False
+212,"Kingsbridge Rd (B,D)",winter 2024-25,196568,59,True
+212,"Kingsbridge Rd (B,D)",winter 2025-26,308098,90,False
+213,"Fordham Rd (B,D)",fall 2025,499743,91,False
+213,"Fordham Rd (B,D)",fall 2026,221701,44,True
+213,"Fordham Rd (B,D)",spring 2025,509097,92,False
+213,"Fordham Rd (B,D)",spring 2026,514447,92,False
+213,"Fordham Rd (B,D)",summer 2025,467886,92,False
+213,"Fordham Rd (B,D)",summer 2026,449868,92,False
+213,"Fordham Rd (B,D)",winter 2024-25,278341,59,True
+213,"Fordham Rd (B,D)",winter 2025-26,467638,90,False
+214,"182-183 Sts (B,D)",fall 2025,243111,91,False
+214,"182-183 Sts (B,D)",fall 2026,119360,44,True
+214,"182-183 Sts (B,D)",spring 2025,268821,92,False
+214,"182-183 Sts (B,D)",spring 2026,273986,92,False
+214,"182-183 Sts (B,D)",summer 2025,237063,92,False
+214,"182-183 Sts (B,D)",summer 2026,239349,92,False
+214,"182-183 Sts (B,D)",winter 2024-25,142940,59,True
+214,"182-183 Sts (B,D)",winter 2025-26,247046,90,False
+215,"Tremont Av (B,D)",fall 2025,442111,91,False
+215,"Tremont Av (B,D)",fall 2026,221106,44,True
+215,"Tremont Av (B,D)",spring 2025,482785,92,False
+215,"Tremont Av (B,D)",spring 2026,495093,92,False
+215,"Tremont Av (B,D)",summer 2025,435247,92,False
+215,"Tremont Av (B,D)",summer 2026,440853,92,False
+215,"Tremont Av (B,D)",winter 2024-25,268018,59,True
+215,"Tremont Av (B,D)",winter 2025-26,427091,90,False
+216,"174-175 Sts (B,D)",fall 2025,240252,91,False
+216,"174-175 Sts (B,D)",fall 2026,108070,44,True
+216,"174-175 Sts (B,D)",spring 2025,255533,92,False
+216,"174-175 Sts (B,D)",spring 2026,262129,92,False
+216,"174-175 Sts (B,D)",summer 2025,243036,92,False
+216,"174-175 Sts (B,D)",summer 2026,231873,92,False
+216,"174-175 Sts (B,D)",winter 2024-25,131145,59,True
+216,"174-175 Sts (B,D)",winter 2025-26,233381,90,False
+217,"170 St (B,D)",fall 2025,315296,91,False
+217,"170 St (B,D)",fall 2026,178281,44,True
+217,"170 St (B,D)",spring 2025,321265,92,False
+217,"170 St (B,D)",spring 2026,401544,92,False
+217,"170 St (B,D)",summer 2025,283673,92,False
+217,"170 St (B,D)",summer 2026,358025,92,False
+217,"170 St (B,D)",winter 2024-25,167896,59,True
+217,"170 St (B,D)",winter 2025-26,328435,90,False
+218,"167 St (B,D)",fall 2025,452494,91,False
+218,"167 St (B,D)",fall 2026,212277,44,True
+218,"167 St (B,D)",spring 2025,456290,92,False
+218,"167 St (B,D)",spring 2026,475553,92,False
+218,"167 St (B,D)",summer 2025,413308,92,False
+218,"167 St (B,D)",summer 2026,423503,92,False
+218,"167 St (B,D)",winter 2024-25,254796,59,True
+218,"167 St (B,D)",winter 2025-26,439160,90,False
+22,"Rector St (R,W)",fall 2025,313296,91,False
+22,"Rector St (R,W)",fall 2026,186106,44,True
+22,"Rector St (R,W)",spring 2025,338134,92,False
+22,"Rector St (R,W)",spring 2026,357826,92,False
+22,"Rector St (R,W)",summer 2025,302980,92,False
+22,"Rector St (R,W)",summer 2026,383926,92,False
+22,"Rector St (R,W)",winter 2024-25,195848,59,True
+22,"Rector St (R,W)",winter 2025-26,305564,90,False
+220,"155 St (B,D)",fall 2025,151390,91,False
+220,"155 St (B,D)",fall 2026,71222,44,True
+220,"155 St (B,D)",spring 2025,158625,92,False
+220,"155 St (B,D)",spring 2026,164966,92,False
+220,"155 St (B,D)",summer 2025,143391,92,False
+220,"155 St (B,D)",summer 2026,151038,92,False
+220,"155 St (B,D)",winter 2024-25,94882,59,True
+220,"155 St (B,D)",winter 2025-26,162942,90,False
+221,21 St-Queensbridge (M),fall 2025,770748,91,False
+221,21 St-Queensbridge (M),fall 2026,325102,44,True
+221,21 St-Queensbridge (M),spring 2025,730223,92,False
+221,21 St-Queensbridge (M),spring 2026,657609,92,False
+221,21 St-Queensbridge (M),summer 2025,702647,92,False
+221,21 St-Queensbridge (M),summer 2026,635728,92,False
+221,21 St-Queensbridge (M),winter 2024-25,378186,59,True
+221,21 St-Queensbridge (M),winter 2025-26,623275,90,False
+222,Roosevelt Island (M),fall 2025,592084,91,False
+222,Roosevelt Island (M),fall 2026,283739,44,True
+222,Roosevelt Island (M),spring 2025,604607,92,False
+222,Roosevelt Island (M),spring 2026,590027,92,False
+222,Roosevelt Island (M),summer 2025,592217,92,False
+222,Roosevelt Island (M),summer 2026,568448,92,False
+222,Roosevelt Island (M),winter 2024-25,308053,59,True
+222,Roosevelt Island (M),winter 2025-26,493134,90,False
+223,"Lexington Av/63 St (M,Q)",fall 2025,1247813,91,False
+223,"Lexington Av/63 St (M,Q)",fall 2026,534690,44,True
+223,"Lexington Av/63 St (M,Q)",spring 2025,1199933,92,False
+223,"Lexington Av/63 St (M,Q)",spring 2026,1067638,92,False
+223,"Lexington Av/63 St (M,Q)",summer 2025,1104757,92,False
+223,"Lexington Av/63 St (M,Q)",summer 2026,1003383,92,False
+223,"Lexington Av/63 St (M,Q)",winter 2024-25,690843,59,True
+223,"Lexington Av/63 St (M,Q)",winter 2025-26,960922,90,False
+224,57 St (M),fall 2025,1017423,91,False
+224,57 St (M),fall 2026,392003,44,True
+224,57 St (M),spring 2025,991585,92,False
+224,57 St (M),spring 2026,771940,92,False
+224,57 St (M),summer 2025,945731,92,False
+224,57 St (M),summer 2026,764397,92,False
+224,57 St (M),winter 2024-25,514706,59,True
+224,57 St (M),winter 2025-26,794900,90,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",fall 2025,3406225,91,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",fall 2026,1700729,44,True
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",spring 2025,3377690,92,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",spring 2026,3490862,92,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",summer 2025,3245017,92,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",summer 2026,3598713,92,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",winter 2024-25,1939001,59,True
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",winter 2025-26,3691664,90,False
+228,"23 St (F,M)",fall 2025,1713003,91,False
+228,"23 St (F,M)",fall 2026,924240,44,True
+228,"23 St (F,M)",spring 2025,1603551,92,False
+228,"23 St (F,M)",spring 2026,1741293,92,False
+228,"23 St (F,M)",summer 2025,1466834,92,False
+228,"23 St (F,M)",summer 2026,1741901,92,False
+228,"23 St (F,M)",winter 2024-25,989497,59,True
+228,"23 St (F,M)",winter 2025-26,1590887,90,False
+231,"Grand St (B,D)",fall 2025,1504532,91,False
+231,"Grand St (B,D)",fall 2026,764530,44,True
+231,"Grand St (B,D)",spring 2025,1552581,92,False
+231,"Grand St (B,D)",spring 2026,1616720,92,False
+231,"Grand St (B,D)",summer 2025,1552543,92,False
+231,"Grand St (B,D)",summer 2026,1598925,92,False
+231,"Grand St (B,D)",winter 2024-25,863654,59,True
+231,"Grand St (B,D)",winter 2025-26,1458397,90,False
+232,2 Av (F),fall 2025,1233383,91,False
+232,2 Av (F),fall 2026,621219,44,True
+232,2 Av (F),spring 2025,1145752,92,False
+232,2 Av (F),spring 2026,1272074,92,False
+232,2 Av (F),summer 2025,1101067,92,False
+232,2 Av (F),summer 2026,1189635,92,False
+232,2 Av (F),winter 2024-25,668634,59,True
+232,2 Av (F),winter 2025-26,1173016,90,False
+234,East Broadway (F),fall 2025,996067,91,False
+234,East Broadway (F),fall 2026,503736,44,True
+234,East Broadway (F),spring 2025,996320,92,False
+234,East Broadway (F),spring 2026,1059158,92,False
+234,East Broadway (F),summer 2025,948820,92,False
+234,East Broadway (F),summer 2026,1029095,92,False
+234,East Broadway (F),winter 2024-25,579764,59,True
+234,East Broadway (F),winter 2025-26,930491,90,False
+235,York St (F),fall 2025,1004374,91,False
+235,York St (F),fall 2026,549933,44,True
+235,York St (F),spring 2025,985271,92,False
+235,York St (F),spring 2026,1090337,92,False
+235,York St (F),summer 2025,1005364,92,False
+235,York St (F),summer 2026,1135847,92,False
+235,York St (F),winter 2024-25,516900,59,True
+235,York St (F),winter 2025-26,946780,90,False
+236,"Bergen St (F,G)",fall 2025,808407,91,False
+236,"Bergen St (F,G)",fall 2026,389649,44,True
+236,"Bergen St (F,G)",spring 2025,746426,92,False
+236,"Bergen St (F,G)",spring 2026,833635,92,False
+236,"Bergen St (F,G)",summer 2025,686068,92,False
+236,"Bergen St (F,G)",summer 2026,733614,92,False
+236,"Bergen St (F,G)",winter 2024-25,463788,59,True
+236,"Bergen St (F,G)",winter 2025-26,766628,90,False
+237,"Carroll St (F,G)",fall 2025,819011,91,False
+237,"Carroll St (F,G)",fall 2026,409190,44,True
+237,"Carroll St (F,G)",spring 2025,770417,92,False
+237,"Carroll St (F,G)",spring 2026,852724,92,False
+237,"Carroll St (F,G)",summer 2025,693982,92,False
+237,"Carroll St (F,G)",summer 2026,758531,92,False
+237,"Carroll St (F,G)",winter 2024-25,473662,59,True
+237,"Carroll St (F,G)",winter 2025-26,775246,90,False
+238,"Smith-9 Sts (F,G)",fall 2025,291910,91,False
+238,"Smith-9 Sts (F,G)",fall 2026,149461,44,True
+238,"Smith-9 Sts (F,G)",spring 2025,266640,92,False
+238,"Smith-9 Sts (F,G)",spring 2026,307003,92,False
+238,"Smith-9 Sts (F,G)",summer 2025,263231,92,False
+238,"Smith-9 Sts (F,G)",summer 2026,288351,92,False
+238,"Smith-9 Sts (F,G)",winter 2024-25,152869,59,True
+238,"Smith-9 Sts (F,G)",winter 2025-26,257116,90,False
+240,"7 Av (F,G)",fall 2025,782701,91,False
+240,"7 Av (F,G)",fall 2026,381753,44,True
+240,"7 Av (F,G)",spring 2025,801575,92,False
+240,"7 Av (F,G)",spring 2026,820336,92,False
+240,"7 Av (F,G)",summer 2025,693955,92,False
+240,"7 Av (F,G)",summer 2026,730769,92,False
+240,"7 Av (F,G)",winter 2024-25,471943,59,True
+240,"7 Av (F,G)",winter 2025-26,735935,90,False
+241,"15 St-Prospect Park (F,G)",fall 2025,390807,91,False
+241,"15 St-Prospect Park (F,G)",fall 2026,180874,44,True
+241,"15 St-Prospect Park (F,G)",spring 2025,379136,92,False
+241,"15 St-Prospect Park (F,G)",spring 2026,402565,92,False
+241,"15 St-Prospect Park (F,G)",summer 2025,355016,92,False
+241,"15 St-Prospect Park (F,G)",summer 2026,367223,92,False
+241,"15 St-Prospect Park (F,G)",winter 2024-25,226919,59,True
+241,"15 St-Prospect Park (F,G)",winter 2025-26,366628,90,False
+242,"Fort Hamilton Pkwy (F,G)",fall 2025,374506,91,False
+242,"Fort Hamilton Pkwy (F,G)",fall 2026,179712,44,True
+242,"Fort Hamilton Pkwy (F,G)",spring 2025,375047,92,False
+242,"Fort Hamilton Pkwy (F,G)",spring 2026,383601,92,False
+242,"Fort Hamilton Pkwy (F,G)",summer 2025,334181,92,False
+242,"Fort Hamilton Pkwy (F,G)",summer 2026,346164,92,False
+242,"Fort Hamilton Pkwy (F,G)",winter 2024-25,229516,59,True
+242,"Fort Hamilton Pkwy (F,G)",winter 2025-26,348826,90,False
+243,"Church Av (F,G)",fall 2025,586521,91,False
+243,"Church Av (F,G)",fall 2026,274744,44,True
+243,"Church Av (F,G)",spring 2025,587164,92,False
+243,"Church Av (F,G)",spring 2026,584995,92,False
+243,"Church Av (F,G)",summer 2025,538724,92,False
+243,"Church Av (F,G)",summer 2026,537358,92,False
+243,"Church Av (F,G)",winter 2024-25,346771,59,True
+243,"Church Av (F,G)",winter 2025-26,522970,90,False
+244,Ditmas Av (F),fall 2025,215933,91,False
+244,Ditmas Av (F),fall 2026,110831,44,True
+244,Ditmas Av (F),spring 2025,223124,92,False
+244,Ditmas Av (F),spring 2026,232121,92,False
+244,Ditmas Av (F),summer 2025,207616,92,False
+244,Ditmas Av (F),summer 2026,213178,92,False
+244,Ditmas Av (F),winter 2024-25,138040,59,True
+244,Ditmas Av (F),winter 2025-26,216573,90,False
+245,18 Av (F),fall 2025,194740,91,False
+245,18 Av (F),fall 2026,102364,44,True
+245,18 Av (F),spring 2025,210251,92,False
+245,18 Av (F),spring 2026,210765,92,False
+245,18 Av (F),summer 2025,190703,92,False
+245,18 Av (F),summer 2026,191552,92,False
+245,18 Av (F),winter 2024-25,131277,59,True
+245,18 Av (F),winter 2025-26,203482,90,False
+246,Avenue I (F),fall 2025,88535,91,False
+246,Avenue I (F),fall 2026,43454,44,True
+246,Avenue I (F),spring 2025,92179,92,False
+246,Avenue I (F),spring 2026,94610,92,False
+246,Avenue I (F),summer 2025,76190,92,False
+246,Avenue I (F),summer 2026,83265,92,False
+246,Avenue I (F),winter 2024-25,59540,59,True
+246,Avenue I (F),winter 2025-26,86612,90,False
+247,Bay Pkwy (F),fall 2025,65223,91,False
+247,Bay Pkwy (F),fall 2026,31549,44,True
+247,Bay Pkwy (F),spring 2025,59891,92,False
+247,Bay Pkwy (F),spring 2026,67700,92,False
+247,Bay Pkwy (F),summer 2025,57955,92,False
+247,Bay Pkwy (F),summer 2026,60838,92,False
+247,Bay Pkwy (F),winter 2024-25,38954,59,True
+247,Bay Pkwy (F),winter 2025-26,61756,90,False
+248,Avenue N (F),fall 2025,153114,91,False
+248,Avenue N (F),fall 2026,75360,44,True
+248,Avenue N (F),spring 2025,153276,92,False
+248,Avenue N (F),spring 2026,162692,92,False
+248,Avenue N (F),summer 2025,140197,92,False
+248,Avenue N (F),summer 2026,148405,92,False
+248,Avenue N (F),winter 2024-25,100119,59,True
+248,Avenue N (F),winter 2025-26,155349,90,False
+249,Avenue P (F),fall 2025,150692,91,False
+249,Avenue P (F),fall 2026,70990,44,True
+249,Avenue P (F),spring 2025,134565,92,False
+249,Avenue P (F),spring 2026,157949,92,False
+249,Avenue P (F),summer 2025,143382,92,False
+249,Avenue P (F),summer 2026,145439,92,False
+249,Avenue P (F),winter 2024-25,86438,59,True
+249,Avenue P (F),winter 2025-26,148758,90,False
+250,Kings Hwy (F),fall 2025,160790,91,False
+250,Kings Hwy (F),fall 2026,95829,44,True
+250,Kings Hwy (F),spring 2025,222477,92,False
+250,Kings Hwy (F),spring 2026,165605,92,False
+250,Kings Hwy (F),summer 2025,151991,92,False
+250,Kings Hwy (F),summer 2026,164975,92,False
+250,Kings Hwy (F),winter 2024-25,129732,59,True
+250,Kings Hwy (F),winter 2025-26,151889,90,False
+251,Avenue U (F),fall 2025,117394,91,False
+251,Avenue U (F),fall 2026,59857,44,True
+251,Avenue U (F),spring 2025,103973,92,False
+251,Avenue U (F),spring 2026,123039,92,False
+251,Avenue U (F),summer 2025,102113,92,False
+251,Avenue U (F),summer 2026,110275,92,False
+251,Avenue U (F),winter 2024-25,71674,59,True
+251,Avenue U (F),winter 2025-26,115696,90,False
+252,Avenue X (F),fall 2025,145661,91,False
+252,Avenue X (F),fall 2026,75819,44,True
+252,Avenue X (F),spring 2025,143895,92,False
+252,Avenue X (F),spring 2026,153241,92,False
+252,Avenue X (F),summer 2025,136917,92,False
+252,Avenue X (F),summer 2026,142402,92,False
+252,Avenue X (F),winter 2024-25,89813,59,True
+252,Avenue X (F),winter 2025-26,141006,90,False
+253,Neptune Av (F),fall 2025,89447,91,False
+253,Neptune Av (F),fall 2026,46234,44,True
+253,Neptune Av (F),spring 2025,85859,92,False
+253,Neptune Av (F),spring 2026,93531,92,False
+253,Neptune Av (F),summer 2025,79121,92,False
+253,Neptune Av (F),summer 2026,84081,92,False
+253,Neptune Av (F),winter 2024-25,55591,59,True
+253,Neptune Av (F),winter 2025-26,86795,90,False
+254,Jamaica-179 St (F),fall 2025,1049716,91,False
+254,Jamaica-179 St (F),fall 2026,514202,44,True
+254,Jamaica-179 St (F),spring 2025,1087146,92,False
+254,Jamaica-179 St (F),spring 2026,1065558,92,False
+254,Jamaica-179 St (F),summer 2025,994801,92,False
+254,Jamaica-179 St (F),summer 2026,1018256,92,False
+254,Jamaica-179 St (F),winter 2024-25,660796,59,True
+254,Jamaica-179 St (F),winter 2025-26,947071,90,False
+255,169 St (F),fall 2025,460042,91,False
+255,169 St (F),fall 2026,229200,44,True
+255,169 St (F),spring 2025,479327,92,False
+255,169 St (F),spring 2026,478260,92,False
+255,169 St (F),summer 2025,423253,92,False
+255,169 St (F),summer 2026,452888,92,False
+255,169 St (F),winter 2024-25,284198,59,True
+255,169 St (F),winter 2025-26,422811,90,False
+256,Parsons Blvd (F),fall 2025,419983,91,False
+256,Parsons Blvd (F),fall 2026,201602,44,True
+256,Parsons Blvd (F),spring 2025,433744,92,False
+256,Parsons Blvd (F),spring 2026,427106,92,False
+256,Parsons Blvd (F),summer 2025,384193,92,False
+256,Parsons Blvd (F),summer 2026,393500,92,False
+256,Parsons Blvd (F),winter 2024-25,255613,59,True
+256,Parsons Blvd (F),winter 2025-26,385692,90,False
+257,Sutphin Blvd (F),fall 2025,259272,91,False
+257,Sutphin Blvd (F),fall 2026,127864,44,True
+257,Sutphin Blvd (F),spring 2025,268690,92,False
+257,Sutphin Blvd (F),spring 2026,255890,92,False
+257,Sutphin Blvd (F),summer 2025,246169,92,False
+257,Sutphin Blvd (F),summer 2026,243660,92,False
+257,Sutphin Blvd (F),winter 2024-25,154930,59,True
+257,Sutphin Blvd (F),winter 2025-26,230874,90,False
+258,"Briarwood (E,F)",fall 2025,313208,91,False
+258,"Briarwood (E,F)",fall 2026,156641,44,True
+258,"Briarwood (E,F)",spring 2025,300934,92,False
+258,"Briarwood (E,F)",spring 2026,315991,92,False
+258,"Briarwood (E,F)",summer 2025,283103,92,False
+258,"Briarwood (E,F)",summer 2026,292466,92,False
+258,"Briarwood (E,F)",winter 2024-25,183546,59,True
+258,"Briarwood (E,F)",winter 2025-26,288646,90,False
+259,"Kew Gardens-Union Tpke (E,F)",fall 2025,1348591,91,False
+259,"Kew Gardens-Union Tpke (E,F)",fall 2026,676316,44,True
+259,"Kew Gardens-Union Tpke (E,F)",spring 2025,1345230,92,False
+259,"Kew Gardens-Union Tpke (E,F)",spring 2026,1391310,92,False
+259,"Kew Gardens-Union Tpke (E,F)",summer 2025,1316605,92,False
+259,"Kew Gardens-Union Tpke (E,F)",summer 2026,1340660,92,False
+259,"Kew Gardens-Union Tpke (E,F)",winter 2024-25,804446,59,True
+259,"Kew Gardens-Union Tpke (E,F)",winter 2025-26,1236625,90,False
+26,"DeKalb Av (B,Q,R)",fall 2025,1483314,91,False
+26,"DeKalb Av (B,Q,R)",fall 2026,794904,44,True
+26,"DeKalb Av (B,Q,R)",spring 2025,1444046,92,False
+26,"DeKalb Av (B,Q,R)",spring 2026,1546998,92,False
+26,"DeKalb Av (B,Q,R)",summer 2025,1270214,92,False
+26,"DeKalb Av (B,Q,R)",summer 2026,1444255,92,False
+26,"DeKalb Av (B,Q,R)",winter 2024-25,829462,59,True
+26,"DeKalb Av (B,Q,R)",winter 2025-26,1326642,90,False
+260,"75 Av (E,F)",fall 2025,199883,91,False
+260,"75 Av (E,F)",fall 2026,102086,44,True
+260,"75 Av (E,F)",spring 2025,203321,92,False
+260,"75 Av (E,F)",spring 2026,210988,92,False
+260,"75 Av (E,F)",summer 2025,194497,92,False
+260,"75 Av (E,F)",summer 2026,206482,92,False
+260,"75 Av (E,F)",winter 2024-25,120452,59,True
+260,"75 Av (E,F)",winter 2025-26,191286,90,False
+261,"Forest Hills-71 Av (E,F,M,R)",fall 2025,1715043,91,False
+261,"Forest Hills-71 Av (E,F,M,R)",fall 2026,860567,44,True
+261,"Forest Hills-71 Av (E,F,M,R)",spring 2025,1602048,92,False
+261,"Forest Hills-71 Av (E,F,M,R)",spring 2026,1723126,92,False
+261,"Forest Hills-71 Av (E,F,M,R)",summer 2025,1574884,92,False
+261,"Forest Hills-71 Av (E,F,M,R)",summer 2026,1694273,92,False
+261,"Forest Hills-71 Av (E,F,M,R)",winter 2024-25,941802,59,True
+261,"Forest Hills-71 Av (E,F,M,R)",winter 2025-26,1522688,90,False
+262,"67 Av (M,R)",fall 2025,483326,91,False
+262,"67 Av (M,R)",fall 2026,238713,44,True
+262,"67 Av (M,R)",spring 2025,466056,92,False
+262,"67 Av (M,R)",spring 2026,516540,92,False
+262,"67 Av (M,R)",summer 2025,438494,92,False
+262,"67 Av (M,R)",summer 2026,471473,92,False
+262,"67 Av (M,R)",winter 2024-25,293235,59,True
+262,"67 Av (M,R)",winter 2025-26,468830,90,False
+263,"63 Dr-Rego Park (M,R)",fall 2025,826863,91,False
+263,"63 Dr-Rego Park (M,R)",fall 2026,403958,44,True
+263,"63 Dr-Rego Park (M,R)",spring 2025,841654,92,False
+263,"63 Dr-Rego Park (M,R)",spring 2026,853953,92,False
+263,"63 Dr-Rego Park (M,R)",summer 2025,804915,92,False
+263,"63 Dr-Rego Park (M,R)",summer 2026,822250,92,False
+263,"63 Dr-Rego Park (M,R)",winter 2024-25,508184,59,True
+263,"63 Dr-Rego Park (M,R)",winter 2025-26,782111,90,False
+264,"Woodhaven Blvd (M,R)",fall 2025,1154357,91,False
+264,"Woodhaven Blvd (M,R)",fall 2026,567952,44,True
+264,"Woodhaven Blvd (M,R)",spring 2025,1151169,92,False
+264,"Woodhaven Blvd (M,R)",spring 2026,1236330,92,False
+264,"Woodhaven Blvd (M,R)",summer 2025,1115230,92,False
+264,"Woodhaven Blvd (M,R)",summer 2026,1177623,92,False
+264,"Woodhaven Blvd (M,R)",winter 2024-25,695451,59,True
+264,"Woodhaven Blvd (M,R)",winter 2025-26,1093650,90,False
+265,"Grand Av-Newtown (M,R)",fall 2025,1143370,91,False
+265,"Grand Av-Newtown (M,R)",fall 2026,563124,44,True
+265,"Grand Av-Newtown (M,R)",spring 2025,1188274,92,False
+265,"Grand Av-Newtown (M,R)",spring 2026,1187265,92,False
+265,"Grand Av-Newtown (M,R)",summer 2025,1090419,92,False
+265,"Grand Av-Newtown (M,R)",summer 2026,1111797,92,False
+265,"Grand Av-Newtown (M,R)",winter 2024-25,720908,59,True
+265,"Grand Av-Newtown (M,R)",winter 2025-26,1104102,90,False
+266,"Elmhurst Av (M,R)",fall 2025,819420,91,False
+266,"Elmhurst Av (M,R)",fall 2026,406001,44,True
+266,"Elmhurst Av (M,R)",spring 2025,850403,92,False
+266,"Elmhurst Av (M,R)",spring 2026,860672,92,False
+266,"Elmhurst Av (M,R)",summer 2025,787610,92,False
+266,"Elmhurst Av (M,R)",summer 2026,811063,92,False
+266,"Elmhurst Av (M,R)",winter 2024-25,519671,59,True
+266,"Elmhurst Av (M,R)",winter 2025-26,793370,90,False
+268,"65 St (M,R)",fall 2025,234105,91,False
+268,"65 St (M,R)",fall 2026,110570,44,True
+268,"65 St (M,R)",spring 2025,219929,92,False
+268,"65 St (M,R)",spring 2026,240913,92,False
+268,"65 St (M,R)",summer 2025,217952,92,False
+268,"65 St (M,R)",summer 2026,228682,92,False
+268,"65 St (M,R)",winter 2024-25,130130,59,True
+268,"65 St (M,R)",winter 2025-26,219262,90,False
+269,"Northern Blvd (M,R)",fall 2025,406290,91,False
+269,"Northern Blvd (M,R)",fall 2026,208228,44,True
+269,"Northern Blvd (M,R)",spring 2025,427820,92,False
+269,"Northern Blvd (M,R)",spring 2026,393105,92,False
+269,"Northern Blvd (M,R)",summer 2025,405869,92,False
+269,"Northern Blvd (M,R)",summer 2026,399067,92,False
+269,"Northern Blvd (M,R)",winter 2024-25,252378,59,True
+269,"Northern Blvd (M,R)",winter 2025-26,351549,90,False
+270,"46 St (M,R)",fall 2025,513704,91,False
+270,"46 St (M,R)",fall 2026,251004,44,True
+270,"46 St (M,R)",spring 2025,486971,92,False
+270,"46 St (M,R)",spring 2026,551923,92,False
+270,"46 St (M,R)",summer 2025,457494,92,False
+270,"46 St (M,R)",summer 2026,509852,92,False
+270,"46 St (M,R)",winter 2024-25,283798,59,True
+270,"46 St (M,R)",winter 2025-26,485596,90,False
+271,"Steinway St (M,R)",fall 2025,768544,91,False
+271,"Steinway St (M,R)",fall 2026,362591,44,True
+271,"Steinway St (M,R)",spring 2025,777403,92,False
+271,"Steinway St (M,R)",spring 2026,796602,92,False
+271,"Steinway St (M,R)",summer 2025,735640,92,False
+271,"Steinway St (M,R)",summer 2026,752370,92,False
+271,"Steinway St (M,R)",winter 2024-25,460254,59,True
+271,"Steinway St (M,R)",winter 2025-26,713986,90,False
+272,"36 St (M,R)",fall 2025,234204,91,False
+272,"36 St (M,R)",fall 2026,127323,44,True
+272,"36 St (M,R)",spring 2025,218987,92,False
+272,"36 St (M,R)",spring 2026,261457,92,False
+272,"36 St (M,R)",summer 2025,209173,92,False
+272,"36 St (M,R)",summer 2026,259696,92,False
+272,"36 St (M,R)",winter 2024-25,131938,59,True
+272,"36 St (M,R)",winter 2025-26,227820,90,False
+273,"Queens Plaza (E,F,R)",fall 2025,1117103,91,False
+273,"Queens Plaza (E,F,R)",fall 2026,610315,44,True
+273,"Queens Plaza (E,F,R)",spring 2025,1094053,92,False
+273,"Queens Plaza (E,F,R)",spring 2026,1249556,92,False
+273,"Queens Plaza (E,F,R)",summer 2025,1008890,92,False
+273,"Queens Plaza (E,F,R)",summer 2026,1131624,92,False
+273,"Queens Plaza (E,F,R)",winter 2024-25,624739,59,True
+273,"Queens Plaza (E,F,R)",winter 2025-26,1016995,90,False
+276,"5 Av/53 St (E,F)",fall 2025,1042914,91,False
+276,"5 Av/53 St (E,F)",fall 2026,634187,44,True
+276,"5 Av/53 St (E,F)",spring 2025,1034743,92,False
+276,"5 Av/53 St (E,F)",spring 2026,1132406,92,False
+276,"5 Av/53 St (E,F)",summer 2025,981835,92,False
+276,"5 Av/53 St (E,F)",summer 2026,1191519,92,False
+276,"5 Av/53 St (E,F)",winter 2024-25,670769,59,True
+276,"5 Av/53 St (E,F)",winter 2025-26,1152558,90,False
+277,"7 Av (E,B,D)",fall 2025,1134160,91,False
+277,"7 Av (E,B,D)",fall 2026,565448,44,True
+277,"7 Av (E,B,D)",spring 2025,1161268,92,False
+277,"7 Av (E,B,D)",spring 2026,1213073,92,False
+277,"7 Av (E,B,D)",summer 2025,1162198,92,False
+277,"7 Av (E,B,D)",summer 2026,1222599,92,False
+277,"7 Av (E,B,D)",winter 2024-25,652094,59,True
+277,"7 Av (E,B,D)",winter 2025-26,1112352,90,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",fall 2025,1740333,91,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",fall 2026,782825,44,True
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",spring 2025,1822722,92,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",spring 2026,1739881,92,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",summer 2025,1672708,92,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",summer 2026,1592077,92,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",winter 2024-25,1087455,59,True
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",winter 2025-26,1574815,90,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",fall 2025,1956187,91,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",fall 2026,944118,44,True
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",spring 2025,1791130,92,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",spring 2026,1960317,92,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",summer 2025,1880181,92,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",summer 2026,1928346,92,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",winter 2024-25,1027079,59,True
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",winter 2025-26,1733922,90,False
+28,Union St (R),fall 2025,538427,91,False
+28,Union St (R),fall 2026,287645,44,True
+28,Union St (R),spring 2025,513993,92,False
+28,Union St (R),spring 2026,587741,92,False
+28,Union St (R),summer 2025,466285,92,False
+28,Union St (R),summer 2026,530310,92,False
+28,Union St (R),winter 2024-25,305010,59,True
+28,Union St (R),winter 2025-26,529126,90,False
+280,Jamaica-Van Wyck (E),fall 2025,287668,91,False
+280,Jamaica-Van Wyck (E),fall 2026,129839,44,True
+280,Jamaica-Van Wyck (E),spring 2025,298186,92,False
+280,Jamaica-Van Wyck (E),spring 2026,297301,92,False
+280,Jamaica-Van Wyck (E),summer 2025,288627,92,False
+280,Jamaica-Van Wyck (E),summer 2026,277347,92,False
+280,Jamaica-Van Wyck (E),winter 2024-25,180280,59,True
+280,Jamaica-Van Wyck (E),winter 2025-26,271571,90,False
+282,21 St (G),fall 2025,133393,91,False
+282,21 St (G),fall 2026,64661,44,True
+282,21 St (G),spring 2025,135978,92,False
+282,21 St (G),spring 2026,127528,92,False
+282,21 St (G),summer 2025,115831,92,False
+282,21 St (G),summer 2026,125358,92,False
+282,21 St (G),winter 2024-25,80361,59,True
+282,21 St (G),winter 2025-26,112085,90,False
+283,Greenpoint Av (G),fall 2025,745779,91,False
+283,Greenpoint Av (G),fall 2026,332287,44,True
+283,Greenpoint Av (G),spring 2025,742735,92,False
+283,Greenpoint Av (G),spring 2026,695725,92,False
+283,Greenpoint Av (G),summer 2025,636638,92,False
+283,Greenpoint Av (G),summer 2026,655167,92,False
+283,Greenpoint Av (G),winter 2024-25,460047,59,True
+283,Greenpoint Av (G),winter 2025-26,672030,90,False
+284,Nassau Av (G),fall 2025,708493,91,False
+284,Nassau Av (G),fall 2026,342457,44,True
+284,Nassau Av (G),spring 2025,712357,92,False
+284,Nassau Av (G),spring 2026,670037,92,False
+284,Nassau Av (G),summer 2025,608830,92,False
+284,Nassau Av (G),summer 2026,623144,92,False
+284,Nassau Av (G),winter 2024-25,421689,59,True
+284,Nassau Av (G),winter 2025-26,631643,90,False
+286,Broadway (G),fall 2025,308414,91,False
+286,Broadway (G),fall 2026,141815,44,True
+286,Broadway (G),spring 2025,322406,92,False
+286,Broadway (G),spring 2026,296169,92,False
+286,Broadway (G),summer 2025,271096,92,False
+286,Broadway (G),summer 2026,255302,92,False
+286,Broadway (G),winter 2024-25,198803,59,True
+286,Broadway (G),winter 2025-26,293646,90,False
+287,Flushing Av (G),fall 2025,190941,91,False
+287,Flushing Av (G),fall 2026,92623,44,True
+287,Flushing Av (G),spring 2025,206974,92,False
+287,Flushing Av (G),spring 2026,199351,92,False
+287,Flushing Av (G),summer 2025,168499,92,False
+287,Flushing Av (G),summer 2026,176793,92,False
+287,Flushing Av (G),winter 2024-25,127171,59,True
+287,Flushing Av (G),winter 2025-26,190750,90,False
+288,Myrtle-Willoughby Avs (G),fall 2025,327583,91,False
+288,Myrtle-Willoughby Avs (G),fall 2026,144715,44,True
+288,Myrtle-Willoughby Avs (G),spring 2025,345867,92,False
+288,Myrtle-Willoughby Avs (G),spring 2026,306113,92,False
+288,Myrtle-Willoughby Avs (G),summer 2025,289384,92,False
+288,Myrtle-Willoughby Avs (G),summer 2026,278779,92,False
+288,Myrtle-Willoughby Avs (G),winter 2024-25,212105,59,True
+288,Myrtle-Willoughby Avs (G),winter 2025-26,290381,90,False
+289,Bedford-Nostrand Avs (G),fall 2025,565077,91,False
+289,Bedford-Nostrand Avs (G),fall 2026,282878,44,True
+289,Bedford-Nostrand Avs (G),spring 2025,591866,92,False
+289,Bedford-Nostrand Avs (G),spring 2026,606319,92,False
+289,Bedford-Nostrand Avs (G),summer 2025,548572,92,False
+289,Bedford-Nostrand Avs (G),summer 2026,567312,92,False
+289,Bedford-Nostrand Avs (G),winter 2024-25,355226,59,True
+289,Bedford-Nostrand Avs (G),winter 2025-26,551861,90,False
+290,Classon Av (G),fall 2025,364893,91,False
+290,Classon Av (G),fall 2026,174962,44,True
+290,Classon Av (G),spring 2025,345285,92,False
+290,Classon Av (G),spring 2026,360705,92,False
+290,Classon Av (G),summer 2025,308473,92,False
+290,Classon Av (G),summer 2026,329392,92,False
+290,Classon Av (G),winter 2024-25,210646,59,True
+290,Classon Av (G),winter 2025-26,322879,90,False
+291,Clinton-Washington Avs (G),fall 2025,404210,91,False
+291,Clinton-Washington Avs (G),fall 2026,191562,44,True
+291,Clinton-Washington Avs (G),spring 2025,370066,92,False
+291,Clinton-Washington Avs (G),spring 2026,392190,92,False
+291,Clinton-Washington Avs (G),summer 2025,308741,92,False
+291,Clinton-Washington Avs (G),summer 2026,331809,92,False
+291,Clinton-Washington Avs (G),winter 2024-25,227734,59,True
+291,Clinton-Washington Avs (G),winter 2025-26,351322,90,False
+292,Fulton St (G),fall 2025,441072,91,False
+292,Fulton St (G),fall 2026,220095,44,True
+292,Fulton St (G),spring 2025,427319,92,False
+292,Fulton St (G),spring 2026,439134,92,False
+292,Fulton St (G),summer 2025,350496,92,False
+292,Fulton St (G),summer 2026,376022,92,False
+292,Fulton St (G),winter 2024-25,259517,59,True
+292,Fulton St (G),winter 2025-26,389199,90,False
+293,Van Cortlandt Park-242 St (1),fall 2025,334669,91,False
+293,Van Cortlandt Park-242 St (1),fall 2026,178284,44,True
+293,Van Cortlandt Park-242 St (1),spring 2025,362095,92,False
+293,Van Cortlandt Park-242 St (1),spring 2026,340463,92,False
+293,Van Cortlandt Park-242 St (1),summer 2025,364765,92,False
+293,Van Cortlandt Park-242 St (1),summer 2026,334570,92,False
+293,Van Cortlandt Park-242 St (1),winter 2024-25,208508,59,True
+293,Van Cortlandt Park-242 St (1),winter 2025-26,273499,90,False
+294,238 St (1),fall 2025,294612,91,False
+294,238 St (1),fall 2026,139323,44,True
+294,238 St (1),spring 2025,267536,92,False
+294,238 St (1),spring 2026,266850,92,False
+294,238 St (1),summer 2025,236781,92,False
+294,238 St (1),summer 2026,267521,92,False
+294,238 St (1),winter 2024-25,162988,59,True
+294,238 St (1),winter 2025-26,240263,90,False
+295,231 St (1),fall 2025,516268,91,False
+295,231 St (1),fall 2026,254665,44,True
+295,231 St (1),spring 2025,523619,92,False
+295,231 St (1),spring 2026,508017,92,False
+295,231 St (1),summer 2025,480443,92,False
+295,231 St (1),summer 2026,493996,92,False
+295,231 St (1),winter 2024-25,299954,59,True
+295,231 St (1),winter 2025-26,476548,90,False
+296,Marble Hill-225 St (1),fall 2025,285092,91,False
+296,Marble Hill-225 St (1),fall 2026,142438,44,True
+296,Marble Hill-225 St (1),spring 2025,282731,92,False
+296,Marble Hill-225 St (1),spring 2026,279781,92,False
+296,Marble Hill-225 St (1),summer 2025,255457,92,False
+296,Marble Hill-225 St (1),summer 2026,266692,92,False
+296,Marble Hill-225 St (1),winter 2024-25,170776,59,True
+296,Marble Hill-225 St (1),winter 2025-26,264561,90,False
+297,215 St (1),fall 2025,148721,91,False
+297,215 St (1),fall 2026,74122,44,True
+297,215 St (1),spring 2025,141305,92,False
+297,215 St (1),spring 2026,141911,92,False
+297,215 St (1),summer 2025,120389,92,False
+297,215 St (1),summer 2026,122635,92,False
+297,215 St (1),winter 2024-25,86412,59,True
+297,215 St (1),winter 2025-26,126757,90,False
+298,207 St (1),fall 2025,372776,91,False
+298,207 St (1),fall 2026,208806,44,True
+298,207 St (1),spring 2025,352860,92,False
+298,207 St (1),spring 2026,386369,92,False
+298,207 St (1),summer 2025,332435,92,False
+298,207 St (1),summer 2026,364223,92,False
+298,207 St (1),winter 2024-25,213820,59,True
+298,207 St (1),winter 2025-26,342604,90,False
+299,Dyckman St (1),fall 2025,423436,91,False
+299,Dyckman St (1),fall 2026,196931,44,True
+299,Dyckman St (1),spring 2025,439949,92,False
+299,Dyckman St (1),spring 2026,418053,92,False
+299,Dyckman St (1),summer 2025,415273,92,False
+299,Dyckman St (1),summer 2026,381115,92,False
+299,Dyckman St (1),winter 2024-25,262326,59,True
+299,Dyckman St (1),winter 2025-26,384100,90,False
+3,"30 Av (N,W)",fall 2025,865993,91,False
+3,"30 Av (N,W)",fall 2026,401749,44,True
+3,"30 Av (N,W)",spring 2025,883460,92,False
+3,"30 Av (N,W)",spring 2026,860139,92,False
+3,"30 Av (N,W)",summer 2025,813451,92,False
+3,"30 Av (N,W)",summer 2026,823277,92,False
+3,"30 Av (N,W)",winter 2024-25,531660,59,True
+3,"30 Av (N,W)",winter 2025-26,799068,90,False
+30,Prospect Av (R),fall 2025,374315,91,False
+30,Prospect Av (R),fall 2026,186746,44,True
+30,Prospect Av (R),spring 2025,378245,92,False
+30,Prospect Av (R),spring 2026,398498,92,False
+30,Prospect Av (R),summer 2025,332485,92,False
+30,Prospect Av (R),summer 2026,347616,92,False
+30,Prospect Av (R),winter 2024-25,224402,59,True
+30,Prospect Av (R),winter 2025-26,359945,90,False
+300,191 St (1),fall 2025,457057,91,False
+300,191 St (1),fall 2026,213751,44,True
+300,191 St (1),spring 2025,452075,92,False
+300,191 St (1),spring 2026,453787,92,False
+300,191 St (1),summer 2025,402847,92,False
+300,191 St (1),summer 2026,404113,92,False
+300,191 St (1),winter 2024-25,284516,59,True
+300,191 St (1),winter 2025-26,434153,90,False
+301,181 St (1),fall 2025,619182,91,False
+301,181 St (1),fall 2026,304496,44,True
+301,181 St (1),spring 2025,665988,92,False
+301,181 St (1),spring 2026,653760,92,False
+301,181 St (1),summer 2025,589429,92,False
+301,181 St (1),summer 2026,595444,92,False
+301,181 St (1),winter 2024-25,410514,59,True
+301,181 St (1),winter 2025-26,588774,90,False
+303,157 St (1),fall 2025,618340,91,False
+303,157 St (1),fall 2026,300386,44,True
+303,157 St (1),spring 2025,631391,92,False
+303,157 St (1),spring 2026,648153,92,False
+303,157 St (1),summer 2025,574034,92,False
+303,157 St (1),summer 2026,584592,92,False
+303,157 St (1),winter 2024-25,401658,59,True
+303,157 St (1),winter 2025-26,559781,90,False
+304,145 St (1),fall 2025,557539,91,False
+304,145 St (1),fall 2026,255353,44,True
+304,145 St (1),spring 2025,575301,92,False
+304,145 St (1),spring 2026,573197,92,False
+304,145 St (1),summer 2025,510895,92,False
+304,145 St (1),summer 2026,530667,92,False
+304,145 St (1),winter 2024-25,371738,59,True
+304,145 St (1),winter 2025-26,498559,90,False
+305,137 St-City College (1),fall 2025,750599,91,False
+305,137 St-City College (1),fall 2026,394314,44,True
+305,137 St-City College (1),spring 2025,712574,92,False
+305,137 St-City College (1),spring 2026,733484,92,False
+305,137 St-City College (1),summer 2025,649867,92,False
+305,137 St-City College (1),summer 2026,658957,92,False
+305,137 St-City College (1),winter 2024-25,435813,59,True
+305,137 St-City College (1),winter 2025-26,665729,90,False
+306,125 St (1),fall 2025,589958,91,False
+306,125 St (1),fall 2026,262202,44,True
+306,125 St (1),spring 2025,544992,92,False
+306,125 St (1),spring 2026,570676,92,False
+306,125 St (1),summer 2025,483311,92,False
+306,125 St (1),summer 2026,480914,92,False
+306,125 St (1),winter 2024-25,335272,59,True
+306,125 St (1),winter 2025-26,488733,90,False
+307,116 St-Columbia University (1),fall 2025,1054557,91,False
+307,116 St-Columbia University (1),fall 2026,482187,44,True
+307,116 St-Columbia University (1),spring 2025,904097,92,False
+307,116 St-Columbia University (1),spring 2026,939173,92,False
+307,116 St-Columbia University (1),summer 2025,679484,92,False
+307,116 St-Columbia University (1),summer 2026,656815,92,False
+307,116 St-Columbia University (1),winter 2024-25,552051,59,True
+307,116 St-Columbia University (1),winter 2025-26,793648,90,False
+308,Cathedral Pkwy (110 St) (1),fall 2025,822536,91,False
+308,Cathedral Pkwy (110 St) (1),fall 2026,369138,44,True
+308,Cathedral Pkwy (110 St) (1),spring 2025,799249,92,False
+308,Cathedral Pkwy (110 St) (1),spring 2026,838063,92,False
+308,Cathedral Pkwy (110 St) (1),summer 2025,716231,92,False
+308,Cathedral Pkwy (110 St) (1),summer 2026,732124,92,False
+308,Cathedral Pkwy (110 St) (1),winter 2024-25,490767,59,True
+308,Cathedral Pkwy (110 St) (1),winter 2025-26,746271,90,False
+309,103 St (1),fall 2025,777616,91,False
+309,103 St (1),fall 2026,341140,44,True
+309,103 St (1),spring 2025,764365,92,False
+309,103 St (1),spring 2026,788660,92,False
+309,103 St (1),summer 2025,730682,92,False
+309,103 St (1),summer 2026,729041,92,False
+309,103 St (1),winter 2024-25,477545,59,True
+309,103 St (1),winter 2025-26,732151,90,False
+31,25 St (R),fall 2025,240538,91,False
+31,25 St (R),fall 2026,123924,44,True
+31,25 St (R),spring 2025,234609,92,False
+31,25 St (R),spring 2026,249595,92,False
+31,25 St (R),summer 2025,218366,92,False
+31,25 St (R),summer 2026,230418,92,False
+31,25 St (R),winter 2024-25,138964,59,True
+31,25 St (R),winter 2025-26,222656,90,False
+310,"96 St (1,2,3)",fall 2025,2298472,91,False
+310,"96 St (1,2,3)",fall 2026,1196932,44,True
+310,"96 St (1,2,3)",spring 2025,2296129,92,False
+310,"96 St (1,2,3)",spring 2026,2342267,92,False
+310,"96 St (1,2,3)",summer 2025,2080076,92,False
+310,"96 St (1,2,3)",summer 2026,2104301,92,False
+310,"96 St (1,2,3)",winter 2024-25,1364076,59,True
+310,"96 St (1,2,3)",winter 2025-26,2106800,90,False
+311,86 St (1),fall 2025,1147509,91,False
+311,86 St (1),fall 2026,556403,44,True
+311,86 St (1),spring 2025,1135654,92,False
+311,86 St (1),spring 2026,1164972,92,False
+311,86 St (1),summer 2025,1024276,92,False
+311,86 St (1),summer 2026,1048975,92,False
+311,86 St (1),winter 2024-25,711977,59,True
+311,86 St (1),winter 2025-26,1079813,90,False
+312,79 St (1),fall 2025,1010298,91,False
+312,79 St (1),fall 2026,514425,44,True
+312,79 St (1),spring 2025,973562,92,False
+312,79 St (1),spring 2026,1029476,92,False
+312,79 St (1),summer 2025,902635,92,False
+312,79 St (1),summer 2026,958707,92,False
+312,79 St (1),winter 2024-25,621720,59,True
+312,79 St (1),winter 2025-26,971373,90,False
+313,"72 St (1,2,3)",fall 2025,2653120,91,False
+313,"72 St (1,2,3)",fall 2026,1280513,44,True
+313,"72 St (1,2,3)",spring 2025,2631732,92,False
+313,"72 St (1,2,3)",spring 2026,2616943,92,False
+313,"72 St (1,2,3)",summer 2025,2436379,92,False
+313,"72 St (1,2,3)",summer 2026,2345046,92,False
+313,"72 St (1,2,3)",winter 2024-25,1551307,59,True
+313,"72 St (1,2,3)",winter 2025-26,2377931,90,False
+314,66 St-Lincoln Center (1),fall 2025,1400412,91,False
+314,66 St-Lincoln Center (1),fall 2026,669762,44,True
+314,66 St-Lincoln Center (1),spring 2025,1334742,92,False
+314,66 St-Lincoln Center (1),spring 2026,1449099,92,False
+314,66 St-Lincoln Center (1),summer 2025,1068783,92,False
+314,66 St-Lincoln Center (1),summer 2026,1183166,92,False
+314,66 St-Lincoln Center (1),winter 2024-25,812134,59,True
+314,66 St-Lincoln Center (1),winter 2025-26,1328457,90,False
+316,50 St (1),fall 2025,1682331,91,False
+316,50 St (1),fall 2026,838274,44,True
+316,50 St (1),spring 2025,1650722,92,False
+316,50 St (1),spring 2026,1724909,92,False
+316,50 St (1),summer 2025,1570032,92,False
+316,50 St (1),summer 2026,1598590,92,False
+316,50 St (1),winter 2024-25,937428,59,True
+316,50 St (1),winter 2025-26,1647602,90,False
+318,"34 St-Penn Station (1,2,3)",fall 2025,4671465,91,False
+318,"34 St-Penn Station (1,2,3)",fall 2026,2374465,44,True
+318,"34 St-Penn Station (1,2,3)",spring 2025,4617816,92,False
+318,"34 St-Penn Station (1,2,3)",spring 2026,4676451,92,False
+318,"34 St-Penn Station (1,2,3)",summer 2025,4501233,92,False
+318,"34 St-Penn Station (1,2,3)",summer 2026,4627365,92,False
+318,"34 St-Penn Station (1,2,3)",winter 2024-25,2744283,59,True
+318,"34 St-Penn Station (1,2,3)",winter 2025-26,4292623,90,False
+319,28 St (1),fall 2025,859587,91,False
+319,28 St (1),fall 2026,424760,44,True
+319,28 St (1),spring 2025,872689,92,False
+319,28 St (1),spring 2026,912524,92,False
+319,28 St (1),summer 2025,778678,92,False
+319,28 St (1),summer 2026,803230,92,False
+319,28 St (1),winter 2024-25,500175,59,True
+319,28 St (1),winter 2025-26,805469,90,False
+32,"36 St (D,N,R)",fall 2025,1022707,91,False
+32,"36 St (D,N,R)",fall 2026,495978,44,True
+32,"36 St (D,N,R)",spring 2025,1031022,92,False
+32,"36 St (D,N,R)",spring 2026,1059952,92,False
+32,"36 St (D,N,R)",summer 2025,973509,92,False
+32,"36 St (D,N,R)",summer 2026,1019592,92,False
+32,"36 St (D,N,R)",winter 2024-25,614295,59,True
+32,"36 St (D,N,R)",winter 2025-26,953962,90,False
+320,23 St (1),fall 2025,860319,91,False
+320,23 St (1),fall 2026,450358,44,True
+320,23 St (1),spring 2025,910364,92,False
+320,23 St (1),spring 2026,895491,92,False
+320,23 St (1),summer 2025,826133,92,False
+320,23 St (1),summer 2026,823039,92,False
+320,23 St (1),winter 2024-25,534879,59,True
+320,23 St (1),winter 2025-26,825580,90,False
+321,18 St (1),fall 2025,485421,91,False
+321,18 St (1),fall 2026,265872,44,True
+321,18 St (1),spring 2025,478666,92,False
+321,18 St (1),spring 2026,517259,92,False
+321,18 St (1),summer 2025,431195,92,False
+321,18 St (1),summer 2026,474065,92,False
+321,18 St (1),winter 2024-25,291578,59,True
+321,18 St (1),winter 2025-26,469236,90,False
+323,Christopher St-Stonewall (1),fall 2025,861445,91,False
+323,Christopher St-Stonewall (1),fall 2026,455774,44,True
+323,Christopher St-Stonewall (1),spring 2025,844683,92,False
+323,Christopher St-Stonewall (1),spring 2026,907882,92,False
+323,Christopher St-Stonewall (1),summer 2025,832366,92,False
+323,Christopher St-Stonewall (1),summer 2026,761457,92,False
+323,Christopher St-Stonewall (1),winter 2024-25,473638,59,True
+323,Christopher St-Stonewall (1),winter 2025-26,809489,90,False
+324,Houston St (1),fall 2025,919400,91,False
+324,Houston St (1),fall 2026,469786,44,True
+324,Houston St (1),spring 2025,941127,92,False
+324,Houston St (1),spring 2026,964293,92,False
+324,Houston St (1),summer 2025,887915,92,False
+324,Houston St (1),summer 2026,885630,92,False
+324,Houston St (1),winter 2024-25,551089,59,True
+324,Houston St (1),winter 2025-26,849922,90,False
+325,Canal St (1),fall 2025,352736,91,False
+325,Canal St (1),fall 2026,192493,44,True
+325,Canal St (1),spring 2025,332298,92,False
+325,Canal St (1),spring 2026,379449,92,False
+325,Canal St (1),summer 2025,333135,92,False
+325,Canal St (1),summer 2026,339806,92,False
+325,Canal St (1),winter 2024-25,185998,59,True
+325,Canal St (1),winter 2025-26,326109,90,False
+326,Franklin St (1),fall 2025,396811,91,False
+326,Franklin St (1),fall 2026,196955,44,True
+326,Franklin St (1),spring 2025,380638,92,False
+326,Franklin St (1),spring 2026,409512,92,False
+326,Franklin St (1),summer 2025,355752,92,False
+326,Franklin St (1),summer 2026,356669,92,False
+326,Franklin St (1),winter 2024-25,225508,59,True
+326,Franklin St (1),winter 2025-26,375320,90,False
+327,"Chambers St (1,2,3)",fall 2025,1152909,91,False
+327,"Chambers St (1,2,3)",fall 2026,575185,44,True
+327,"Chambers St (1,2,3)",spring 2025,1149489,92,False
+327,"Chambers St (1,2,3)",spring 2026,1134255,92,False
+327,"Chambers St (1,2,3)",summer 2025,966359,92,False
+327,"Chambers St (1,2,3)",summer 2026,912244,92,False
+327,"Chambers St (1,2,3)",winter 2024-25,661955,59,True
+327,"Chambers St (1,2,3)",winter 2025-26,993924,90,False
+328,WTC Cortlandt (1),fall 2025,1172703,91,False
+328,WTC Cortlandt (1),fall 2026,602355,44,True
+328,WTC Cortlandt (1),spring 2025,1038701,92,False
+328,WTC Cortlandt (1),spring 2026,1196522,92,False
+328,WTC Cortlandt (1),summer 2025,1189342,92,False
+328,WTC Cortlandt (1),summer 2026,1146428,92,False
+328,WTC Cortlandt (1),winter 2024-25,550196,59,True
+328,WTC Cortlandt (1),winter 2025-26,1117851,90,False
+329,Rector St (1),fall 2025,492338,91,False
+329,Rector St (1),fall 2026,255715,44,True
+329,Rector St (1),spring 2025,483703,92,False
+329,Rector St (1),spring 2026,498905,92,False
+329,Rector St (1),summer 2025,448581,92,False
+329,Rector St (1),summer 2026,460250,92,False
+329,Rector St (1),winter 2024-25,271606,59,True
+329,Rector St (1),winter 2025-26,453356,90,False
+33,45 St (R),fall 2025,543166,91,False
+33,45 St (R),fall 2026,254946,44,True
+33,45 St (R),spring 2025,516170,92,False
+33,45 St (R),spring 2026,552109,92,False
+33,45 St (R),summer 2025,488870,92,False
+33,45 St (R),summer 2026,501957,92,False
+33,45 St (R),winter 2024-25,286073,59,True
+33,45 St (R),winter 2025-26,503715,90,False
+333,"Wall St (2,3)",fall 2025,1141104,91,False
+333,"Wall St (2,3)",fall 2026,590542,44,True
+333,"Wall St (2,3)",spring 2025,1172736,92,False
+333,"Wall St (2,3)",spring 2026,1210391,92,False
+333,"Wall St (2,3)",summer 2025,1147181,92,False
+333,"Wall St (2,3)",summer 2026,1120905,92,False
+333,"Wall St (2,3)",winter 2024-25,677113,59,True
+333,"Wall St (2,3)",winter 2025-26,1021956,90,False
+334,"Clark St (2,3)",fall 2025,436508,91,False
+334,"Clark St (2,3)",fall 2026,223379,44,True
+334,"Clark St (2,3)",spring 2025,450806,92,False
+334,"Clark St (2,3)",spring 2026,469706,92,False
+334,"Clark St (2,3)",summer 2025,433209,92,False
+334,"Clark St (2,3)",summer 2026,433891,92,False
+334,"Clark St (2,3)",winter 2024-25,266106,59,True
+334,"Clark St (2,3)",winter 2025-26,371495,90,False
+336,"Hoyt St (2,3)",fall 2025,356662,91,False
+336,"Hoyt St (2,3)",fall 2026,235693,44,True
+336,"Hoyt St (2,3)",spring 2025,368803,92,False
+336,"Hoyt St (2,3)",spring 2026,489581,92,False
+336,"Hoyt St (2,3)",summer 2025,355407,92,False
+336,"Hoyt St (2,3)",summer 2026,414168,92,False
+336,"Hoyt St (2,3)",winter 2024-25,236850,59,True
+336,"Hoyt St (2,3)",winter 2025-26,363848,90,False
+337,"Nevins St (2,3,4,5)",fall 2025,592490,91,False
+337,"Nevins St (2,3,4,5)",fall 2026,320010,44,True
+337,"Nevins St (2,3,4,5)",spring 2025,589842,92,False
+337,"Nevins St (2,3,4,5)",spring 2026,621739,92,False
+337,"Nevins St (2,3,4,5)",summer 2025,544210,92,False
+337,"Nevins St (2,3,4,5)",summer 2026,599428,92,False
+337,"Nevins St (2,3,4,5)",winter 2024-25,346743,59,True
+337,"Nevins St (2,3,4,5)",winter 2025-26,551901,90,False
+339,"Bergen St (2,3)",fall 2025,264764,91,False
+339,"Bergen St (2,3)",fall 2026,154627,44,True
+339,"Bergen St (2,3)",spring 2025,313079,92,False
+339,"Bergen St (2,3)",spring 2026,314507,92,False
+339,"Bergen St (2,3)",summer 2025,273070,92,False
+339,"Bergen St (2,3)",summer 2026,281427,92,False
+339,"Bergen St (2,3)",winter 2024-25,190873,59,True
+339,"Bergen St (2,3)",winter 2025-26,265843,90,False
+34,53 St (R),fall 2025,575979,91,False
+34,53 St (R),fall 2026,286438,44,True
+34,53 St (R),spring 2025,572572,92,False
+34,53 St (R),spring 2026,613969,92,False
+34,53 St (R),summer 2025,535439,92,False
+34,53 St (R),summer 2026,571087,92,False
+34,53 St (R),winter 2024-25,319776,59,True
+34,53 St (R),winter 2025-26,558528,90,False
+340,"Grand Army Plaza (2,3)",fall 2025,440836,91,False
+340,"Grand Army Plaza (2,3)",fall 2026,234633,44,True
+340,"Grand Army Plaza (2,3)",spring 2025,486442,92,False
+340,"Grand Army Plaza (2,3)",spring 2026,492332,92,False
+340,"Grand Army Plaza (2,3)",summer 2025,420571,92,False
+340,"Grand Army Plaza (2,3)",summer 2026,414967,92,False
+340,"Grand Army Plaza (2,3)",winter 2024-25,282330,59,True
+340,"Grand Army Plaza (2,3)",winter 2025-26,412826,90,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",fall 2025,285968,91,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",fall 2026,150019,44,True
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",spring 2025,349217,92,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",spring 2026,338921,92,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",summer 2025,291703,92,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",summer 2026,288495,92,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",winter 2024-25,185975,59,True
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",winter 2025-26,288235,90,False
+343,Nostrand Av (3),fall 2025,194701,91,False
+343,Nostrand Av (3),fall 2026,108372,44,True
+343,Nostrand Av (3),spring 2025,222581,92,False
+343,Nostrand Av (3),spring 2026,224912,92,False
+343,Nostrand Av (3),summer 2025,204407,92,False
+343,Nostrand Av (3),summer 2026,205249,92,False
+343,Nostrand Av (3),winter 2024-25,134123,59,True
+343,Nostrand Av (3),winter 2025-26,206743,90,False
+344,Kingston Av (3),fall 2025,243900,91,False
+344,Kingston Av (3),fall 2026,139840,44,True
+344,Kingston Av (3),spring 2025,268199,92,False
+344,Kingston Av (3),spring 2026,261874,92,False
+344,Kingston Av (3),summer 2025,244930,92,False
+344,Kingston Av (3),summer 2026,249918,92,False
+344,Kingston Av (3),winter 2024-25,170714,59,True
+344,Kingston Av (3),winter 2025-26,261309,90,False
+345,"Crown Hts-Utica Av (3,4)",fall 2025,1286881,91,False
+345,"Crown Hts-Utica Av (3,4)",fall 2026,692862,44,True
+345,"Crown Hts-Utica Av (3,4)",spring 2025,1470427,92,False
+345,"Crown Hts-Utica Av (3,4)",spring 2026,1440030,92,False
+345,"Crown Hts-Utica Av (3,4)",summer 2025,1357322,92,False
+345,"Crown Hts-Utica Av (3,4)",summer 2026,1359990,92,False
+345,"Crown Hts-Utica Av (3,4)",winter 2024-25,866422,59,True
+345,"Crown Hts-Utica Av (3,4)",winter 2025-26,1240461,90,False
+346,Sutter Av-Rutland Rd (3),fall 2025,338836,91,False
+346,Sutter Av-Rutland Rd (3),fall 2026,171454,44,True
+346,Sutter Av-Rutland Rd (3),spring 2025,371270,92,False
+346,Sutter Av-Rutland Rd (3),spring 2026,359287,92,False
+346,Sutter Av-Rutland Rd (3),summer 2025,350656,92,False
+346,Sutter Av-Rutland Rd (3),summer 2026,332022,92,False
+346,Sutter Av-Rutland Rd (3),winter 2024-25,216002,59,True
+346,Sutter Av-Rutland Rd (3),winter 2025-26,337430,90,False
+347,Saratoga Av (3),fall 2025,262620,91,False
+347,Saratoga Av (3),fall 2026,134272,44,True
+347,Saratoga Av (3),spring 2025,289692,92,False
+347,Saratoga Av (3),spring 2026,281586,92,False
+347,Saratoga Av (3),summer 2025,265638,92,False
+347,Saratoga Av (3),summer 2026,263223,92,False
+347,Saratoga Av (3),winter 2024-25,172115,59,True
+347,Saratoga Av (3),winter 2025-26,262687,90,False
+348,Rockaway Av (3),fall 2025,244131,91,False
+348,Rockaway Av (3),fall 2026,123646,44,True
+348,Rockaway Av (3),spring 2025,268462,92,False
+348,Rockaway Av (3),spring 2026,250066,92,False
+348,Rockaway Av (3),summer 2025,248629,92,False
+348,Rockaway Av (3),summer 2026,237295,92,False
+348,Rockaway Av (3),winter 2024-25,161446,59,True
+348,Rockaway Av (3),winter 2025-26,235385,90,False
+349,Junius St (3),fall 2025,135463,91,False
+349,Junius St (3),fall 2026,70326,44,True
+349,Junius St (3),spring 2025,151075,92,False
+349,Junius St (3),spring 2026,147263,92,False
+349,Junius St (3),summer 2025,142705,92,False
+349,Junius St (3),summer 2026,136084,92,False
+349,Junius St (3),winter 2024-25,89861,59,True
+349,Junius St (3),winter 2025-26,139749,90,False
+35,"59 St (N,R)",fall 2025,841238,91,False
+35,"59 St (N,R)",fall 2026,405252,44,True
+35,"59 St (N,R)",spring 2025,856285,92,False
+35,"59 St (N,R)",spring 2026,853775,92,False
+35,"59 St (N,R)",summer 2025,798362,92,False
+35,"59 St (N,R)",summer 2026,797992,92,False
+35,"59 St (N,R)",winter 2024-25,525319,59,True
+35,"59 St (N,R)",winter 2025-26,787393,90,False
+350,Pennsylvania Av (3),fall 2025,202311,91,False
+350,Pennsylvania Av (3),fall 2026,98832,44,True
+350,Pennsylvania Av (3),spring 2025,211334,92,False
+350,Pennsylvania Av (3),spring 2026,203087,92,False
+350,Pennsylvania Av (3),summer 2025,200441,92,False
+350,Pennsylvania Av (3),summer 2026,185715,92,False
+350,Pennsylvania Av (3),winter 2024-25,129324,59,True
+350,Pennsylvania Av (3),winter 2025-26,192139,90,False
+351,Van Siclen Av (3),fall 2025,123489,91,False
+351,Van Siclen Av (3),fall 2026,67731,44,True
+351,Van Siclen Av (3),spring 2025,133591,92,False
+351,Van Siclen Av (3),spring 2026,138927,92,False
+351,Van Siclen Av (3),summer 2025,130364,92,False
+351,Van Siclen Av (3),summer 2026,128675,92,False
+351,Van Siclen Av (3),winter 2024-25,79812,59,True
+351,Van Siclen Av (3),winter 2025-26,127279,90,False
+352,New Lots Av (3),fall 2025,283317,91,False
+352,New Lots Av (3),fall 2026,146079,44,True
+352,New Lots Av (3),spring 2025,306342,92,False
+352,New Lots Av (3),spring 2026,298348,92,False
+352,New Lots Av (3),summer 2025,296225,92,False
+352,New Lots Av (3),summer 2026,279845,92,False
+352,New Lots Av (3),winter 2024-25,179692,59,True
+352,New Lots Av (3),winter 2025-26,277894,90,False
+353,"President St-Medgar Evers College (2,5)",fall 2025,227259,91,False
+353,"President St-Medgar Evers College (2,5)",fall 2026,111800,44,True
+353,"President St-Medgar Evers College (2,5)",spring 2025,209659,92,False
+353,"President St-Medgar Evers College (2,5)",spring 2026,222528,92,False
+353,"President St-Medgar Evers College (2,5)",summer 2025,179316,92,False
+353,"President St-Medgar Evers College (2,5)",summer 2026,196154,92,False
+353,"President St-Medgar Evers College (2,5)",winter 2024-25,128689,59,True
+353,"President St-Medgar Evers College (2,5)",winter 2025-26,205199,90,False
+354,"Sterling St (2,5)",fall 2025,341158,91,False
+354,"Sterling St (2,5)",fall 2026,180313,44,True
+354,"Sterling St (2,5)",spring 2025,343198,92,False
+354,"Sterling St (2,5)",spring 2026,357411,92,False
+354,"Sterling St (2,5)",summer 2025,308107,92,False
+354,"Sterling St (2,5)",summer 2026,340454,92,False
+354,"Sterling St (2,5)",winter 2024-25,210321,59,True
+354,"Sterling St (2,5)",winter 2025-26,325526,90,False
+355,"Winthrop St (2,5)",fall 2025,473416,91,False
+355,"Winthrop St (2,5)",fall 2026,256879,44,True
+355,"Winthrop St (2,5)",spring 2025,467216,92,False
+355,"Winthrop St (2,5)",spring 2026,501571,92,False
+355,"Winthrop St (2,5)",summer 2025,428807,92,False
+355,"Winthrop St (2,5)",summer 2026,481876,92,False
+355,"Winthrop St (2,5)",winter 2024-25,288900,59,True
+355,"Winthrop St (2,5)",winter 2025-26,448503,90,False
+356,"Church Av (2,5)",fall 2025,570590,91,False
+356,"Church Av (2,5)",fall 2026,283642,44,True
+356,"Church Av (2,5)",spring 2025,574385,92,False
+356,"Church Av (2,5)",spring 2026,582764,92,False
+356,"Church Av (2,5)",summer 2025,522689,92,False
+356,"Church Av (2,5)",summer 2026,543920,92,False
+356,"Church Av (2,5)",winter 2024-25,351956,59,True
+356,"Church Av (2,5)",winter 2025-26,524133,90,False
+357,"Beverly Rd (2,5)",fall 2025,280463,91,False
+357,"Beverly Rd (2,5)",fall 2026,147648,44,True
+357,"Beverly Rd (2,5)",spring 2025,279931,92,False
+357,"Beverly Rd (2,5)",spring 2026,311173,92,False
+357,"Beverly Rd (2,5)",summer 2025,250455,92,False
+357,"Beverly Rd (2,5)",summer 2026,280540,92,False
+357,"Beverly Rd (2,5)",winter 2024-25,170698,59,True
+357,"Beverly Rd (2,5)",winter 2025-26,264008,90,False
+358,"Newkirk Av-Little Haiti (2,5)",fall 2025,427294,91,False
+358,"Newkirk Av-Little Haiti (2,5)",fall 2026,191019,44,True
+358,"Newkirk Av-Little Haiti (2,5)",spring 2025,432996,92,False
+358,"Newkirk Av-Little Haiti (2,5)",spring 2026,379676,92,False
+358,"Newkirk Av-Little Haiti (2,5)",summer 2025,389217,92,False
+358,"Newkirk Av-Little Haiti (2,5)",summer 2026,382530,92,False
+358,"Newkirk Av-Little Haiti (2,5)",winter 2024-25,255680,59,True
+358,"Newkirk Av-Little Haiti (2,5)",winter 2025-26,385557,90,False
+359,"Flatbush Av-Brooklyn College (2,5)",fall 2025,1099794,91,False
+359,"Flatbush Av-Brooklyn College (2,5)",fall 2026,534314,44,True
+359,"Flatbush Av-Brooklyn College (2,5)",spring 2025,1106976,92,False
+359,"Flatbush Av-Brooklyn College (2,5)",spring 2026,1144189,92,False
+359,"Flatbush Av-Brooklyn College (2,5)",summer 2025,960497,92,False
+359,"Flatbush Av-Brooklyn College (2,5)",summer 2026,1002624,92,False
+359,"Flatbush Av-Brooklyn College (2,5)",winter 2024-25,649807,59,True
+359,"Flatbush Av-Brooklyn College (2,5)",winter 2025-26,997736,90,False
+36,Bay Ridge Av (R),fall 2025,487824,91,False
+36,Bay Ridge Av (R),fall 2026,244810,44,True
+36,Bay Ridge Av (R),spring 2025,495867,92,False
+36,Bay Ridge Av (R),spring 2026,514826,92,False
+36,Bay Ridge Av (R),summer 2025,442203,92,False
+36,Bay Ridge Av (R),summer 2026,464527,92,False
+36,Bay Ridge Av (R),winter 2024-25,280432,59,True
+36,Bay Ridge Av (R),winter 2025-26,464997,90,False
+360,Pelham Bay Park (6),fall 2025,334874,91,False
+360,Pelham Bay Park (6),fall 2026,145654,44,True
+360,Pelham Bay Park (6),spring 2025,329748,92,False
+360,Pelham Bay Park (6),spring 2026,332538,92,False
+360,Pelham Bay Park (6),summer 2025,345073,92,False
+360,Pelham Bay Park (6),summer 2026,308913,92,False
+360,Pelham Bay Park (6),winter 2024-25,191952,59,True
+360,Pelham Bay Park (6),winter 2025-26,288089,90,False
+361,Buhre Av (6),fall 2025,199515,91,False
+361,Buhre Av (6),fall 2026,91593,44,True
+361,Buhre Av (6),spring 2025,207271,92,False
+361,Buhre Av (6),spring 2026,211007,92,False
+361,Buhre Av (6),summer 2025,196859,92,False
+361,Buhre Av (6),summer 2026,184429,92,False
+361,Buhre Av (6),winter 2024-25,126076,59,True
+361,Buhre Av (6),winter 2025-26,187354,90,False
+362,Middletown Rd (6),fall 2025,110421,91,False
+362,Middletown Rd (6),fall 2026,49744,44,True
+362,Middletown Rd (6),spring 2025,112613,92,False
+362,Middletown Rd (6),spring 2026,114102,92,False
+362,Middletown Rd (6),summer 2025,103869,92,False
+362,Middletown Rd (6),summer 2026,99214,92,False
+362,Middletown Rd (6),winter 2024-25,68000,59,True
+362,Middletown Rd (6),winter 2025-26,98951,90,False
+363,Westchester Sq-E Tremont Av (6),fall 2025,256806,91,False
+363,Westchester Sq-E Tremont Av (6),fall 2026,115048,44,True
+363,Westchester Sq-E Tremont Av (6),spring 2025,253601,92,False
+363,Westchester Sq-E Tremont Av (6),spring 2026,259098,92,False
+363,Westchester Sq-E Tremont Av (6),summer 2025,257986,92,False
+363,Westchester Sq-E Tremont Av (6),summer 2026,226710,92,False
+363,Westchester Sq-E Tremont Av (6),winter 2024-25,149630,59,True
+363,Westchester Sq-E Tremont Av (6),winter 2025-26,231776,90,False
+364,Zerega Av (6),fall 2025,127034,91,False
+364,Zerega Av (6),fall 2026,58177,44,True
+364,Zerega Av (6),spring 2025,134351,92,False
+364,Zerega Av (6),spring 2026,134345,92,False
+364,Zerega Av (6),summer 2025,127612,92,False
+364,Zerega Av (6),summer 2026,112224,92,False
+364,Zerega Av (6),winter 2024-25,84281,59,True
+364,Zerega Av (6),winter 2025-26,118863,90,False
+365,Castle Hill Av (6),fall 2025,334322,91,False
+365,Castle Hill Av (6),fall 2026,133179,44,True
+365,Castle Hill Av (6),spring 2025,340975,92,False
+365,Castle Hill Av (6),spring 2026,327118,92,False
+365,Castle Hill Av (6),summer 2025,330397,92,False
+365,Castle Hill Av (6),summer 2026,263007,92,False
+365,Castle Hill Av (6),winter 2024-25,200254,59,True
+365,Castle Hill Av (6),winter 2025-26,293332,90,False
+366,Parkchester (6),fall 2025,776251,91,False
+366,Parkchester (6),fall 2026,338018,44,True
+366,Parkchester (6),spring 2025,694801,92,False
+366,Parkchester (6),spring 2026,753359,92,False
+366,Parkchester (6),summer 2025,685799,92,False
+366,Parkchester (6),summer 2026,739215,92,False
+366,Parkchester (6),winter 2024-25,417305,59,True
+366,Parkchester (6),winter 2025-26,688801,90,False
+367,St Lawrence Av (6),fall 2025,239636,91,False
+367,St Lawrence Av (6),fall 2026,98155,44,True
+367,St Lawrence Av (6),spring 2025,242535,92,False
+367,St Lawrence Av (6),spring 2026,227136,92,False
+367,St Lawrence Av (6),summer 2025,240887,92,False
+367,St Lawrence Av (6),summer 2026,212706,92,False
+367,St Lawrence Av (6),winter 2024-25,132983,59,True
+367,St Lawrence Av (6),winter 2025-26,218477,90,False
+368,Morrison Av-Soundview (6),fall 2025,358869,91,False
+368,Morrison Av-Soundview (6),fall 2026,139738,44,True
+368,Morrison Av-Soundview (6),spring 2025,327826,92,False
+368,Morrison Av-Soundview (6),spring 2026,349052,92,False
+368,Morrison Av-Soundview (6),summer 2025,333783,92,False
+368,Morrison Av-Soundview (6),summer 2026,311237,92,False
+368,Morrison Av-Soundview (6),winter 2024-25,199466,59,True
+368,Morrison Av-Soundview (6),winter 2025-26,331716,90,False
+369,Elder Av (6),fall 2025,373425,91,False
+369,Elder Av (6),fall 2026,147338,44,True
+369,Elder Av (6),spring 2025,342718,92,False
+369,Elder Av (6),spring 2026,348391,92,False
+369,Elder Av (6),summer 2025,347131,92,False
+369,Elder Av (6),summer 2026,317553,92,False
+369,Elder Av (6),winter 2024-25,209081,59,True
+369,Elder Av (6),winter 2025-26,347475,90,False
+37,77 St (R),fall 2025,343806,91,False
+37,77 St (R),fall 2026,171969,44,True
+37,77 St (R),spring 2025,334268,92,False
+37,77 St (R),spring 2026,360746,92,False
+37,77 St (R),summer 2025,311126,92,False
+37,77 St (R),summer 2026,339238,92,False
+37,77 St (R),winter 2024-25,192443,59,True
+37,77 St (R),winter 2025-26,331922,90,False
+370,Whitlock Av (6),fall 2025,100516,91,False
+370,Whitlock Av (6),fall 2026,41601,44,True
+370,Whitlock Av (6),spring 2025,97683,92,False
+370,Whitlock Av (6),spring 2026,102640,92,False
+370,Whitlock Av (6),summer 2025,100137,92,False
+370,Whitlock Av (6),summer 2026,85297,92,False
+370,Whitlock Av (6),winter 2024-25,62768,59,True
+370,Whitlock Av (6),winter 2025-26,92295,90,False
+371,Hunts Point Av (6),fall 2025,584368,91,False
+371,Hunts Point Av (6),fall 2026,233145,44,True
+371,Hunts Point Av (6),spring 2025,582512,92,False
+371,Hunts Point Av (6),spring 2026,602068,92,False
+371,Hunts Point Av (6),summer 2025,555281,92,False
+371,Hunts Point Av (6),summer 2026,538422,92,False
+371,Hunts Point Av (6),winter 2024-25,335851,59,True
+371,Hunts Point Av (6),winter 2025-26,535641,90,False
+372,Longwood Av (6),fall 2025,159631,91,False
+372,Longwood Av (6),fall 2026,75402,44,True
+372,Longwood Av (6),spring 2025,176565,92,False
+372,Longwood Av (6),spring 2026,175383,92,False
+372,Longwood Av (6),summer 2025,166388,92,False
+372,Longwood Av (6),summer 2026,166038,92,False
+372,Longwood Av (6),winter 2024-25,113858,59,True
+372,Longwood Av (6),winter 2025-26,162841,90,False
+373,E 149 St (6),fall 2025,245329,91,False
+373,E 149 St (6),fall 2026,100282,44,True
+373,E 149 St (6),spring 2025,270722,92,False
+373,E 149 St (6),spring 2026,252328,92,False
+373,E 149 St (6),summer 2025,263370,92,False
+373,E 149 St (6),summer 2026,224222,92,False
+373,E 149 St (6),winter 2024-25,161730,59,True
+373,E 149 St (6),winter 2025-26,241528,90,False
+374,E 143 St-St Mary's St (6),fall 2025,110231,91,False
+374,E 143 St-St Mary's St (6),fall 2026,40685,44,True
+374,E 143 St-St Mary's St (6),spring 2025,118694,92,False
+374,E 143 St-St Mary's St (6),spring 2026,112304,92,False
+374,E 143 St-St Mary's St (6),summer 2025,99534,92,False
+374,E 143 St-St Mary's St (6),summer 2026,87888,92,False
+374,E 143 St-St Mary's St (6),winter 2024-25,52134,59,True
+374,E 143 St-St Mary's St (6),winter 2025-26,110255,90,False
+375,Cypress Av (6),fall 2025,149066,91,False
+375,Cypress Av (6),fall 2026,69114,44,True
+375,Cypress Av (6),spring 2025,155887,92,False
+375,Cypress Av (6),spring 2026,165405,92,False
+375,Cypress Av (6),summer 2025,151859,92,False
+375,Cypress Av (6),summer 2026,166273,92,False
+375,Cypress Av (6),winter 2024-25,100189,59,True
+375,Cypress Av (6),winter 2025-26,162190,90,False
+376,Brook Av (6),fall 2025,267277,91,False
+376,Brook Av (6),fall 2026,119082,44,True
+376,Brook Av (6),spring 2025,289305,92,False
+376,Brook Av (6),spring 2026,277248,92,False
+376,Brook Av (6),summer 2025,258275,92,False
+376,Brook Av (6),summer 2026,268316,92,False
+376,Brook Av (6),winter 2024-25,185522,59,True
+376,Brook Av (6),winter 2025-26,281405,90,False
+377,3 Av-138 St (6),fall 2025,500791,91,False
+377,3 Av-138 St (6),fall 2026,200186,44,True
+377,3 Av-138 St (6),spring 2025,453883,92,False
+377,3 Av-138 St (6),spring 2026,549057,92,False
+377,3 Av-138 St (6),summer 2025,447883,92,False
+377,3 Av-138 St (6),summer 2026,488069,92,False
+377,3 Av-138 St (6),winter 2024-25,287630,59,True
+377,3 Av-138 St (6),winter 2025-26,451872,90,False
+378,Woodlawn (4),fall 2025,379163,91,False
+378,Woodlawn (4),fall 2026,177872,44,True
+378,Woodlawn (4),spring 2025,352167,92,False
+378,Woodlawn (4),spring 2026,360885,92,False
+378,Woodlawn (4),summer 2025,368536,92,False
+378,Woodlawn (4),summer 2026,362027,92,False
+378,Woodlawn (4),winter 2024-25,205327,59,True
+378,Woodlawn (4),winter 2025-26,325545,90,False
+379,Mosholu Pkwy (4),fall 2025,409276,91,False
+379,Mosholu Pkwy (4),fall 2026,193978,44,True
+379,Mosholu Pkwy (4),spring 2025,362586,92,False
+379,Mosholu Pkwy (4),spring 2026,401211,92,False
+379,Mosholu Pkwy (4),summer 2025,356583,92,False
+379,Mosholu Pkwy (4),summer 2026,384731,92,False
+379,Mosholu Pkwy (4),winter 2024-25,232215,59,True
+379,Mosholu Pkwy (4),winter 2025-26,376450,90,False
+38,86 St (R),fall 2025,717588,91,False
+38,86 St (R),fall 2026,343326,44,True
+38,86 St (R),spring 2025,717363,92,False
+38,86 St (R),spring 2026,727589,92,False
+38,86 St (R),summer 2025,666340,92,False
+38,86 St (R),summer 2026,676277,92,False
+38,86 St (R),winter 2024-25,407907,59,True
+38,86 St (R),winter 2025-26,712972,90,False
+380,Bedford Park Blvd-Lehman College (4),fall 2025,307612,91,False
+380,Bedford Park Blvd-Lehman College (4),fall 2026,144620,44,True
+380,Bedford Park Blvd-Lehman College (4),spring 2025,291147,92,False
+380,Bedford Park Blvd-Lehman College (4),spring 2026,297086,92,False
+380,Bedford Park Blvd-Lehman College (4),summer 2025,240332,92,False
+380,Bedford Park Blvd-Lehman College (4),summer 2026,243075,92,False
+380,Bedford Park Blvd-Lehman College (4),winter 2024-25,178624,59,True
+380,Bedford Park Blvd-Lehman College (4),winter 2025-26,265784,90,False
+381,Kingsbridge Rd (4),fall 2025,507874,91,False
+381,Kingsbridge Rd (4),fall 2026,229092,44,True
+381,Kingsbridge Rd (4),spring 2025,473810,92,False
+381,Kingsbridge Rd (4),spring 2026,477765,92,False
+381,Kingsbridge Rd (4),summer 2025,454188,92,False
+381,Kingsbridge Rd (4),summer 2026,431848,92,False
+381,Kingsbridge Rd (4),winter 2024-25,289777,59,True
+381,Kingsbridge Rd (4),winter 2025-26,450508,90,False
+382,Fordham Rd (4),fall 2025,558139,91,False
+382,Fordham Rd (4),fall 2026,254747,44,True
+382,Fordham Rd (4),spring 2025,516872,92,False
+382,Fordham Rd (4),spring 2026,526520,92,False
+382,Fordham Rd (4),summer 2025,517077,92,False
+382,Fordham Rd (4),summer 2026,527866,92,False
+382,Fordham Rd (4),winter 2024-25,315401,59,True
+382,Fordham Rd (4),winter 2025-26,481244,90,False
+383,183 St (4),fall 2025,313585,91,False
+383,183 St (4),fall 2026,145296,44,True
+383,183 St (4),spring 2025,293358,92,False
+383,183 St (4),spring 2026,295122,92,False
+383,183 St (4),summer 2025,295456,92,False
+383,183 St (4),summer 2026,279191,92,False
+383,183 St (4),winter 2024-25,184510,59,True
+383,183 St (4),winter 2025-26,266011,90,False
+384,Burnside Av (4),fall 2025,515267,91,False
+384,Burnside Av (4),fall 2026,184517,44,True
+384,Burnside Av (4),spring 2025,487427,92,False
+384,Burnside Av (4),spring 2026,404331,92,False
+384,Burnside Av (4),summer 2025,471290,92,False
+384,Burnside Av (4),summer 2026,362683,92,False
+384,Burnside Av (4),winter 2024-25,333938,59,True
+384,Burnside Av (4),winter 2025-26,456854,90,False
+385,176 St (4),fall 2025,318155,91,False
+385,176 St (4),fall 2026,149304,44,True
+385,176 St (4),spring 2025,302184,92,False
+385,176 St (4),spring 2026,316376,92,False
+385,176 St (4),summer 2025,302388,92,False
+385,176 St (4),summer 2026,297842,92,False
+385,176 St (4),winter 2024-25,186619,59,True
+385,176 St (4),winter 2025-26,283667,90,False
+386,Mt Eden Av (4),fall 2025,259569,91,False
+386,Mt Eden Av (4),fall 2026,116539,44,True
+386,Mt Eden Av (4),spring 2025,251391,92,False
+386,Mt Eden Av (4),spring 2026,246928,92,False
+386,Mt Eden Av (4),summer 2025,251239,92,False
+386,Mt Eden Av (4),summer 2026,237808,92,False
+386,Mt Eden Av (4),winter 2024-25,160446,59,True
+386,Mt Eden Av (4),winter 2025-26,227620,90,False
+387,170 St (4),fall 2025,416145,91,False
+387,170 St (4),fall 2026,189945,44,True
+387,170 St (4),spring 2025,405462,92,False
+387,170 St (4),spring 2026,385142,92,False
+387,170 St (4),summer 2025,394891,92,False
+387,170 St (4),summer 2026,380034,92,False
+387,170 St (4),winter 2024-25,264242,59,True
+387,170 St (4),winter 2025-26,365216,90,False
+388,167 St (4),fall 2025,513078,91,False
+388,167 St (4),fall 2026,226132,44,True
+388,167 St (4),spring 2025,490761,92,False
+388,167 St (4),spring 2026,482047,92,False
+388,167 St (4),summer 2025,485994,92,False
+388,167 St (4),summer 2026,460209,92,False
+388,167 St (4),winter 2024-25,298887,59,True
+388,167 St (4),winter 2025-26,442608,90,False
+39,Bay Ridge-95 St (R),fall 2025,330200,91,False
+39,Bay Ridge-95 St (R),fall 2026,168341,44,True
+39,Bay Ridge-95 St (R),spring 2025,336912,92,False
+39,Bay Ridge-95 St (R),spring 2026,346506,92,False
+39,Bay Ridge-95 St (R),summer 2025,320048,92,False
+39,Bay Ridge-95 St (R),summer 2026,333656,92,False
+39,Bay Ridge-95 St (R),winter 2024-25,186926,59,True
+39,Bay Ridge-95 St (R),winter 2025-26,314922,90,False
+391,"138 St-Grand Concourse (4,5)",fall 2025,242856,91,False
+391,"138 St-Grand Concourse (4,5)",fall 2026,144833,44,True
+391,"138 St-Grand Concourse (4,5)",spring 2025,256031,92,False
+391,"138 St-Grand Concourse (4,5)",spring 2026,235140,92,False
+391,"138 St-Grand Concourse (4,5)",summer 2025,225637,92,False
+391,"138 St-Grand Concourse (4,5)",summer 2026,242136,92,False
+391,"138 St-Grand Concourse (4,5)",winter 2024-25,144227,59,True
+391,"138 St-Grand Concourse (4,5)",winter 2025-26,198865,90,False
+392,"125 St (4,5,6)",fall 2025,1523166,91,False
+392,"125 St (4,5,6)",fall 2026,717662,44,True
+392,"125 St (4,5,6)",spring 2025,1558900,92,False
+392,"125 St (4,5,6)",spring 2026,1467700,92,False
+392,"125 St (4,5,6)",summer 2025,1461435,92,False
+392,"125 St (4,5,6)",summer 2026,1412499,92,False
+392,"125 St (4,5,6)",winter 2024-25,909931,59,True
+392,"125 St (4,5,6)",winter 2025-26,1297463,90,False
+393,116 St (6),fall 2025,786345,91,False
+393,116 St (6),fall 2026,385991,44,True
+393,116 St (6),spring 2025,860581,92,False
+393,116 St (6),spring 2026,817925,92,False
+393,116 St (6),summer 2025,761125,92,False
+393,116 St (6),summer 2026,714762,92,False
+393,116 St (6),winter 2024-25,471740,59,True
+393,116 St (6),winter 2025-26,748822,90,False
+394,110 St (6),fall 2025,603361,91,False
+394,110 St (6),fall 2026,311811,44,True
+394,110 St (6),spring 2025,653121,92,False
+394,110 St (6),spring 2026,625798,92,False
+394,110 St (6),summer 2025,594655,92,False
+394,110 St (6),summer 2026,593604,92,False
+394,110 St (6),winter 2024-25,389604,59,True
+394,110 St (6),winter 2025-26,565711,90,False
+395,103 St (6),fall 2025,748933,91,False
+395,103 St (6),fall 2026,353213,44,True
+395,103 St (6),spring 2025,767109,92,False
+395,103 St (6),spring 2026,784981,92,False
+395,103 St (6),summer 2025,685097,92,False
+395,103 St (6),summer 2026,696168,92,False
+395,103 St (6),winter 2024-25,458774,59,True
+395,103 St (6),winter 2025-26,723274,90,False
+396,96 St (6),fall 2025,1038868,91,False
+396,96 St (6),fall 2026,521785,44,True
+396,96 St (6),spring 2025,1057654,92,False
+396,96 St (6),spring 2026,1097213,92,False
+396,96 St (6),summer 2025,938306,92,False
+396,96 St (6),summer 2026,988264,92,False
+396,96 St (6),winter 2024-25,640437,59,True
+396,96 St (6),winter 2025-26,1004093,90,False
+397,"86 St (4,5,6)",fall 2025,2946019,91,False
+397,"86 St (4,5,6)",fall 2026,1334311,44,True
+397,"86 St (4,5,6)",spring 2025,2908506,92,False
+397,"86 St (4,5,6)",spring 2026,2867913,92,False
+397,"86 St (4,5,6)",summer 2025,2707245,92,False
+397,"86 St (4,5,6)",summer 2026,2720575,92,False
+397,"86 St (4,5,6)",winter 2024-25,1736448,59,True
+397,"86 St (4,5,6)",winter 2025-26,2539145,90,False
+398,77 St (6),fall 2025,1697190,91,False
+398,77 St (6),fall 2026,909841,44,True
+398,77 St (6),spring 2025,1725200,92,False
+398,77 St (6),spring 2026,1815518,92,False
+398,77 St (6),summer 2025,1573640,92,False
+398,77 St (6),summer 2026,1680814,92,False
+398,77 St (6),winter 2024-25,1027284,59,True
+398,77 St (6),winter 2025-26,1654225,90,False
+399,68 St-Hunter College (6),fall 2025,1501537,91,False
+399,68 St-Hunter College (6),fall 2026,796795,44,True
+399,68 St-Hunter College (6),spring 2025,1456645,92,False
+399,68 St-Hunter College (6),spring 2026,1561649,92,False
+399,68 St-Hunter College (6),summer 2025,1123982,92,False
+399,68 St-Hunter College (6),summer 2026,1236469,92,False
+399,68 St-Hunter College (6),winter 2024-25,820199,59,True
+399,68 St-Hunter College (6),winter 2025-26,1361775,90,False
+4,"Broadway (N,W)",fall 2025,781295,91,False
+4,"Broadway (N,W)",fall 2026,366614,44,True
+4,"Broadway (N,W)",spring 2025,781238,92,False
+4,"Broadway (N,W)",spring 2026,788228,92,False
+4,"Broadway (N,W)",summer 2025,730351,92,False
+4,"Broadway (N,W)",summer 2026,742815,92,False
+4,"Broadway (N,W)",winter 2024-25,470725,59,True
+4,"Broadway (N,W)",winter 2025-26,725684,90,False
+403,33 St (6),fall 2025,1657607,91,False
+403,33 St (6),fall 2026,850674,44,True
+403,33 St (6),spring 2025,1672213,92,False
+403,33 St (6),spring 2026,1763184,92,False
+403,33 St (6),summer 2025,1527151,92,False
+403,33 St (6),summer 2026,1703528,92,False
+403,33 St (6),winter 2024-25,1016678,59,True
+403,33 St (6),winter 2025-26,1627943,90,False
+404,28 St (6),fall 2025,1208275,91,False
+404,28 St (6),fall 2026,616371,44,True
+404,28 St (6),spring 2025,1253002,92,False
+404,28 St (6),spring 2026,1300123,92,False
+404,28 St (6),summer 2025,1140176,92,False
+404,28 St (6),summer 2026,1213730,92,False
+404,28 St (6),winter 2024-25,767954,59,True
+404,28 St (6),winter 2025-26,1208883,90,False
+405,23 St-Baruch College (6),fall 2025,1641352,91,False
+405,23 St-Baruch College (6),fall 2026,847470,44,True
+405,23 St-Baruch College (6),spring 2025,1617986,92,False
+405,23 St-Baruch College (6),spring 2026,1683643,92,False
+405,23 St-Baruch College (6),summer 2025,1323248,92,False
+405,23 St-Baruch College (6),summer 2026,1419600,92,False
+405,23 St-Baruch College (6),winter 2024-25,955324,59,True
+405,23 St-Baruch College (6),winter 2025-26,1498695,90,False
+407,Astor Pl (6),fall 2025,1052330,91,False
+407,Astor Pl (6),fall 2026,522759,44,True
+407,Astor Pl (6),spring 2025,1099842,92,False
+407,Astor Pl (6),spring 2026,1099383,92,False
+407,Astor Pl (6),summer 2025,948963,92,False
+407,Astor Pl (6),summer 2026,972840,92,False
+407,Astor Pl (6),winter 2024-25,655690,59,True
+407,Astor Pl (6),winter 2025-26,1001580,90,False
+409,Spring St (6),fall 2025,869707,91,False
+409,Spring St (6),fall 2026,448977,44,True
+409,Spring St (6),spring 2025,830064,92,False
+409,Spring St (6),spring 2026,901590,92,False
+409,Spring St (6),summer 2025,810189,92,False
+409,Spring St (6),summer 2026,903904,92,False
+409,Spring St (6),winter 2024-25,491704,59,True
+409,Spring St (6),winter 2025-26,852926,90,False
+41,"7 Av (B,Q)",fall 2025,630973,91,False
+41,"7 Av (B,Q)",fall 2026,306701,44,True
+41,"7 Av (B,Q)",spring 2025,614700,92,False
+41,"7 Av (B,Q)",spring 2026,646184,92,False
+41,"7 Av (B,Q)",summer 2025,547775,92,False
+41,"7 Av (B,Q)",summer 2026,617142,92,False
+41,"7 Av (B,Q)",winter 2024-25,342571,59,True
+41,"7 Av (B,Q)",winter 2025-26,572918,90,False
+413,"Wall St (4,5)",fall 2025,990971,91,False
+413,"Wall St (4,5)",fall 2026,495911,44,True
+413,"Wall St (4,5)",spring 2025,977513,92,False
+413,"Wall St (4,5)",spring 2026,976855,92,False
+413,"Wall St (4,5)",summer 2025,957931,92,False
+413,"Wall St (4,5)",summer 2026,1021289,92,False
+413,"Wall St (4,5)",winter 2024-25,564819,59,True
+413,"Wall St (4,5)",winter 2025-26,919247,90,False
+414,"Bowling Green (4,5)",fall 2025,1338913,91,False
+414,"Bowling Green (4,5)",fall 2026,667813,44,True
+414,"Bowling Green (4,5)",spring 2025,1347669,92,False
+414,"Bowling Green (4,5)",spring 2026,1289230,92,False
+414,"Bowling Green (4,5)",summer 2025,1363573,92,False
+414,"Bowling Green (4,5)",summer 2026,1400306,92,False
+414,"Bowling Green (4,5)",winter 2024-25,755630,59,True
+414,"Bowling Green (4,5)",winter 2025-26,1169733,90,False
+416,Wakefield-241 St (2),fall 2025,224918,91,False
+416,Wakefield-241 St (2),fall 2026,118150,44,True
+416,Wakefield-241 St (2),spring 2025,247688,92,False
+416,Wakefield-241 St (2),spring 2026,258523,92,False
+416,Wakefield-241 St (2),summer 2025,229922,92,False
+416,Wakefield-241 St (2),summer 2026,236481,92,False
+416,Wakefield-241 St (2),winter 2024-25,146940,59,True
+416,Wakefield-241 St (2),winter 2025-26,219719,90,False
+417,"Nereid Av (2,5)",fall 2025,144046,91,False
+417,"Nereid Av (2,5)",fall 2026,74608,44,True
+417,"Nereid Av (2,5)",spring 2025,152190,92,False
+417,"Nereid Av (2,5)",spring 2026,156064,92,False
+417,"Nereid Av (2,5)",summer 2025,143848,92,False
+417,"Nereid Av (2,5)",summer 2026,143483,92,False
+417,"Nereid Av (2,5)",winter 2024-25,90326,59,True
+417,"Nereid Av (2,5)",winter 2025-26,143293,90,False
+418,"233 St (2,5)",fall 2025,194842,91,False
+418,"233 St (2,5)",fall 2026,96793,44,True
+418,"233 St (2,5)",spring 2025,212642,92,False
+418,"233 St (2,5)",spring 2026,198785,92,False
+418,"233 St (2,5)",summer 2025,200886,92,False
+418,"233 St (2,5)",summer 2026,183721,92,False
+418,"233 St (2,5)",winter 2024-25,126303,59,True
+418,"233 St (2,5)",winter 2025-26,184052,90,False
+419,"225 St (2,5)",fall 2025,153926,91,False
+419,"225 St (2,5)",fall 2026,74414,44,True
+419,"225 St (2,5)",spring 2025,169979,92,False
+419,"225 St (2,5)",spring 2026,163970,92,False
+419,"225 St (2,5)",summer 2025,156989,92,False
+419,"225 St (2,5)",summer 2026,146398,92,False
+419,"225 St (2,5)",winter 2024-25,107016,59,True
+419,"225 St (2,5)",winter 2025-26,150307,90,False
+42,"Prospect Park (B,Q,S)",fall 2025,691696,91,False
+42,"Prospect Park (B,Q,S)",fall 2026,338150,44,True
+42,"Prospect Park (B,Q,S)",spring 2025,664732,92,False
+42,"Prospect Park (B,Q,S)",spring 2026,706988,92,False
+42,"Prospect Park (B,Q,S)",summer 2025,627427,92,False
+42,"Prospect Park (B,Q,S)",summer 2026,651869,92,False
+42,"Prospect Park (B,Q,S)",winter 2024-25,346952,59,True
+42,"Prospect Park (B,Q,S)",winter 2025-26,563326,90,False
+420,"219 St (2,5)",fall 2025,146044,91,False
+420,"219 St (2,5)",fall 2026,69882,44,True
+420,"219 St (2,5)",spring 2025,140219,92,False
+420,"219 St (2,5)",spring 2026,161746,92,False
+420,"219 St (2,5)",summer 2025,142117,92,False
+420,"219 St (2,5)",summer 2026,139372,92,False
+420,"219 St (2,5)",winter 2024-25,81472,59,True
+420,"219 St (2,5)",winter 2025-26,142042,90,False
+421,"Gun Hill Rd (2,5)",fall 2025,316265,91,False
+421,"Gun Hill Rd (2,5)",fall 2026,151989,44,True
+421,"Gun Hill Rd (2,5)",spring 2025,347410,92,False
+421,"Gun Hill Rd (2,5)",spring 2026,335227,92,False
+421,"Gun Hill Rd (2,5)",summer 2025,323798,92,False
+421,"Gun Hill Rd (2,5)",summer 2026,300528,92,False
+421,"Gun Hill Rd (2,5)",winter 2024-25,204967,59,True
+421,"Gun Hill Rd (2,5)",winter 2025-26,307473,90,False
+422,"Burke Av (2,5)",fall 2025,134749,91,False
+422,"Burke Av (2,5)",fall 2026,63682,44,True
+422,"Burke Av (2,5)",spring 2025,141232,92,False
+422,"Burke Av (2,5)",spring 2026,137881,92,False
+422,"Burke Av (2,5)",summer 2025,133929,92,False
+422,"Burke Av (2,5)",summer 2026,128191,92,False
+422,"Burke Av (2,5)",winter 2024-25,83280,59,True
+422,"Burke Av (2,5)",winter 2025-26,127456,90,False
+423,"Allerton Av (2,5)",fall 2025,221256,91,False
+423,"Allerton Av (2,5)",fall 2026,102270,44,True
+423,"Allerton Av (2,5)",spring 2025,238708,92,False
+423,"Allerton Av (2,5)",spring 2026,227290,92,False
+423,"Allerton Av (2,5)",summer 2025,221574,92,False
+423,"Allerton Av (2,5)",summer 2026,207055,92,False
+423,"Allerton Av (2,5)",winter 2024-25,135247,59,True
+423,"Allerton Av (2,5)",winter 2025-26,213867,90,False
+424,"Pelham Pkwy (2,5)",fall 2025,385108,91,False
+424,"Pelham Pkwy (2,5)",fall 2026,183021,44,True
+424,"Pelham Pkwy (2,5)",spring 2025,420343,92,False
+424,"Pelham Pkwy (2,5)",spring 2026,396357,92,False
+424,"Pelham Pkwy (2,5)",summer 2025,401532,92,False
+424,"Pelham Pkwy (2,5)",summer 2026,357512,92,False
+424,"Pelham Pkwy (2,5)",winter 2024-25,248994,59,True
+424,"Pelham Pkwy (2,5)",winter 2025-26,357166,90,False
+425,"Bronx Park East (2,5)",fall 2025,128952,91,False
+425,"Bronx Park East (2,5)",fall 2026,61804,44,True
+425,"Bronx Park East (2,5)",spring 2025,131728,92,False
+425,"Bronx Park East (2,5)",spring 2026,127752,92,False
+425,"Bronx Park East (2,5)",summer 2025,121274,92,False
+425,"Bronx Park East (2,5)",summer 2026,119045,92,False
+425,"Bronx Park East (2,5)",winter 2024-25,76189,59,True
+425,"Bronx Park East (2,5)",winter 2025-26,120457,90,False
+426,"E 180 St (2,5)",fall 2025,484985,91,False
+426,"E 180 St (2,5)",fall 2026,265626,44,True
+426,"E 180 St (2,5)",spring 2025,505237,92,False
+426,"E 180 St (2,5)",spring 2026,504644,92,False
+426,"E 180 St (2,5)",summer 2025,469909,92,False
+426,"E 180 St (2,5)",summer 2026,500946,92,False
+426,"E 180 St (2,5)",winter 2024-25,285604,59,True
+426,"E 180 St (2,5)",winter 2025-26,442316,90,False
+427,"West Farms Sq-E Tremont Av (2,5)",fall 2025,320588,91,False
+427,"West Farms Sq-E Tremont Av (2,5)",fall 2026,159189,44,True
+427,"West Farms Sq-E Tremont Av (2,5)",spring 2025,325673,92,False
+427,"West Farms Sq-E Tremont Av (2,5)",spring 2026,326458,92,False
+427,"West Farms Sq-E Tremont Av (2,5)",summer 2025,290231,92,False
+427,"West Farms Sq-E Tremont Av (2,5)",summer 2026,321108,92,False
+427,"West Farms Sq-E Tremont Av (2,5)",winter 2024-25,186376,59,True
+427,"West Farms Sq-E Tremont Av (2,5)",winter 2025-26,301203,90,False
+428,"174 St (2,5)",fall 2025,346025,91,False
+428,"174 St (2,5)",fall 2026,178934,44,True
+428,"174 St (2,5)",spring 2025,368720,92,False
+428,"174 St (2,5)",spring 2026,366999,92,False
+428,"174 St (2,5)",summer 2025,308579,92,False
+428,"174 St (2,5)",summer 2026,336502,92,False
+428,"174 St (2,5)",winter 2024-25,199938,59,True
+428,"174 St (2,5)",winter 2025-26,337222,90,False
+429,"Freeman St (2,5)",fall 2025,235185,91,False
+429,"Freeman St (2,5)",fall 2026,117671,44,True
+429,"Freeman St (2,5)",spring 2025,254455,92,False
+429,"Freeman St (2,5)",spring 2026,239242,92,False
+429,"Freeman St (2,5)",summer 2025,217442,92,False
+429,"Freeman St (2,5)",summer 2026,229219,92,False
+429,"Freeman St (2,5)",winter 2024-25,151832,59,True
+429,"Freeman St (2,5)",winter 2025-26,227027,90,False
+43,Parkside Av (Q),fall 2025,352054,91,False
+43,Parkside Av (Q),fall 2026,181728,44,True
+43,Parkside Av (Q),spring 2025,418401,92,False
+43,Parkside Av (Q),spring 2026,380418,92,False
+43,Parkside Av (Q),summer 2025,388917,92,False
+43,Parkside Av (Q),summer 2026,398283,92,False
+43,Parkside Av (Q),winter 2024-25,398738,59,True
+43,Parkside Av (Q),winter 2025-26,341492,90,False
+430,"Simpson St (2,5)",fall 2025,413054,91,False
+430,"Simpson St (2,5)",fall 2026,214165,44,True
+430,"Simpson St (2,5)",spring 2025,492390,92,False
+430,"Simpson St (2,5)",spring 2026,397720,92,False
+430,"Simpson St (2,5)",summer 2025,394547,92,False
+430,"Simpson St (2,5)",summer 2026,384251,92,False
+430,"Simpson St (2,5)",winter 2024-25,257053,59,True
+430,"Simpson St (2,5)",winter 2025-26,379646,90,False
+431,"Intervale Av (2,5)",fall 2025,180317,91,False
+431,"Intervale Av (2,5)",fall 2026,92072,44,True
+431,"Intervale Av (2,5)",spring 2025,180410,92,False
+431,"Intervale Av (2,5)",spring 2026,185490,92,False
+431,"Intervale Av (2,5)",summer 2025,151458,92,False
+431,"Intervale Av (2,5)",summer 2026,175200,92,False
+431,"Intervale Av (2,5)",winter 2024-25,101565,59,True
+431,"Intervale Av (2,5)",winter 2025-26,178672,90,False
+432,"Prospect Av (2,5)",fall 2025,348135,91,False
+432,"Prospect Av (2,5)",fall 2026,180571,44,True
+432,"Prospect Av (2,5)",spring 2025,349645,92,False
+432,"Prospect Av (2,5)",spring 2026,352196,92,False
+432,"Prospect Av (2,5)",summer 2025,298336,92,False
+432,"Prospect Av (2,5)",summer 2026,336282,92,False
+432,"Prospect Av (2,5)",winter 2024-25,212499,59,True
+432,"Prospect Av (2,5)",winter 2025-26,336632,90,False
+433,"Jackson Av (2,5)",fall 2025,296198,91,False
+433,"Jackson Av (2,5)",fall 2026,158018,44,True
+433,"Jackson Av (2,5)",spring 2025,294821,92,False
+433,"Jackson Av (2,5)",spring 2026,310588,92,False
+433,"Jackson Av (2,5)",summer 2025,237041,92,False
+433,"Jackson Av (2,5)",summer 2026,291982,92,False
+433,"Jackson Av (2,5)",winter 2024-25,175641,59,True
+433,"Jackson Av (2,5)",winter 2025-26,292228,90,False
+434,"3 Av-149 St (2,5)",fall 2025,1147924,91,False
+434,"3 Av-149 St (2,5)",fall 2026,496277,44,True
+434,"3 Av-149 St (2,5)",spring 2025,1135146,92,False
+434,"3 Av-149 St (2,5)",spring 2026,1066189,92,False
+434,"3 Av-149 St (2,5)",summer 2025,1002628,92,False
+434,"3 Av-149 St (2,5)",summer 2026,968629,92,False
+434,"3 Av-149 St (2,5)",winter 2024-25,677238,59,True
+434,"3 Av-149 St (2,5)",winter 2025-26,1020951,90,False
+436,Harlem-148 St (3),fall 2025,172334,91,False
+436,Harlem-148 St (3),fall 2026,87878,44,True
+436,Harlem-148 St (3),spring 2025,186279,92,False
+436,Harlem-148 St (3),spring 2026,188180,92,False
+436,Harlem-148 St (3),summer 2025,171688,92,False
+436,Harlem-148 St (3),summer 2026,162839,92,False
+436,Harlem-148 St (3),winter 2024-25,118392,59,True
+436,Harlem-148 St (3),winter 2025-26,158030,90,False
+437,145 St (3),fall 2025,174549,91,False
+437,145 St (3),fall 2026,84648,44,True
+437,145 St (3),spring 2025,176205,92,False
+437,145 St (3),spring 2026,184146,92,False
+437,145 St (3),summer 2025,167454,92,False
+437,145 St (3),summer 2026,156858,92,False
+437,145 St (3),winter 2024-25,112638,59,True
+437,145 St (3),winter 2025-26,163584,90,False
+438,"135 St (2,3)",fall 2025,674619,91,False
+438,"135 St (2,3)",fall 2026,318634,44,True
+438,"135 St (2,3)",spring 2025,706373,92,False
+438,"135 St (2,3)",spring 2026,699189,92,False
+438,"135 St (2,3)",summer 2025,659988,92,False
+438,"135 St (2,3)",summer 2026,647691,92,False
+438,"135 St (2,3)",winter 2024-25,424910,59,True
+438,"135 St (2,3)",winter 2025-26,652163,90,False
+439,"125 St (2,3)",fall 2025,876684,91,False
+439,"125 St (2,3)",fall 2026,458041,44,True
+439,"125 St (2,3)",spring 2025,865471,92,False
+439,"125 St (2,3)",spring 2026,910077,92,False
+439,"125 St (2,3)",summer 2025,818769,92,False
+439,"125 St (2,3)",summer 2026,854501,92,False
+439,"125 St (2,3)",winter 2024-25,503891,59,True
+439,"125 St (2,3)",winter 2025-26,831226,90,False
+44,"Church Av (B,Q)",fall 2025,854221,91,False
+44,"Church Av (B,Q)",fall 2026,421441,44,True
+44,"Church Av (B,Q)",spring 2025,798854,92,False
+44,"Church Av (B,Q)",spring 2026,886497,92,False
+44,"Church Av (B,Q)",summer 2025,808143,92,False
+44,"Church Av (B,Q)",summer 2026,861387,92,False
+44,"Church Av (B,Q)",winter 2024-25,181576,59,True
+44,"Church Av (B,Q)",winter 2025-26,790860,90,False
+440,"116 St (2,3)",fall 2025,592368,91,False
+440,"116 St (2,3)",fall 2026,274564,44,True
+440,"116 St (2,3)",spring 2025,576620,92,False
+440,"116 St (2,3)",spring 2026,574185,92,False
+440,"116 St (2,3)",summer 2025,561873,92,False
+440,"116 St (2,3)",summer 2026,528406,92,False
+440,"116 St (2,3)",winter 2024-25,361015,59,True
+440,"116 St (2,3)",winter 2025-26,536634,90,False
+441,"110 St-Malcolm X Plaza (2,3)",fall 2025,463626,91,False
+441,"110 St-Malcolm X Plaza (2,3)",fall 2026,248220,44,True
+441,"110 St-Malcolm X Plaza (2,3)",spring 2025,452467,92,False
+441,"110 St-Malcolm X Plaza (2,3)",spring 2026,485654,92,False
+441,"110 St-Malcolm X Plaza (2,3)",summer 2025,445938,92,False
+441,"110 St-Malcolm X Plaza (2,3)",summer 2026,464937,92,False
+441,"110 St-Malcolm X Plaza (2,3)",winter 2024-25,268877,59,True
+441,"110 St-Malcolm X Plaza (2,3)",winter 2025-26,430309,90,False
+442,Eastchester-Dyre Av (5),fall 2025,221817,91,False
+442,Eastchester-Dyre Av (5),fall 2026,118404,44,True
+442,Eastchester-Dyre Av (5),spring 2025,216487,92,False
+442,Eastchester-Dyre Av (5),spring 2026,239879,92,False
+442,Eastchester-Dyre Av (5),summer 2025,183412,92,False
+442,Eastchester-Dyre Av (5),summer 2026,232885,92,False
+442,Eastchester-Dyre Av (5),winter 2024-25,124915,59,True
+442,Eastchester-Dyre Av (5),winter 2025-26,207383,90,False
+443,Baychester Av (5),fall 2025,146094,91,False
+443,Baychester Av (5),fall 2026,80052,44,True
+443,Baychester Av (5),spring 2025,153570,92,False
+443,Baychester Av (5),spring 2026,167011,92,False
+443,Baychester Av (5),summer 2025,117953,92,False
+443,Baychester Av (5),summer 2026,149615,92,False
+443,Baychester Av (5),winter 2024-25,91389,59,True
+443,Baychester Av (5),winter 2025-26,137566,90,False
+444,Gun Hill Rd (5),fall 2025,215668,91,False
+444,Gun Hill Rd (5),fall 2026,101507,44,True
+444,Gun Hill Rd (5),spring 2025,237314,92,False
+444,Gun Hill Rd (5),spring 2026,226797,92,False
+444,Gun Hill Rd (5),summer 2025,199973,92,False
+444,Gun Hill Rd (5),summer 2026,215427,92,False
+444,Gun Hill Rd (5),winter 2024-25,138119,59,True
+444,Gun Hill Rd (5),winter 2025-26,200449,90,False
+445,Pelham Pkwy (5),fall 2025,164585,91,False
+445,Pelham Pkwy (5),fall 2026,86388,44,True
+445,Pelham Pkwy (5),spring 2025,167203,92,False
+445,Pelham Pkwy (5),spring 2026,175513,92,False
+445,Pelham Pkwy (5),summer 2025,132048,92,False
+445,Pelham Pkwy (5),summer 2026,162322,92,False
+445,Pelham Pkwy (5),winter 2024-25,98544,59,True
+445,Pelham Pkwy (5),winter 2025-26,151054,90,False
+446,Morris Park (5),fall 2025,146839,91,False
+446,Morris Park (5),fall 2026,73535,44,True
+446,Morris Park (5),spring 2025,153902,92,False
+446,Morris Park (5),spring 2026,152973,92,False
+446,Morris Park (5),summer 2025,119065,92,False
+446,Morris Park (5),summer 2026,145449,92,False
+446,Morris Park (5),winter 2024-25,89545,59,True
+446,Morris Park (5),winter 2025-26,137465,90,False
+447,Flushing-Main St (7),fall 2025,3489467,91,False
+447,Flushing-Main St (7),fall 2026,1906044,44,True
+447,Flushing-Main St (7),spring 2025,3967030,92,False
+447,Flushing-Main St (7),spring 2026,3929856,92,False
+447,Flushing-Main St (7),summer 2025,4004864,92,False
+447,Flushing-Main St (7),summer 2026,3894990,92,False
+447,Flushing-Main St (7),winter 2024-25,2286887,59,True
+447,Flushing-Main St (7),winter 2025-26,3502686,90,False
+448,Mets-Willets Point (7),fall 2025,720577,91,False
+448,Mets-Willets Point (7),fall 2026,530457,44,True
+448,Mets-Willets Point (7),spring 2025,468973,92,False
+448,Mets-Willets Point (7),spring 2026,507559,92,False
+448,Mets-Willets Point (7),summer 2025,1158831,92,False
+448,Mets-Willets Point (7),summer 2026,994062,92,False
+448,Mets-Willets Point (7),winter 2024-25,99601,59,True
+448,Mets-Willets Point (7),winter 2025-26,166371,90,False
+449,111 St (7),fall 2025,955187,91,False
+449,111 St (7),fall 2026,471844,44,True
+449,111 St (7),spring 2025,819633,92,False
+449,111 St (7),spring 2026,990610,92,False
+449,111 St (7),summer 2025,921317,92,False
+449,111 St (7),summer 2026,988208,92,False
+449,111 St (7),winter 2024-25,445944,59,True
+449,111 St (7),winter 2025-26,869510,90,False
+45,Beverley Rd (Q),fall 2025,223071,91,False
+45,Beverley Rd (Q),fall 2026,110586,44,True
+45,Beverley Rd (Q),spring 2025,246026,92,False
+45,Beverley Rd (Q),spring 2026,224694,92,False
+45,Beverley Rd (Q),summer 2025,221771,92,False
+45,Beverley Rd (Q),summer 2026,227839,92,False
+45,Beverley Rd (Q),winter 2024-25,209263,59,True
+45,Beverley Rd (Q),winter 2025-26,210559,90,False
+450,103 St-Corona Plaza (7),fall 2025,1304136,91,False
+450,103 St-Corona Plaza (7),fall 2026,614812,44,True
+450,103 St-Corona Plaza (7),spring 2025,1563100,92,False
+450,103 St-Corona Plaza (7),spring 2026,1269605,92,False
+450,103 St-Corona Plaza (7),summer 2025,1311907,92,False
+450,103 St-Corona Plaza (7),summer 2026,1195320,92,False
+450,103 St-Corona Plaza (7),winter 2024-25,985139,59,True
+450,103 St-Corona Plaza (7),winter 2025-26,1174652,90,False
+451,Junction Blvd (7),fall 2025,1687005,91,False
+451,Junction Blvd (7),fall 2026,774267,44,True
+451,Junction Blvd (7),spring 2025,1756712,92,False
+451,Junction Blvd (7),spring 2026,1696203,92,False
+451,Junction Blvd (7),summer 2025,1701229,92,False
+451,Junction Blvd (7),summer 2026,1615854,92,False
+451,Junction Blvd (7),winter 2024-25,1011953,59,True
+451,Junction Blvd (7),winter 2025-26,1582688,90,False
+452,90 St-Elmhurst Av (7),fall 2025,1183408,91,False
+452,90 St-Elmhurst Av (7),fall 2026,549985,44,True
+452,90 St-Elmhurst Av (7),spring 2025,1231133,92,False
+452,90 St-Elmhurst Av (7),spring 2026,1145654,92,False
+452,90 St-Elmhurst Av (7),summer 2025,1177410,92,False
+452,90 St-Elmhurst Av (7),summer 2026,1103574,92,False
+452,90 St-Elmhurst Av (7),winter 2024-25,761200,59,True
+452,90 St-Elmhurst Av (7),winter 2025-26,1050450,90,False
+453,82 St-Jackson Hts (7),fall 2025,975454,91,False
+453,82 St-Jackson Hts (7),fall 2026,466221,44,True
+453,82 St-Jackson Hts (7),spring 2025,945053,92,False
+453,82 St-Jackson Hts (7),spring 2026,963944,92,False
+453,82 St-Jackson Hts (7),summer 2025,950458,92,False
+453,82 St-Jackson Hts (7),summer 2026,971862,92,False
+453,82 St-Jackson Hts (7),winter 2024-25,487827,59,True
+453,82 St-Jackson Hts (7),winter 2025-26,869386,90,False
+455,69 St (7),fall 2025,186746,91,False
+455,69 St (7),fall 2026,82221,44,True
+455,69 St (7),spring 2025,412326,92,False
+455,69 St (7),spring 2026,169052,92,False
+455,69 St (7),summer 2025,257049,92,False
+455,69 St (7),summer 2026,161078,92,False
+455,69 St (7),winter 2024-25,236003,59,True
+455,69 St (7),winter 2025-26,167435,90,False
+456,61 St-Woodside (7),fall 2025,1108924,91,False
+456,61 St-Woodside (7),fall 2026,518741,44,True
+456,61 St-Woodside (7),spring 2025,1040363,92,False
+456,61 St-Woodside (7),spring 2026,1092287,92,False
+456,61 St-Woodside (7),summer 2025,1057521,92,False
+456,61 St-Woodside (7),summer 2026,1057323,92,False
+456,61 St-Woodside (7),winter 2024-25,605017,59,True
+456,61 St-Woodside (7),winter 2025-26,1010631,90,False
+457,52 St (7),fall 2025,208879,91,False
+457,52 St (7),fall 2026,143702,44,True
+457,52 St (7),spring 2025,452351,92,False
+457,52 St (7),spring 2026,219256,92,False
+457,52 St (7),summer 2025,265829,92,False
+457,52 St (7),summer 2026,285270,92,False
+457,52 St (7),winter 2024-25,262339,59,True
+457,52 St (7),winter 2025-26,190868,90,False
+458,46 St-Bliss St (7),fall 2025,936211,91,False
+458,46 St-Bliss St (7),fall 2026,426786,44,True
+458,46 St-Bliss St (7),spring 2025,850770,92,False
+458,46 St-Bliss St (7),spring 2026,862454,92,False
+458,46 St-Bliss St (7),summer 2025,875005,92,False
+458,46 St-Bliss St (7),summer 2026,851696,92,False
+458,46 St-Bliss St (7),winter 2024-25,490754,59,True
+458,46 St-Bliss St (7),winter 2025-26,879292,90,False
+459,40 St-Lowery St (7),fall 2025,649969,91,False
+459,40 St-Lowery St (7),fall 2026,318224,44,True
+459,40 St-Lowery St (7),spring 2025,654254,92,False
+459,40 St-Lowery St (7),spring 2026,706401,92,False
+459,40 St-Lowery St (7),summer 2025,581440,92,False
+459,40 St-Lowery St (7),summer 2026,608790,92,False
+459,40 St-Lowery St (7),winter 2024-25,376836,59,True
+459,40 St-Lowery St (7),winter 2025-26,604777,90,False
+46,Cortelyou Rd (Q),fall 2025,363113,91,False
+46,Cortelyou Rd (Q),fall 2026,175366,44,True
+46,Cortelyou Rd (Q),spring 2025,393965,92,False
+46,Cortelyou Rd (Q),spring 2026,369840,92,False
+46,Cortelyou Rd (Q),summer 2025,370406,92,False
+46,Cortelyou Rd (Q),summer 2026,367693,92,False
+46,Cortelyou Rd (Q),winter 2024-25,230772,59,True
+46,Cortelyou Rd (Q),winter 2025-26,344331,90,False
+460,33 St-Rawson St (7),fall 2025,614376,91,False
+460,33 St-Rawson St (7),fall 2026,282705,44,True
+460,33 St-Rawson St (7),spring 2025,653292,92,False
+460,33 St-Rawson St (7),spring 2026,563749,92,False
+460,33 St-Rawson St (7),summer 2025,458542,92,False
+460,33 St-Rawson St (7),summer 2026,445092,92,False
+460,33 St-Rawson St (7),winter 2024-25,336937,59,True
+460,33 St-Rawson St (7),winter 2025-26,486877,90,False
+461,"Queensboro Plaza (7,N,W)",fall 2025,940638,91,False
+461,"Queensboro Plaza (7,N,W)",fall 2026,486909,44,True
+461,"Queensboro Plaza (7,N,W)",spring 2025,905142,92,False
+461,"Queensboro Plaza (7,N,W)",spring 2026,965220,92,False
+461,"Queensboro Plaza (7,N,W)",summer 2025,912807,92,False
+461,"Queensboro Plaza (7,N,W)",summer 2026,953353,92,False
+461,"Queensboro Plaza (7,N,W)",winter 2024-25,518416,59,True
+461,"Queensboro Plaza (7,N,W)",winter 2025-26,817773,90,False
+463,Hunters Point Av (7),fall 2025,261297,91,False
+463,Hunters Point Av (7),fall 2026,126339,44,True
+463,Hunters Point Av (7),spring 2025,291327,92,False
+463,Hunters Point Av (7),spring 2026,253059,92,False
+463,Hunters Point Av (7),summer 2025,271561,92,False
+463,Hunters Point Av (7),summer 2026,252440,92,False
+463,Hunters Point Av (7),winter 2024-25,168582,59,True
+463,Hunters Point Av (7),winter 2025-26,233193,90,False
+464,Vernon Blvd-Jackson Av (7),fall 2025,1164663,91,False
+464,Vernon Blvd-Jackson Av (7),fall 2026,612381,44,True
+464,Vernon Blvd-Jackson Av (7),spring 2025,1080142,92,False
+464,Vernon Blvd-Jackson Av (7),spring 2026,1236273,92,False
+464,Vernon Blvd-Jackson Av (7),summer 2025,1112749,92,False
+464,Vernon Blvd-Jackson Av (7),summer 2026,1243403,92,False
+464,Vernon Blvd-Jackson Av (7),winter 2024-25,582349,59,True
+464,Vernon Blvd-Jackson Av (7),winter 2025-26,1066493,90,False
+47,"Newkirk Plaza (B,Q)",fall 2025,591632,91,False
+47,"Newkirk Plaza (B,Q)",fall 2026,287084,44,True
+47,"Newkirk Plaza (B,Q)",spring 2025,593370,92,False
+47,"Newkirk Plaza (B,Q)",spring 2026,611372,92,False
+47,"Newkirk Plaza (B,Q)",summer 2025,572761,92,False
+47,"Newkirk Plaza (B,Q)",summer 2026,579837,92,False
+47,"Newkirk Plaza (B,Q)",winter 2024-25,323264,59,True
+47,"Newkirk Plaza (B,Q)",winter 2025-26,538833,90,False
+471,34 St-Hudson Yards (7),fall 2025,1806671,91,False
+471,34 St-Hudson Yards (7),fall 2026,953705,44,True
+471,34 St-Hudson Yards (7),spring 2025,1629584,92,False
+471,34 St-Hudson Yards (7),spring 2026,1814334,92,False
+471,34 St-Hudson Yards (7),summer 2025,1747374,92,False
+471,34 St-Hudson Yards (7),summer 2026,1967989,92,False
+471,34 St-Hudson Yards (7),winter 2024-25,913340,59,True
+471,34 St-Hudson Yards (7),winter 2025-26,1707096,90,False
+475,96 St (Q),fall 2025,1176485,91,False
+475,96 St (Q),fall 2026,552130,44,True
+475,96 St (Q),spring 2025,1165907,92,False
+475,96 St (Q),spring 2026,1156171,92,False
+475,96 St (Q),summer 2025,1085499,92,False
+475,96 St (Q),summer 2026,1082346,92,False
+475,96 St (Q),winter 2024-25,707398,59,True
+475,96 St (Q),winter 2025-26,1064630,90,False
+476,86 St (Q),fall 2025,1658743,91,False
+476,86 St (Q),fall 2026,803780,44,True
+476,86 St (Q),spring 2025,1656867,92,False
+476,86 St (Q),spring 2026,1697315,92,False
+476,86 St (Q),summer 2025,1568660,92,False
+476,86 St (Q),summer 2026,1586689,92,False
+476,86 St (Q),winter 2024-25,994608,59,True
+476,86 St (Q),winter 2025-26,1554150,90,False
+477,72 St (Q),fall 2025,1957449,91,False
+477,72 St (Q),fall 2026,928398,44,True
+477,72 St (Q),spring 2025,1987749,92,False
+477,72 St (Q),spring 2026,1956431,92,False
+477,72 St (Q),summer 2025,1818618,92,False
+477,72 St (Q),summer 2026,1841804,92,False
+477,72 St (Q),winter 2024-25,1221610,59,True
+477,72 St (Q),winter 2025-26,1799242,90,False
+48,Avenue H (Q),fall 2025,192595,91,False
+48,Avenue H (Q),fall 2026,83760,44,True
+48,Avenue H (Q),spring 2025,205042,92,False
+48,Avenue H (Q),spring 2026,194062,92,False
+48,Avenue H (Q),summer 2025,168089,92,False
+48,Avenue H (Q),summer 2026,167213,92,False
+48,Avenue H (Q),winter 2024-25,122354,59,True
+48,Avenue H (Q),winter 2025-26,175720,90,False
+49,Avenue J (Q),fall 2025,312949,91,False
+49,Avenue J (Q),fall 2026,154120,44,True
+49,Avenue J (Q),spring 2025,343903,92,False
+49,Avenue J (Q),spring 2026,318875,92,False
+49,Avenue J (Q),summer 2025,303163,92,False
+49,Avenue J (Q),summer 2026,299674,92,False
+49,Avenue J (Q),winter 2024-25,197410,59,True
+49,Avenue J (Q),winter 2025-26,300437,90,False
+5,"36 Av (N,W)",fall 2025,430503,91,False
+5,"36 Av (N,W)",fall 2026,204751,44,True
+5,"36 Av (N,W)",spring 2025,420037,92,False
+5,"36 Av (N,W)",spring 2026,438036,92,False
+5,"36 Av (N,W)",summer 2025,384211,92,False
+5,"36 Av (N,W)",summer 2026,408128,92,False
+5,"36 Av (N,W)",winter 2024-25,255508,59,True
+5,"36 Av (N,W)",winter 2025-26,396084,90,False
+50,Avenue M (Q),fall 2025,333475,91,False
+50,Avenue M (Q),fall 2026,159674,44,True
+50,Avenue M (Q),spring 2025,366770,92,False
+50,Avenue M (Q),spring 2026,342060,92,False
+50,Avenue M (Q),summer 2025,311307,92,False
+50,Avenue M (Q),summer 2026,304669,92,False
+50,Avenue M (Q),winter 2024-25,208475,59,True
+50,Avenue M (Q),winter 2025-26,320201,90,False
+501,St George (SIR),fall 2026,2,44,True
+501,St George (SIR),summer 2026,1,92,False
+51,"Kings Hwy (B,Q)",fall 2025,1151002,91,False
+51,"Kings Hwy (B,Q)",fall 2026,545446,44,True
+51,"Kings Hwy (B,Q)",spring 2025,1203676,92,False
+51,"Kings Hwy (B,Q)",spring 2026,1148462,92,False
+51,"Kings Hwy (B,Q)",summer 2025,1109287,92,False
+51,"Kings Hwy (B,Q)",summer 2026,1097532,92,False
+51,"Kings Hwy (B,Q)",winter 2024-25,665850,59,True
+51,"Kings Hwy (B,Q)",winter 2025-26,1061822,90,False
+52,Avenue U (Q),fall 2025,384867,91,False
+52,Avenue U (Q),fall 2026,193569,44,True
+52,Avenue U (Q),spring 2025,412770,92,False
+52,Avenue U (Q),spring 2026,410727,92,False
+52,Avenue U (Q),summer 2025,409049,92,False
+52,Avenue U (Q),summer 2026,403496,92,False
+52,Avenue U (Q),winter 2024-25,251900,59,True
+52,Avenue U (Q),winter 2025-26,370398,90,False
+53,Neck Rd (Q),fall 2025,254526,91,False
+53,Neck Rd (Q),fall 2026,124857,44,True
+53,Neck Rd (Q),spring 2025,264765,92,False
+53,Neck Rd (Q),spring 2026,269765,92,False
+53,Neck Rd (Q),summer 2025,257771,92,False
+53,Neck Rd (Q),summer 2026,254180,92,False
+53,Neck Rd (Q),winter 2024-25,162118,59,True
+53,Neck Rd (Q),winter 2025-26,241367,90,False
+54,"Sheepshead Bay (B,Q)",fall 2025,692472,91,False
+54,"Sheepshead Bay (B,Q)",fall 2026,351507,44,True
+54,"Sheepshead Bay (B,Q)",spring 2025,737058,92,False
+54,"Sheepshead Bay (B,Q)",spring 2026,741581,92,False
+54,"Sheepshead Bay (B,Q)",summer 2025,715200,92,False
+54,"Sheepshead Bay (B,Q)",summer 2026,724342,92,False
+54,"Sheepshead Bay (B,Q)",winter 2024-25,447206,59,True
+54,"Sheepshead Bay (B,Q)",winter 2025-26,648018,90,False
+55,"Brighton Beach (B,Q)",fall 2025,629398,91,False
+55,"Brighton Beach (B,Q)",fall 2026,323400,44,True
+55,"Brighton Beach (B,Q)",spring 2025,628466,92,False
+55,"Brighton Beach (B,Q)",spring 2026,682822,92,False
+55,"Brighton Beach (B,Q)",summer 2025,699073,92,False
+55,"Brighton Beach (B,Q)",summer 2026,722702,92,False
+55,"Brighton Beach (B,Q)",winter 2024-25,371963,59,True
+55,"Brighton Beach (B,Q)",winter 2025-26,573581,90,False
+56,Ocean Pkwy (Q),fall 2025,167553,91,False
+56,Ocean Pkwy (Q),fall 2026,80356,44,True
+56,Ocean Pkwy (Q),spring 2025,178235,92,False
+56,Ocean Pkwy (Q),spring 2026,167979,92,False
+56,Ocean Pkwy (Q),summer 2025,196945,92,False
+56,Ocean Pkwy (Q),summer 2026,180721,92,False
+56,Ocean Pkwy (Q),winter 2024-25,107364,59,True
+56,Ocean Pkwy (Q),winter 2025-26,146015,90,False
+57,"W 8 St-NY Aquarium (F,Q)",fall 2025,154019,91,False
+57,"W 8 St-NY Aquarium (F,Q)",fall 2026,80865,44,True
+57,"W 8 St-NY Aquarium (F,Q)",spring 2025,160611,92,False
+57,"W 8 St-NY Aquarium (F,Q)",spring 2026,160748,92,False
+57,"W 8 St-NY Aquarium (F,Q)",summer 2025,260175,92,False
+57,"W 8 St-NY Aquarium (F,Q)",summer 2026,243211,92,False
+57,"W 8 St-NY Aquarium (F,Q)",winter 2024-25,76300,59,True
+57,"W 8 St-NY Aquarium (F,Q)",winter 2025-26,117729,90,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",fall 2025,853927,91,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",fall 2026,438174,44,True
+58,"Coney Island-Stillwell Av (D,F,N,Q)",spring 2025,945815,92,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",spring 2026,924054,92,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",summer 2025,1226893,92,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",summer 2026,1125456,92,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",winter 2024-25,469121,59,True
+58,"Coney Island-Stillwell Av (D,F,N,Q)",winter 2025-26,706386,90,False
+59,9 Av (D),fall 2025,366030,91,False
+59,9 Av (D),fall 2026,171388,44,True
+59,9 Av (D),spring 2025,365583,92,False
+59,9 Av (D),spring 2026,373763,92,False
+59,9 Av (D),summer 2025,329670,92,False
+59,9 Av (D),summer 2026,328940,92,False
+59,9 Av (D),winter 2024-25,215392,59,True
+59,9 Av (D),winter 2025-26,344803,90,False
+6,"39 Av-Dutch Kills (N,W)",fall 2025,260233,91,False
+6,"39 Av-Dutch Kills (N,W)",fall 2026,121374,44,True
+6,"39 Av-Dutch Kills (N,W)",spring 2025,248196,92,False
+6,"39 Av-Dutch Kills (N,W)",spring 2026,250165,92,False
+6,"39 Av-Dutch Kills (N,W)",summer 2025,235834,92,False
+6,"39 Av-Dutch Kills (N,W)",summer 2026,238723,92,False
+6,"39 Av-Dutch Kills (N,W)",winter 2024-25,136071,59,True
+6,"39 Av-Dutch Kills (N,W)",winter 2025-26,235763,90,False
+60,Fort Hamilton Pkwy (D),fall 2025,261636,91,False
+60,Fort Hamilton Pkwy (D),fall 2026,130653,44,True
+60,Fort Hamilton Pkwy (D),spring 2025,273963,92,False
+60,Fort Hamilton Pkwy (D),spring 2026,280731,92,False
+60,Fort Hamilton Pkwy (D),summer 2025,231549,92,False
+60,Fort Hamilton Pkwy (D),summer 2026,245908,92,False
+60,Fort Hamilton Pkwy (D),winter 2024-25,158873,59,True
+60,Fort Hamilton Pkwy (D),winter 2025-26,261052,90,False
+601,"14 St/6 Av (1,2,3,L,F,M)",fall 2025,3127861,91,False
+601,"14 St/6 Av (1,2,3,L,F,M)",fall 2026,1629302,44,True
+601,"14 St/6 Av (1,2,3,L,F,M)",spring 2025,2971444,92,False
+601,"14 St/6 Av (1,2,3,L,F,M)",spring 2026,3203841,92,False
+601,"14 St/6 Av (1,2,3,L,F,M)",summer 2025,2742393,92,False
+601,"14 St/6 Av (1,2,3,L,F,M)",summer 2026,2993471,92,False
+601,"14 St/6 Av (1,2,3,L,F,M)",winter 2024-25,1695773,59,True
+601,"14 St/6 Av (1,2,3,L,F,M)",winter 2025-26,2736929,90,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",fall 2025,6538480,91,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",fall 2026,3200534,44,True
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",spring 2025,6306570,92,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",spring 2026,6473893,92,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",summer 2025,5888542,92,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",summer 2026,6140391,92,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",winter 2024-25,3643691,59,True
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",winter 2025-26,5763376,90,False
+603,"149 St-Grand Concourse (2,4,5)",fall 2025,690063,91,False
+603,"149 St-Grand Concourse (2,4,5)",fall 2026,374306,44,True
+603,"149 St-Grand Concourse (2,4,5)",spring 2025,678360,92,False
+603,"149 St-Grand Concourse (2,4,5)",spring 2026,653954,92,False
+603,"149 St-Grand Concourse (2,4,5)",summer 2025,598012,92,False
+603,"149 St-Grand Concourse (2,4,5)",summer 2026,609639,92,False
+603,"149 St-Grand Concourse (2,4,5)",winter 2024-25,421506,59,True
+603,"149 St-Grand Concourse (2,4,5)",winter 2025-26,593826,90,False
+604,"161 St-Yankee Stadium (4,B,D)",fall 2025,1448819,91,False
+604,"161 St-Yankee Stadium (4,B,D)",fall 2026,769205,44,True
+604,"161 St-Yankee Stadium (4,B,D)",spring 2025,1783572,92,False
+604,"161 St-Yankee Stadium (4,B,D)",spring 2026,1643877,92,False
+604,"161 St-Yankee Stadium (4,B,D)",summer 2025,1831338,92,False
+604,"161 St-Yankee Stadium (4,B,D)",summer 2026,1851378,92,False
+604,"161 St-Yankee Stadium (4,B,D)",winter 2024-25,867832,59,True
+604,"161 St-Yankee Stadium (4,B,D)",winter 2025-26,1079272,90,False
+605,"168 St-Washington Hts (1,A,C)",fall 2025,1369296,91,False
+605,"168 St-Washington Hts (1,A,C)",fall 2026,661056,44,True
+605,"168 St-Washington Hts (1,A,C)",spring 2025,1413437,92,False
+605,"168 St-Washington Hts (1,A,C)",spring 2026,1381933,92,False
+605,"168 St-Washington Hts (1,A,C)",summer 2025,1351835,92,False
+605,"168 St-Washington Hts (1,A,C)",summer 2026,1301563,92,False
+605,"168 St-Washington Hts (1,A,C)",winter 2024-25,880593,59,True
+605,"168 St-Washington Hts (1,A,C)",winter 2025-26,1264876,90,False
+606,"Court Sq-23 St (7,E,F,G)",fall 2025,1726049,91,False
+606,"Court Sq-23 St (7,E,F,G)",fall 2026,918709,44,True
+606,"Court Sq-23 St (7,E,F,G)",spring 2025,1645835,92,False
+606,"Court Sq-23 St (7,E,F,G)",spring 2026,1862482,92,False
+606,"Court Sq-23 St (7,E,F,G)",summer 2025,1572391,92,False
+606,"Court Sq-23 St (7,E,F,G)",summer 2026,1791133,92,False
+606,"Court Sq-23 St (7,E,F,G)",winter 2024-25,973374,59,True
+606,"Court Sq-23 St (7,E,F,G)",winter 2025-26,1512247,90,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",fall 2025,6712476,91,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",fall 2026,3364974,44,True
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",spring 2025,6777176,92,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",spring 2026,6858028,92,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",summer 2025,6663366,92,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",summer 2026,6923353,92,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",winter 2024-25,3847762,59,True
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",winter 2025-26,6368375,90,False
+608,"4 Av-9 St (F,G,R)",fall 2025,833448,91,False
+608,"4 Av-9 St (F,G,R)",fall 2026,413125,44,True
+608,"4 Av-9 St (F,G,R)",spring 2025,815957,92,False
+608,"4 Av-9 St (F,G,R)",spring 2026,865720,92,False
+608,"4 Av-9 St (F,G,R)",summer 2025,750131,92,False
+608,"4 Av-9 St (F,G,R)",summer 2026,811429,92,False
+608,"4 Av-9 St (F,G,R)",winter 2024-25,498819,59,True
+608,"4 Av-9 St (F,G,R)",winter 2025-26,779890,90,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",fall 2025,3460661,91,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",fall 2026,1706291,44,True
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",spring 2025,3204307,92,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",spring 2026,3421976,92,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",summer 2025,3304880,92,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",summer 2026,3579559,92,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",winter 2024-25,1803525,59,True
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",winter 2025-26,3245132,90,False
+61,50 St (D),fall 2025,195951,91,False
+61,50 St (D),fall 2026,94002,44,True
+61,50 St (D),spring 2025,209782,92,False
+61,50 St (D),spring 2026,213368,92,False
+61,50 St (D),summer 2025,176370,92,False
+61,50 St (D),summer 2026,191541,92,False
+61,50 St (D),winter 2024-25,127051,59,True
+61,50 St (D),winter 2025-26,200760,90,False
+610,"Grand Central-42 St (4,5,6,7,S)",fall 2025,9452914,91,False
+610,"Grand Central-42 St (4,5,6,7,S)",fall 2026,4749236,44,True
+610,"Grand Central-42 St (4,5,6,7,S)",spring 2025,9190914,92,False
+610,"Grand Central-42 St (4,5,6,7,S)",spring 2026,9536343,92,False
+610,"Grand Central-42 St (4,5,6,7,S)",summer 2025,9063193,92,False
+610,"Grand Central-42 St (4,5,6,7,S)",summer 2026,9688974,92,False
+610,"Grand Central-42 St (4,5,6,7,S)",winter 2024-25,5424815,59,True
+610,"Grand Central-42 St (4,5,6,7,S)",winter 2025-26,8751063,90,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",fall 2025,12203225,91,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",fall 2026,6086172,44,True
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",spring 2025,12487066,92,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",spring 2026,12491237,92,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",summer 2025,12332889,92,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",summer 2026,12681527,92,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",winter 2024-25,7211179,59,True
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",winter 2025-26,11326497,90,False
+612,"Lexington Av/51-53 Sts (6,E,F)",fall 2025,3438055,91,False
+612,"Lexington Av/51-53 Sts (6,E,F)",fall 2026,1898764,44,True
+612,"Lexington Av/51-53 Sts (6,E,F)",spring 2025,3410964,92,False
+612,"Lexington Av/51-53 Sts (6,E,F)",spring 2026,3771534,92,False
+612,"Lexington Av/51-53 Sts (6,E,F)",summer 2025,3252983,92,False
+612,"Lexington Av/51-53 Sts (6,E,F)",summer 2026,3723621,92,False
+612,"Lexington Av/51-53 Sts (6,E,F)",winter 2024-25,2057029,59,True
+612,"Lexington Av/51-53 Sts (6,E,F)",winter 2025-26,3445388,90,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",fall 2025,3148342,91,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",fall 2026,1457176,44,True
+613,"Lexington Av/59 St (4,5,6,N,R,W)",spring 2025,3107227,92,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",spring 2026,3114611,92,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",summer 2025,2925742,92,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",summer 2026,2979809,92,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",winter 2024-25,1857575,59,True
+613,"Lexington Av/59 St (4,5,6,N,R,W)",winter 2025-26,2894201,90,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",fall 2025,4665129,91,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",fall 2026,2303822,44,True
+614,"59 St-Columbus Circle (1,A,C,B,D)",spring 2025,4567399,92,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",spring 2026,4651357,92,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",summer 2025,4083492,92,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",summer 2026,4218796,92,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",winter 2024-25,2563514,59,True
+614,"59 St-Columbus Circle (1,A,C,B,D)",winter 2025-26,4141471,90,False
+615,"62 St/New Utrecht Av (D,N)",fall 2025,301350,91,False
+615,"62 St/New Utrecht Av (D,N)",fall 2026,151860,44,True
+615,"62 St/New Utrecht Av (D,N)",spring 2025,312613,92,False
+615,"62 St/New Utrecht Av (D,N)",spring 2026,312564,92,False
+615,"62 St/New Utrecht Av (D,N)",summer 2025,311686,92,False
+615,"62 St/New Utrecht Av (D,N)",summer 2026,309679,92,False
+615,"62 St/New Utrecht Av (D,N)",winter 2024-25,191725,59,True
+615,"62 St/New Utrecht Av (D,N)",winter 2025-26,288644,90,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",fall 2025,3831406,91,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",fall 2026,1868259,44,True
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",spring 2025,3795236,92,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",spring 2026,3973284,92,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",summer 2025,3771211,92,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",summer 2026,3869773,92,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",winter 2024-25,2246628,59,True
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",winter 2025-26,3478677,90,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",fall 2025,2886815,91,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",fall 2026,1442589,44,True
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",spring 2025,2953327,92,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",spring 2026,2970030,92,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",summer 2025,2653612,92,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",summer 2026,2832911,92,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",winter 2024-25,1729100,59,True
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",winter 2025-26,2654887,90,False
+618,"14 St/8 Av (A,C,E,L)",fall 2025,3161204,91,False
+618,"14 St/8 Av (A,C,E,L)",fall 2026,1584766,44,True
+618,"14 St/8 Av (A,C,E,L)",spring 2025,3150359,92,False
+618,"14 St/8 Av (A,C,E,L)",spring 2026,3243103,92,False
+618,"14 St/8 Av (A,C,E,L)",summer 2025,3052611,92,False
+618,"14 St/8 Av (A,C,E,L)",summer 2026,3252939,92,False
+618,"14 St/8 Av (A,C,E,L)",winter 2024-25,1764726,59,True
+618,"14 St/8 Av (A,C,E,L)",winter 2025-26,2848187,90,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",fall 2025,2826036,91,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",fall 2026,1456165,44,True
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",spring 2025,2789195,92,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",spring 2026,2938221,92,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",summer 2025,2659521,92,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",summer 2026,2817851,92,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",winter 2024-25,1574090,59,True
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",winter 2025-26,2622863,90,False
+62,55 St (D),fall 2025,106167,91,False
+62,55 St (D),fall 2026,55006,44,True
+62,55 St (D),spring 2025,116876,92,False
+62,55 St (D),spring 2026,120957,92,False
+62,55 St (D),summer 2025,92677,92,False
+62,55 St (D),summer 2026,105243,92,False
+62,55 St (D),winter 2024-25,70921,59,True
+62,55 St (D),winter 2025-26,109512,90,False
+620,"Borough Hall/Court St (2,3,4,5,R)",fall 2025,1678040,91,False
+620,"Borough Hall/Court St (2,3,4,5,R)",fall 2026,876389,44,True
+620,"Borough Hall/Court St (2,3,4,5,R)",spring 2025,1746463,92,False
+620,"Borough Hall/Court St (2,3,4,5,R)",spring 2026,1757500,92,False
+620,"Borough Hall/Court St (2,3,4,5,R)",summer 2025,1556215,92,False
+620,"Borough Hall/Court St (2,3,4,5,R)",summer 2026,1655724,92,False
+620,"Borough Hall/Court St (2,3,4,5,R)",winter 2024-25,1029419,59,True
+620,"Borough Hall/Court St (2,3,4,5,R)",winter 2025-26,1556716,90,False
+621,"Broadway Junction (A,C,J,Z,L)",fall 2025,552529,91,False
+621,"Broadway Junction (A,C,J,Z,L)",fall 2026,272649,44,True
+621,"Broadway Junction (A,C,J,Z,L)",spring 2025,496716,92,False
+621,"Broadway Junction (A,C,J,Z,L)",spring 2026,568279,92,False
+621,"Broadway Junction (A,C,J,Z,L)",summer 2025,508483,92,False
+621,"Broadway Junction (A,C,J,Z,L)",summer 2026,594334,92,False
+621,"Broadway Junction (A,C,J,Z,L)",winter 2024-25,287359,59,True
+621,"Broadway Junction (A,C,J,Z,L)",winter 2025-26,476261,90,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",fall 2025,1629176,91,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",fall 2026,814802,44,True
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",spring 2025,1659694,92,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",spring 2026,1650406,92,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",summer 2025,1558782,92,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",summer 2026,1620614,92,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",winter 2024-25,918827,59,True
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",winter 2025-26,1458925,90,False
+623,"Canal St (6,J,Z,N,Q,R,W)",fall 2025,3184560,91,False
+623,"Canal St (6,J,Z,N,Q,R,W)",fall 2026,1583671,44,True
+623,"Canal St (6,J,Z,N,Q,R,W)",spring 2025,2977611,92,False
+623,"Canal St (6,J,Z,N,Q,R,W)",spring 2026,3172912,92,False
+623,"Canal St (6,J,Z,N,Q,R,W)",summer 2025,3164045,92,False
+623,"Canal St (6,J,Z,N,Q,R,W)",summer 2026,3197792,92,False
+623,"Canal St (6,J,Z,N,Q,R,W)",winter 2024-25,1706902,59,True
+623,"Canal St (6,J,Z,N,Q,R,W)",winter 2025-26,2966564,90,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",fall 2025,3646407,91,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",fall 2026,1887037,44,True
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",spring 2025,3630645,92,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",spring 2026,3752343,92,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",summer 2025,3558374,92,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",summer 2026,3781706,92,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",winter 2024-25,2053573,59,True
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",winter 2025-26,3334804,90,False
+625,"Delancey St-Essex St (F,M,J,Z)",fall 2025,2067422,91,False
+625,"Delancey St-Essex St (F,M,J,Z)",fall 2026,1061118,44,True
+625,"Delancey St-Essex St (F,M,J,Z)",spring 2025,2020431,92,False
+625,"Delancey St-Essex St (F,M,J,Z)",spring 2026,2208423,92,False
+625,"Delancey St-Essex St (F,M,J,Z)",summer 2025,1882455,92,False
+625,"Delancey St-Essex St (F,M,J,Z)",summer 2026,2069517,92,False
+625,"Delancey St-Essex St (F,M,J,Z)",winter 2024-25,1197492,59,True
+625,"Delancey St-Essex St (F,M,J,Z)",winter 2025-26,1958463,90,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",fall 2025,1047806,91,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",fall 2026,498444,44,True
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",spring 2025,951979,92,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",spring 2026,992986,92,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",summer 2025,861739,92,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",summer 2026,908597,92,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",winter 2024-25,569844,59,True
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",winter 2025-26,896089,90,False
+627,"Franklin Av (C,S)",fall 2025,344784,91,False
+627,"Franklin Av (C,S)",fall 2026,184562,44,True
+627,"Franklin Av (C,S)",spring 2025,361887,92,False
+627,"Franklin Av (C,S)",spring 2026,373638,92,False
+627,"Franklin Av (C,S)",summer 2025,333782,92,False
+627,"Franklin Av (C,S)",summer 2026,359672,92,False
+627,"Franklin Av (C,S)",winter 2024-25,215557,59,True
+627,"Franklin Av (C,S)",winter 2025-26,326549,90,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",fall 2025,5396826,91,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",fall 2026,2611813,44,True
+628,"Fulton St (2,3,4,5,A,C,J,Z)",spring 2025,5247990,92,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",spring 2026,5109112,92,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",summer 2025,5270405,92,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",summer 2026,5297179,92,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",winter 2024-25,2974002,59,True
+628,"Fulton St (2,3,4,5,A,C,J,Z)",winter 2025-26,4784282,90,False
+629,"Metropolitan Av/Lorimer St (G,L)",fall 2025,1235789,91,False
+629,"Metropolitan Av/Lorimer St (G,L)",fall 2026,599951,44,True
+629,"Metropolitan Av/Lorimer St (G,L)",spring 2025,1236891,92,False
+629,"Metropolitan Av/Lorimer St (G,L)",spring 2026,1240356,92,False
+629,"Metropolitan Av/Lorimer St (G,L)",summer 2025,1188985,92,False
+629,"Metropolitan Av/Lorimer St (G,L)",summer 2026,1178241,92,False
+629,"Metropolitan Av/Lorimer St (G,L)",winter 2024-25,717755,59,True
+629,"Metropolitan Av/Lorimer St (G,L)",winter 2025-26,1168079,90,False
+630,"Myrtle-Wyckoff Avs (M,L)",fall 2025,1424842,91,False
+630,"Myrtle-Wyckoff Avs (M,L)",fall 2026,688473,44,True
+630,"Myrtle-Wyckoff Avs (M,L)",spring 2025,1508707,92,False
+630,"Myrtle-Wyckoff Avs (M,L)",spring 2026,1462892,92,False
+630,"Myrtle-Wyckoff Avs (M,L)",summer 2025,1379871,92,False
+630,"Myrtle-Wyckoff Avs (M,L)",summer 2026,1408431,92,False
+630,"Myrtle-Wyckoff Avs (M,L)",winter 2024-25,900128,59,True
+630,"Myrtle-Wyckoff Avs (M,L)",winter 2025-26,1261063,90,False
+635,"Whitehall St-South Ferry (1,R,W)",fall 2025,1727805,91,False
+635,"Whitehall St-South Ferry (1,R,W)",fall 2026,860447,44,True
+635,"Whitehall St-South Ferry (1,R,W)",spring 2025,1781198,92,False
+635,"Whitehall St-South Ferry (1,R,W)",spring 2026,1809985,92,False
+635,"Whitehall St-South Ferry (1,R,W)",summer 2025,1925457,92,False
+635,"Whitehall St-South Ferry (1,R,W)",summer 2026,1914669,92,False
+635,"Whitehall St-South Ferry (1,R,W)",winter 2024-25,939012,59,True
+635,"Whitehall St-South Ferry (1,R,W)",winter 2025-26,1584358,90,False
+636,"Jay St-MetroTech (A,C,F,R)",fall 2025,2307455,91,False
+636,"Jay St-MetroTech (A,C,F,R)",fall 2026,1178897,44,True
+636,"Jay St-MetroTech (A,C,F,R)",spring 2025,2280658,92,False
+636,"Jay St-MetroTech (A,C,F,R)",spring 2026,2289132,92,False
+636,"Jay St-MetroTech (A,C,F,R)",summer 2025,1938579,92,False
+636,"Jay St-MetroTech (A,C,F,R)",summer 2026,2013146,92,False
+636,"Jay St-MetroTech (A,C,F,R)",winter 2024-25,1306534,59,True
+636,"Jay St-MetroTech (A,C,F,R)",winter 2025-26,2029918,90,False
+64,71 St (D),fall 2025,304147,91,False
+64,71 St (D),fall 2026,148686,44,True
+64,71 St (D),spring 2025,300472,92,False
+64,71 St (D),spring 2026,310700,92,False
+64,71 St (D),summer 2025,274304,92,False
+64,71 St (D),summer 2026,277963,92,False
+64,71 St (D),winter 2024-25,182567,59,True
+64,71 St (D),winter 2025-26,284170,90,False
+65,79 St (D),fall 2025,379910,91,False
+65,79 St (D),fall 2026,178555,44,True
+65,79 St (D),spring 2025,399433,92,False
+65,79 St (D),spring 2026,392834,92,False
+65,79 St (D),summer 2025,344788,92,False
+65,79 St (D),summer 2026,341945,92,False
+65,79 St (D),winter 2024-25,236642,59,True
+65,79 St (D),winter 2025-26,379340,90,False
+66,18 Av (D),fall 2025,358850,91,False
+66,18 Av (D),fall 2026,173651,44,True
+66,18 Av (D),spring 2025,383862,92,False
+66,18 Av (D),spring 2026,372184,92,False
+66,18 Av (D),summer 2025,340856,92,False
+66,18 Av (D),summer 2026,345605,92,False
+66,18 Av (D),winter 2024-25,230897,59,True
+66,18 Av (D),winter 2025-26,350084,90,False
+67,20 Av (D),fall 2025,301761,91,False
+67,20 Av (D),fall 2026,155637,44,True
+67,20 Av (D),spring 2025,318742,92,False
+67,20 Av (D),spring 2026,321642,92,False
+67,20 Av (D),summer 2025,286979,92,False
+67,20 Av (D),summer 2026,299857,92,False
+67,20 Av (D),winter 2024-25,191196,59,True
+67,20 Av (D),winter 2025-26,289719,90,False
+68,Bay Pkwy (D),fall 2025,446360,91,False
+68,Bay Pkwy (D),fall 2026,217432,44,True
+68,Bay Pkwy (D),spring 2025,448907,92,False
+68,Bay Pkwy (D),spring 2026,449628,92,False
+68,Bay Pkwy (D),summer 2025,426881,92,False
+68,Bay Pkwy (D),summer 2026,426335,92,False
+68,Bay Pkwy (D),winter 2024-25,271582,59,True
+68,Bay Pkwy (D),winter 2025-26,412140,90,False
+69,25 Av (D),fall 2025,248623,91,False
+69,25 Av (D),fall 2026,118291,44,True
+69,25 Av (D),spring 2025,254185,92,False
+69,25 Av (D),spring 2026,250745,92,False
+69,25 Av (D),summer 2025,227398,92,False
+69,25 Av (D),summer 2026,217143,92,False
+69,25 Av (D),winter 2024-25,154154,59,True
+69,25 Av (D),winter 2025-26,228858,90,False
+70,Bay 50 St (D),fall 2025,175185,91,False
+70,Bay 50 St (D),fall 2026,95109,44,True
+70,Bay 50 St (D),spring 2025,182459,92,False
+70,Bay 50 St (D),spring 2026,181198,92,False
+70,Bay 50 St (D),summer 2025,142948,92,False
+70,Bay 50 St (D),summer 2026,148108,92,False
+70,Bay 50 St (D),winter 2024-25,101767,59,True
+70,Bay 50 St (D),winter 2025-26,164037,90,False
+71,8 Av (N),fall 2025,737095,91,False
+71,8 Av (N),fall 2026,329789,44,True
+71,8 Av (N),spring 2025,770992,92,False
+71,8 Av (N),spring 2026,732555,92,False
+71,8 Av (N),summer 2025,735859,92,False
+71,8 Av (N),summer 2026,708286,92,False
+71,8 Av (N),winter 2024-25,467564,59,True
+71,8 Av (N),winter 2025-26,674151,90,False
+72,Fort Hamilton Pkwy (N),fall 2025,407051,91,False
+72,Fort Hamilton Pkwy (N),fall 2026,193289,44,True
+72,Fort Hamilton Pkwy (N),spring 2025,438406,92,False
+72,Fort Hamilton Pkwy (N),spring 2026,413297,92,False
+72,Fort Hamilton Pkwy (N),summer 2025,395265,92,False
+72,Fort Hamilton Pkwy (N),summer 2026,382122,92,False
+72,Fort Hamilton Pkwy (N),winter 2024-25,260127,59,True
+72,Fort Hamilton Pkwy (N),winter 2025-26,387458,90,False
+74,18 Av (N),fall 2025,309130,91,False
+74,18 Av (N),fall 2026,147661,44,True
+74,18 Av (N),spring 2025,323539,92,False
+74,18 Av (N),spring 2026,326085,92,False
+74,18 Av (N),summer 2025,317150,92,False
+74,18 Av (N),summer 2026,327179,92,False
+74,18 Av (N),winter 2024-25,195626,59,True
+74,18 Av (N),winter 2025-26,301938,90,False
+75,20 Av (N),fall 2025,266737,91,False
+75,20 Av (N),fall 2026,128321,44,True
+75,20 Av (N),spring 2025,292981,92,False
+75,20 Av (N),spring 2026,277287,92,False
+75,20 Av (N),summer 2025,233920,92,False
+75,20 Av (N),summer 2026,240256,92,False
+75,20 Av (N),winter 2024-25,166099,59,True
+75,20 Av (N),winter 2025-26,253631,90,False
+76,Bay Pkwy (N),fall 2025,417489,91,False
+76,Bay Pkwy (N),fall 2026,199044,44,True
+76,Bay Pkwy (N),spring 2025,435767,92,False
+76,Bay Pkwy (N),spring 2026,438660,92,False
+76,Bay Pkwy (N),summer 2025,391690,92,False
+76,Bay Pkwy (N),summer 2026,406035,92,False
+76,Bay Pkwy (N),winter 2024-25,257536,59,True
+76,Bay Pkwy (N),winter 2025-26,405337,90,False
+77,Kings Hwy (N),fall 2025,346994,91,False
+77,Kings Hwy (N),fall 2026,167280,44,True
+77,Kings Hwy (N),spring 2025,365109,92,False
+77,Kings Hwy (N),spring 2026,362923,92,False
+77,Kings Hwy (N),summer 2025,340942,92,False
+77,Kings Hwy (N),summer 2026,341196,92,False
+77,Kings Hwy (N),winter 2024-25,214666,59,True
+77,Kings Hwy (N),winter 2025-26,332220,90,False
+78,Avenue U (N),fall 2025,245536,91,False
+78,Avenue U (N),fall 2026,119040,44,True
+78,Avenue U (N),spring 2025,244792,92,False
+78,Avenue U (N),spring 2026,249882,92,False
+78,Avenue U (N),summer 2025,227903,92,False
+78,Avenue U (N),summer 2026,235064,92,False
+78,Avenue U (N),winter 2024-25,146541,59,True
+78,Avenue U (N),winter 2025-26,229582,90,False
+79,86 St (N),fall 2025,146196,91,False
+79,86 St (N),fall 2026,64579,44,True
+79,86 St (N),spring 2025,159951,92,False
+79,86 St (N),spring 2026,157159,92,False
+79,86 St (N),summer 2025,139842,92,False
+79,86 St (N),summer 2026,147261,92,False
+79,86 St (N),winter 2024-25,85861,59,True
+79,86 St (N),winter 2025-26,139150,90,False
+8,"5 Av/59 St (N,R,W)",fall 2025,1016688,91,False
+8,"5 Av/59 St (N,R,W)",fall 2026,507955,44,True
+8,"5 Av/59 St (N,R,W)",spring 2025,922818,92,False
+8,"5 Av/59 St (N,R,W)",spring 2026,968346,92,False
+8,"5 Av/59 St (N,R,W)",summer 2025,973165,92,False
+8,"5 Av/59 St (N,R,W)",summer 2026,969798,92,False
+8,"5 Av/59 St (N,R,W)",winter 2024-25,541485,59,True
+8,"5 Av/59 St (N,R,W)",winter 2025-26,960086,90,False
+80,"121 St (J,Z)",fall 2025,142313,91,False
+80,"121 St (J,Z)",fall 2026,68086,44,True
+80,"121 St (J,Z)",spring 2025,140190,92,False
+80,"121 St (J,Z)",spring 2026,130227,92,False
+80,"121 St (J,Z)",summer 2025,129095,92,False
+80,"121 St (J,Z)",summer 2026,137557,92,False
+80,"121 St (J,Z)",winter 2024-25,81750,59,True
+80,"121 St (J,Z)",winter 2025-26,125129,90,False
+81,111 St (J),fall 2025,146047,91,False
+81,111 St (J),fall 2026,75943,44,True
+81,111 St (J),spring 2025,136466,92,False
+81,111 St (J),spring 2026,139774,92,False
+81,111 St (J),summer 2025,124967,92,False
+81,111 St (J),summer 2026,136752,92,False
+81,111 St (J),winter 2024-25,78939,59,True
+81,111 St (J),winter 2025-26,127947,90,False
+82,"104 St (J,Z)",fall 2025,164085,91,False
+82,"104 St (J,Z)",fall 2026,78313,44,True
+82,"104 St (J,Z)",spring 2025,155037,92,False
+82,"104 St (J,Z)",spring 2026,159031,92,False
+82,"104 St (J,Z)",summer 2025,140417,92,False
+82,"104 St (J,Z)",summer 2026,154612,92,False
+82,"104 St (J,Z)",winter 2024-25,95102,59,True
+82,"104 St (J,Z)",winter 2025-26,147530,90,False
+83,"Woodhaven Blvd (J,Z)",fall 2025,293775,91,False
+83,"Woodhaven Blvd (J,Z)",fall 2026,134376,44,True
+83,"Woodhaven Blvd (J,Z)",spring 2025,293890,92,False
+83,"Woodhaven Blvd (J,Z)",spring 2026,287562,92,False
+83,"Woodhaven Blvd (J,Z)",summer 2025,261845,92,False
+83,"Woodhaven Blvd (J,Z)",summer 2026,274121,92,False
+83,"Woodhaven Blvd (J,Z)",winter 2024-25,169087,59,True
+83,"Woodhaven Blvd (J,Z)",winter 2025-26,269505,90,False
+84,85 St-Forest Pkwy (J),fall 2025,203236,91,False
+84,85 St-Forest Pkwy (J),fall 2026,102398,44,True
+84,85 St-Forest Pkwy (J),spring 2025,108775,92,False
+84,85 St-Forest Pkwy (J),spring 2026,203766,92,False
+84,85 St-Forest Pkwy (J),summer 2025,132789,92,False
+84,85 St-Forest Pkwy (J),summer 2026,200762,92,False
+84,85 St-Forest Pkwy (J),winter 2024-25,62016,59,True
+84,85 St-Forest Pkwy (J),winter 2025-26,186845,90,False
+85,"75 St-Elderts Ln (J,Z)",fall 2025,206202,91,False
+85,"75 St-Elderts Ln (J,Z)",fall 2026,102123,44,True
+85,"75 St-Elderts Ln (J,Z)",spring 2025,246187,92,False
+85,"75 St-Elderts Ln (J,Z)",spring 2026,180878,92,False
+85,"75 St-Elderts Ln (J,Z)",summer 2025,198921,92,False
+85,"75 St-Elderts Ln (J,Z)",summer 2026,172304,92,False
+85,"75 St-Elderts Ln (J,Z)",winter 2024-25,141530,59,True
+85,"75 St-Elderts Ln (J,Z)",winter 2025-26,174826,90,False
+86,Cypress Hills (J),fall 2025,67862,91,False
+86,Cypress Hills (J),fall 2026,34925,44,True
+86,Cypress Hills (J),spring 2025,25934,92,False
+86,Cypress Hills (J),spring 2026,71598,92,False
+86,Cypress Hills (J),summer 2025,37074,92,False
+86,Cypress Hills (J),summer 2026,68563,92,False
+86,Cypress Hills (J),winter 2024-25,16587,59,True
+86,Cypress Hills (J),winter 2025-26,66381,90,False
+87,"Crescent St (J,Z)",fall 2025,252257,91,False
+87,"Crescent St (J,Z)",fall 2026,96874,44,True
+87,"Crescent St (J,Z)",spring 2025,244749,92,False
+87,"Crescent St (J,Z)",spring 2026,234715,92,False
+87,"Crescent St (J,Z)",summer 2025,242468,92,False
+87,"Crescent St (J,Z)",summer 2026,211993,92,False
+87,"Crescent St (J,Z)",winter 2024-25,148138,59,True
+87,"Crescent St (J,Z)",winter 2025-26,230440,90,False
+88,"Norwood Av (J,Z)",fall 2025,159714,91,False
+88,"Norwood Av (J,Z)",fall 2026,76796,44,True
+88,"Norwood Av (J,Z)",spring 2025,144703,92,False
+88,"Norwood Av (J,Z)",spring 2026,169869,92,False
+88,"Norwood Av (J,Z)",summer 2025,136145,92,False
+88,"Norwood Av (J,Z)",summer 2026,140134,92,False
+88,"Norwood Av (J,Z)",winter 2024-25,84102,59,True
+88,"Norwood Av (J,Z)",winter 2025-26,157318,90,False
+89,Cleveland St (J),fall 2025,142615,91,False
+89,Cleveland St (J),fall 2026,64916,44,True
+89,Cleveland St (J),spring 2025,128170,92,False
+89,Cleveland St (J),spring 2026,152904,92,False
+89,Cleveland St (J),summer 2025,128331,92,False
+89,Cleveland St (J),summer 2026,121269,92,False
+89,Cleveland St (J),winter 2024-25,70578,59,True
+89,Cleveland St (J),winter 2025-26,124160,90,False
+9,"57 St-7 Av (N,Q,R,W)",fall 2025,2292906,91,False
+9,"57 St-7 Av (N,Q,R,W)",fall 2026,1111910,44,True
+9,"57 St-7 Av (N,Q,R,W)",spring 2025,2232682,92,False
+9,"57 St-7 Av (N,Q,R,W)",spring 2026,2366187,92,False
+9,"57 St-7 Av (N,Q,R,W)",summer 2025,2110104,92,False
+9,"57 St-7 Av (N,Q,R,W)",summer 2026,2218766,92,False
+9,"57 St-7 Av (N,Q,R,W)",winter 2024-25,1348919,59,True
+9,"57 St-7 Av (N,Q,R,W)",winter 2025-26,2142050,90,False
+90,"Van Siclen Av (J,Z)",fall 2025,188181,91,False
+90,"Van Siclen Av (J,Z)",fall 2026,81308,44,True
+90,"Van Siclen Av (J,Z)",spring 2025,173630,92,False
+90,"Van Siclen Av (J,Z)",spring 2026,187407,92,False
+90,"Van Siclen Av (J,Z)",summer 2025,164237,92,False
+90,"Van Siclen Av (J,Z)",summer 2026,152322,92,False
+90,"Van Siclen Av (J,Z)",winter 2024-25,97241,59,True
+90,"Van Siclen Av (J,Z)",winter 2025-26,175146,90,False
+91,"Alabama Av (J,Z)",fall 2025,127352,91,False
+91,"Alabama Av (J,Z)",fall 2026,59827,44,True
+91,"Alabama Av (J,Z)",spring 2025,113760,92,False
+91,"Alabama Av (J,Z)",spring 2026,134049,92,False
+91,"Alabama Av (J,Z)",summer 2025,109847,92,False
+91,"Alabama Av (J,Z)",summer 2026,112108,92,False
+91,"Alabama Av (J,Z)",winter 2024-25,69556,59,True
+91,"Alabama Av (J,Z)",winter 2025-26,122728,90,False
+93,"Chauncey St (J,Z)",fall 2025,188433,91,False
+93,"Chauncey St (J,Z)",fall 2026,85707,44,True
+93,"Chauncey St (J,Z)",spring 2025,169777,92,False
+93,"Chauncey St (J,Z)",spring 2026,177440,92,False
+93,"Chauncey St (J,Z)",summer 2025,170144,92,False
+93,"Chauncey St (J,Z)",summer 2026,148588,92,False
+93,"Chauncey St (J,Z)",winter 2024-25,103507,59,True
+93,"Chauncey St (J,Z)",winter 2025-26,186270,90,False
+94,Halsey St (J),fall 2025,397598,91,False
+94,Halsey St (J),fall 2026,180681,44,True
+94,Halsey St (J),spring 2025,362297,92,False
+94,Halsey St (J),spring 2026,384247,92,False
+94,Halsey St (J),summer 2025,357125,92,False
+94,Halsey St (J),summer 2026,330593,92,False
+94,Halsey St (J),winter 2024-25,216280,59,True
+94,Halsey St (J),winter 2025-26,375182,90,False
+95,"Gates Av (J,Z)",fall 2025,443062,91,False
+95,"Gates Av (J,Z)",fall 2026,201540,44,True
+95,"Gates Av (J,Z)",spring 2025,409523,92,False
+95,"Gates Av (J,Z)",spring 2026,413637,92,False
+95,"Gates Av (J,Z)",summer 2025,391745,92,False
+95,"Gates Av (J,Z)",summer 2026,357470,92,False
+95,"Gates Av (J,Z)",winter 2024-25,248449,59,True
+95,"Gates Av (J,Z)",winter 2025-26,403696,90,False
+96,Kosciuszko St (J),fall 2025,380658,91,False
+96,Kosciuszko St (J),fall 2026,164634,44,True
+96,Kosciuszko St (J),spring 2025,355812,92,False
+96,Kosciuszko St (J),spring 2026,334429,92,False
+96,Kosciuszko St (J),summer 2025,346746,92,False
+96,Kosciuszko St (J),summer 2026,293128,92,False
+96,Kosciuszko St (J),winter 2024-25,216384,59,True
+96,Kosciuszko St (J),winter 2025-26,345140,90,False
+97,"Myrtle Av (M,J,Z)",fall 2025,784783,91,False
+97,"Myrtle Av (M,J,Z)",fall 2026,392882,44,True
+97,"Myrtle Av (M,J,Z)",spring 2025,748998,92,False
+97,"Myrtle Av (M,J,Z)",spring 2026,838573,92,False
+97,"Myrtle Av (M,J,Z)",summer 2025,729072,92,False
+97,"Myrtle Av (M,J,Z)",summer 2026,773675,92,False
+97,"Myrtle Av (M,J,Z)",winter 2024-25,425899,59,True
+97,"Myrtle Av (M,J,Z)",winter 2025-26,745503,90,False
+98,"Flushing Av (M,J)",fall 2025,527003,91,False
+98,"Flushing Av (M,J)",fall 2026,256421,44,True
+98,"Flushing Av (M,J)",spring 2025,503481,92,False
+98,"Flushing Av (M,J)",spring 2026,544329,92,False
+98,"Flushing Av (M,J)",summer 2025,518114,92,False
+98,"Flushing Av (M,J)",summer 2026,509031,92,False
+98,"Flushing Av (M,J)",winter 2024-25,293964,59,True
+98,"Flushing Av (M,J)",winter 2025-26,519437,90,False
+99,"Lorimer St (M,J)",fall 2025,289467,91,False
+99,"Lorimer St (M,J)",fall 2026,143170,44,True
+99,"Lorimer St (M,J)",spring 2025,267716,92,False
+99,"Lorimer St (M,J)",spring 2026,278554,92,False
+99,"Lorimer St (M,J)",summer 2025,250328,92,False
+99,"Lorimer St (M,J)",summer 2026,253455,92,False
+99,"Lorimer St (M,J)",winter 2024-25,152987,59,True
+99,"Lorimer St (M,J)",winter 2025-26,275171,90,False

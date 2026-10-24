@@ -1,0 +1,250 @@
+{
+ "winter 2024-25": {
+  "partial": true,
+  "days_with_data": 59,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 7211179
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 5424815
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 3847762
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 3643691
+   },
+   {
+    "station_complex_id": "628",
+    "station_complex": "Fulton St (2,3,4,5,A,C,J,Z)",
+    "riders": 2974002
+   }
+  ]
+ },
+ "spring 2025": {
+  "partial": false,
+  "days_with_data": 92,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 12487066
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 9190914
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 6777176
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 6306570
+   },
+   {
+    "station_complex_id": "628",
+    "station_complex": "Fulton St (2,3,4,5,A,C,J,Z)",
+    "riders": 5247990
+   }
+  ]
+ },
+ "summer 2025": {
+  "partial": false,
+  "days_with_data": 92,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 12332889
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 9063193
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 6663366
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 5888542
+   },
+   {
+    "station_complex_id": "628",
+    "station_complex": "Fulton St (2,3,4,5,A,C,J,Z)",
+    "riders": 5270405
+   }
+  ]
+ },
+ "fall 2025": {
+  "partial": false,
+  "days_with_data": 91,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 12203225
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 9452914
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 6712476
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 6538480
+   },
+   {
+    "station_complex_id": "628",
+    "station_complex": "Fulton St (2,3,4,5,A,C,J,Z)",
+    "riders": 5396826
+   }
+  ]
+ },
+ "winter 2025-26": {
+  "partial": false,
+  "days_with_data": 90,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 11326497
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 8751063
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 6368375
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 5763376
+   },
+   {
+    "station_complex_id": "164",
+    "station_complex": "34 St-Penn Station (A,C,E)",
+    "riders": 4903502
+   }
+  ]
+ },
+ "spring 2026": {
+  "partial": false,
+  "days_with_data": 92,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 12491237
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 9536343
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 6858028
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 6473893
+   },
+   {
+    "station_complex_id": "164",
+    "station_complex": "34 St-Penn Station (A,C,E)",
+    "riders": 5462269
+   }
+  ]
+ },
+ "summer 2026": {
+  "partial": false,
+  "days_with_data": 92,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 12681527
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 9688974
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 6923353
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 6140391
+   },
+   {
+    "station_complex_id": "164",
+    "station_complex": "34 St-Penn Station (A,C,E)",
+    "riders": 5756175
+   }
+  ]
+ },
+ "fall 2026": {
+  "partial": true,
+  "days_with_data": 44,
+  "top_5": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 6086172
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 4749236
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 3364974
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 3200534
+   },
+   {
+    "station_complex_id": "164",
+    "station_complex": "34 St-Penn Station (A,C,E)",
+    "riders": 2707620
+   }
+  ]
+ }
+}

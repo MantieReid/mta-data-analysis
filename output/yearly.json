@@ -1,0 +1,116 @@
+{
+ "2025": {
+  "riders": 1298516032,
+  "days_with_data": 365,
+  "partial": false,
+  "top_10_stations": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 48509290
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 36363366
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 26485099
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 24527632
+   },
+   {
+    "station_complex_id": "628",
+    "station_complex": "Fulton St (2,3,4,5,A,C,J,Z)",
+    "riders": 20647942
+   },
+   {
+    "station_complex_id": "164",
+    "station_complex": "34 St-Penn Station (A,C,E)",
+    "riders": 20313028
+   },
+   {
+    "station_complex_id": "318",
+    "station_complex": "34 St-Penn Station (1,2,3)",
+    "riders": 18178673
+   },
+   {
+    "station_complex_id": "614",
+    "station_complex": "59 St-Columbus Circle (1,A,C,B,D)",
+    "riders": 17436927
+   },
+   {
+    "station_complex_id": "447",
+    "station_complex": "Flushing-Main St (7)",
+    "riders": 15013551
+   },
+   {
+    "station_complex_id": "616",
+    "station_complex": "Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",
+    "riders": 14902370
+   }
+  ]
+ },
+ "2026": {
+  "riders": 1039860114,
+  "days_with_data": 287,
+  "partial": true,
+  "top_10_stations": [
+   {
+    "station_complex_id": "611",
+    "station_complex": "Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",
+    "riders": 38310502
+   },
+   {
+    "station_complex_id": "610",
+    "station_complex": "Grand Central-42 St (4,5,6,7,S)",
+    "riders": 29494086
+   },
+   {
+    "station_complex_id": "607",
+    "station_complex": "34 St-Herald Sq (B,D,F,M,N,Q,R,W)",
+    "riders": 21030411
+   },
+   {
+    "station_complex_id": "602",
+    "station_complex": "14 St-Union Sq (4,5,6,L,N,Q,R,W)",
+    "riders": 19427845
+   },
+   {
+    "station_complex_id": "164",
+    "station_complex": "34 St-Penn Station (A,C,E)",
+    "riders": 16994838
+   },
+   {
+    "station_complex_id": "628",
+    "station_complex": "Fulton St (2,3,4,5,A,C,J,Z)",
+    "riders": 16043667
+   },
+   {
+    "station_complex_id": "318",
+    "station_complex": "34 St-Penn Station (1,2,3)",
+    "riders": 14327028
+   },
+   {
+    "station_complex_id": "614",
+    "station_complex": "59 St-Columbus Circle (1,A,C,B,D)",
+    "riders": 13758053
+   },
+   {
+    "station_complex_id": "447",
+    "station_complex": "Flushing-Main St (7)",
+    "riders": 11968273
+   },
+   {
+    "station_complex_id": "616",
+    "station_complex": "Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",
+    "riders": 11932104
+   }
+  ]
+ }
+}

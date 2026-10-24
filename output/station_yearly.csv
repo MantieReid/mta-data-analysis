@@ -1,0 +1,850 @@
+station_complex_id,station_complex,borough,year,riders,days_with_data,partial
+1,"Astoria-Ditmars Blvd (N,W)",Queens,2025,3607188,365,False
+1,"Astoria-Ditmars Blvd (N,W)",Queens,2026,2863707,287,True
+10,"49 St (N,R,W)",Manhattan,2025,7379658,365,False
+10,"49 St (N,R,W)",Manhattan,2026,6049454,287,True
+100,"Hewes St (M,J)",Brooklyn,2025,681772,365,False
+100,"Hewes St (M,J)",Brooklyn,2026,534956,287,True
+101,"Marcy Av (M,J,Z)",Brooklyn,2025,3007890,365,False
+101,"Marcy Av (M,J,Z)",Brooklyn,2026,2596046,287,True
+103,"Bowery (J,Z)",Manhattan,2025,1014358,365,False
+103,"Bowery (J,Z)",Manhattan,2026,868231,287,True
+107,"Broad St (J,Z)",Manhattan,2025,1436779,365,False
+107,"Broad St (J,Z)",Manhattan,2026,1228042,287,True
+108,Middle Village-Metropolitan Av (M),Queens,2025,910882,365,False
+108,Middle Village-Metropolitan Av (M),Queens,2026,734336,287,True
+109,Fresh Pond Rd (M),Queens,2025,1355171,365,False
+109,Fresh Pond Rd (M),Queens,2026,1154322,287,True
+110,Forest Av (M),Queens,2025,1046664,365,False
+110,Forest Av (M),Queens,2026,918826,287,True
+111,Seneca Av (M),Queens,2025,677235,365,False
+111,Seneca Av (M),Queens,2026,604624,287,True
+113,Knickerbocker Av (M),Brooklyn,2025,1005247,365,False
+113,Knickerbocker Av (M),Brooklyn,2026,913354,287,True
+114,Central Av (M),Brooklyn,2025,919034,365,False
+114,Central Av (M),Brooklyn,2026,839780,287,True
+118,3 Av (L),Manhattan,2025,1894815,365,False
+118,3 Av (L),Manhattan,2026,1508166,287,True
+119,1 Av (L),Manhattan,2025,7328789,365,False
+119,1 Av (L),Manhattan,2026,5845181,287,True
+120,Bedford Av (L),Brooklyn,2025,9837458,365,False
+120,Bedford Av (L),Brooklyn,2026,7992074,287,True
+122,Graham Av (L),Brooklyn,2025,2475588,365,False
+122,Graham Av (L),Brooklyn,2026,1953222,287,True
+123,Grand St (L),Brooklyn,2025,1704787,365,False
+123,Grand St (L),Brooklyn,2026,1277841,287,True
+124,Montrose Av (L),Brooklyn,2025,1832401,365,False
+124,Montrose Av (L),Brooklyn,2026,1462575,287,True
+125,Morgan Av (L),Brooklyn,2025,2084852,365,False
+125,Morgan Av (L),Brooklyn,2026,1646852,287,True
+126,Jefferson St (L),Brooklyn,2025,2613571,365,False
+126,Jefferson St (L),Brooklyn,2026,1998915,287,True
+127,DeKalb Av (L),Brooklyn,2025,3262348,365,False
+127,DeKalb Av (L),Brooklyn,2026,2532896,287,True
+129,Halsey St (L),Queens,2025,2127993,365,False
+129,Halsey St (L),Queens,2026,1579728,287,True
+13,"28 St (R,W)",Manhattan,2025,3260307,365,False
+13,"28 St (R,W)",Manhattan,2026,2636718,287,True
+130,Wilson Av (L),Brooklyn,2025,1161525,365,False
+130,Wilson Av (L),Brooklyn,2026,930645,287,True
+131,Bushwick Av-Aberdeen St (L),Brooklyn,2025,609216,365,False
+131,Bushwick Av-Aberdeen St (L),Brooklyn,2026,501008,287,True
+133,Atlantic Av (L),Brooklyn,2025,598373,365,False
+133,Atlantic Av (L),Brooklyn,2026,476872,287,True
+134,Sutter Av (L),Brooklyn,2025,644156,365,False
+134,Sutter Av (L),Brooklyn,2026,508987,287,True
+135,Livonia Av (L),Brooklyn,2025,661698,365,False
+135,Livonia Av (L),Brooklyn,2026,531629,287,True
+136,New Lots Av (L),Brooklyn,2025,794595,365,False
+136,New Lots Av (L),Brooklyn,2026,709239,287,True
+137,East 105 St (L),Brooklyn,2025,599598,365,False
+137,East 105 St (L),Brooklyn,2026,527127,287,True
+138,Canarsie-Rockaway Pkwy (L),Brooklyn,2025,2265472,365,False
+138,Canarsie-Rockaway Pkwy (L),Brooklyn,2026,2343345,287,True
+14,"23 St (R,W)",Manhattan,2025,4826147,365,False
+14,"23 St (R,W)",Manhattan,2026,3949852,287,True
+141,Park Pl (S),Brooklyn,2025,422385,365,False
+141,Park Pl (S),Brooklyn,2026,343701,287,True
+143,Inwood-207 St (A),Manhattan,2025,1934421,365,False
+143,Inwood-207 St (A),Manhattan,2026,1615895,287,True
+144,Dyckman St (A),Manhattan,2025,1482382,365,False
+144,Dyckman St (A),Manhattan,2026,1245900,287,True
+145,190 St (A),Manhattan,2025,967851,365,False
+145,190 St (A),Manhattan,2026,817136,287,True
+146,181 St (A),Manhattan,2025,2201097,365,False
+146,181 St (A),Manhattan,2026,1851831,287,True
+147,175 St (A),Manhattan,2025,2342853,365,False
+147,175 St (A),Manhattan,2026,1957037,287,True
+149,163 St-Amsterdam Av (C),Manhattan,2025,938155,365,False
+149,163 St-Amsterdam Av (C),Manhattan,2026,759051,287,True
+150,155 St (C),Manhattan,2025,580247,365,False
+150,155 St (C),Manhattan,2026,468915,287,True
+151,"145 St (A,C,B,D)",Manhattan,2025,5267225,365,False
+151,"145 St (A,C,B,D)",Manhattan,2026,4141602,287,True
+152,"135 St (C,B)",Manhattan,2025,1230161,365,False
+152,"135 St (C,B)",Manhattan,2026,992737,287,True
+153,"125 St (A,C,B,D)",Manhattan,2025,6317510,365,False
+153,"125 St (A,C,B,D)",Manhattan,2026,5222799,287,True
+154,"116 St (C,B)",Manhattan,2025,1540594,365,False
+154,"116 St (C,B)",Manhattan,2026,1190154,287,True
+155,"Cathedral Pkwy (110 St) (C,B)",Manhattan,2025,1872788,365,False
+155,"Cathedral Pkwy (110 St) (C,B)",Manhattan,2026,1463062,287,True
+156,"103 St (C,B)",Manhattan,2025,1117128,365,False
+156,"103 St (C,B)",Manhattan,2026,895806,287,True
+157,"96 St (C,B)",Manhattan,2025,2285460,365,False
+157,"96 St (C,B)",Manhattan,2026,1829100,287,True
+158,"86 St (C,B)",Manhattan,2025,2703401,365,False
+158,"86 St (C,B)",Manhattan,2026,2132755,287,True
+159,"81 St-Museum of Natural History (C,B)",Manhattan,2025,3483547,365,False
+159,"81 St-Museum of Natural History (C,B)",Manhattan,2026,2717599,287,True
+16,"8 St-NYU (R,W)",Manhattan,2025,4312874,365,False
+16,"8 St-NYU (R,W)",Manhattan,2026,3457125,287,True
+160,"72 St (C,B)",Manhattan,2025,2662049,365,False
+160,"72 St (C,B)",Manhattan,2026,2149767,287,True
+162,"50 St (C,E)",Manhattan,2025,5873155,365,False
+162,"50 St (C,E)",Manhattan,2026,4865535,287,True
+164,"34 St-Penn Station (A,C,E)",Manhattan,2025,20313028,365,False
+164,"34 St-Penn Station (A,C,E)",Manhattan,2026,16994838,287,True
+165,"23 St (C,E)",Manhattan,2025,5126601,365,False
+165,"23 St (C,E)",Manhattan,2026,4242566,287,True
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",Manhattan,2025,12050810,365,False
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",Manhattan,2026,10197940,287,True
+168,"Spring St (C,E)",Manhattan,2025,3773130,365,False
+168,"Spring St (C,E)",Manhattan,2026,3291236,287,True
+169,"Canal St (A,C,E)",Manhattan,2025,4371441,365,False
+169,"Canal St (A,C,E)",Manhattan,2026,3564235,287,True
+17,"Prince St (R,W)",Manhattan,2025,3620580,365,False
+17,"Prince St (R,W)",Manhattan,2026,3117514,287,True
+173,"High St (A,C)",Brooklyn,2025,2815371,365,False
+173,"High St (A,C)",Brooklyn,2026,2390764,287,True
+175,"Hoyt-Schermerhorn Sts (A,C,G)",Brooklyn,2025,3087909,365,False
+175,"Hoyt-Schermerhorn Sts (A,C,G)",Brooklyn,2026,2538484,287,True
+176,Lafayette Av (C),Brooklyn,2025,1391268,365,False
+176,Lafayette Av (C),Brooklyn,2026,1130229,287,True
+177,Clinton-Washington Avs (C),Brooklyn,2025,1893472,365,False
+177,Clinton-Washington Avs (C),Brooklyn,2026,1625076,287,True
+179,"Nostrand Av (A,C)",Brooklyn,2025,4317573,365,False
+179,"Nostrand Av (A,C)",Brooklyn,2026,3597904,287,True
+180,Kingston-Throop Avs (C),Brooklyn,2025,1645497,365,False
+180,Kingston-Throop Avs (C),Brooklyn,2026,1343370,287,True
+181,"Utica Av (A,C)",Brooklyn,2025,3565266,365,False
+181,"Utica Av (A,C)",Brooklyn,2026,2854615,287,True
+182,Ralph Av (C),Brooklyn,2025,1243346,365,False
+182,Ralph Av (C),Brooklyn,2026,1076251,287,True
+183,Rockaway Av (C),Brooklyn,2025,1271657,365,False
+183,Rockaway Av (C),Brooklyn,2026,943464,287,True
+185,Liberty Av (C),Brooklyn,2025,556884,365,False
+185,Liberty Av (C),Brooklyn,2026,512827,287,True
+186,Van Siclen Av (C),Brooklyn,2025,678694,365,False
+186,Van Siclen Av (C),Brooklyn,2026,573085,287,True
+187,Shepherd Av (C),Brooklyn,2025,591056,365,False
+187,Shepherd Av (C),Brooklyn,2026,482792,287,True
+188,"Euclid Av (A,C)",Brooklyn,2025,2214605,365,False
+188,"Euclid Av (A,C)",Brooklyn,2026,1460874,287,True
+189,Grant Av (A),Brooklyn,2025,1176772,365,False
+189,Grant Av (A),Brooklyn,2026,921221,287,True
+190,80 St (A),Queens,2025,972310,365,False
+190,80 St (A),Queens,2026,776603,287,True
+191,88 St (A),Queens,2025,627351,365,False
+191,88 St (A),Queens,2026,480690,287,True
+192,Rockaway Blvd (A),Queens,2025,1652376,365,False
+192,Rockaway Blvd (A),Queens,2026,1168538,287,True
+193,104 St (A),Queens,2025,391136,365,False
+193,104 St (A),Queens,2026,297947,287,True
+194,111 St (A),Queens,2025,468822,365,False
+194,111 St (A),Queens,2026,342990,287,True
+195,Ozone Park-Lefferts Blvd (A),Queens,2025,1422675,365,False
+195,Ozone Park-Lefferts Blvd (A),Queens,2026,1027981,287,True
+196,Aqueduct Racetrack (A),Queens,2025,172988,365,False
+196,Aqueduct Racetrack (A),Queens,2026,156974,287,True
+197,Aqueduct-N Conduit Av (A),Queens,2025,184716,365,False
+197,Aqueduct-N Conduit Av (A),Queens,2026,157818,287,True
+198,Howard Beach-JFK Airport (A),Queens,2025,1574643,365,False
+198,Howard Beach-JFK Airport (A),Queens,2026,811396,287,True
+199,"Broad Channel (A,S)",Queens,2025,43016,365,False
+199,"Broad Channel (A,S)",Queens,2026,52680,287,True
+2,"Astoria Blvd (N,W)",Queens,2025,2633116,365,False
+2,"Astoria Blvd (N,W)",Queens,2026,2045329,287,True
+20,"City Hall (R,W)",Manhattan,2025,1188321,365,False
+20,"City Hall (R,W)",Manhattan,2026,1019371,287,True
+200,"Beach 90 St (A,S)",Queens,2025,144763,365,False
+200,"Beach 90 St (A,S)",Queens,2026,183484,287,True
+201,"Beach 98 St (A,S)",Queens,2025,78844,365,False
+201,"Beach 98 St (A,S)",Queens,2026,96419,287,True
+202,"Beach 105 St (A,S)",Queens,2025,57196,365,False
+202,"Beach 105 St (A,S)",Queens,2026,67303,287,True
+203,"Rockaway Park-Beach 116 St (A,S)",Queens,2025,134106,365,False
+203,"Rockaway Park-Beach 116 St (A,S)",Queens,2026,163426,287,True
+204,Beach 67 St (A),Queens,2025,346900,365,False
+204,Beach 67 St (A),Queens,2026,414176,287,True
+205,Beach 60 St (A),Queens,2025,234935,365,False
+205,Beach 60 St (A),Queens,2026,298654,287,True
+206,Beach 44 St (A),Queens,2025,99040,365,False
+206,Beach 44 St (A),Queens,2026,115860,287,True
+207,Beach 36 St (A),Queens,2025,106063,365,False
+207,Beach 36 St (A),Queens,2026,152172,287,True
+208,Beach 25 St (A),Queens,2025,200213,365,False
+208,Beach 25 St (A),Queens,2026,249586,287,True
+209,Far Rockaway-Mott Av (A),Queens,2025,771825,365,False
+209,Far Rockaway-Mott Av (A),Queens,2026,887899,287,True
+210,Norwood-205 St (D),Bronx,2025,1399874,365,False
+210,Norwood-205 St (D),Bronx,2026,1078446,287,True
+211,"Bedford Park Blvd (B,D)",Bronx,2025,1399237,365,False
+211,"Bedford Park Blvd (B,D)",Bronx,2026,1201975,287,True
+212,"Kingsbridge Rd (B,D)",Bronx,2025,1352678,365,False
+212,"Kingsbridge Rd (B,D)",Bronx,2026,1008981,287,True
+213,"Fordham Rd (B,D)",Bronx,2025,1917244,365,False
+213,"Fordham Rd (B,D)",Bronx,2026,1491477,287,True
+214,"182-183 Sts (B,D)",Bronx,2025,975223,365,False
+214,"182-183 Sts (B,D)",Bronx,2026,796453,287,True
+215,"Tremont Av (B,D)",Bronx,2025,1772652,365,False
+215,"Tremont Av (B,D)",Bronx,2026,1439652,287,True
+216,"174-175 Sts (B,D)",Bronx,2025,946565,365,False
+216,"174-175 Sts (B,D)",Bronx,2026,758854,287,True
+217,"170 St (B,D)",Bronx,2025,1188955,365,False
+217,"170 St (B,D)",Bronx,2026,1165460,287,True
+218,"167 St (B,D)",Bronx,2025,1725114,365,False
+218,"167 St (B,D)",Bronx,2026,1402267,287,True
+22,"Rector St (R,W)",Manhattan,2025,1263562,365,False
+22,"Rector St (R,W)",Manhattan,2026,1120118,287,True
+220,"155 St (B,D)",Manhattan,2025,606997,365,False
+220,"155 St (B,D)",Manhattan,2026,491459,287,True
+221,21 St-Queensbridge (M),Queens,2025,2842053,365,False
+221,21 St-Queensbridge (M),Queens,2026,1981465,287,True
+222,Roosevelt Island (M),Manhattan,2025,2278254,365,False
+222,Roosevelt Island (M),Manhattan,2026,1754055,287,True
+223,"Lexington Av/63 St (M,Q)",Manhattan,2025,4604291,365,False
+223,"Lexington Av/63 St (M,Q)",Manhattan,2026,3205688,287,True
+224,57 St (M),Manhattan,2025,3815872,365,False
+224,57 St (M),Manhattan,2026,2376813,287,True
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",Manhattan,2025,13573514,365,False
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",Manhattan,2026,10876387,287,True
+228,"23 St (F,M)",Manhattan,2025,6345819,365,False
+228,"23 St (F,M)",Manhattan,2026,5425387,287,True
+231,"Grand St (B,D)",Manhattan,2025,6022434,365,False
+231,"Grand St (B,D)",Manhattan,2026,4889448,287,True
+232,2 Av (F),Manhattan,2025,4576643,365,False
+232,2 Av (F),Manhattan,2026,3828137,287,True
+234,East Broadway (F),Manhattan,2025,3851059,365,False
+234,East Broadway (F),Manhattan,2026,3192392,287,True
+235,York St (F),Brooklyn,2025,3870886,365,False
+235,York St (F),Brooklyn,2026,3363920,287,True
+236,"Bergen St (F,G)",Brooklyn,2025,2970093,365,False
+236,"Bergen St (F,G)",Brooklyn,2026,2458122,287,True
+237,"Carroll St (F,G)",Brooklyn,2025,3019971,365,False
+237,"Carroll St (F,G)",Brooklyn,2026,2532792,287,True
+238,"Smith-9 Sts (F,G)",Brooklyn,2025,1065470,365,False
+238,"Smith-9 Sts (F,G)",Brooklyn,2026,911111,287,True
+240,"7 Av (F,G)",Brooklyn,2025,3002728,365,False
+240,"7 Av (F,G)",Brooklyn,2026,2416239,287,True
+241,"15 St-Prospect Park (F,G)",Brooklyn,2025,1477415,365,False
+241,"15 St-Prospect Park (F,G)",Brooklyn,2026,1191753,287,True
+242,"Fort Hamilton Pkwy (F,G)",Brooklyn,2025,1434157,365,False
+242,"Fort Hamilton Pkwy (F,G)",Brooklyn,2026,1137396,287,True
+243,"Church Av (F,G)",Brooklyn,2025,2242850,365,False
+243,"Church Av (F,G)",Brooklyn,2026,1736397,287,True
+244,Ditmas Av (F),Brooklyn,2025,860887,365,False
+244,Ditmas Av (F),Brooklyn,2026,696529,287,True
+245,18 Av (F),Brooklyn,2025,799207,365,False
+245,18 Av (F),Brooklyn,2026,635927,287,True
+246,Avenue I (F),Brooklyn,2025,347248,365,False
+246,Avenue I (F),Brooklyn,2026,277137,287,True
+247,Bay Pkwy (F),Brooklyn,2025,243990,365,False
+247,Bay Pkwy (F),Brooklyn,2026,199876,287,True
+248,Avenue N (F),Brooklyn,2025,602009,365,False
+248,Avenue N (F),Brooklyn,2026,486503,287,True
+249,Avenue P (F),Brooklyn,2025,568926,365,False
+249,Avenue P (F),Brooklyn,2026,469287,287,True
+250,Kings Hwy (F),Brooklyn,2025,719316,365,False
+250,Kings Hwy (F),Brooklyn,2026,523972,287,True
+251,Avenue U (F),Brooklyn,2025,436349,365,False
+251,Avenue U (F),Brooklyn,2026,367672,287,True
+252,Avenue X (F),Brooklyn,2025,566015,365,False
+252,Avenue X (F),Brooklyn,2026,462739,287,True
+253,Neptune Av (F),Brooklyn,2025,340093,365,False
+253,Neptune Av (F),Brooklyn,2026,280566,287,True
+254,Jamaica-179 St (F),Queens,2025,4130610,365,False
+254,Jamaica-179 St (F),Queens,2026,3206936,287,True
+255,169 St (F),Queens,2025,1796424,365,False
+255,169 St (F),Queens,2026,1433555,287,True
+256,Parsons Blvd (F),Queens,2025,1629126,365,False
+256,Parsons Blvd (F),Queens,2026,1272307,287,True
+257,Sutphin Blvd (F),Queens,2025,1012821,365,False
+257,Sutphin Blvd (F),Queens,2026,774528,287,True
+258,"Briarwood (E,F)",Queens,2025,1183052,365,False
+258,"Briarwood (E,F)",Queens,2026,951483,287,True
+259,"Kew Gardens-Union Tpke (E,F)",Queens,2025,5249663,365,False
+259,"Kew Gardens-Union Tpke (E,F)",Queens,2026,4210120,287,True
+26,"DeKalb Av (B,Q,R)",Brooklyn,2025,5488736,365,False
+26,"DeKalb Av (B,Q,R)",Brooklyn,2026,4651099,287,True
+260,"75 Av (E,F)",Queens,2025,784978,365,False
+260,"75 Av (E,F)",Queens,2026,644017,287,True
+261,"Forest Hills-71 Av (E,F,M,R)",Queens,2025,6374460,365,False
+261,"Forest Hills-71 Av (E,F,M,R)",Queens,2026,5259971,287,True
+262,"67 Av (M,R)",Queens,2025,1844578,365,False
+262,"67 Av (M,R)",Queens,2026,1532089,287,True
+263,"63 Dr-Rego Park (M,R)",Queens,2025,3260241,365,False
+263,"63 Dr-Rego Park (M,R)",Queens,2026,2583647,287,True
+264,"Woodhaven Blvd (M,R)",Queens,2025,4523715,365,False
+264,"Woodhaven Blvd (M,R)",Queens,2026,3668047,287,True
+265,"Grand Av-Newtown (M,R)",Queens,2025,4530426,365,False
+265,"Grand Av-Newtown (M,R)",Queens,2026,3578833,287,True
+266,"Elmhurst Av (M,R)",Queens,2025,3255678,365,False
+266,"Elmhurst Av (M,R)",Queens,2026,2592532,287,True
+268,"65 St (M,R)",Queens,2025,880716,365,False
+268,"65 St (M,R)",Queens,2026,720827,287,True
+269,"Northern Blvd (M,R)",Queens,2025,1619175,365,False
+269,"Northern Blvd (M,R)",Queens,2026,1225131,287,True
+270,"46 St (M,R)",Queens,2025,1913238,365,False
+270,"46 St (M,R)",Queens,2026,1627104,287,True
+271,"Steinway St (M,R)",Queens,2025,2989217,365,False
+271,"Steinway St (M,R)",Queens,2026,2378173,287,True
+272,"36 St (M,R)",Queens,2025,872672,365,False
+272,"36 St (M,R)",Queens,2026,797926,287,True
+273,"Queens Plaza (E,F,R)",Queens,2025,4201307,365,False
+273,"Queens Plaza (E,F,R)",Queens,2026,3651968,287,True
+276,"5 Av/53 St (E,F)",Manhattan,2025,4184660,365,False
+276,"5 Av/53 St (E,F)",Manhattan,2026,3656271,287,True
+277,"7 Av (E,B,D)",Manhattan,2025,4533641,365,False
+277,"7 Av (E,B,D)",Manhattan,2026,3689551,287,True
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",Queens,2025,6887607,365,False
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",Queens,2026,5125209,287,True
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",Queens,2025,7308990,365,False
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",Queens,2026,5912290,287,True
+28,Union St (R),Brooklyn,2025,2005206,365,False
+28,Union St (R),Brooklyn,2026,1753331,287,True
+280,Jamaica-Van Wyck (E),Queens,2025,1147962,365,False
+280,Jamaica-Van Wyck (E),Queens,2026,882857,287,True
+282,21 St (G),Queens,2025,501042,365,False
+282,21 St (G),Queens,2026,394153,287,True
+283,Greenpoint Av (G),Brooklyn,2025,2797244,365,False
+283,Greenpoint Av (G),Brooklyn,2026,2143164,287,True
+284,Nassau Av (G),Brooklyn,2025,2646948,365,False
+284,Nassau Av (G),Brooklyn,2026,2071702,287,True
+286,Broadway (G),Brooklyn,2025,1190632,365,False
+286,Broadway (G),Brooklyn,2026,897019,287,True
+287,Flushing Av (G),Brooklyn,2025,755338,365,False
+287,Flushing Av (G),Brooklyn,2026,597764,287,True
+288,Myrtle-Willoughby Avs (G),Brooklyn,2025,1268190,365,False
+288,Myrtle-Willoughby Avs (G),Brooklyn,2026,926737,287,True
+289,Bedford-Nostrand Avs (G),Brooklyn,2025,2242962,365,False
+289,Bedford-Nostrand Avs (G),Brooklyn,2026,1826149,287,True
+290,Classon Av (G),Brooklyn,2025,1341728,365,False
+290,Classon Av (G),Brooklyn,2026,1075507,287,True
+291,Clinton-Washington Avs (G),Brooklyn,2025,1430497,365,False
+291,Clinton-Washington Avs (G),Brooklyn,2026,1147137,287,True
+292,Fulton St (G),Brooklyn,2025,1616388,365,False
+292,Fulton St (G),Brooklyn,2026,1286466,287,True
+293,Van Cortlandt Park-242 St (1),Bronx,2025,1366529,365,False
+293,Van Cortlandt Park-242 St (1),Bronx,2026,1030324,287,True
+294,238 St (1),Bronx,2025,1044910,365,False
+294,238 St (1),Bronx,2026,830964,287,True
+295,231 St (1),Bronx,2025,1987401,365,False
+295,231 St (1),Bronx,2026,1566109,287,True
+296,Marble Hill-225 St (1),Manhattan,2025,1086855,365,False
+296,Marble Hill-225 St (1),Manhattan,2026,860673,287,True
+297,215 St (1),Manhattan,2025,537628,365,False
+297,215 St (1),Manhattan,2026,424624,287,True
+298,207 St (1),Manhattan,2025,1386775,365,False
+298,207 St (1),Manhattan,2026,1187118,287,True
+299,Dyckman St (1),Manhattan,2025,1673529,365,False
+299,Dyckman St (1),Manhattan,2026,1247654,287,True
+3,"30 Av (N,W)",Queens,2025,3377781,365,False
+3,"30 Av (N,W)",Queens,2026,2601016,287,True
+30,Prospect Av (R),Brooklyn,2025,1431946,365,False
+30,Prospect Av (R),Brooklyn,2026,1170306,287,True
+300,191 St (1),Manhattan,2025,1747979,365,False
+300,191 St (1),Manhattan,2026,1354320,287,True
+301,181 St (1),Manhattan,2025,2488599,365,False
+301,181 St (1),Manhattan,2026,1938988,287,True
+303,157 St (1),Manhattan,2025,2418832,365,False
+303,157 St (1),Manhattan,2026,1899503,287,True
+304,145 St (1),Manhattan,2025,2189462,365,False
+304,145 St (1),Manhattan,2026,1683787,287,True
+305,137 St-City College (1),Manhattan,2025,2784481,365,False
+305,137 St-City College (1),Manhattan,2026,2216856,287,True
+306,125 St (1),Manhattan,2025,2115278,365,False
+306,125 St (1),Manhattan,2026,1640780,287,True
+307,116 St-Columbia University (1),Manhattan,2025,3442218,365,False
+307,116 St-Columbia University (1),Manhattan,2026,2619794,287,True
+308,Cathedral Pkwy (110 St) (1),Manhattan,2025,3081466,365,False
+308,Cathedral Pkwy (110 St) (1),Manhattan,2026,2432913,287,True
+309,103 St (1),Manhattan,2025,3004312,365,False
+309,103 St (1),Manhattan,2026,2336888,287,True
+31,25 St (R),Brooklyn,2025,909874,365,False
+31,25 St (R),Brooklyn,2026,749196,287,True
+310,"96 St (1,2,3)",Manhattan,2025,8782911,365,False
+310,"96 St (1,2,3)",Manhattan,2026,7006142,287,True
+311,86 St (1),Manhattan,2025,4399806,365,False
+311,86 St (1),Manhattan,2026,3469773,287,True
+312,79 St (1),Manhattan,2025,3857948,365,False
+312,79 St (1),Manhattan,2026,3124248,287,True
+313,"72 St (1,2,3)",Manhattan,2025,10120680,365,False
+313,"72 St (1,2,3)",Manhattan,2026,7772291,287,True
+314,66 St-Lincoln Center (1),Manhattan,2025,5101904,365,False
+314,66 St-Lincoln Center (1),Manhattan,2026,4144651,287,True
+316,50 St (1),Manhattan,2025,6493184,365,False
+316,50 St (1),Manhattan,2026,5156704,287,True
+318,"34 St-Penn Station (1,2,3)",Manhattan,2025,18178673,365,False
+318,"34 St-Penn Station (1,2,3)",Manhattan,2026,14327028,287,True
+319,28 St (1),Manhattan,2025,3299055,365,False
+319,28 St (1),Manhattan,2026,2658057,287,True
+32,"36 St (D,N,R)",Brooklyn,2025,3975706,365,False
+32,"36 St (D,N,R)",Brooklyn,2026,3195311,287,True
+320,23 St (1),Manhattan,2025,3421316,365,False
+320,23 St (1),Manhattan,2026,2704847,287,True
+321,18 St (1),Manhattan,2025,1853563,365,False
+321,18 St (1),Manhattan,2026,1559729,287,True
+323,Christopher St-Stonewall (1),Manhattan,2025,3310269,365,False
+323,Christopher St-Stonewall (1),Manhattan,2026,2636465,287,True
+324,Houston St (1),Manhattan,2025,3589464,365,False
+324,Houston St (1),Manhattan,2026,2879698,287,True
+325,Canal St (1),Manhattan,2025,1323617,365,False
+325,Canal St (1),Manhattan,2026,1118407,287,True
+326,Franklin St (1),Manhattan,2025,1496414,365,False
+326,Franklin St (1),Manhattan,2026,1200751,287,True
+327,"Chambers St (1,2,3)",Manhattan,2025,4279510,365,False
+327,"Chambers St (1,2,3)",Manhattan,2026,3266810,287,True
+328,WTC Cortlandt (1),Manhattan,2025,4397574,365,False
+328,WTC Cortlandt (1),Manhattan,2026,3616524,287,True
+329,Rector St (1),Manhattan,2025,1864332,365,False
+329,Rector St (1),Manhattan,2026,1500122,287,True
+33,45 St (R),Brooklyn,2025,2010463,365,False
+33,45 St (R),Brooklyn,2026,1636543,287,True
+333,"Wall St (2,3)",Manhattan,2025,4508756,365,False
+333,"Wall St (2,3)",Manhattan,2026,3573172,287,True
+334,"Clark St (2,3)",Brooklyn,2025,1724093,365,False
+334,"Clark St (2,3)",Brooklyn,2026,1361007,287,True
+336,"Hoyt St (2,3)",Brooklyn,2025,1432683,365,False
+336,"Hoyt St (2,3)",Brooklyn,2026,1388329,287,True
+337,"Nevins St (2,3,4,5)",Brooklyn,2025,2265574,365,False
+337,"Nevins St (2,3,4,5)",Brooklyn,2026,1900789,287,True
+339,"Bergen St (2,3)",Brooklyn,2025,1123901,365,False
+339,"Bergen St (2,3)",Brooklyn,2026,934289,287,True
+34,53 St (R),Brooklyn,2025,2197126,365,False
+34,53 St (R),Brooklyn,2026,1836662,287,True
+340,"Grand Army Plaza (2,3)",Brooklyn,2025,1764569,365,False
+340,"Grand Army Plaza (2,3)",Brooklyn,2026,1420368,287,True
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",Brooklyn,2025,1210140,365,False
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",Brooklyn,2026,968393,287,True
+343,Nostrand Av (3),Brooklyn,2025,823887,365,False
+343,Nostrand Av (3),Brooklyn,2026,677201,287,True
+344,Kingston Av (3),Brooklyn,2025,1018374,365,False
+344,Kingston Av (3),Brooklyn,2026,822310,287,True
+345,"Crown Hts-Utica Av (3,4)",Brooklyn,2025,5423073,365,False
+345,"Crown Hts-Utica Av (3,4)",Brooklyn,2026,4291322,287,True
+346,Sutter Av-Rutland Rd (3),Brooklyn,2025,1394352,365,False
+346,Sutter Av-Rutland Rd (3),Brooklyn,2026,1082605,287,True
+347,Saratoga Av (3),Brooklyn,2025,1083193,365,False
+347,Saratoga Av (3),Brooklyn,2026,848640,287,True
+348,Rockaway Av (3),Brooklyn,2025,1005286,365,False
+348,Rockaway Av (3),Brooklyn,2026,763774,287,True
+349,Junius St (3),Brooklyn,2025,567312,365,False
+349,Junius St (3),Brooklyn,2026,445214,287,True
+35,"59 St (N,R)",Brooklyn,2025,3298257,365,False
+35,"59 St (N,R)",Brooklyn,2026,2567359,287,True
+350,Pennsylvania Av (3),Brooklyn,2025,809989,365,False
+350,Pennsylvania Av (3),Brooklyn,2026,613194,287,True
+351,Van Siclen Av (3),Brooklyn,2025,511587,365,False
+351,Van Siclen Av (3),Brooklyn,2026,418281,287,True
+352,New Lots Av (3),Brooklyn,2025,1164227,365,False
+352,New Lots Av (3),Brooklyn,2026,903515,287,True
+353,"President St-Medgar Evers College (2,5)",Brooklyn,2025,814552,365,False
+353,"President St-Medgar Evers College (2,5)",Brooklyn,2026,666052,287,True
+354,"Sterling St (2,5)",Brooklyn,2025,1315415,365,False
+354,"Sterling St (2,5)",Brooklyn,2026,1091073,287,True
+355,"Winthrop St (2,5)",Brooklyn,2025,1812965,365,False
+355,"Winthrop St (2,5)",Brooklyn,2026,1534203,287,True
+356,"Church Av (2,5)",Brooklyn,2025,2202455,365,False
+356,"Church Av (2,5)",Brooklyn,2026,1751624,287,True
+357,"Beverly Rd (2,5)",Brooklyn,2025,1074387,365,False
+357,"Beverly Rd (2,5)",Brooklyn,2026,910529,287,True
+358,"Newkirk Av-Little Haiti (2,5)",Brooklyn,2025,1642976,365,False
+358,"Newkirk Av-Little Haiti (2,5)",Brooklyn,2026,1200993,287,True
+359,"Flatbush Av-Brooklyn College (2,5)",Brooklyn,2025,4168249,365,False
+359,"Flatbush Av-Brooklyn College (2,5)",Brooklyn,2026,3327688,287,True
+36,Bay Ridge Av (R),Brooklyn,2025,1871345,365,False
+36,Bay Ridge Av (R),Brooklyn,2026,1524141,287,True
+360,Pelham Bay Park (6),Bronx,2025,1300580,365,False
+360,Pelham Bay Park (6),Bronx,2026,976261,287,True
+361,Buhre Av (6),Bronx,2025,790634,365,False
+361,Buhre Av (6),Bronx,2026,613470,287,True
+362,Middletown Rd (6),Bronx,2025,428769,365,False
+362,Middletown Rd (6),Bronx,2026,328145,287,True
+363,Westchester Sq-E Tremont Av (6),Bronx,2025,993167,365,False
+363,Westchester Sq-E Tremont Av (6),Bronx,2026,757488,287,True
+364,Zerega Av (6),Bronx,2025,511522,365,False
+364,Zerega Av (6),Bronx,2026,385365,287,True
+365,Castle Hill Av (6),Bronx,2025,1301355,365,False
+365,Castle Hill Av (6),Bronx,2026,921229,287,True
+366,Parkchester (6),Bronx,2025,2833154,365,False
+366,Parkchester (6),Bronx,2026,2260395,287,True
+367,St Lawrence Av (6),Bronx,2025,933820,365,False
+367,St Lawrence Av (6),Bronx,2026,678695,287,True
+368,Morrison Av-Soundview (6),Bronx,2025,1337443,365,False
+368,Morrison Av-Soundview (6),Bronx,2026,1014244,287,True
+369,Elder Av (6),Bronx,2025,1396879,365,False
+369,Elder Av (6),Bronx,2026,1036233,287,True
+37,77 St (R),Brooklyn,2025,1300844,365,False
+37,77 St (R),Brooklyn,2026,1084674,287,True
+370,Whitlock Av (6),Bronx,2025,392466,365,False
+370,Whitlock Av (6),Bronx,2026,290471,287,True
+371,Hunts Point Av (6),Bronx,2025,2244991,365,False
+371,Hunts Point Av (6),Bronx,2026,1722297,287,True
+372,Longwood Av (6),Bronx,2025,670681,365,False
+372,Longwood Av (6),Bronx,2026,525425,287,True
+373,E 149 St (6),Bronx,2025,1022986,365,False
+373,E 149 St (6),Bronx,2026,736525,287,True
+374,E 143 St-St Mary's St (6),Bronx,2025,418381,365,False
+374,E 143 St-St Mary's St (6),Bronx,2026,313344,287,True
+375,Cypress Av (6),Bronx,2025,610827,365,False
+375,Cypress Av (6),Bronx,2026,509156,287,True
+376,Brook Av (6),Bronx,2025,1099048,365,False
+376,Brook Av (6),Bronx,2026,847382,287,True
+377,3 Av-138 St (6),Bronx,2025,1838586,365,False
+377,3 Av-138 St (6),Bronx,2026,1540785,287,True
+378,Woodlawn (4),Bronx,2025,1426328,365,False
+378,Woodlawn (4),Bronx,2026,1105194,287,True
+379,Mosholu Pkwy (4),Bronx,2025,1494071,365,False
+379,Mosholu Pkwy (4),Bronx,2026,1222959,287,True
+38,86 St (R),Brooklyn,2025,2793068,365,False
+38,86 St (R),Brooklyn,2026,2176294,287,True
+380,Bedford Park Blvd-Lehman College (4),Bronx,2025,1117454,365,False
+380,Bedford Park Blvd-Lehman College (4),Bronx,2026,850826,287,True
+381,Kingsbridge Rd (4),Bronx,2025,1888209,365,False
+381,Kingsbridge Rd (4),Bronx,2026,1426653,287,True
+382,Fordham Rd (4),Bronx,2025,2081755,365,False
+382,Fordham Rd (4),Bronx,2026,1616111,287,True
+383,183 St (4),Bronx,2025,1186429,365,False
+383,183 St (4),Bronx,2026,886100,287,True
+384,Burnside Av (4),Bronx,2025,1972238,365,False
+384,Burnside Av (4),Bronx,2026,1244069,287,True
+385,176 St (4),Bronx,2025,1217045,365,False
+385,176 St (4),Bronx,2026,939490,287,True
+386,Mt Eden Av (4),Bronx,2025,1008384,365,False
+386,Mt Eden Av (4),Bronx,2026,743156,287,True
+387,170 St (4),Bronx,2025,1619300,365,False
+387,170 St (4),Bronx,2026,1181777,287,True
+388,167 St (4),Bronx,2025,1960444,365,False
+388,167 St (4),Bronx,2026,1439272,287,True
+39,Bay Ridge-95 St (R),Brooklyn,2025,1285248,365,False
+39,Bay Ridge-95 St (R),Brooklyn,2026,1052263,287,True
+391,"138 St-Grand Concourse (4,5)",Bronx,2025,949116,365,False
+391,"138 St-Grand Concourse (4,5)",Bronx,2026,740609,287,True
+392,"125 St (4,5,6)",Manhattan,2025,5912433,365,False
+392,"125 St (4,5,6)",Manhattan,2026,4436323,287,True
+393,116 St (6),Manhattan,2025,3140396,365,False
+393,116 St (6),Manhattan,2026,2406895,287,True
+394,110 St (6),Manhattan,2025,2435904,365,False
+394,110 St (6),Manhattan,2026,1901761,287,True
+395,103 St (6),Manhattan,2025,2915446,365,False
+395,103 St (6),Manhattan,2026,2302103,287,True
+396,96 St (6),Manhattan,2025,4019153,365,False
+396,96 St (6),Manhattan,2026,3267467,287,True
+397,"86 St (4,5,6)",Manhattan,2025,11243383,365,False
+397,"86 St (4,5,6)",Manhattan,2026,8516779,287,True
+398,77 St (6),Manhattan,2025,6602128,365,False
+398,77 St (6),Manhattan,2026,5481584,287,True
+399,68 St-Hunter College (6),Manhattan,2025,5390300,365,False
+399,68 St-Hunter College (6),Manhattan,2026,4468751,287,True
+4,"Broadway (N,W)",Queens,2025,3022927,365,False
+4,"Broadway (N,W)",Queens,2026,2364023,287,True
+403,33 St (6),Manhattan,2025,6441492,365,False
+403,33 St (6),Manhattan,2026,5377486,287,True
+404,28 St (6),Manhattan,2025,4784204,365,False
+404,28 St (6),Manhattan,2026,3924310,287,True
+405,23 St-Baruch College (6),Manhattan,2025,6071164,365,False
+405,23 St-Baruch College (6),Manhattan,2026,4916154,287,True
+407,Astor Pl (6),Manhattan,2025,4099411,365,False
+407,Astor Pl (6),Manhattan,2026,3253976,287,True
+409,Spring St (6),Manhattan,2025,3332127,365,False
+409,Spring St (6),Manhattan,2026,2776934,287,True
+41,"7 Av (B,Q)",Brooklyn,2025,2325650,365,False
+41,"7 Av (B,Q)",Brooklyn,2026,1953314,287,True
+413,"Wall St (4,5)",Manhattan,2025,3834131,365,False
+413,"Wall St (4,5)",Manhattan,2026,3070405,287,True
+414,"Bowling Green (4,5)",Manhattan,2025,5257924,365,False
+414,"Bowling Green (4,5)",Manhattan,2026,4074943,287,True
+416,Wakefield-241 St (2),Bronx,2025,925080,365,False
+416,Wakefield-241 St (2),Bronx,2026,757261,287,True
+417,"Nereid Av (2,5)",Bronx,2025,579641,365,False
+417,"Nereid Av (2,5)",Bronx,2026,468217,287,True
+418,"233 St (2,5)",Bronx,2025,799487,365,False
+418,"233 St (2,5)",Bronx,2026,598537,287,True
+419,"225 St (2,5)",Bronx,2025,640080,365,False
+419,"225 St (2,5)",Bronx,2026,482919,287,True
+42,"Prospect Park (B,Q,S)",Brooklyn,2025,2527533,365,False
+42,"Prospect Park (B,Q,S)",Brooklyn,2026,2063607,287,True
+420,"219 St (2,5)",Bronx,2025,557826,365,False
+420,"219 St (2,5)",Bronx,2026,465068,287,True
+421,"Gun Hill Rd (2,5)",Bronx,2025,1299292,365,False
+421,"Gun Hill Rd (2,5)",Bronx,2026,988365,287,True
+422,"Burke Av (2,5)",Bronx,2025,538194,365,False
+422,"Burke Av (2,5)",Bronx,2026,412206,287,True
+423,"Allerton Av (2,5)",Bronx,2025,891344,365,False
+423,"Allerton Av (2,5)",Bronx,2026,675923,287,True
+424,"Pelham Pkwy (2,5)",Bronx,2025,1579559,365,False
+424,"Pelham Pkwy (2,5)",Bronx,2026,1170474,287,True
+425,"Bronx Park East (2,5)",Bronx,2025,500988,365,False
+425,"Bronx Park East (2,5)",Bronx,2026,386213,287,True
+426,"E 180 St (2,5)",Bronx,2025,1898185,365,False
+426,"E 180 St (2,5)",Bronx,2026,1561082,287,True
+427,"West Farms Sq-E Tremont Av (2,5)",Bronx,2025,1230087,365,False
+427,"West Farms Sq-E Tremont Av (2,5)",Bronx,2026,1000739,287,True
+428,"174 St (2,5)",Bronx,2025,1340333,365,False
+428,"174 St (2,5)",Bronx,2026,1102586,287,True
+429,"Freeman St (2,5)",Bronx,2025,940247,365,False
+429,"Freeman St (2,5)",Bronx,2026,731826,287,True
+43,Parkside Av (Q),Brooklyn,2025,1669088,365,False
+43,Parkside Av (Q),Brooklyn,2026,1190943,287,True
+430,"Simpson St (2,5)",Bronx,2025,1693452,365,False
+430,"Simpson St (2,5)",Bronx,2026,1239374,287,True
+431,"Intervale Av (2,5)",Bronx,2025,676086,365,False
+431,"Intervale Av (2,5)",Bronx,2026,569098,287,True
+432,"Prospect Av (2,5)",Bronx,2025,1326847,365,False
+432,"Prospect Av (2,5)",Bronx,2026,1087449,287,True
+433,"Jackson Av (2,5)",Bronx,2025,1107242,365,False
+433,"Jackson Av (2,5)",Bronx,2026,949275,287,True
+434,"3 Av-149 St (2,5)",Bronx,2025,4325663,365,False
+434,"3 Av-149 St (2,5)",Bronx,2026,3189319,287,True
+436,Harlem-148 St (3),Manhattan,2025,707158,365,False
+436,Harlem-148 St (3),Manhattan,2026,538462,287,True
+437,145 St (3),Manhattan,2025,690290,365,False
+437,145 St (3),Manhattan,2026,529792,287,True
+438,"135 St (2,3)",Manhattan,2025,2693113,365,False
+438,"135 St (2,3)",Manhattan,2026,2090454,287,True
+439,"125 St (2,3)",Manhattan,2025,3368175,365,False
+439,"125 St (2,3)",Manhattan,2026,2750485,287,True
+44,"Church Av (B,Q)",Brooklyn,2025,2911284,365,False
+44,"Church Av (B,Q)",Brooklyn,2026,2691695,287,True
+440,"116 St (2,3)",Manhattan,2025,2284229,365,False
+440,"116 St (2,3)",Manhattan,2026,1721436,287,True
+441,"110 St-Malcolm X Plaza (2,3)",Manhattan,2025,1780784,365,False
+441,"110 St-Malcolm X Plaza (2,3)",Manhattan,2026,1479244,287,True
+442,Eastchester-Dyre Av (5),Bronx,2025,819385,365,False
+442,Eastchester-Dyre Av (5),Bronx,2026,725797,287,True
+443,Baychester Av (5),Bronx,2025,556618,365,False
+443,Baychester Av (5),Bronx,2026,486632,287,True
+444,Gun Hill Rd (5),Bronx,2025,862445,365,False
+444,Gun Hill Rd (5),Bronx,2026,672809,287,True
+445,Pelham Pkwy (5),Bronx,2025,617163,365,False
+445,Pelham Pkwy (5),Bronx,2026,520494,287,True
+446,Morris Park (5),Bronx,2025,558511,365,False
+446,Morris Park (5),Bronx,2026,460262,287,True
+447,Flushing-Main St (7),Queens,2025,15013551,365,False
+447,Flushing-Main St (7),Queens,2026,11968273,287,True
+448,Mets-Willets Point (7),Queens,2025,2510841,365,False
+448,Mets-Willets Point (7),Queens,2026,2135590,287,True
+449,111 St (7),Queens,2025,3446653,365,False
+449,111 St (7),Queens,2026,3015600,287,True
+45,Beverley Rd (Q),Brooklyn,2025,970160,365,False
+45,Beverley Rd (Q),Brooklyn,2026,703649,287,True
+450,103 St-Corona Plaza (7),Queens,2025,5569246,365,False
+450,103 St-Corona Plaza (7),Queens,2026,3849425,287,True
+451,Junction Blvd (7),Queens,2025,6731267,365,False
+451,Junction Blvd (7),Queens,2026,5094644,287,True
+452,90 St-Elmhurst Av (7),Queens,2025,4727429,365,False
+452,90 St-Elmhurst Av (7),Queens,2026,3475385,287,True
+453,82 St-Jackson Hts (7),Queens,2025,3668197,365,False
+453,82 St-Jackson Hts (7),Queens,2026,2962008,287,True
+455,69 St (7),Queens,2025,1152977,365,False
+455,69 St (7),Queens,2026,518933,287,True
+456,61 St-Woodside (7),Queens,2025,4171140,365,False
+456,61 St-Woodside (7),Queens,2026,3319667,287,True
+457,52 St (7),Queens,2025,1253939,365,False
+457,52 St (7),Queens,2026,774555,287,True
+458,46 St-Bliss St (7),Queens,2025,3459850,365,False
+458,46 St-Bliss St (7),Queens,2026,2713118,287,True
+459,40 St-Lowery St (7),Queens,2025,2474487,365,False
+459,40 St-Lowery St (7),Queens,2026,2026204,287,True
+46,Cortelyou Rd (Q),Brooklyn,2025,1474466,365,False
+46,Cortelyou Rd (Q),Brooklyn,2026,1141020,287,True
+460,33 St-Rawson St (7),Queens,2025,2239434,365,False
+460,33 St-Rawson St (7),Queens,2026,1602136,287,True
+461,"Queensboro Plaza (7,N,W)",Queens,2025,3562776,365,False
+461,"Queensboro Plaza (7,N,W)",Queens,2026,2937482,287,True
+463,Hunters Point Av (7),Queens,2025,1076371,365,False
+463,Hunters Point Av (7),Queens,2026,781427,287,True
+464,Vernon Blvd-Jackson Av (7),Queens,2025,4308253,365,False
+464,Vernon Blvd-Jackson Av (7),Queens,2026,3790200,287,True
+47,"Newkirk Plaza (B,Q)",Brooklyn,2025,2265313,365,False
+47,"Newkirk Plaza (B,Q)",Brooklyn,2026,1832840,287,True
+471,34 St-Hudson Yards (7),Manhattan,2025,6752824,365,False
+471,34 St-Hudson Yards (7),Manhattan,2026,5787269,287,True
+475,96 St (Q),Manhattan,2025,4511586,365,False
+475,96 St (Q),Manhattan,2026,3478980,287,True
+476,86 St (Q),Manhattan,2025,6417933,365,False
+476,86 St (Q),Manhattan,2026,5102879,287,True
+477,72 St (Q),Manhattan,2025,7613829,365,False
+477,72 St (Q),Manhattan,2026,5897472,287,True
+48,Avenue H (Q),Brooklyn,2025,747986,365,False
+48,Avenue H (Q),Brooklyn,2026,560849,287,True
+49,Avenue J (Q),Brooklyn,2025,1259124,365,False
+49,Avenue J (Q),Brooklyn,2026,971407,287,True
+5,"36 Av (N,W)",Queens,2025,1629988,365,False
+5,"36 Av (N,W)",Queens,2026,1307270,287,True
+50,Avenue M (Q),Brooklyn,2025,1329442,365,False
+50,Avenue M (Q),Brooklyn,2026,1017189,287,True
+501,St George (SIR),Staten Island,2026,3,287,True
+51,"Kings Hwy (B,Q)",Brooklyn,2025,4502119,365,False
+51,"Kings Hwy (B,Q)",Brooklyn,2026,3480958,287,True
+52,Avenue U (Q),Brooklyn,2025,1588316,365,False
+52,Avenue U (Q),Brooklyn,2026,1248460,287,True
+53,Neck Rd (Q),Brooklyn,2025,1024132,365,False
+53,Neck Rd (Q),Brooklyn,2026,805217,287,True
+54,"Sheepshead Bay (B,Q)",Brooklyn,2025,2823294,365,False
+54,"Sheepshead Bay (B,Q)",Brooklyn,2026,2234090,287,True
+55,"Brighton Beach (B,Q)",Brooklyn,2025,2538650,365,False
+55,"Brighton Beach (B,Q)",Brooklyn,2026,2092755,287,True
+56,Ocean Pkwy (Q),Brooklyn,2025,702655,365,False
+56,Ocean Pkwy (Q),Brooklyn,2026,522513,287,True
+57,"W 8 St-NY Aquarium (F,Q)",Brooklyn,2025,691376,365,False
+57,"W 8 St-NY Aquarium (F,Q)",Brooklyn,2026,562282,287,True
+58,"Coney Island-Stillwell Av (D,F,N,Q)",Brooklyn,2025,3744777,365,False
+58,"Coney Island-Stillwell Av (D,F,N,Q)",Brooklyn,2026,2945049,287,True
+59,9 Av (D),Brooklyn,2025,1402773,365,False
+59,9 Av (D),Brooklyn,2026,1092796,287,True
+6,"39 Av-Dutch Kills (N,W)",Queens,2025,972133,365,False
+6,"39 Av-Dutch Kills (N,W)",Queens,2026,754226,287,True
+60,Fort Hamilton Pkwy (D),Brooklyn,2025,1016213,365,False
+60,Fort Hamilton Pkwy (D),Brooklyn,2026,828152,287,True
+601,"14 St/6 Av (1,2,3,L,F,M)",Manhattan,2025,11513643,365,False
+601,"14 St/6 Av (1,2,3,L,F,M)",Manhattan,2026,9587371,287,True
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",Manhattan,2025,24527632,365,False
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",Manhattan,2026,19427845,287,True
+603,"149 St-Grand Concourse (2,4,5)",Bronx,2025,2598419,365,False
+603,"149 St-Grand Concourse (2,4,5)",Bronx,2026,2021247,287,True
+604,"161 St-Yankee Stadium (4,B,D)",Bronx,2025,6321816,365,False
+604,"161 St-Yankee Stadium (4,B,D)",Bronx,2026,4953477,287,True
+605,"168 St-Washington Hts (1,A,C)",Manhattan,2025,5446182,365,False
+605,"168 St-Washington Hts (1,A,C)",Manhattan,2026,4178407,287,True
+606,"Court Sq-23 St (7,E,F,G)",Queens,2025,6443127,365,False
+606,"Court Sq-23 St (7,E,F,G)",Queens,2026,5559093,287,True
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",Manhattan,2025,26485099,365,False
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",Manhattan,2026,21030411,287,True
+608,"4 Av-9 St (F,G,R)",Brooklyn,2025,3162440,365,False
+608,"4 Av-9 St (F,G,R)",Brooklyn,2026,2606079,287,True
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",Manhattan,2025,13110877,365,False
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",Manhattan,2026,10615454,287,True
+61,50 St (D),Brooklyn,2025,779265,365,False
+61,50 St (D),Brooklyn,2026,629560,287,True
+610,"Grand Central-42 St (4,5,6,7,S)",Manhattan,2025,36363366,365,False
+610,"Grand Central-42 St (4,5,6,7,S)",Manhattan,2026,29494086,287,True
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",Manhattan,2025,48509290,365,False
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",Manhattan,2026,38310502,287,True
+612,"Lexington Av/51-53 Sts (6,E,F)",Manhattan,2025,13387140,365,False
+612,"Lexington Av/51-53 Sts (6,E,F)",Manhattan,2026,11611198,287,True
+613,"Lexington Av/59 St (4,5,6,N,R,W)",Manhattan,2025,12118544,365,False
+613,"Lexington Av/59 St (4,5,6,N,R,W)",Manhattan,2026,9366139,287,True
+614,"59 St-Columbus Circle (1,A,C,B,D)",Manhattan,2025,17436927,365,False
+614,"59 St-Columbus Circle (1,A,C,B,D)",Manhattan,2026,13758053,287,True
+615,"62 St/New Utrecht Av (D,N)",Brooklyn,2025,1217534,365,False
+615,"62 St/New Utrecht Av (D,N)",Brooklyn,2026,962587,287,True
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",Queens,2025,14902370,365,False
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",Queens,2026,11932104,287,True
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",Brooklyn,2025,11175595,365,False
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",Brooklyn,2026,8947676,287,True
+618,"14 St/8 Av (A,C,E,L)",Manhattan,2025,12162937,365,False
+618,"14 St/8 Av (A,C,E,L)",Manhattan,2026,9894958,287,True
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",Manhattan,2025,10811510,365,False
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",Manhattan,2026,8872432,287,True
+62,55 St (D),Brooklyn,2025,424856,365,False
+62,55 St (D),Brooklyn,2026,352503,287,True
+620,"Borough Hall/Court St (2,3,4,5,R)",Brooklyn,2025,6545994,365,False
+620,"Borough Hall/Court St (2,3,4,5,R)",Brooklyn,2026,5310472,287,True
+621,"Broadway Junction (A,C,J,Z,L)",Brooklyn,2025,2004839,365,False
+621,"Broadway Junction (A,C,J,Z,L)",Brooklyn,2026,1751771,287,True
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",Manhattan,2025,6307260,365,False
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",Manhattan,2026,5003966,287,True
+623,"Canal St (6,J,Z,N,Q,R,W)",Manhattan,2025,12159113,365,False
+623,"Canal St (6,J,Z,N,Q,R,W)",Manhattan,2026,9794944,287,True
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",Manhattan,2025,14129427,365,False
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",Manhattan,2026,11515462,287,True
+625,"Delancey St-Essex St (F,M,J,Z)",Manhattan,2025,7842991,365,False
+625,"Delancey St-Essex St (F,M,J,Z)",Manhattan,2026,6622330,287,True
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",Brooklyn,2025,3742553,365,False
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",Brooklyn,2026,2984931,287,True
+627,"Franklin Av (C,S)",Brooklyn,2025,1363484,365,False
+627,"Franklin Av (C,S)",Brooklyn,2026,1136947,287,True
+628,"Fulton St (2,3,4,5,A,C,J,Z)",Manhattan,2025,20647942,365,False
+628,"Fulton St (2,3,4,5,A,C,J,Z)",Manhattan,2026,16043667,287,True
+629,"Metropolitan Av/Lorimer St (G,L)",Brooklyn,2025,4743936,365,False
+629,"Metropolitan Av/Lorimer St (G,L)",Brooklyn,2026,3822111,287,True
+630,"Myrtle-Wyckoff Avs (M,L)",Brooklyn,2025,5669652,365,False
+630,"Myrtle-Wyckoff Avs (M,L)",Brooklyn,2026,4364755,287,True
+635,"Whitehall St-South Ferry (1,R,W)",Manhattan,2025,6987249,365,False
+635,"Whitehall St-South Ferry (1,R,W)",Manhattan,2026,5555682,287,True
+636,"Jay St-MetroTech (A,C,F,R)",Brooklyn,2025,8556570,365,False
+636,"Jay St-MetroTech (A,C,F,R)",Brooklyn,2026,6787749,287,True
+64,71 St (D),Brooklyn,2025,1164001,365,False
+64,71 St (D),Brooklyn,2026,919008,287,True
+65,79 St (D),Brooklyn,2025,1500875,365,False
+65,79 St (D),Brooklyn,2026,1152572,287,True
+66,18 Av (D),Brooklyn,2025,1441753,365,False
+66,18 Av (D),Brooklyn,2026,1114236,287,True
+67,20 Av (D),Brooklyn,2025,1200471,365,False
+67,20 Av (D),Brooklyn,2026,965062,287,True
+68,Bay Pkwy (D),Brooklyn,2025,1740562,365,False
+68,Bay Pkwy (D),Brooklyn,2026,1358703,287,True
+69,25 Av (D),Brooklyn,2025,965374,365,False
+69,25 Av (D),Brooklyn,2026,734023,287,True
+70,Bay 50 St (D),Brooklyn,2025,658251,365,False
+70,Bay 50 St (D),Brooklyn,2026,532560,287,True
+71,8 Av (N),Brooklyn,2025,2950438,365,False
+71,8 Av (N),Brooklyn,2026,2205853,287,True
+72,Fort Hamilton Pkwy (N),Brooklyn,2025,1639303,365,False
+72,Fort Hamilton Pkwy (N),Brooklyn,2026,1237712,287,True
+74,18 Av (N),Brooklyn,2025,1252455,365,False
+74,18 Av (N),Brooklyn,2026,995853,287,True
+75,20 Av (N),Brooklyn,2025,1047252,365,False
+75,20 Av (N),Brooklyn,2026,811980,287,True
+76,Bay Pkwy (N),Brooklyn,2025,1642069,365,False
+76,Bay Pkwy (N),Brooklyn,2026,1309489,287,True
+77,Kings Hwy (N),Brooklyn,2025,1383348,365,False
+77,Kings Hwy (N),Brooklyn,2026,1087982,287,True
+78,Avenue U (N),Brooklyn,2025,945655,365,False
+78,Avenue U (N),Brooklyn,2026,752685,287,True
+79,86 St (N),Brooklyn,2025,579922,365,False
+79,86 St (N),Brooklyn,2026,460077,287,True
+8,"5 Av/59 St (N,R,W)",Manhattan,2025,3858005,365,False
+8,"5 Av/59 St (N,R,W)",Manhattan,2026,3002336,287,True
+80,"121 St (J,Z)",Queens,2025,539380,365,False
+80,"121 St (J,Z)",Queens,2026,414967,287,True
+81,111 St (J),Queens,2025,533027,365,False
+81,111 St (J),Queens,2026,433808,287,True
+82,"104 St (J,Z)",Queens,2025,608281,365,False
+82,"104 St (J,Z)",Queens,2026,485846,287,True
+83,"Woodhaven Blvd (J,Z)",Queens,2025,1117845,365,False
+83,"Woodhaven Blvd (J,Z)",Queens,2026,866316,287,True
+84,85 St-Forest Pkwy (J),Queens,2025,575523,365,False
+84,85 St-Forest Pkwy (J),Queens,2026,625064,287,True
+85,"75 St-Elderts Ln (J,Z)",Queens,2025,857266,365,False
+85,"75 St-Elderts Ln (J,Z)",Queens,2026,565705,287,True
+86,Cypress Hills (J),Brooklyn,2025,170992,365,False
+86,Cypress Hills (J),Brooklyn,2026,217932,287,True
+87,"Crescent St (J,Z)",Brooklyn,2025,973572,365,False
+87,"Crescent St (J,Z)",Brooklyn,2026,688062,287,True
+88,"Norwood Av (J,Z)",Brooklyn,2025,581845,365,False
+88,"Norwood Av (J,Z)",Brooklyn,2026,486936,287,True
+89,Cleveland St (J),Brooklyn,2025,514356,365,False
+89,Cleveland St (J),Brooklyn,2026,418587,287,True
+9,"57 St-7 Av (N,Q,R,W)",Manhattan,2025,8766661,365,False
+9,"57 St-7 Av (N,Q,R,W)",Manhattan,2026,7056863,287,True
+90,"Van Siclen Av (J,Z)",Brooklyn,2025,685515,365,False
+90,"Van Siclen Av (J,Z)",Brooklyn,2026,533957,287,True
+91,"Alabama Av (J,Z)",Brooklyn,2025,462735,365,False
+91,"Alabama Av (J,Z)",Brooklyn,2026,386492,287,True
+93,"Chauncey St (J,Z)",Brooklyn,2025,692633,365,False
+93,"Chauncey St (J,Z)",Brooklyn,2026,537233,287,True
+94,Halsey St (J),Brooklyn,2025,1462439,365,False
+94,Halsey St (J),Brooklyn,2026,1141564,287,True
+95,"Gates Av (J,Z)",Brooklyn,2025,1632692,365,False
+95,"Gates Av (J,Z)",Brooklyn,2026,1236430,287,True
+96,Kosciuszko St (J),Brooklyn,2025,1423813,365,False
+96,Kosciuszko St (J),Brooklyn,2026,1013118,287,True
+97,"Myrtle Av (M,J,Z)",Brooklyn,2025,2928810,365,False
+97,"Myrtle Av (M,J,Z)",Brooklyn,2026,2510575,287,True
+98,"Flushing Av (M,J)",Brooklyn,2025,2018036,365,False
+98,"Flushing Av (M,J)",Brooklyn,2026,1653744,287,True
+99,"Lorimer St (M,J)",Brooklyn,2025,1049344,365,False
+99,"Lorimer St (M,J)",Brooklyn,2026,861504,287,True

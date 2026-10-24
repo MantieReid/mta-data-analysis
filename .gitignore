@@ -1,2 +1,2 @@
-output/daily_station_cache.csv
+output/*_cache.csv
 __pycache__/

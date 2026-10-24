@@ -1,0 +1,76 @@
+{
+ "2025": [
+  {
+   "day": "Mon",
+   "avg_riders": 3697769,
+   "days_counted": 52
+  },
+  {
+   "day": "Tue",
+   "avg_riders": 4165847,
+   "days_counted": 52
+  },
+  {
+   "day": "Wed",
+   "avg_riders": 4164547,
+   "days_counted": 53
+  },
+  {
+   "day": "Thu",
+   "avg_riders": 4117016,
+   "days_counted": 52
+  },
+  {
+   "day": "Fri",
+   "avg_riders": 3873341,
+   "days_counted": 52
+  },
+  {
+   "day": "Sat",
+   "avg_riders": 2718806,
+   "days_counted": 52
+  },
+  {
+   "day": "Sun",
+   "avg_riders": 2154048,
+   "days_counted": 52
+  }
+ ],
+ "2026": [
+  {
+   "day": "Mon",
+   "avg_riders": 3602229,
+   "days_counted": 41
+  },
+  {
+   "day": "Tue",
+   "avg_riders": 4266598,
+   "days_counted": 41
+  },
+  {
+   "day": "Wed",
+   "avg_riders": 4358520,
+   "days_counted": 41
+  },
+  {
+   "day": "Thu",
+   "avg_riders": 4263281,
+   "days_counted": 41
+  },
+  {
+   "day": "Fri",
+   "avg_riders": 3944702,
+   "days_counted": 41
+  },
+  {
+   "day": "Sat",
+   "avg_riders": 2778230,
+   "days_counted": 41
+  },
+  {
+   "day": "Sun",
+   "avg_riders": 2148882,
+   "days_counted": 41
+  }
+ ]
+}
