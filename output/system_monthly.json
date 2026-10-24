@@ -1,0 +1,139 @@
+{
+ "generated": "2026-10-24T17:17:42",
+ "data_through": "2026-10-14",
+ "avg_monthly_riders_complete_months": 108748454,
+ "months": [
+  {
+   "month": "2025-01",
+   "riders": 99908368,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2025-02",
+   "riders": 95052323,
+   "days_with_data": 28,
+   "partial": false
+  },
+  {
+   "month": "2025-03",
+   "riders": 109426505,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2025-04",
+   "riders": 111146384,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2025-05",
+   "riders": 114690418,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2025-06",
+   "riders": 107708095,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2025-07",
+   "riders": 107446874,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2025-08",
+   "riders": 103662841,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2025-09",
+   "riders": 112113271,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2025-10",
+   "riders": 117325178,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2025-11",
+   "riders": 107773402,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2025-12",
+   "riders": 112262373,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2026-01",
+   "riders": 101526068,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2026-02",
+   "riders": 96304893,
+   "days_with_data": 28,
+   "partial": false
+  },
+  {
+   "month": "2026-03",
+   "riders": 115956667,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2026-04",
+   "riders": 113552550,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2026-05",
+   "riders": 114977151,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2026-06",
+   "riders": 115340046,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2026-07",
+   "riders": 109826548,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2026-08",
+   "riders": 105456157,
+   "days_with_data": 31,
+   "partial": false
+  },
+  {
+   "month": "2026-09",
+   "riders": 112261428,
+   "days_with_data": 30,
+   "partial": false
+  },
+  {
+   "month": "2026-10",
+   "riders": 54658606,
+   "days_with_data": 14,
+   "partial": true
+  }
+ ]
+}

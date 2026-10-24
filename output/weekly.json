@@ -1,0 +1,848 @@
+[
+ {
+  "week_start": "2024-12-30",
+  "season": "winter 2024-25",
+  "riders": 12813502,
+  "stations": 424,
+  "avg_riders_per_station": 30221,
+  "days_with_data": 5,
+  "partial": true
+ },
+ {
+  "week_start": "2025-01-06",
+  "season": "winter 2024-25",
+  "riders": 22779855,
+  "stations": 424,
+  "avg_riders_per_station": 53726,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-01-13",
+  "season": "winter 2024-25",
+  "riders": 23340703,
+  "stations": 424,
+  "avg_riders_per_station": 55049,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-01-20",
+  "season": "winter 2024-25",
+  "riders": 21646765,
+  "stations": 421,
+  "avg_riders_per_station": 51417,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-01-27",
+  "season": "winter 2024-25",
+  "riders": 23697865,
+  "stations": 416,
+  "avg_riders_per_station": 56966,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-02-03",
+  "season": "winter 2024-25",
+  "riders": 24415149,
+  "stations": 415,
+  "avg_riders_per_station": 58832,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-02-10",
+  "season": "winter 2024-25",
+  "riders": 24153522,
+  "stations": 414,
+  "avg_riders_per_station": 58342,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-02-17",
+  "season": "winter 2024-25",
+  "riders": 21907144,
+  "stations": 417,
+  "avg_riders_per_station": 52535,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-02-24",
+  "season": "winter 2024-25",
+  "riders": 24839659,
+  "stations": 417,
+  "avg_riders_per_station": 59568,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-03-03",
+  "season": "spring 2025",
+  "riders": 25059894,
+  "stations": 417,
+  "avg_riders_per_station": 60096,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-03-10",
+  "season": "spring 2025",
+  "riders": 25583158,
+  "stations": 418,
+  "avg_riders_per_station": 61204,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-03-17",
+  "season": "spring 2025",
+  "riders": 25238965,
+  "stations": 416,
+  "avg_riders_per_station": 60671,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-03-24",
+  "season": "spring 2025",
+  "riders": 25453163,
+  "stations": 416,
+  "avg_riders_per_station": 61185,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-03-31",
+  "season": "spring 2025",
+  "riders": 25235838,
+  "stations": 416,
+  "avg_riders_per_station": 60663,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-04-07",
+  "season": "spring 2025",
+  "riders": 25641542,
+  "stations": 416,
+  "avg_riders_per_station": 61638,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-04-14",
+  "season": "spring 2025",
+  "riders": 24521570,
+  "stations": 417,
+  "avg_riders_per_station": 58805,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-04-21",
+  "season": "spring 2025",
+  "riders": 26357584,
+  "stations": 416,
+  "avg_riders_per_station": 63360,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-04-28",
+  "season": "spring 2025",
+  "riders": 26614438,
+  "stations": 416,
+  "avg_riders_per_station": 63977,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-05-05",
+  "season": "spring 2025",
+  "riders": 26276950,
+  "stations": 418,
+  "avg_riders_per_station": 62864,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-05-12",
+  "season": "spring 2025",
+  "riders": 26736780,
+  "stations": 421,
+  "avg_riders_per_station": 63508,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-05-19",
+  "season": "spring 2025",
+  "riders": 25937903,
+  "stations": 424,
+  "avg_riders_per_station": 61174,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-05-26",
+  "season": "spring 2025",
+  "riders": 24208001,
+  "stations": 424,
+  "avg_riders_per_station": 57094,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-06-02",
+  "season": "summer 2025",
+  "riders": 26148849,
+  "stations": 424,
+  "avg_riders_per_station": 61672,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-06-09",
+  "season": "summer 2025",
+  "riders": 25929150,
+  "stations": 424,
+  "avg_riders_per_station": 61154,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-06-16",
+  "season": "summer 2025",
+  "riders": 24770452,
+  "stations": 424,
+  "avg_riders_per_station": 58421,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-06-23",
+  "season": "summer 2025",
+  "riders": 25004602,
+  "stations": 424,
+  "avg_riders_per_station": 58973,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-06-30",
+  "season": "summer 2025",
+  "riders": 21715028,
+  "stations": 424,
+  "avg_riders_per_station": 51215,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-07-07",
+  "season": "summer 2025",
+  "riders": 24387318,
+  "stations": 424,
+  "avg_riders_per_station": 57517,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-07-14",
+  "season": "summer 2025",
+  "riders": 24596815,
+  "stations": 424,
+  "avg_riders_per_station": 58011,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-07-21",
+  "season": "summer 2025",
+  "riders": 24845819,
+  "stations": 424,
+  "avg_riders_per_station": 58599,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-07-28",
+  "season": "summer 2025",
+  "riders": 23977818,
+  "stations": 424,
+  "avg_riders_per_station": 56551,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-08-04",
+  "season": "summer 2025",
+  "riders": 24325377,
+  "stations": 424,
+  "avg_riders_per_station": 57371,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-08-11",
+  "season": "summer 2025",
+  "riders": 23567678,
+  "stations": 424,
+  "avg_riders_per_station": 55584,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-08-18",
+  "season": "summer 2025",
+  "riders": 23428214,
+  "stations": 424,
+  "avg_riders_per_station": 55255,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-08-25",
+  "season": "summer 2025",
+  "riders": 23884738,
+  "stations": 424,
+  "avg_riders_per_station": 56332,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-09-01",
+  "season": "fall 2025",
+  "riders": 23277870,
+  "stations": 424,
+  "avg_riders_per_station": 54901,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-09-08",
+  "season": "fall 2025",
+  "riders": 27156510,
+  "stations": 424,
+  "avg_riders_per_station": 64048,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-09-15",
+  "season": "fall 2025",
+  "riders": 27124116,
+  "stations": 424,
+  "avg_riders_per_station": 63972,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-09-22",
+  "season": "fall 2025",
+  "riders": 25945684,
+  "stations": 424,
+  "avg_riders_per_station": 61193,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-09-29",
+  "season": "fall 2025",
+  "riders": 25350930,
+  "stations": 424,
+  "avg_riders_per_station": 59790,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-10-06",
+  "season": "fall 2025",
+  "riders": 25905615,
+  "stations": 424,
+  "avg_riders_per_station": 61098,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-10-13",
+  "season": "fall 2025",
+  "riders": 25407766,
+  "stations": 424,
+  "avg_riders_per_station": 59924,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-10-20",
+  "season": "fall 2025",
+  "riders": 26983617,
+  "stations": 424,
+  "avg_riders_per_station": 63641,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-10-27",
+  "season": "fall 2025",
+  "riders": 28271926,
+  "stations": 424,
+  "avg_riders_per_station": 66679,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-11-03",
+  "season": "fall 2025",
+  "riders": 26869130,
+  "stations": 424,
+  "avg_riders_per_station": 63371,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-11-10",
+  "season": "fall 2025",
+  "riders": 26521964,
+  "stations": 424,
+  "avg_riders_per_station": 62552,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-11-17",
+  "season": "fall 2025",
+  "riders": 27003996,
+  "stations": 424,
+  "avg_riders_per_station": 63689,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-11-24",
+  "season": "fall 2025",
+  "riders": 21392727,
+  "stations": 424,
+  "avg_riders_per_station": 50455,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-12-01",
+  "season": "winter 2025-26",
+  "riders": 27593523,
+  "stations": 424,
+  "avg_riders_per_station": 65079,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-12-08",
+  "season": "winter 2025-26",
+  "riders": 28104269,
+  "stations": 424,
+  "avg_riders_per_station": 66284,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-12-15",
+  "season": "winter 2025-26",
+  "riders": 27193402,
+  "stations": 424,
+  "avg_riders_per_station": 64135,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-12-22",
+  "season": "winter 2025-26",
+  "riders": 19257337,
+  "stations": 424,
+  "avg_riders_per_station": 45418,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2025-12-29",
+  "season": "winter 2025-26",
+  "riders": 19797693,
+  "stations": 424,
+  "avg_riders_per_station": 46693,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-01-05",
+  "season": "winter 2025-26",
+  "riders": 24297790,
+  "stations": 424,
+  "avg_riders_per_station": 57306,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-01-12",
+  "season": "winter 2025-26",
+  "riders": 24523370,
+  "stations": 424,
+  "avg_riders_per_station": 57838,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-01-19",
+  "season": "winter 2025-26",
+  "riders": 21630404,
+  "stations": 424,
+  "avg_riders_per_station": 51015,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-01-26",
+  "season": "winter 2025-26",
+  "riders": 23400759,
+  "stations": 424,
+  "avg_riders_per_station": 55190,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-02-02",
+  "season": "winter 2025-26",
+  "riders": 25745929,
+  "stations": 424,
+  "avg_riders_per_station": 60722,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-02-09",
+  "season": "winter 2025-26",
+  "riders": 26184194,
+  "stations": 424,
+  "avg_riders_per_station": 61755,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-02-16",
+  "season": "winter 2025-26",
+  "riders": 22379343,
+  "stations": 424,
+  "avg_riders_per_station": 52781,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-02-23",
+  "season": "winter 2025-26",
+  "riders": 22101149,
+  "stations": 424,
+  "avg_riders_per_station": 52125,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-03-02",
+  "season": "spring 2026",
+  "riders": 25986759,
+  "stations": 424,
+  "avg_riders_per_station": 61290,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-03-09",
+  "season": "spring 2026",
+  "riders": 26754828,
+  "stations": 424,
+  "avg_riders_per_station": 63101,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-03-16",
+  "season": "spring 2026",
+  "riders": 26256030,
+  "stations": 424,
+  "avg_riders_per_station": 61925,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-03-23",
+  "season": "spring 2026",
+  "riders": 26393200,
+  "stations": 424,
+  "avg_riders_per_station": 62248,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-03-30",
+  "season": "spring 2026",
+  "riders": 25234406,
+  "stations": 424,
+  "avg_riders_per_station": 59515,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-04-06",
+  "season": "spring 2026",
+  "riders": 25174851,
+  "stations": 424,
+  "avg_riders_per_station": 59375,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-04-13",
+  "season": "spring 2026",
+  "riders": 26954803,
+  "stations": 424,
+  "avg_riders_per_station": 63573,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-04-20",
+  "season": "spring 2026",
+  "riders": 27077301,
+  "stations": 424,
+  "avg_riders_per_station": 63862,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-04-27",
+  "season": "spring 2026",
+  "riders": 27221911,
+  "stations": 424,
+  "avg_riders_per_station": 64203,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-05-04",
+  "season": "spring 2026",
+  "riders": 26791114,
+  "stations": 424,
+  "avg_riders_per_station": 63187,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-05-11",
+  "season": "spring 2026",
+  "riders": 27966234,
+  "stations": 424,
+  "avg_riders_per_station": 65958,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-05-18",
+  "season": "spring 2026",
+  "riders": 26023186,
+  "stations": 424,
+  "avg_riders_per_station": 61375,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-05-25",
+  "season": "spring 2026",
+  "riders": 24535917,
+  "stations": 424,
+  "avg_riders_per_station": 57868,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-06-01",
+  "season": "summer 2026",
+  "riders": 27405359,
+  "stations": 424,
+  "avg_riders_per_station": 64635,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-06-08",
+  "season": "summer 2026",
+  "riders": 27719348,
+  "stations": 424,
+  "avg_riders_per_station": 65376,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-06-15",
+  "season": "summer 2026",
+  "riders": 26172085,
+  "stations": 425,
+  "avg_riders_per_station": 61581,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-06-22",
+  "season": "summer 2026",
+  "riders": 26162271,
+  "stations": 424,
+  "avg_riders_per_station": 61703,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-06-29",
+  "season": "summer 2026",
+  "riders": 22144410,
+  "stations": 424,
+  "avg_riders_per_station": 52227,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-07-06",
+  "season": "summer 2026",
+  "riders": 24745837,
+  "stations": 424,
+  "avg_riders_per_station": 58363,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-07-13",
+  "season": "summer 2026",
+  "riders": 24992015,
+  "stations": 424,
+  "avg_riders_per_station": 58943,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-07-20",
+  "season": "summer 2026",
+  "riders": 25613970,
+  "stations": 424,
+  "avg_riders_per_station": 60410,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-07-27",
+  "season": "summer 2026",
+  "riders": 25410169,
+  "stations": 424,
+  "avg_riders_per_station": 59930,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-08-03",
+  "season": "summer 2026",
+  "riders": 24833349,
+  "stations": 424,
+  "avg_riders_per_station": 58569,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-08-10",
+  "season": "summer 2026",
+  "riders": 24252931,
+  "stations": 424,
+  "avg_riders_per_station": 57200,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-08-17",
+  "season": "summer 2026",
+  "riders": 23672203,
+  "stations": 424,
+  "avg_riders_per_station": 55831,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-08-24",
+  "season": "summer 2026",
+  "riders": 23868835,
+  "stations": 424,
+  "avg_riders_per_station": 56294,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-08-31",
+  "season": "fall 2026",
+  "riders": 24259499,
+  "stations": 424,
+  "avg_riders_per_station": 57216,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-09-07",
+  "season": "fall 2026",
+  "riders": 24653222,
+  "stations": 425,
+  "avg_riders_per_station": 58008,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-09-14",
+  "season": "fall 2026",
+  "riders": 27521064,
+  "stations": 424,
+  "avg_riders_per_station": 64908,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-09-21",
+  "season": "fall 2026",
+  "riders": 26272199,
+  "stations": 425,
+  "avg_riders_per_station": 61817,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-09-28",
+  "season": "fall 2026",
+  "riders": 27439900,
+  "stations": 424,
+  "avg_riders_per_station": 64717,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-10-05",
+  "season": "fall 2026",
+  "riders": 27785802,
+  "stations": 424,
+  "avg_riders_per_station": 65533,
+  "days_with_data": 7,
+  "partial": false
+ },
+ {
+  "week_start": "2026-10-12",
+  "season": "fall 2026",
+  "riders": 12618317,
+  "stations": 424,
+  "avg_riders_per_station": 29760,
+  "days_with_data": 3,
+  "partial": true
+ }
+]

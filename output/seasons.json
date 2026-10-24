@@ -1,0 +1,58 @@
+[
+ {
+  "season": "winter 2024-25",
+  "first_week": "2024-12-30",
+  "complete_weeks": 8,
+  "avg_weekly_riders": 23347583,
+  "partial": true
+ },
+ {
+  "season": "spring 2025",
+  "first_week": "2025-03-03",
+  "complete_weeks": 13,
+  "avg_weekly_riders": 25605060,
+  "partial": false
+ },
+ {
+  "season": "summer 2025",
+  "first_week": "2025-06-02",
+  "complete_weeks": 13,
+  "avg_weekly_riders": 24352451,
+  "partial": false
+ },
+ {
+  "season": "fall 2025",
+  "first_week": "2025-09-01",
+  "complete_weeks": 13,
+  "avg_weekly_riders": 25939373,
+  "partial": false
+ },
+ {
+  "season": "winter 2025-26",
+  "first_week": "2025-12-01",
+  "complete_weeks": 13,
+  "avg_weekly_riders": 24016089,
+  "partial": false
+ },
+ {
+  "season": "spring 2026",
+  "first_week": "2026-03-02",
+  "complete_weeks": 13,
+  "avg_weekly_riders": 26336195,
+  "partial": false
+ },
+ {
+  "season": "summer 2026",
+  "first_week": "2026-06-01",
+  "complete_weeks": 13,
+  "avg_weekly_riders": 25153291,
+  "partial": false
+ },
+ {
+  "season": "fall 2026",
+  "first_week": "2026-08-31",
+  "complete_weeks": 6,
+  "avg_weekly_riders": 26321948,
+  "partial": true
+ }
+]

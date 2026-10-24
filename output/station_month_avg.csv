@@ -1,0 +1,426 @@
+station_complex_id,station_complex,borough,avg_monthly_riders,complete_months
+611,"Times Sq-42 St/Port Authority Bus Terminal (1,2,3,7,A,C,E,N,Q,R,W,S)",Manhattan,4040031,21
+610,"Grand Central-42 St (4,5,6,7,S)",Manhattan,3062388,21
+607,"34 St-Herald Sq (B,D,F,M,N,Q,R,W)",Manhattan,2208994,21
+602,"14 St-Union Sq (4,5,6,L,N,Q,R,W)",Manhattan,2042584,21
+164,"34 St-Penn Station (A,C,E)",Manhattan,1734829,21
+628,"Fulton St (2,3,4,5,A,C,J,Z)",Manhattan,1706787,21
+318,"34 St-Penn Station (1,2,3)",Manhattan,1511262,21
+614,"59 St-Columbus Circle (1,A,C,B,D)",Manhattan,1449198,21
+447,Flushing-Main St (7),Queens,1255470,21
+616,"Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",Queens,1249015,21
+624,"Chambers St/WTC/Park Place/Cortlandt St (2,3,A,C,E,R,W)",Manhattan,1192340,21
+612,"Lexington Av/51-53 Sts (6,E,F)",Manhattan,1160717,21
+225,"47-50 Sts-Rockefeller Ctr (B,D,F,M)",Manhattan,1137351,21
+609,"42 St-Bryant Pk/5 Av (7,B,D,F,M)",Manhattan,1103377,21
+167,"W 4 St-Wash Sq (A,C,E,B,D,F,M)",Manhattan,1032508,21
+618,"14 St/8 Av (A,C,E,L)",Manhattan,1026497,21
+623,"Canal St (6,J,Z,N,Q,R,W)",Manhattan,1021181,21
+613,"Lexington Av/59 St (4,5,6,N,R,W)",Manhattan,1000252,21
+601,"14 St/6 Av (1,2,3,L,F,M)",Manhattan,979349,21
+617,"Atlantic Av-Barclays Ctr (2,3,4,5,B,D,N,Q,R)",Brooklyn,935859,21
+397,"86 St (4,5,6)",Manhattan,920155,21
+619,"Broadway-Lafayette St/Bleecker St (6,B,D,F,M)",Manhattan,914494,21
+120,Bedford Av (L),Brooklyn,834862,21
+313,"72 St (1,2,3)",Manhattan,831581,21
+9,"57 St-7 Av (N,Q,R,W)",Manhattan,735777,21
+310,"96 St (1,2,3)",Manhattan,732526,21
+636,"Jay St-MetroTech (A,C,F,R)",Brooklyn,712393,21
+625,"Delancey St-Essex St (F,M,J,Z)",Manhattan,671513,21
+477,72 St (Q),Manhattan,628646,21
+10,"49 St (N,R,W)",Manhattan,625242,21
+119,1 Av (L),Manhattan,616619,21
+279,"Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",Queens,614795,21
+635,"Whitehall St-South Ferry (1,R,W)",Manhattan,583338,21
+471,34 St-Hudson Yards (7),Manhattan,580619,21
+398,77 St (6),Manhattan,561072,21
+278,"Jamaica Center-Parsons/Archer (E,J,Z)",Queens,559729,21
+606,"Court Sq-23 St (7,E,F,G)",Queens,557317,21
+451,Junction Blvd (7),Queens,551095,21
+620,"Borough Hall/Court St (2,3,4,5,R)",Brooklyn,550883,21
+403,33 St (6),Manhattan,549648,21
+228,"23 St (F,M)",Manhattan,545605,21
+316,50 St (1),Manhattan,541210,21
+261,"Forest Hills-71 Av (E,F,M,R)",Queens,540507,21
+153,"125 St (A,C,B,D)",Manhattan,535984,21
+476,86 St (Q),Manhattan,535832,21
+604,"161 St-Yankee Stadium (4,B,D)",Bronx,527580,21
+622,"Brooklyn Bridge-City Hall/Chambers St (4,5,6,J,Z)",Manhattan,525855,21
+405,23 St-Baruch College (6),Manhattan,510306,21
+231,"Grand St (B,D)",Manhattan,507352,21
+162,"50 St (C,E)",Manhattan,500177,21
+392,"125 St (4,5,6)",Manhattan,481880,21
+26,"DeKalb Av (B,Q,R)",Brooklyn,470524,21
+630,"Myrtle-Wyckoff Avs (M,L)",Brooklyn,467367,21
+399,68 St-Hunter College (6),Manhattan,457299,21
+345,"Crown Hts-Utica Av (3,4)",Brooklyn,451787,21
+605,"168 St-Washington Hts (1,A,C)",Manhattan,448051,21
+259,"Kew Gardens-Union Tpke (E,F)",Queens,440073,21
+450,103 St-Corona Plaza (7),Queens,438651,21
+151,"145 St (A,C,B,D)",Manhattan,437278,21
+165,"23 St (C,E)",Manhattan,435643,21
+414,"Bowling Green (4,5)",Manhattan,434126,21
+314,66 St-Lincoln Center (1),Manhattan,429173,21
+14,"23 St (R,W)",Manhattan,407730,21
+404,28 St (6),Manhattan,405264,21
+629,"Metropolitan Av/Lorimer St (G,L)",Brooklyn,398315,21
+232,2 Av (F),Manhattan,390379,21
+277,"7 Av (E,B,D)",Manhattan,382764,21
+452,90 St-Elmhurst Av (7),Queens,382253,21
+264,"Woodhaven Blvd (M,R)",Queens,381280,21
+265,"Grand Av-Newtown (M,R)",Queens,377299,21
+464,Vernon Blvd-Jackson Av (7),Queens,376129,21
+333,"Wall St (2,3)",Manhattan,375674,21
+51,"Kings Hwy (B,Q)",Brooklyn,371934,21
+328,WTC Cortlandt (1),Manhattan,371780,21
+475,96 St (Q),Manhattan,371761,21
+169,"Canal St (A,C,E)",Manhattan,368842,21
+179,"Nostrand Av (A,C)",Brooklyn,367959,21
+311,86 St (1),Manhattan,365829,21
+273,"Queens Plaza (E,F,R)",Queens,364421,21
+223,"Lexington Av/63 St (M,Q)",Manhattan,363513,21
+276,"5 Av/53 St (E,F)",Manhattan,363510,21
+16,"8 St-NYU (R,W)",Manhattan,360651,21
+327,"Chambers St (1,2,3)",Manhattan,350387,21
+434,"3 Av-149 St (2,5)",Bronx,350069,21
+359,"Flatbush Av-Brooklyn College (2,5)",Brooklyn,348990,21
+456,61 St-Woodside (7),Queens,348749,21
+407,Astor Pl (6),Manhattan,341975,21
+254,Jamaica-179 St (F),Queens,341411,21
+396,96 St (6),Manhattan,338852,21
+235,York St (F),Brooklyn,335855,21
+32,"36 St (D,N,R)",Brooklyn,333722,21
+168,"Spring St (C,E)",Manhattan,328298,21
+234,East Broadway (F),Manhattan,327578,21
+312,79 St (1),Manhattan,324291,21
+413,"Wall St (4,5)",Manhattan,321170,21
+8,"5 Av/59 St (N,R,W)",Manhattan,318538,21
+626,"Franklin Av-Medgar Evers College/Botanic Garden (2,3,4,5,S)",Brooklyn,312564,21
+17,"Prince St (R,W)",Manhattan,312306,21
+58,"Coney Island-Stillwell Av (D,F,N,Q)",Brooklyn,312142,21
+453,82 St-Jackson Hts (7),Queens,308669,21
+461,"Queensboro Plaza (7,N,W)",Queens,301896,21
+1,"Astoria-Ditmars Blvd (N,W)",Queens,301030,21
+324,Houston St (1),Manhattan,300703,21
+449,111 St (7),Queens,300413,21
+181,"Utica Av (A,C)",Brooklyn,298817,21
+159,"81 St-Museum of Natural History (C,B)",Manhattan,289019,21
+224,57 St (M),Manhattan,288502,21
+458,46 St-Bliss St (7),Queens,287317,21
+320,23 St (1),Manhattan,284506,21
+409,Spring St (6),Manhattan,284081,21
+439,"125 St (2,3)",Manhattan,284051,21
+307,116 St-Columbia University (1),Manhattan,281202,21
+3,"30 Av (N,W)",Queens,278361,21
+319,28 St (1),Manhattan,276971,21
+323,Christopher St-Stonewall (1),Manhattan,275841,21
+13,"28 St (R,W)",Manhattan,274322,21
+35,"59 St (N,R)",Brooklyn,273002,21
+266,"Elmhurst Av (M,R)",Queens,272165,21
+263,"63 Dr-Rego Park (M,R)",Queens,271943,21
+127,DeKalb Av (L),Brooklyn,270232,21
+608,"4 Av-9 St (F,G,R)",Brooklyn,268135,21
+175,"Hoyt-Schermerhorn Sts (A,C,G)",Brooklyn,261393,21
+44,"Church Av (B,Q)",Brooklyn,260533,21
+101,"Marcy Av (M,J,Z)",Brooklyn,258403,21
+393,116 St (6),Manhattan,258086,21
+237,"Carroll St (F,G)",Brooklyn,257871,21
+308,Cathedral Pkwy (110 St) (1),Manhattan,257111,21
+97,"Myrtle Av (M,J,Z)",Brooklyn,252824,21
+236,"Bergen St (F,G)",Brooklyn,252209,21
+240,"7 Av (F,G)",Brooklyn,251947,21
+4,"Broadway (N,W)",Queens,250734,21
+271,"Steinway St (M,R)",Queens,249946,21
+309,103 St (1),Manhattan,249300,21
+395,103 St (6),Manhattan,242863,21
+173,"High St (A,C)",Brooklyn,241725,21
+71,8 Av (N),Brooklyn,240289,21
+366,Parkchester (6),Bronx,237413,21
+54,"Sheepshead Bay (B,Q)",Brooklyn,235578,21
+305,137 St-City College (1),Manhattan,232113,21
+38,86 St (R),Brooklyn,231249,21
+283,Greenpoint Av (G),Brooklyn,229628,21
+158,"86 St (C,B)",Manhattan,225134,21
+221,21 St-Queensbridge (M),Queens,224542,21
+160,"72 St (C,B)",Manhattan,223906,21
+438,"135 St (2,3)",Manhattan,222849,21
+284,Nassau Av (G),Brooklyn,218436,21
+448,Mets-Willets Point (7),Queens,218027,21
+2,"Astoria Blvd (N,W)",Queens,217774,21
+55,"Brighton Beach (B,Q)",Brooklyn,215843,21
+126,Jefferson St (L),Brooklyn,215076,21
+603,"149 St-Grand Concourse (2,4,5)",Bronx,213972,21
+138,Canarsie-Rockaway Pkwy (L),Brooklyn,213759,21
+42,"Prospect Park (B,Q,S)",Brooklyn,212832,21
+459,40 St-Lowery St (7),Queens,209272,21
+122,Graham Av (L),Brooklyn,206589,21
+301,181 St (1),Manhattan,205968,21
+394,110 St (6),Manhattan,201676,21
+303,157 St (1),Manhattan,200680,21
+147,175 St (A),Manhattan,199930,21
+41,"7 Av (B,Q)",Brooklyn,198988,21
+337,"Nevins St (2,3,4,5)",Brooklyn,193379,21
+157,"96 St (C,B)",Manhattan,191413,21
+47,"Newkirk Plaza (B,Q)",Brooklyn,190804,21
+289,Bedford-Nostrand Avs (G),Brooklyn,189265,21
+146,181 St (A),Manhattan,188370,21
+222,Roosevelt Island (M),Manhattan,187605,21
+34,53 St (R),Brooklyn,187593,21
+440,"116 St (2,3)",Manhattan,186390,21
+371,Hunts Point Av (6),Bronx,185496,21
+243,"Church Av (F,G)",Brooklyn,185150,21
+356,"Church Av (2,5)",Brooklyn,183865,21
+304,145 St (1),Manhattan,180233,21
+460,33 St-Rawson St (7),Queens,178241,21
+306,125 St (1),Manhattan,174933,21
+621,"Broadway Junction (A,C,J,Z,L)",Brooklyn,174731,21
+28,Union St (R),Brooklyn,174391,21
+125,Morgan Av (L),Brooklyn,173995,21
+129,Halsey St (L),Queens,172775,21
+382,Fordham Rd (4),Bronx,172094,21
+188,"Euclid Av (A,C)",Brooklyn,171748,21
+98,"Flushing Av (M,J)",Brooklyn,170649,21
+33,45 St (R),Brooklyn,169653,21
+295,231 St (1),Bronx,165167,21
+143,Inwood-207 St (A),Manhattan,165059,21
+270,"46 St (M,R)",Queens,164563,21
+177,Clinton-Washington Avs (C),Brooklyn,163475,21
+426,"E 180 St (2,5)",Bronx,160477,21
+118,3 Av (L),Manhattan,159233,21
+213,"Fordham Rd (B,D)",Bronx,158872,21
+321,18 St (1),Manhattan,158317,21
+388,167 St (4),Bronx,158314,21
+377,3 Av-138 St (6),Bronx,158029,21
+36,Bay Ridge Av (R),Brooklyn,157785,21
+262,"67 Av (M,R)",Queens,157026,21
+329,Rector St (1),Manhattan,156251,21
+355,"Winthrop St (2,5)",Brooklyn,155353,21
+155,"Cathedral Pkwy (110 St) (C,B)",Manhattan,155029,21
+381,Kingsbridge Rd (4),Bronx,154260,21
+124,Montrose Av (L),Brooklyn,153685,21
+441,"110 St-Malcolm X Plaza (2,3)",Manhattan,151439,21
+384,Burnside Av (4),Bronx,150279,21
+255,169 St (F),Queens,150207,21
+215,"Tremont Av (B,D)",Bronx,149495,21
+340,"Grand Army Plaza (2,3)",Brooklyn,148038,21
+218,"167 St (B,D)",Bronx,145594,21
+300,191 St (1),Manhattan,144285,21
+68,Bay Pkwy (D),Brooklyn,144134,21
+334,"Clark St (2,3)",Brooklyn,143438,21
+123,Grand St (L),Brooklyn,139282,21
+180,Kingston-Throop Avs (C),Brooklyn,138963,21
+76,Bay Pkwy (N),Brooklyn,137427,21
+5,"36 Av (N,W)",Queens,136563,21
+430,"Simpson St (2,5)",Bronx,136055,21
+299,Dyckman St (1),Manhattan,135944,21
+256,Parsons Blvd (F),Queens,135057,21
+292,Fulton St (G),Brooklyn,134485,21
+72,Fort Hamilton Pkwy (N),Brooklyn,133909,21
+43,Parkside Av (Q),Brooklyn,133693,21
+95,"Gates Av (J,Z)",Brooklyn,133370,21
+358,"Newkirk Av-Little Haiti (2,5)",Brooklyn,132470,21
+52,Avenue U (Q),Brooklyn,132256,21
+269,"Northern Blvd (M,R)",Queens,132171,21
+192,Rockaway Blvd (A),Queens,131453,21
+336,"Hoyt St (2,3)",Brooklyn,130742,21
+387,170 St (4),Bronx,130396,21
+424,"Pelham Pkwy (2,5)",Bronx,128072,21
+154,"116 St (C,B)",Manhattan,127196,21
+144,Dyckman St (A),Manhattan,126796,21
+379,Mosholu Pkwy (4),Bronx,126263,21
+326,Franklin St (1),Manhattan,125326,21
+241,"15 St-Prospect Park (F,G)",Brooklyn,124184,21
+107,"Broad St (J,Z)",Manhattan,123740,21
+65,79 St (D),Brooklyn,123577,21
+46,Cortelyou Rd (Q),Brooklyn,122014,21
+94,Halsey St (J),Brooklyn,120993,21
+30,Prospect Av (R),Brooklyn,120974,21
+211,"Bedford Park Blvd (B,D)",Bronx,120937,21
+291,Clinton-Washington Avs (G),Brooklyn,119652,21
+242,"Fort Hamilton Pkwy (F,G)",Brooklyn,119618,21
+298,207 St (1),Manhattan,119207,21
+66,18 Av (D),Brooklyn,118961,21
+378,Woodlawn (4),Bronx,117782,21
+176,Lafayette Av (C),Brooklyn,117221,21
+109,Fresh Pond Rd (M),Queens,116519,21
+627,"Franklin Av (C,S)",Brooklyn,116205,21
+59,9 Av (D),Brooklyn,116150,21
+210,Norwood-205 St (D),Bronx,115386,21
+346,Sutter Av-Rutland Rd (3),Brooklyn,115282,21
+77,Kings Hwy (N),Brooklyn,115062,21
+195,Ozone Park-Lefferts Blvd (A),Queens,114162,21
+369,Elder Av (6),Bronx,113636,21
+428,"174 St (2,5)",Bronx,113402,21
+96,Kosciuszko St (J),Brooklyn,113397,21
+325,Canal St (1),Manhattan,113268,21
+290,Classon Av (G),Brooklyn,112318,21
+432,"Prospect Av (2,5)",Bronx,112054,21
+354,"Sterling St (2,5)",Brooklyn,111774,21
+198,Howard Beach-JFK Airport (A),Queens,111569,21
+293,Van Cortlandt Park-242 St (1),Bronx,111206,21
+37,77 St (R),Brooklyn,110878,21
+22,"Rector St (R,W)",Manhattan,110483,21
+212,"Kingsbridge Rd (B,D)",Bronx,109985,21
+368,Morrison Av-Soundview (6),Bronx,109883,21
+50,Avenue M (Q),Brooklyn,109375,21
+217,"170 St (B,D)",Bronx,109336,21
+39,Bay Ridge-95 St (R),Brooklyn,108664,21
+182,Ralph Av (C),Brooklyn,107932,21
+421,"Gun Hill Rd (2,5)",Bronx,106490,21
+360,Pelham Bay Park (6),Bronx,106243,21
+74,18 Av (N),Brooklyn,104707,21
+49,Avenue J (Q),Brooklyn,103917,21
+365,Castle Hill Av (6),Bronx,103779,21
+427,"West Farms Sq-E Tremont Av (2,5)",Bronx,103639,21
+152,"135 St (C,B)",Manhattan,103272,21
+183,Rockaway Av (C),Brooklyn,103222,21
+20,"City Hall (R,W)",Manhattan,102412,21
+288,Myrtle-Willoughby Avs (G),Brooklyn,102129,21
+615,"62 St/New Utrecht Av (D,N)",Brooklyn,101405,21
+341,"Eastern Pkwy-Brooklyn Museum (2,3)",Brooklyn,101204,21
+67,20 Av (D),Brooklyn,100645,21
+385,176 St (4),Bronx,100295,21
+258,"Briarwood (E,F)",Queens,99230,21
+189,Grant Av (A),Brooklyn,97648,21
+130,Wilson Av (L),Brooklyn,97387,21
+286,Broadway (G),Brooklyn,96962,21
+64,71 St (D),Brooklyn,96822,21
+383,183 St (4),Bronx,96381,21
+352,New Lots Av (3),Brooklyn,96186,21
+339,"Bergen St (2,3)",Brooklyn,95591,21
+433,"Jackson Av (2,5)",Bronx,95444,21
+280,Jamaica-Van Wyck (E),Queens,94658,21
+457,52 St (7),Queens,94366,21
+156,"103 St (C,B)",Manhattan,93629,21
+83,"Woodhaven Blvd (J,Z)",Queens,92330,21
+357,"Beverly Rd (2,5)",Brooklyn,92202,21
+238,"Smith-9 Sts (F,G)",Brooklyn,91797,21
+380,Bedford Park Blvd-Lehman College (4),Bronx,91404,21
+110,Forest Av (M),Queens,91105,21
+376,Brook Av (6),Bronx,90910,21
+296,Marble Hill-225 St (1),Manhattan,90463,21
+347,Saratoga Av (3),Brooklyn,89882,21
+113,Knickerbocker Av (M),Brooklyn,88730,21
+99,"Lorimer St (M,J)",Brooklyn,88439,21
+103,"Bowery (J,Z)",Manhattan,87284,21
+294,238 St (1),Bronx,87170,21
+463,Hunters Point Av (7),Queens,86511,21
+75,20 Av (N),Brooklyn,86483,21
+60,Fort Hamilton Pkwy (D),Brooklyn,85741,21
+344,Kingston Av (3),Brooklyn,85438,21
+53,Neck Rd (Q),Brooklyn,85276,21
+257,Sutphin Blvd (F),Queens,83174,21
+145,190 St (A),Manhattan,82887,21
+214,"182-183 Sts (B,D)",Bronx,82472,21
+373,E 149 St (6),Bronx,82315,21
+348,Rockaway Av (3),Brooklyn,82265,21
+363,Westchester Sq-E Tremont Av (6),Bronx,81565,21
+386,Mt Eden Av (4),Bronx,81540,21
+190,80 St (A),Queens,81423,21
+114,Central Av (M),Brooklyn,81344,21
+6,"39 Av-Dutch Kills (N,W)",Queens,80224,21
+216,"174-175 Sts (B,D)",Bronx,79544,21
+149,163 St-Amsterdam Av (C),Manhattan,79082,21
+69,25 Av (D),Brooklyn,79010,21
+78,Avenue U (N),Brooklyn,78942,21
+455,69 St (7),Queens,78272,21
+416,Wakefield-241 St (2),Bronx,78241,21
+45,Beverley Rd (Q),Brooklyn,78154,21
+391,"138 St-Grand Concourse (4,5)",Bronx,78045,21
+429,"Freeman St (2,5)",Bronx,77717,21
+272,"36 St (M,R)",Queens,77561,21
+87,"Crescent St (J,Z)",Brooklyn,77447,21
+31,25 St (R),Brooklyn,77076,21
+209,Far Rockaway-Mott Av (A),Queens,77073,21
+108,Middle Village-Metropolitan Av (M),Queens,76393,21
+367,St Lawrence Av (6),Bronx,75289,21
+268,"65 St (M,R)",Queens,74552,21
+423,"Allerton Av (2,5)",Bronx,72996,21
+244,Ditmas Av (F),Brooklyn,72361,21
+442,Eastchester-Dyre Av (5),Bronx,71736,21
+444,Gun Hill Rd (5),Bronx,71530,21
+136,New Lots Av (L),Brooklyn,69907,21
+343,Nostrand Av (3),Brooklyn,69789,21
+353,"President St-Medgar Evers College (2,5)",Brooklyn,68803,21
+245,18 Av (F),Brooklyn,66637,21
+260,"75 Av (E,F)",Queens,66460,21
+350,Pennsylvania Av (3),Brooklyn,66196,21
+85,"75 St-Elderts Ln (J,Z)",Queens,66073,21
+61,50 St (D),Brooklyn,65596,21
+361,Buhre Av (6),Bronx,65440,21
+418,"233 St (2,5)",Bronx,65079,21
+287,Flushing Av (G),Brooklyn,62950,21
+48,Avenue H (Q),Brooklyn,61223,21
+111,Seneca Av (M),Queens,59292,21
+57,"W 8 St-NY Aquarium (F,Q)",Brooklyn,58584,21
+186,Van Siclen Av (C),Brooklyn,58141,21
+436,Harlem-148 St (3),Manhattan,57922,21
+431,"Intervale Av (2,5)",Bronx,57822,21
+250,Kings Hwy (F),Brooklyn,57579,21
+56,Ocean Pkwy (Q),Brooklyn,57203,21
+93,"Chauncey St (J,Z)",Brooklyn,57102,21
+437,145 St (3),Manhattan,56750,21
+90,"Van Siclen Av (J,Z)",Brooklyn,56703,21
+100,"Hewes St (M,J)",Brooklyn,56270,21
+372,Longwood Av (6),Bronx,55850,21
+135,Livonia Av (L),Brooklyn,55530,21
+84,85 St-Forest Pkwy (J),Queens,55525,21
+70,Bay 50 St (D),Brooklyn,55096,21
+134,Sutter Av (L),Brooklyn,53669,21
+445,Pelham Pkwy (5),Bronx,52780,21
+137,East 105 St (L),Brooklyn,52395,21
+375,Cypress Av (6),Bronx,52317,21
+419,"225 St (2,5)",Bronx,52279,21
+131,Bushwick Av-Aberdeen St (L),Brooklyn,51657,21
+191,88 St (A),Queens,51550,21
+220,"155 St (B,D)",Manhattan,51174,21
+82,"104 St (J,Z)",Queens,50856,21
+248,Avenue N (F),Brooklyn,50646,21
+133,Atlantic Av (L),Brooklyn,50088,21
+187,Shepherd Av (C),Brooklyn,49862,21
+185,Liberty Av (C),Brooklyn,49605,21
+88,"Norwood Av (J,Z)",Brooklyn,49599,21
+150,155 St (C),Manhattan,48883,21
+417,"Nereid Av (2,5)",Bronx,48752,21
+79,86 St (N),Brooklyn,48655,21
+443,Baychester Av (5),Bronx,48396,21
+249,Avenue P (F),Brooklyn,48359,21
+252,Avenue X (F),Brooklyn,47769,21
+420,"219 St (2,5)",Bronx,47626,21
+446,Morris Park (5),Bronx,47351,21
+349,Junius St (3),Brooklyn,47076,21
+81,111 St (J),Queens,44822,21
+297,215 St (1),Manhattan,44615,21
+80,"121 St (J,Z)",Queens,44369,21
+422,"Burke Av (2,5)",Bronx,44246,21
+89,Cleveland St (J),Brooklyn,43330,21
+351,Van Siclen Av (3),Brooklyn,43223,21
+364,Zerega Av (6),Bronx,41812,21
+282,21 St (G),Queens,41558,21
+425,"Bronx Park East (2,5)",Bronx,41261,21
+91,"Alabama Av (J,Z)",Brooklyn,39416,21
+194,111 St (A),Queens,37793,21
+251,Avenue U (F),Brooklyn,37286,21
+62,55 St (D),Brooklyn,36157,21
+141,Park Pl (S),Brooklyn,35642,21
+204,Beach 67 St (A),Queens,35397,21
+362,Middletown Rd (6),Bronx,35273,21
+374,E 143 St-St Mary's St (6),Bronx,34259,21
+193,104 St (A),Queens,32068,21
+370,Whitlock Av (6),Bronx,31893,21
+246,Avenue I (F),Brooklyn,29039,21
+253,Neptune Av (F),Brooklyn,28774,21
+205,Beach 60 St (A),Queens,24718,21
+208,Beach 25 St (A),Queens,24286,18
+247,Bay Pkwy (F),Brooklyn,20654,21
+86,Cypress Hills (J),Brooklyn,17971,21
+200,"Beach 90 St (A,S)",Queens,16733,19
+203,"Rockaway Park-Beach 116 St (A,S)",Queens,16114,18
+197,Aqueduct-N Conduit Av (A),Queens,15919,21
+196,Aqueduct Racetrack (A),Queens,15296,21
+207,Beach 36 St (A),Queens,11897,21
+206,Beach 44 St (A),Queens,10529,20
+201,"Beach 98 St (A,S)",Queens,9020,19
+202,"Beach 105 St (A,S)",Queens,6792,18
+199,"Broad Channel (A,S)",Queens,4894,19
+501,St George (SIR),Staten Island,2,2
