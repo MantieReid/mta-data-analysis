@@ -90,7 +90,8 @@
     Array.prototype.forEach.call(ol.children, function (x) { x.classList.toggle('on', x === li); });
     box.innerHTML = '';
     box.appendChild(el('p', 'mta-note', '<strong>' + esc(stationLabel(e.name)) + '</strong>: daily riders around ' + niceDate(e.peak_day) +
-      '. Dashed line = its normal level for that weekday.'));
+      '. Dashed line = its normal level for a ' + ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][new Date(e.peak_day + 'T00:00:00Z').getUTCDay()] +
+      ' (other days of the week have their own normal).'));
     var labels = [], start = new Date(e.series_start + 'T00:00:00Z');
     e.series.forEach(function (_, i) {
       var d = new Date(start.getTime() + i * 86400000);
