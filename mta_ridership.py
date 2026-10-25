@@ -30,6 +30,7 @@ import argparse
 import csv
 import json
 import math
+from decimal import ROUND_HALF_UP, Decimal
 import os
 import statistics
 import sys
@@ -160,10 +161,9 @@ SPIKE_MIN_BASELINE, QUIET_MIN_BASELINE = 1500, 3000
 
 def php_round(x, nd=0):
     """Round half away from zero, like PHP's round(), so outputs match the plugin exactly."""
-    m = 10 ** nd
-    r = math.floor(abs(x) * m + 0.5) / m
-    r = -r if x < 0 else r
-    return int(r) if nd == 0 else r
+    # Work on the decimal form (like PHP's pre-rounding) so 40.755745 -> 40.75575, not 40.75574.
+    r = Decimal(repr(float(x))).quantize(Decimal(1).scaleb(-nd), rounding=ROUND_HALF_UP)
+    return int(r) if nd == 0 else float(r)
 
 
 def baseline(series, i):
@@ -319,6 +319,94 @@ def compute_trends(daily, names, latest, refresh):
                        key=lambda x: -x["transfers"])
     write_json("transfers.json", {"from": year_from, "to": str(latest), "top_10": transfers[:10]})
     return spikes, recent
+
+
+def compute_extras(daily, names, latest, refresh):
+    """Map data (station locations + average riders per hour), year-over-year change,
+    fare types and payment methods. Written to output/extras.json (the shape the plugin uses)."""
+    year_from = latest - timedelta(days=364)
+    rng = f"transit_timestamp >= '{year_from}' AND transit_timestamp < '{latest + timedelta(days=1)}'"
+    ndays = len({r["day"] for r in daily if r["day"] >= str(year_from)})
+
+    coords = {r["station_complex_id"]: (float(r["lat"]), float(r["lon"]))
+              for r in cached_query(os.path.join(OUT, "coords_cache.csv"),
+                                    "station_complex_id, max(latitude) AS lat, max(longitude) AS lon",
+                                    "station_complex_id", "station locations", refresh)}
+    # Map: the average day over the last 8 weeks. Grouping by station and hour over more than about
+    # a week at a time times out on the API, so ask one week at a time and add up.
+    map_from = latest - timedelta(days=55)
+    map_days = len({r["day"] for r in daily if r["day"] >= str(map_from)})
+    tot = defaultdict(lambda: [0.0] * 24)
+    lo = map_from
+    while lo <= latest:
+        hi = min(lo + timedelta(days=7), latest + timedelta(days=1))
+        for r in cached_query(os.path.join(OUT, f"station_hour_{lo:%Y%m%d}_cache.csv"),
+                              "station_complex_id, date_extract_hh(transit_timestamp) AS hr",
+                              "station_complex_id, hr", f"station-hours from {lo}", refresh,
+                              where=f"transit_timestamp >= '{lo}' AND transit_timestamp < '{hi}'"):
+            tot[r["station_complex_id"]][int(r["hr"])] += r["riders"]
+        lo = hi
+    hours = {sid: [php_round(v / map_days) for v in hs] for sid, hs in tot.items()}
+    stations = sorted(({"id": sid, "name": names[sid][0], "borough": names[sid][1],
+                        "lat": php_round(coords[sid][0], 5), "lon": php_round(coords[sid][1], 5), "hours": hours[sid]}
+                       for sid in hours if sid in coords and sid in names), key=lambda s: -sum(s["hours"]))
+
+    # Year over year: this year so far vs the same calendar days last year.
+    cur_y = latest.year
+    md = latest.strftime("%m-%d")
+    cur, prev, boro_c, boro_p = defaultdict(float), defaultdict(float), defaultdict(float), defaultdict(float)
+    for r in daily:
+        y, rmd = int(r["day"][:4]), r["day"][5:]
+        if rmd > md:
+            continue
+        if y == cur_y:
+            cur[r["station_complex_id"]] += r["riders"]
+            boro_c[r["borough"]] += r["riders"]
+        elif y == cur_y - 1:
+            prev[r["station_complex_id"]] += r["riders"]
+            boro_p[r["borough"]] += r["riders"]
+    yoy = None
+    if prev:
+        days_in = (latest - date(cur_y, 1, 1)).days + 1
+        moves = [{"id": sid, "name": names[sid][0], "borough": names[sid][1], "prev": php_round(prev[sid]),
+                  "cur": php_round(cur[sid]), "pct": php_round((cur[sid] / prev[sid] - 1) * 100, 1)}
+                 for sid in prev if sid in cur and prev[sid] >= days_in * 2000]  # 2,000+ riders/day last year
+        moves.sort(key=lambda m: -m["pct"])
+        yoy = {"year": cur_y, "prev_year": cur_y - 1, "through": md,
+               "total_prev": php_round(sum(prev.values())), "total_cur": php_round(sum(cur.values())),
+               "total_pct": php_round((sum(cur.values()) / sum(prev.values()) - 1) * 100, 1),
+               "boroughs": sorted(({"borough": b, "prev": php_round(boro_p[b]), "cur": php_round(boro_c[b]),
+                                    "pct": php_round((boro_c[b] / boro_p[b] - 1) * 100, 1)}
+                                   for b in boro_p if boro_c.get(b)), key=lambda x: -x["cur"]),
+               "up": moves[:8], "down": moves[::-1][:8]}
+
+    fares = cached_query(os.path.join(OUT, "fare_class_cache.csv"), "fare_class_category",
+                         "fare_class_category", "fare types (last 365 days)", refresh, where=rng)
+    ftot = sum(r["riders"] for r in fares)
+    fares = sorted(({"category": r["fare_class_category"], "riders": php_round(r["riders"]),
+                     "share": php_round(r["riders"] / ftot, 4)} for r in fares), key=lambda x: -x["riders"])
+
+    pay = defaultdict(dict)
+    for r in cached_query(os.path.join(OUT, "payment_cache.csv"),
+                          "date_trunc_ym(transit_timestamp) AS month, payment_method",
+                          "month, payment_method", "payment methods by month", refresh):
+        pay[r["month"][:7]][r["payment_method"].lower()] = r["riders"]
+    full_days = {}
+    for r in daily:
+        full_days.setdefault(r["day"][:7], set()).add(r["day"])
+    payment = []
+    for m in sorted(pay):
+        o, mc = pay[m].get("omny", 0), pay[m].get("metrocard", 0)
+        y, mo = int(m[:4]), int(m[5:])
+        payment.append({"month": m, "omny": php_round(o), "metrocard": php_round(mc),
+                        "omny_share": php_round(o / max(1, o + mc), 4),
+                        "partial": len(full_days.get(m, ())) < days_in_month(y, mo)})
+
+    extras = {"from": str(year_from), "to": str(latest), "days": ndays,
+              "map_from": str(map_from), "map_days": map_days, "stations": stations,
+              "yoy": yoy, "fares": fares, "payment": payment}
+    write_json("extras.json", extras)
+    return extras
 
 
 def make_charts(sys_month, month_partial, weekly, seasons, yearly, dow, hourly_sys, month_hour, top5):
@@ -602,6 +690,8 @@ def main():
 
     print("Finding unusual days and station trends...")
     compute_trends(daily, names, last, args.refresh)
+    print("Building map, year-over-year, fare and payment data...")
+    compute_extras(daily, names, last, args.refresh)
 
     if not args.no_charts:
         make_charts(sys_month, month_partial, weekly, seasons, yearly, dow, hourly_sys, month_hour, top5)

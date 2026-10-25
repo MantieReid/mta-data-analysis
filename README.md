@@ -71,6 +71,11 @@ Station trends (the script and the WordPress plugin use the same method and get 
   was nearly closed (under 20% of its median).
 - **Late-night share**: riders between midnight and 5 AM ÷ all riders, last 365 days.
 - **Transfers**: the dataset's `transfers` column, last 365 days.
+- **Map ("a day on the subway")**: riders per station per hour over the last 56 days ÷ the number of
+  days with data. The API times out when grouping a longer range by station and hour, so it's
+  queried one week at a time and added up.
+- **Year over year**: Jan 1 to the latest day of data this year vs the same calendar days last year.
+  Station changes only include stations with 2,000+ riders a day last year.
 
 ## Outputs
 
@@ -90,6 +95,7 @@ Station trends (the script and the WordPress plugin use the same method and get 
 | `weekend_vs_weekday.json` | Stations busiest on weekends vs mostly weekday, last 364 days |
 | `late_night.json` | Stations with the largest share of riders between midnight and 5 AM, last 365 days |
 | `transfers.json` | Stations with the most transfers, last 365 days |
+| `extras.json` | Map data (each station's location and average riders per hour, last 8 weeks), this year vs last year (total, by borough, biggest station changes), fare types (last 365 days) and OMNY vs MetroCard by month |
 | `charts/*.png` | Charts of the above |
 
 ## WordPress plugin

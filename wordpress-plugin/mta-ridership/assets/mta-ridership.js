@@ -168,7 +168,207 @@
     section(root, title, 'This trend is still being calculated. Check back later today.');
   };
 
+  var X = D.extras;
+  var hourName = function (h) { return (h % 12 || 12) + (h < 12 ? ' AM' : ' PM'); };
+
+  // Diverging horizontal bar chart (used for weekend vs weekday and year-over-year).
+  function diverging(parent, items, value, colorPos, colorNeg, tipLines) {
+    var wrap = el('div', 'mta-chart');
+    wrap.style.height = (items.length * 26 + 40) + 'px';
+    var c = document.createElement('canvas');
+    wrap.appendChild(c);
+    parent.appendChild(wrap);
+    new Chart(c, {
+      type: 'bar',
+      data: {
+        labels: items.map(function (x) { return stationLabel(x.name) + (lines(x.name) ? ' (' + lines(x.name) + ')' : ''); }),
+        datasets: [{ data: items.map(value), borderRadius: 3, barPercentage: 0.8,
+                     backgroundColor: items.map(function (x) { return value(x) >= 0 ? colorPos : colorNeg; }) }]
+      },
+      options: {
+        indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+        plugins: { legend: { display: false }, tooltip: { callbacks: {
+          title: function (it) { return items[it[0].dataIndex].name; },
+          label: function (it) { return tipLines(items[it.dataIndex]); }
+        } } },
+        scales: {
+          x: { ticks: { callback: function (v) { return (v > 0 ? '+' : '') + v + '%'; } },
+               grid: { color: function (ctx) { return ctx.tick && ctx.tick.value === 0 ? 'rgba(127,127,127,0.8)' : 'rgba(127,127,127,0.2)'; },
+                       lineWidth: function (ctx) { return ctx.tick && ctx.tick.value === 0 ? 2 : 1; } } },
+          y: { grid: { display: false }, ticks: { autoSkip: false } }
+        }
+      }
+    });
+  }
+
+  function legend(parent, pairs) {
+    parent.appendChild(el('p', 'mta-legend', pairs.map(function (p) {
+      return '<span><i style="background:' + p[0] + '"></i>' + esc(p[1]) + '</span>';
+    }).join('')));
+  }
+
   var render = {
+    map: function (root) {
+      if (!X || !window.L) return section(root, 'A day on the subway', 'The map is still being prepared. Check back later today.');
+      var s = section(root, 'A day on the subway',
+        'Each circle is a station, sized by how many riders enter it in that hour on an average day ' +
+        '(last 8 weeks of data: ' + niceDate(X.map_from) + ' – ' + niceDate(X.to) + '). Press play to watch a day go by.');
+      var st = X.stations;
+      var sys = [];
+      for (var h = 0; h < 24; h++) sys.push(st.reduce(function (a, x) { return a + x.hours[h]; }, 0));
+      var maxV = Math.max.apply(null, st.map(function (x) { return Math.max.apply(null, x.hours); }));
+
+      // controls
+      var bar = el('div', 'mta-map-bar');
+      var play = el('button', 'mta-play', '▶');
+      play.type = 'button';
+      play.setAttribute('aria-label', 'Play');
+      var clock = el('div', 'mta-clock');
+      var slider = document.createElement('input');
+      slider.type = 'range'; slider.min = 0; slider.max = 23; slider.value = 8;
+      slider.className = 'mta-slider';
+      slider.setAttribute('aria-label', 'Hour of day');
+      bar.appendChild(play); bar.appendChild(clock); bar.appendChild(slider);
+      s.appendChild(bar);
+
+      var box = el('div', 'mta-map');
+      s.appendChild(box);
+      var strip = el('div', 'mta-strip');
+      var sysMax = Math.max.apply(null, sys);
+      var cells = sys.map(function (v, h) {
+        var b = el('button', null, '<span style="height:' + Math.max(4, 100 * v / sysMax) + '%"></span>');
+        b.type = 'button';
+        b.title = hourName(h) + ': ' + fmt(v) + ' riders';
+        b.addEventListener('click', function () { stop(); setHour(h); });
+        strip.appendChild(b);
+        return b;
+      });
+      s.appendChild(strip);
+      s.appendChild(el('div', 'mta-strip-labels', '<span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span>'));
+
+      var map = L.map(box, { preferCanvas: true, scrollWheelZoom: false, zoomSnap: 0.25 });
+      // Esri's dark gray canvas: free to use with attribution, no API key.
+      var esri = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+      L.tileLayer(esri + 'World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
+      }).addTo(map);
+      // Frame every station as tightly as possible (fractional zoom fits the city to the box).
+      map.fitBounds(st.map(function (x) { return [x.lat, x.lon]; }), { padding: [12, 12] });
+
+      var maxR = Math.max(12, Math.min(28, box.clientWidth / 22)); // smaller circles on phones
+      function radius(v) { return v <= 0 ? 0 : Math.max(1.5, maxR * Math.sqrt(v / maxV)); }
+      function color(v) { // blue for quiet, through cyan, to warm yellow for the busiest
+        var t = Math.sqrt(Math.min(1, v / maxV));
+        return 'hsl(' + Math.round(210 - 170 * t) + ',90%,' + Math.round(55 + 5 * t) + '%)';
+      }
+      var hour = 8;
+      var markers = st.map(function (x) {   // stations come sorted busiest first, so small ones draw on top
+        var m = L.circleMarker([x.lat, x.lon], { weight: 0.6, color: 'rgba(255,255,255,0.5)', fillOpacity: 0.75 });
+        m.bindTooltip(function () {
+          var peak = x.hours.indexOf(Math.max.apply(null, x.hours));
+          return '<strong>' + esc(stationLabel(x.name)) + '</strong> <span class="mta-tt-lines">' + esc(lines(x.name)) + '</span><br>' +
+            fmt(x.hours[hour]) + ' riders at ' + hourName(hour) + '<br>Busiest at ' + hourName(peak) +
+            ' · ' + fmt(x.hours.reduce(function (a, b) { return a + b; }, 0)) + '/day';
+        }, { direction: 'top', className: 'mta-tt' });
+        m.addTo(map);
+        return m;
+      });
+
+      function setHour(h) {
+        hour = h;
+        slider.value = h;
+        clock.innerHTML = '<strong>' + hourName(h) + '</strong><span>' + fmt(sys[h]) + ' riders this hour</span>';
+        markers.forEach(function (m, i) {
+          var v = st[i].hours[h];
+          m.setRadius(radius(v));
+          m.setStyle({ fillColor: color(v), opacity: v > 0 ? 1 : 0, fillOpacity: v > 0 ? 0.75 : 0 });
+        });
+        cells.forEach(function (c, i) { c.classList.toggle('on', i === h); });
+      }
+      var timer = null, touched = false;
+      function stop() { touched = true; clearInterval(timer); timer = null; play.textContent = '▶'; play.setAttribute('aria-label', 'Play'); }
+      function start() {
+        if (timer) return;
+        play.textContent = '❚❚'; play.setAttribute('aria-label', 'Pause');
+        timer = setInterval(function () { setHour((hour + 1) % 24); }, 800);
+      }
+      play.addEventListener('click', function () { touched = true; timer ? stop() : start(); });
+      slider.addEventListener('input', function () { stop(); setHour(+slider.value); });
+      setHour(8);
+
+      // Start playing once, the first time the map scrolls into view (unless the visitor prefers less motion).
+      var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!calm && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (ents) {
+          if (!ents[0].isIntersecting) return;
+          io.disconnect();
+          if (!touched) { setHour(0); start(); } // don't override an hour the visitor already picked
+        }, { threshold: 0.5 });
+        io.observe(box);
+      }
+    },
+
+    yoy: function (root) {
+      if (!X || !X.yoy) return;
+      var y = X.yoy;
+      var period = 'Jan 1 – ' + MONTHS[+y.through.slice(0, 2) - 1] + ' ' + (+y.through.slice(3));
+      var s = section(root, y.year + ' vs ' + y.prev_year,
+        'Riders from ' + period + ' each year. Very large changes at a single station usually mean it was closed ' +
+        'or had a service change for part of a year, not that riders moved.');
+      var tiles = el('div', 'mta-tiles mta-tiles-yoy');
+      tiles.appendChild(el('div', 'mta-tile', '<strong>' + (y.total_pct > 0 ? '+' : '') + y.total_pct + '%</strong><span>all subway riders</span>'));
+      y.boroughs.forEach(function (b) {
+        tiles.appendChild(el('div', 'mta-tile mta-tile-sm' + (b.pct < 0 ? ' neg' : ''),
+          '<strong>' + (b.pct > 0 ? '+' : '') + b.pct + '%</strong><span>' + esc(b.borough) + '</span>'));
+      });
+      s.appendChild(tiles);
+      s.appendChild(el('h4', 'mta-subhead', 'Biggest changes by station'));
+      legend(s, [['#2f9e44', 'More riders in ' + y.year], ['#e8590c', 'Fewer riders in ' + y.year]]);
+      diverging(s, y.up.concat(y.down.slice().reverse()), function (x) { return x.pct; }, '#2f9e44', '#e8590c', function (x) {
+        return [(x.pct > 0 ? '+' : '') + x.pct + '%', y.prev_year + ': ' + fmt(x.prev) + ' riders', y.year + ': ' + fmt(x.cur) + ' riders'];
+      });
+    },
+
+    fares: function (root) {
+      if (!X || !X.fares) return;
+      var s = section(root, 'How people pay their fare',
+        'Share of entries by fare type, ' + niceDate(X.from) + ' – ' + niceDate(X.to) + '.');
+      // "OMNY - Students" and "Metrocard - Students" are the same fare type paid two ways: combine them.
+      var byType = {};
+      X.fares.forEach(function (f) {
+        var t = f.category.replace(/^[^-]+-\s*/, '').replace(/^Unlimited.*/, 'Unlimited pass');
+        byType[t] = byType[t] || { name: t, share: 0, riders: 0 };
+        byType[t].share += f.share;
+        byType[t].riders += f.riders;
+      });
+      var types = Object.keys(byType).map(function (k) { return byType[k]; }).sort(function (a, b) { return b.riders - a.riders; });
+      barList(s, types, pct,
+        function (x) { return Math.round(x.share * 1000) / 10 + '% (' + fmt(x.riders) + ' entries)'; });
+    },
+
+    payment: function (root) {
+      if (!X || !X.payment) return;
+      var p = X.payment;
+      var s = section(root, 'The MetroCard fades out',
+        'Share of subway entries paid with a MetroCard each month. MetroCard sales ended Dec 31, 2025; ' +
+        'everyone else taps with OMNY.');
+      chart(s, {
+        type: 'line',
+        data: {
+          labels: p.map(function (m) { return MONTHS[+m.month.slice(5) - 1] + ' ' + m.month.slice(2, 4); }),
+          datasets: [{ data: p.map(function (m) { return Math.round((1 - m.omny_share) * 1000) / 10; }),
+                       borderColor: '#f5b041', backgroundColor: 'rgba(245,176,65,0.18)', fill: true, tension: 0.3, pointRadius: 2 }]
+        },
+        options: {
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: function (c) {
+            var m = p[c.dataIndex];
+            return c.parsed.y + '% MetroCard (' + fmt(m.metrocard) + ' entries)' + (m.partial ? ' · partial month' : '');
+          } } } },
+          scales: { y: { beginAtZero: true, ticks: { callback: function (v) { return v + '%'; } } } }
+        }
+      });
+    },
+
     hero: function (root) {
       // Title + three headline numbers, all computed from the latest data.
       var full = D.monthly.filter(function (m) { return !m.partial; });

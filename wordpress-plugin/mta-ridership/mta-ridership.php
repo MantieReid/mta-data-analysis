@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.2.1
+ * Version: 1.3.0
  * Author: Mantie Reid
  * License: MIT
  * Requires PHP: 7.4
@@ -18,6 +18,7 @@ const MTA_RIDERSHIP_HOOK   = 'mta_ridership_daily_refresh';
 const MTA_RIDERSHIP_WHERE  = "transit_mode = 'subway'";
 
 require_once __DIR__ . '/includes/trends.php';
+require_once __DIR__ . '/includes/extras.php';
 
 /* ---------- scheduling ---------- */
 
@@ -32,6 +33,7 @@ register_activation_hook(__FILE__, function () {
 register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook(MTA_RIDERSHIP_HOOK);
     wp_clear_scheduled_hook(MTA_RIDERSHIP_TRENDS_HOOK);
+    wp_clear_scheduled_hook(MTA_RIDERSHIP_EXTRAS_HOOK);
 });
 
 add_action(MTA_RIDERSHIP_HOOK, 'mta_ridership_refresh');
@@ -245,7 +247,7 @@ function mta_ridership_refresh()
 /* ---------- shortcode ---------- */
 
 add_shortcode('mta_ridership', function ($atts) {
-    $atts = shortcode_atts(['show' => 'hero,top5,spikes,monthly,hourly,dow,seasons,topstations,quiet,weekend,latenight,transfers'], $atts, 'mta_ridership');
+    $atts = shortcode_atts(['show' => 'hero,map,top5,yoy,spikes,monthly,hourly,dow,seasons,topstations,quiet,weekend,latenight,transfers,fares,payment'], $atts, 'mta_ridership');
     $data = get_option(MTA_RIDERSHIP_OPTION);
     if (!$data) {
         if (!wp_next_scheduled(MTA_RIDERSHIP_HOOK)) {
@@ -253,14 +255,21 @@ add_shortcode('mta_ridership', function ($atts) {
         }
         return '<p class="mta-ridership-empty">Subway ridership data is loading. Check back in a few minutes.</p>';
     }
+    $show = array_map('trim', explode(',', $atts['show']));
     $base = plugin_dir_url(__FILE__);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.2.1');
+    $deps = ['chartjs'];
+    if (in_array('map', $show, true)) { // Leaflet only when the map is on the page
+        wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
+        wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
+        $deps[] = 'leaflet';
+    }
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.3.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', ['chartjs'], '1.2.1', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.3.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
+    $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($data) . ';', 'before');
 
-    $show = array_map('trim', explode(',', $atts['show']));
     return '<div class="mta-ridership" data-show="' . esc_attr(implode(',', $show)) . '"></div>';
 });
 
@@ -292,7 +301,7 @@ function mta_ridership_admin_page()
     <div class="wrap">
         <h1>MTA Subway Ridership</h1>
         <p>Add <code>[mta_ridership]</code> to any page or post. Limit sections with
-            <code>[mta_ridership show="top5,monthly"]</code> (options: hero, top5, spikes, monthly, hourly, dow, seasons, topstations, quiet, weekend, latenight, transfers).</p>
+            <code>[mta_ridership show="top5,monthly"]</code> (options: hero, map, top5, yoy, spikes, monthly, hourly, dow, seasons, topstations, quiet, weekend, latenight, transfers, fares, payment).</p>
         <p>Trends (unusual days, weekend/late-night/transfer stations):
             <?php echo esc_html(mta_ridership_trends_status()); ?></p>
         <table class="form-table">

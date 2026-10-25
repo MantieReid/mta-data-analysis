@@ -36,4 +36,29 @@
 .mta-ridership .mta-tile strong { display: block; font-weight: 700; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.1; color: var(--mta-accent); font-variant-numeric: tabular-nums; }
 .mta-ridership .mta-tile span { display: block; margin-top: .3em; color: var(--mta-muted); font-size: .9rem; }
 @media (max-width: 560px) { .mta-ridership .mta-tiles { grid-template-columns: 1fr; } .mta-ridership .mta-tile { display: flex; align-items: baseline; gap: .6em; padding: .7em 1em; } .mta-ridership .mta-tile span { margin: 0; } }
+/* map: a day on the subway */
+.mta-ridership .mta-map { height: 560px; border-radius: 12px; overflow: hidden; border: 1px solid var(--mta-border); background: #0b0f17; }
+.mta-ridership .mta-map-bar { display: flex; align-items: center; gap: 1em; margin: .4em 0 .8em; flex-wrap: wrap; }
+.mta-ridership .mta-play { width: 46px; height: 46px; border-radius: 50%; border: 0; background: var(--mta-accent); color: #fff; font-size: 1rem; cursor: pointer; flex: none; }
+.mta-ridership .mta-play:focus-visible, .mta-ridership .mta-slider:focus-visible, .mta-ridership .mta-strip button:focus-visible { outline: 2px solid var(--mta-accent); outline-offset: 2px; }
+.mta-ridership .mta-clock { min-width: 9.5em; }
+.mta-ridership .mta-clock strong { display: block; font-size: 1.9rem; line-height: 1; font-weight: 700; font-variant-numeric: tabular-nums; }
+.mta-ridership .mta-clock span { font-size: .85rem; color: var(--mta-muted); }
+.mta-ridership .mta-slider { flex: 1; min-width: 160px; accent-color: var(--mta-accent); }
+.mta-ridership .mta-strip { display: grid; grid-template-columns: repeat(24, 1fr); gap: 2px; height: 44px; margin-top: .7em; align-items: end; }
+.mta-ridership .mta-strip button { height: 100%; display: flex; align-items: flex-end; padding: 0; border: 0; background: transparent; cursor: pointer; }
+.mta-ridership .mta-strip span { display: block; width: 100%; border-radius: 2px 2px 0 0; background: var(--mta-border); }
+.mta-ridership .mta-strip button.on span { background: var(--mta-accent); }
+.mta-ridership .mta-strip-labels { display: flex; justify-content: space-between; font-size: .75rem; color: var(--mta-muted); margin-top: .2em; }
+.mta-tt { background: #111827; color: #e6edf6; border: 1px solid #334155; border-radius: 8px; font: 13px/1.45 Inter, system-ui, sans-serif; padding: 6px 10px; }
+.mta-tt::before { display: none; }
+.mta-tt .mta-tt-lines { color: #94a3b8; font-size: 12px; }
+.mta-ridership .leaflet-container a { color: #8ab4f8; }
+/* year over year */
+.mta-ridership .mta-tiles-yoy { grid-template-columns: 1.4fr repeat(4, 1fr); margin-bottom: 1.2em; }
+.mta-ridership .mta-tile-sm strong { font-size: clamp(1.2rem, 3.5vw, 1.6rem); color: #2f9e44; }
+.mta-ridership .mta-tile-sm.neg strong { color: #e8590c; }
+.mta-ridership .mta-subhead { margin: 1.2em 0 .4em; }
+@media (max-width: 760px) { .mta-ridership .mta-tiles-yoy { grid-template-columns: 1fr 1fr; } .mta-ridership .mta-tiles-yoy .mta-tile:first-child { grid-column: 1 / -1; } }
+@media (max-width: 560px) { .mta-ridership .mta-map { height: 440px; } .mta-ridership .mta-tiles-yoy .mta-tile { display: block; } }
 @media (prefers-color-scheme: dark) { .mta-ridership { --mta-muted: #98a2b3; --mta-accent: #6ea8fe; } }
