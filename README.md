@@ -1,4 +1,36 @@
-# MTA Data Analysis
+# NYC Subway Ridership Analysis (MTA Open Data, 2025–2026)
+
+How New York rides the subway: the busiest stations, rush hours, seasons, unusual days, and
+an animated map of a day on the subway, built from the MTA's hourly ridership data.
+
+**Live demo:** [mantiereidii.com/mta-ridership](https://mantiereidii.com/mta-ridership/), updated daily.
+
+By [Mantie Reid II](https://mantiereidii.com). Free to reuse with credit ([CC BY 4.0](#license)).
+
+[![A day on the subway: every station sized by riders at 5 PM](docs/images/map-5pm.jpg)](https://mantiereidii.com/mta-ridership/)
+
+## What the data shows
+
+- **About 3.6 million subway rides a day.** Times Sq-42 St is the busiest station, and 5 PM the busiest hour.
+- **Ridership in 2026 is up 2.9%** on the same days of 2025: Manhattan +3.7%, Brooklyn +3.2%,
+  Queens +1.1%, Bronx −1.1%.
+- **Big events show up clearly.** Mets-Willets Point jumps to about 14× its normal riders during
+  the US Open. The NYC Marathon, July 4th and Yankees games also stand out.
+- **The MetroCard faded out:** from 33% of entries in January 2025 to under 1% by late 2026.
+
+| 2026 vs 2025 | Fares and the MetroCard |
+|---|---|
+| ![Year-over-year change by borough and station](docs/images/2026-vs-2025.jpg) | ![Fare types and the MetroCard's share by month](docs/images/fares-and-metrocard.jpg) |
+
+| Riders by hour of day | Riders per month |
+|---|---|
+| ![Average riders per hour of day, 2025 vs 2026](output/charts/hourly_avg_by_year.png) | ![Subway riders per month](output/charts/monthly_totals.png) |
+
+| Riders by day of week | Top stations by season |
+|---|---|
+| ![Average daily riders by day of week](output/charts/day_of_week_avg.png) | ![Top 5 stations per season](output/charts/top5_stations_by_season.png) |
+
+## What's in this repo
 
 NYC subway ridership for 2025 and 2026 to date, from MTA's open data. It includes:
 
@@ -108,5 +140,16 @@ See [`wordpress-plugin/README.md`](wordpress-plugin/README.md). In short:
 
 ## License
 
-Code: [MIT](LICENSE). Data: published by the MTA on [data.ny.gov](https://data.ny.gov/d/5wq4-mkjj),
-subject to data.ny.gov's terms of use.
+Everything in this repo (code, output files and charts) is licensed under
+[CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) ([full text](LICENSE)). You can use, share and
+change it for any purpose, including commercially, as long as you give credit.
+
+**How to credit**, for example under a chart or in an article:
+
+> NYC subway ridership analysis by Mantie Reid II, https://github.com/MantieReid/mta-data-analysis (CC BY 4.0)
+
+Say if you changed anything. GitHub's **"Cite this repository"** button (from [`CITATION.cff`](CITATION.cff))
+gives the same credit in APA and BibTeX formats.
+
+The underlying ridership data is published by the MTA on [data.ny.gov](https://data.ny.gov/d/5wq4-mkjj)
+and isn't covered by this license.

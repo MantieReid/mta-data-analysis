@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this analysis, its output files or charts, please credit it like this."
+title: "NYC Subway Ridership Analysis (2025–2026)"
+type: software
+authors:
+  - family-names: "Reid"
+    given-names: "Mantie"
+    name-suffix: "II"
+    website: "https://mantiereidii.com"
+repository-code: "https://github.com/MantieReid/mta-data-analysis"
+url: "https://mantiereidii.com/mta-ridership/"
+license: CC-BY-4.0
+keywords:
+  - NYC subway
+  - MTA
+  - ridership
+  - open data
+  - data analysis
+  - data visualization

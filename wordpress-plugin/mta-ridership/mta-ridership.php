@@ -4,7 +4,8 @@
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
  * Version: 1.3.1
  * Author: Mantie Reid
- * License: MIT
+ * License: CC BY 4.0
+ * License URI: https://creativecommons.org/licenses/by/4.0/
  * Requires PHP: 7.4
  */
 
