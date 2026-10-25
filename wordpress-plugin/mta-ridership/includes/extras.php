@@ -199,6 +199,7 @@ function mta_ridership_extras_step()
             'yoy' => $yoy, 'fares' => $fares, 'payment' => $payment,
         ], false);
         delete_option('mta_ridership_extras_error');
+        mta_ridership_clear_page_cache();
     } catch (Throwable $e) {
         update_option('mta_ridership_extras_error', gmdate('c') . ' ' . $e->getMessage(), false);
     }

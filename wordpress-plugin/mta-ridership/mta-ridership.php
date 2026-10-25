@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.3.0
+ * Version: 1.3.1
  * Author: Mantie Reid
  * License: MIT
  * Requires PHP: 7.4
@@ -237,10 +237,32 @@ function mta_ridership_refresh()
             'top_seasons'   => $top_seasons,
         ], false);
         delete_option('mta_ridership_last_error');
+        mta_ridership_clear_page_cache();
         // Trends run as a separate cron request so each stays within the host's time limit.
         mta_ridership_schedule_trends(60);
     } catch (Throwable $e) {
         update_option('mta_ridership_last_error', gmdate('c') . ' ' . $e->getMessage(), false);
+    }
+}
+
+/**
+ * The page embeds the data in its HTML, so a page cache keeps showing yesterday's numbers.
+ * After new data is saved, clear the cached copy of every published page using the shortcode.
+ * Only WP Rocket is handled; without it this does nothing.
+ */
+function mta_ridership_clear_page_cache()
+{
+    if (!function_exists('rocket_clean_post')) {
+        return;
+    }
+    $ids = get_posts([
+        'post_type' => 'any', 'post_status' => 'publish', 'fields' => 'ids',
+        'posts_per_page' => 50, 's' => '[mta_ridership', 'no_found_rows' => true,
+    ]);
+    foreach ($ids as $id) {
+        if (has_shortcode(get_post_field('post_content', $id), 'mta_ridership')) {
+            rocket_clean_post($id);
+        }
     }
 }
 
@@ -263,9 +285,9 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.3.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.3.1');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.3.0', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.3.1', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($data) . ';', 'before');

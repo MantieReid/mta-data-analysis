@@ -122,6 +122,7 @@ function mta_ridership_trends_step()
         mta_ridership_build_trends($h, $latest);
         mta_ridership_schedule_extras(60); // map, year-over-year, fares, payment: next cron request
         delete_option('mta_ridership_trends_error');
+        mta_ridership_clear_page_cache();
     } catch (Throwable $e) {
         update_option('mta_ridership_trends_error', gmdate('c') . ' ' . $e->getMessage(), false);
     }
