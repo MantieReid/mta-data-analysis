@@ -14,7 +14,7 @@ ask the data.ny.gov API to add up the rows first and download only the totals.
 Requirements: Python 3.9+ and an internet connection. No account or API key is needed.
 
 ```bash
-git clone https://github.com/<you>/mta-data-analysis.git
+git clone https://github.com/MantieReid/mta-data-analysis.git
 cd mta-data-analysis
 pip install -r requirements.txt
 python mta_ridership.py
