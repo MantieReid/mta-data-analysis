@@ -1,0 +1,76 @@
+{
+ "from": "2025-10-15",
+ "to": "2026-10-14",
+ "top_10": [
+  {
+   "id": "447",
+   "name": "Flushing-Main St (7)",
+   "borough": "Queens",
+   "transfers": 5479481,
+   "share": 0.37
+  },
+  {
+   "id": "278",
+   "name": "Jamaica Center-Parsons/Archer (E,J,Z)",
+   "borough": "Queens",
+   "transfers": 2867455,
+   "share": 0.4356
+  },
+  {
+   "id": "616",
+   "name": "Jackson Hts-Roosevelt Av/74 St-Broadway (7,E,F,M,R)",
+   "borough": "Queens",
+   "transfers": 2292849,
+   "share": 0.1511
+  },
+  {
+   "id": "259",
+   "name": "Kew Gardens-Union Tpke (E,F)",
+   "borough": "Queens",
+   "transfers": 2252411,
+   "share": 0.4214
+  },
+  {
+   "id": "254",
+   "name": "Jamaica-179 St (F)",
+   "borough": "Queens",
+   "transfers": 1694871,
+   "share": 0.4149
+  },
+  {
+   "id": "613",
+   "name": "Lexington Av/59 St (4,5,6,N,R,W)",
+   "borough": "Manhattan",
+   "transfers": 1491526,
+   "share": 0.1234
+  },
+  {
+   "id": "261",
+   "name": "Forest Hills-71 Av (E,F,M,R)",
+   "borough": "Queens",
+   "transfers": 1353264,
+   "share": 0.2027
+  },
+  {
+   "id": "635",
+   "name": "Whitehall St-South Ferry (1,R,W)",
+   "borough": "Manhattan",
+   "transfers": 1093355,
+   "share": 0.1547
+  },
+  {
+   "id": "279",
+   "name": "Sutphin Blvd-Archer Av-JFK Airport (E,J,Z)",
+   "borough": "Queens",
+   "transfers": 1028535,
+   "share": 0.1359
+  },
+  {
+   "id": "264",
+   "name": "Woodhaven Blvd (M,R)",
+   "borough": "Queens",
+   "transfers": 1024071,
+   "share": 0.2191
+  }
+ ]
+}

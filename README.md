@@ -59,7 +59,7 @@ To compare like for like, look at periods that were complete in both runs. Rows 
   day in it.
 - **Hourly averages**: riders in each hour of the day ÷ the number of days with data in that year.
 
-The WordPress plugin also finds these:
+Station trends (the script and the WordPress plugin use the same method and get identical results):
 
 - **Unusually busy/quiet days**: a station's riders that day compared with its *normal* level,
   which is the median of the same weekday over the previous 26 weeks (at least 10 of them).
@@ -85,6 +85,11 @@ The WordPress plugin also finds these:
 | `day_of_week.json` | Average daily riders per weekday, per year |
 | `station_hourly_avg.csv`, `system_hourly_avg.json`, `month_hourly_avg.json` | Average riders per hour of day |
 | `station_seasonal.csv`, `seasonal_top5.json` | Season totals per station, top 5 per season |
+| `top_stations_latest.json` | Top 5 stations on the latest day of data and over the last 7 days |
+| `unusual_days.json` | Unusually busy and quiet days per station: the last 14 days and the biggest per year, each with its daily riders around the day |
+| `weekend_vs_weekday.json` | Stations busiest on weekends vs mostly weekday, last 364 days |
+| `late_night.json` | Stations with the largest share of riders between midnight and 5 AM, last 365 days |
+| `transfers.json` | Stations with the most transfers, last 365 days |
 | `charts/*.png` | Charts of the above |
 
 ## WordPress plugin

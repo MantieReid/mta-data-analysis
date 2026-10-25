@@ -1,0 +1,168 @@
+{
+ "from": "2025-10-15",
+ "to": "2026-10-14",
+ "busier_on_weekends": [
+  {
+   "id": "448",
+   "name": "Mets-Willets Point (7)",
+   "borough": "Queens",
+   "weekday_avg": 6206,
+   "weekend_avg": 9375,
+   "ratio": 1.511
+  },
+  {
+   "id": "17",
+   "name": "Prince St (R,W)",
+   "borough": "Manhattan",
+   "weekday_avg": 10523,
+   "weekend_avg": 12425,
+   "ratio": 1.181
+  },
+  {
+   "id": "103",
+   "name": "Bowery (J,Z)",
+   "borough": "Manhattan",
+   "weekday_avg": 2952,
+   "weekend_avg": 3292,
+   "ratio": 1.115
+  },
+  {
+   "id": "323",
+   "name": "Christopher St-Stonewall (1)",
+   "borough": "Manhattan",
+   "weekday_avg": 9265,
+   "weekend_avg": 10165,
+   "ratio": 1.097
+  },
+  {
+   "id": "409",
+   "name": "Spring St (6)",
+   "borough": "Manhattan",
+   "weekday_avg": 9698,
+   "weekend_avg": 10125,
+   "ratio": 1.044
+  },
+  {
+   "id": "232",
+   "name": "2 Av (F)",
+   "borough": "Manhattan",
+   "weekday_avg": 13298,
+   "weekend_avg": 13784,
+   "ratio": 1.037
+  },
+  {
+   "id": "120",
+   "name": "Bedford Av (L)",
+   "borough": "Brooklyn",
+   "weekday_avg": 27908,
+   "weekend_avg": 28676,
+   "ratio": 1.028
+  },
+  {
+   "id": "126",
+   "name": "Jefferson St (L)",
+   "borough": "Brooklyn",
+   "weekday_avg": 7190,
+   "weekend_avg": 6910,
+   "ratio": 0.961
+  },
+  {
+   "id": "629",
+   "name": "Metropolitan Av/Lorimer St (G,L)",
+   "borough": "Brooklyn",
+   "weekday_avg": 13442,
+   "weekend_avg": 12739,
+   "ratio": 0.948
+  },
+  {
+   "id": "118",
+   "name": "3 Av (L)",
+   "borough": "Manhattan",
+   "weekday_avg": 5452,
+   "weekend_avg": 5093,
+   "ratio": 0.934
+  }
+ ],
+ "mostly_weekdays": [
+  {
+   "id": "460",
+   "name": "33 St-Rawson St (7)",
+   "borough": "Queens",
+   "weekday_avg": 7511,
+   "weekend_avg": 1958,
+   "ratio": 0.261
+  },
+  {
+   "id": "463",
+   "name": "Hunters Point Av (7)",
+   "borough": "Queens",
+   "weekday_avg": 3533,
+   "weekend_avg": 964,
+   "ratio": 0.273
+  },
+  {
+   "id": "445",
+   "name": "Pelham Pkwy (5)",
+   "borough": "Bronx",
+   "weekday_avg": 2279,
+   "weekend_avg": 689,
+   "ratio": 0.302
+  },
+  {
+   "id": "276",
+   "name": "5 Av/53 St (E,F)",
+   "borough": "Manhattan",
+   "weekday_avg": 16068,
+   "weekend_avg": 5040,
+   "ratio": 0.314
+  },
+  {
+   "id": "446",
+   "name": "Morris Park (5)",
+   "borough": "Bronx",
+   "weekday_avg": 1996,
+   "weekend_avg": 672,
+   "ratio": 0.337
+  },
+  {
+   "id": "442",
+   "name": "Eastchester-Dyre Av (5)",
+   "borough": "Bronx",
+   "weekday_avg": 3088,
+   "weekend_avg": 1078,
+   "ratio": 0.349
+  },
+  {
+   "id": "399",
+   "name": "68 St-Hunter College (6)",
+   "borough": "Manhattan",
+   "weekday_avg": 19233,
+   "weekend_avg": 7131,
+   "ratio": 0.371
+  },
+  {
+   "id": "443",
+   "name": "Baychester Av (5)",
+   "borough": "Bronx",
+   "weekday_avg": 2039,
+   "weekend_avg": 759,
+   "ratio": 0.372
+  },
+  {
+   "id": "62",
+   "name": "55 St (D)",
+   "borough": "Brooklyn",
+   "weekday_avg": 1493,
+   "weekend_avg": 575,
+   "ratio": 0.385
+  },
+  {
+   "id": "363",
+   "name": "Westchester Sq-E Tremont Av (6)",
+   "borough": "Bronx",
+   "weekday_avg": 3218,
+   "weekend_avg": 1254,
+   "ratio": 0.39
+  }
+ ]
+}

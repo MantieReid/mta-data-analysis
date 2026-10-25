@@ -1,0 +1,77 @@
+{
+ "from": "2025-10-15",
+ "to": "2026-10-14",
+ "hours": "00:00-04:59",
+ "top_10": [
+  {
+   "id": "103",
+   "name": "Bowery (J,Z)",
+   "borough": "Manhattan",
+   "night_riders": 80994,
+   "share": 0.0734
+  },
+  {
+   "id": "126",
+   "name": "Jefferson St (L)",
+   "borough": "Brooklyn",
+   "night_riders": 176582,
+   "share": 0.0697
+  },
+  {
+   "id": "323",
+   "name": "Christopher St-Stonewall (1)",
+   "borough": "Manhattan",
+   "night_riders": 212679,
+   "share": 0.0627
+  },
+  {
+   "id": "232",
+   "name": "2 Av (F)",
+   "borough": "Manhattan",
+   "night_riders": 300099,
+   "share": 0.0612
+  },
+  {
+   "id": "416",
+   "name": "Wakefield-241 St (2)",
+   "borough": "Bronx",
+   "night_riders": 55780,
+   "share": 0.0588
+  },
+  {
+   "id": "625",
+   "name": "Delancey St-Essex St (F,M,J,Z)",
+   "borough": "Manhattan",
+   "night_riders": 478968,
+   "share": 0.0571
+  },
+  {
+   "id": "167",
+   "name": "W 4 St-Wash Sq (A,C,E,B,D,F,M)",
+   "borough": "Manhattan",
+   "night_riders": 707924,
+   "share": 0.0548
+  },
+  {
+   "id": "209",
+   "name": "Far Rockaway-Mott Av (A)",
+   "borough": "Queens",
+   "night_riders": 60699,
+   "share": 0.0532
+  },
+  {
+   "id": "198",
+   "name": "Howard Beach-JFK Airport (A)",
+   "borough": "Queens",
+   "night_riders": 54928,
+   "share": 0.0526
+  },
+  {
+   "id": "118",
+   "name": "3 Av (L)",
+   "borough": "Manhattan",
+   "night_riders": 100043,
+   "share": 0.0519
+  }
+ ]
+}

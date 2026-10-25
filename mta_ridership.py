@@ -16,6 +16,9 @@ Outputs (in ./output):
   station_hourly_avg.csv, system_hourly_avg.json, month_hourly_avg.json
                                          average riders per hour of day
   station_seasonal.csv, seasonal_top5.json   per-station season totals, top 5
+  top_stations_latest.json               top 5 on the latest day and the last 7 days
+  unusual_days.json                      unusually busy/quiet days per station
+  weekend_vs_weekday.json, late_night.json, transfers.json   last-365-day station trends
   charts/*.png            matplotlib charts (skip with --no-charts)
 
 Usage:
@@ -26,7 +29,9 @@ Usage:
 import argparse
 import csv
 import json
+import math
 import os
+import statistics
 import sys
 import time
 import urllib.parse
@@ -63,7 +68,7 @@ def soql(params):
             time.sleep(5 * (attempt + 1))
 
 
-def cached_query(cache, select, group, label, refresh=False):
+def cached_query(cache, select, group, label, refresh=False, where=None):
     """Run a grouped SoQL query (paged) and cache the small result as CSV."""
     if os.path.exists(cache) and not refresh:
         with open(cache, newline="", encoding="utf-8") as f:
@@ -71,7 +76,7 @@ def cached_query(cache, select, group, label, refresh=False):
     rows, offset = [], 0
     while True:
         batch = soql({"$select": select + ", sum(ridership) AS riders",
-                      "$where": "transit_mode = 'subway'",
+                      "$where": "transit_mode = 'subway'" + (f" AND {where}" if where else ""),
                       "$group": group, "$order": group,
                       "$limit": PAGE, "$offset": offset})
         rows += batch
@@ -145,6 +150,175 @@ def write_csv(name, rows):
 def write_json(name, obj):
     with open(os.path.join(OUT, name), "w", encoding="utf-8") as f:
         json.dump(obj, f, indent=1)
+
+
+# --- Station trends: same method and thresholds as the WordPress plugin (includes/trends.php) ---
+
+SPIKE_RATIO, QUIET_RATIO = 3.0, 0.35
+SPIKE_MIN_BASELINE, QUIET_MIN_BASELINE = 1500, 3000
+
+
+def php_round(x, nd=0):
+    """Round half away from zero, like PHP's round(), so outputs match the plugin exactly."""
+    m = 10 ** nd
+    r = math.floor(abs(x) * m + 0.5) / m
+    r = -r if x < 0 else r
+    return int(r) if nd == 0 else r
+
+
+def baseline(series, i):
+    """Median of the same weekday over the previous 26 weeks (needs at least 10)."""
+    b = [series[i - 7 * k] for k in range(1, 27) if (i - 7 * k) in series]
+    return statistics.median(b) if len(b) >= 10 else None
+
+
+def find_events(st, n, sys_ratio, busy):
+    """Runs of unusual days per station, relative to the whole system that day."""
+    events = []
+    for sid, series in st.items():
+        run = None
+        for i in range(70, n):
+            if i not in series or not sys_ratio.get(i):
+                continue
+            base = baseline(series, i)
+            if base is None or base < (SPIKE_MIN_BASELINE if busy else QUIET_MIN_BASELINE):
+                continue
+            ratio = series[i] / base
+            rel = ratio / sys_ratio[i]
+            hit = rel >= SPIKE_RATIO if busy else (rel <= QUIET_RATIO and series[i] > 0)
+            if run and i - run["last"] > 2:
+                events.append(run)
+                run = None
+            if not hit:
+                continue
+            if not run:
+                run = {"id": sid, "first": i, "last": i, "days": 0, "peak": i,
+                       "ratio": ratio, "riders": series[i], "baseline": base}
+            run["last"] = i
+            run["days"] += 1
+            if (ratio > run["ratio"]) if busy else (ratio < run["ratio"]):
+                run.update(peak=i, ratio=ratio, riders=series[i], baseline=base)
+        if run:
+            events.append(run)
+    return events
+
+
+def compute_trends(daily, names, latest, refresh):
+    start = date.fromisoformat(min(r["day"] for r in daily))
+    day = lambda i: str(start + timedelta(days=i))
+    st = defaultdict(dict)
+    for r in daily:
+        st[r["station_complex_id"]][(date.fromisoformat(r["day"]) - start).days] = php_round(r["riders"])
+    n = (latest - start).days + 1
+    last = n - 1
+
+    sys_tot = defaultdict(int)
+    for series in st.values():
+        for i, v in series.items():
+            sys_tot[i] += v
+    sys_ratio = {}
+    for i in range(n):
+        b = baseline(sys_tot, i)
+        sys_ratio[i] = sys_tot[i] / b if b and sys_tot.get(i) else None
+
+    def out(e):
+        s = st[e["id"]]
+        lo, hi = max(0, e["peak"] - 28), min(last, e["peak"] + 14)
+        return {"id": e["id"], "name": names[e["id"]][0], "borough": names[e["id"]][1],
+                "peak_day": day(e["peak"]), "first_day": day(e["first"]), "last_day": day(e["last"]),
+                "days": e["days"], "riders": e["riders"], "baseline": php_round(e["baseline"]),
+                "ratio": php_round(e["ratio"], 2), "series_start": day(lo),
+                "series": [s.get(i) for i in range(lo, hi + 1)]}
+
+    def by_year(events, busy):
+        groups = defaultdict(list)
+        for e in events:
+            groups[day(e["peak"])[:4]].append(e)
+        result = {}
+        for y in sorted(groups):
+            # busy: biggest multiple of normal; quiet: most riders missing (closures all sit near 0%)
+            ranked = sorted(groups[y], key=(lambda e: -e["ratio"]) if busy else (lambda e: -e["baseline"] * e["days"]))
+            seen, keep = defaultdict(int), []
+            for e in ranked:  # at most 2 per station, so Mets-Willets Point doesn't fill the list
+                seen[e["id"]] += 1
+                if seen[e["id"]] <= 2:
+                    keep.append(e)
+            result[y] = [out(e) for e in keep[:10]]
+        return result
+
+    spikes = find_events(st, n, sys_ratio, True)
+    quiet = find_events(st, n, sys_ratio, False)
+    recent = sorted((e for e in spikes if e["last"] >= last - 13), key=lambda e: -e["ratio"])[:5]
+    write_json("unusual_days.json", {
+        "data_through": str(latest),
+        "settings": {"spike_ratio": SPIKE_RATIO, "quiet_ratio": QUIET_RATIO,
+                     "spike_min_baseline": SPIKE_MIN_BASELINE, "quiet_min_baseline": QUIET_MIN_BASELINE},
+        "recent_14_days": [out(e) for e in recent],
+        "busy_by_year": by_year(spikes, True),
+        "quiet_by_year": by_year(quiet, False),
+    })
+
+    # Top 5 on the latest day and over the last 7 days.
+    def top(lo, hi, k):
+        tot = defaultdict(float)
+        for sid, series in st.items():
+            tot[sid] = sum(series.get(i, 0) for i in range(lo, hi + 1))
+        best = sorted(tot.items(), key=lambda kv: -kv[1])[:k]
+        return [{"id": sid, "name": names[sid][0], "borough": names[sid][1], "riders": php_round(v)} for sid, v in best]
+    write_json("top_stations_latest.json", {
+        "latest_day": str(latest), "top_latest_day": top(last, last, 5),
+        "week_from": day(last - 6), "top_last_7_days": top(last - 6, last, 5)})
+
+    # Weekend vs weekday over the last 364 days, skipping days a station was nearly closed.
+    frm = max(0, n - 364)
+    ww = []
+    for sid, series in st.items():
+        window = [v for i, v in series.items() if i >= frm]
+        if not window:
+            continue
+        floor = 0.2 * statistics.median(window)
+        wd, we = [], []
+        for i in range(frm, n):
+            if i not in series or series[i] < floor:
+                continue
+            (we if (start + timedelta(days=i)).weekday() >= 5 else wd).append(series[i])
+        if len(wd) < 100 or len(we) < 40:
+            continue
+        a, b = sum(wd) / len(wd), sum(we) / len(we)
+        if a < 1 or a + b < 2000:
+            continue
+        ww.append({"id": sid, "name": names[sid][0], "borough": names[sid][1],
+                   "weekday_avg": php_round(a), "weekend_avg": php_round(b), "ratio": php_round(b / a, 3)})
+    ww.sort(key=lambda x: -x["ratio"])
+    year_from = day(last - 364)
+    write_json("weekend_vs_weekday.json", {"from": year_from, "to": str(latest),
+                                           "busier_on_weekends": ww[:10], "mostly_weekdays": ww[::-1][:10]})
+
+    # Late-night share and transfers over the last 365 days (summed by the API).
+    rng = (f"transit_timestamp >= '{year_from}' AND "
+           f"transit_timestamp < '{latest + timedelta(days=1)}'")
+    tot = {r["station_complex_id"]: {"riders": r["riders"], "transfers": float(r.get("transfers") or 0)}
+           for r in cached_query(os.path.join(OUT, "year_station_cache.csv"),
+                                 "station_complex_id, sum(transfers) AS transfers",
+                                 "station_complex_id", "station totals (last 365 days)", refresh,
+                                 where=rng)}
+    night = []
+    for r in cached_query(os.path.join(OUT, "late_night_cache.csv"), "station_complex_id",
+                          "station_complex_id", "late-night station totals", refresh,
+                          where=rng + " AND date_extract_hh(transit_timestamp) < 5"):
+        sid = r["station_complex_id"]
+        if sid not in tot or tot[sid]["riders"] < 365 * 2000 or sid not in names:
+            continue
+        night.append({"id": sid, "name": names[sid][0], "borough": names[sid][1],
+                      "night_riders": php_round(r["riders"]), "share": php_round(r["riders"] / tot[sid]["riders"], 4)})
+    night.sort(key=lambda x: -x["share"])
+    write_json("late_night.json", {"from": year_from, "to": str(latest), "hours": "00:00-04:59", "top_10": night[:10]})
+    transfers = sorted(({"id": sid, "name": names[sid][0], "borough": names[sid][1],
+                         "transfers": php_round(t["transfers"]), "share": php_round(t["transfers"] / max(1, t["riders"]), 4)}
+                        for sid, t in tot.items() if t["transfers"] > 0 and sid in names),
+                       key=lambda x: -x["transfers"])
+    write_json("transfers.json", {"from": year_from, "to": str(latest), "top_10": transfers[:10]})
+    return spikes, recent
 
 
 def make_charts(sys_month, month_partial, weekly, seasons, yearly, dow, hourly_sys, month_hour, top5):
@@ -425,6 +599,9 @@ def main():
                    "top_5": [{"station_complex_id": sid, "station_complex": names[sid][0], "riders": round(v)}
                              for v, sid in st]}
     write_json("seasonal_top5.json", top5)
+
+    print("Finding unusual days and station trends...")
+    compute_trends(daily, names, last, args.refresh)
 
     if not args.no_charts:
         make_charts(sys_month, month_partial, weekly, seasons, yearly, dow, hourly_sys, month_hour, top5)
