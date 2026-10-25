@@ -30,6 +30,9 @@
 .mta-ridership .mta-legend { display: flex; flex-wrap: wrap; gap: .4em 1.4em; font-size: .9rem; margin: 0 0 .6em; }
 .mta-ridership .mta-legend i { display: inline-block; width: .8em; height: .8em; border-radius: 2px; margin-right: .4em; vertical-align: -0.05em; }
 .mta-ridership .mta-hero { margin: 1.5em 0 2.5em; }
+.mta-ridership .mta-hero-links { margin: -.3em 0 1em; color: var(--mta-muted); font-size: .95rem; }
+.mta-ridership .mta-hero-links a, .mta-ridership .mta-source-ssr a { color: var(--mta-accent); text-decoration: underline; text-underline-offset: 2px; }
+.mta-ridership .mta-source-ssr { margin-top: 2.5em; line-height: 1.7; }
 .mta-ridership .mta-hero h1 { font-weight: 700; font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; margin: 0 0 .6em; letter-spacing: -0.02em; }
 .mta-ridership .mta-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; }
 .mta-ridership .mta-tile { border: 1px solid var(--mta-border); border-radius: 12px; padding: 1em 1.2em; }

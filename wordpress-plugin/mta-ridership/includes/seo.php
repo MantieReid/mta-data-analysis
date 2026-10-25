@@ -16,6 +16,24 @@ function mta_ridership_seo_enabled()
     return true;
 }
 
+const MTA_RIDERSHIP_REPO = 'https://github.com/MantieReid/mta-data-analysis';
+
+/** Changes still in review show only with ?mta_preview=1. */
+function mta_ridership_preview()
+{
+    return !empty($_GET['mta_preview']);
+}
+
+/** Source line at the bottom of the page: data source plus a link to the code. */
+function mta_ridership_ssr_source($data)
+{
+    return '<p class="mta-source mta-source-ssr">Data: <a href="https://data.ny.gov/d/5wq4-mkjj" rel="noopener">MTA Subway Hourly Ridership</a>' .
+        ' (data.ny.gov), ' . esc_html(mta_ridership_nice_date($data['first_day'])) . ' – ' . esc_html(mta_ridership_nice_date($data['latest_day'])) .
+        '. Updated ' . esc_html(gmdate('M j, Y', strtotime($data['updated']))) . '.<br>' .
+        'Source code and method: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a>' .
+        ' · Analysis by Mantie Reid II, free to reuse with credit (CC BY 4.0).</p>';
+}
+
 function mta_ridership_station_name($name)
 {
     return preg_replace('/\s*\(.*$/', '', $name);
@@ -63,7 +81,11 @@ function mta_ridership_ssr_hero($data)
     $tile = function ($big, $small) {
         return '<div class="mta-tile"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>';
     };
-    return '<header class="mta-hero"><h1>NYC Subway Ridership</h1><div class="mta-tiles">' .
+    $code = true // live; use mta_ridership_preview() to hide a change behind ?mta_preview=1
+        ? '<p class="mta-hero-links">Updated daily from MTA open data · ' .
+          '<a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">See the source code on GitHub &rarr;</a></p>'
+        : '';
+    return '<header class="mta-hero"><h1>NYC Subway Ridership</h1>' . $code . '<div class="mta-tiles">' .
         $tile($h['per_day'], 'riders a day') . $tile($h['station'], 'busiest station') . $tile($h['peak'], 'busiest hour') .
         '</div></header>';
 }
