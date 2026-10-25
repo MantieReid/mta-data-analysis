@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.3.1
+ * Version: 1.4.0
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -20,6 +20,7 @@ const MTA_RIDERSHIP_WHERE  = "transit_mode = 'subway'";
 
 require_once __DIR__ . '/includes/trends.php';
 require_once __DIR__ . '/includes/extras.php';
+require_once __DIR__ . '/includes/seo.php';
 
 /* ---------- scheduling ---------- */
 
@@ -286,14 +287,23 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.3.1');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.4.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.3.1', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.4.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($data) . ';', 'before');
 
-    return '<div class="mta-ridership" data-show="' . esc_attr(implode(',', $show)) . '"></div>';
+    $inner = '';
+    if (mta_ridership_seo_enabled()) {
+        // One slot per section, in order. The headline and top 5 are written here as plain HTML
+        // so search engines can read them; the script fills in the other slots.
+        foreach ($show as $k) {
+            $html = $k === 'hero' ? mta_ridership_ssr_hero($data) : ($k === 'top5' ? mta_ridership_ssr_top5($data) : '');
+            $inner .= '<div data-slot="' . esc_attr($k) . '"' . ($html ? ' data-ssr' : '') . '>' . $html . '</div>';
+        }
+    }
+    return '<div class="mta-ridership" data-show="' . esc_attr(implode(',', $show)) . '">' . $inner . '</div>';
 });
 
 /* ---------- admin: Settings > MTA Ridership ---------- */

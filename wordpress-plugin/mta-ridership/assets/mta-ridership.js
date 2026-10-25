@@ -608,8 +608,13 @@
     Chart.defaults.color = getComputedStyle(root).color; // match the theme's text color
     Chart.defaults.borderColor = 'rgba(127,127,127,0.2)';
     (root.getAttribute('data-show') || '').split(',').forEach(function (k) {
-      if (render[k]) render[k](root);
+      // The server writes a slot per section, in order; some (hero, top5) are already filled in
+      // as plain HTML so search engines can read them. Only render the empty ones.
+      var slot = root.querySelector('[data-slot="' + k + '"]');
+      if (slot && slot.hasAttribute('data-ssr')) return;
+      if (render[k]) render[k](slot || root);
     });
+    if (root.querySelector('.mta-source')) return;
     root.appendChild(el('p', 'mta-source',
       'Source: <a href="https://data.ny.gov/d/5wq4-mkjj" rel="noopener">MTA Subway Hourly Ridership</a>, data.ny.gov. ' +
       'Covers ' + niceDate(D.first_day) + ' – ' + niceDate(D.latest_day) + '. Updated ' + new Date(D.updated).toLocaleDateString('en-US') + '.'));
