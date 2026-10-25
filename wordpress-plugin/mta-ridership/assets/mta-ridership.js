@@ -169,6 +169,30 @@
   };
 
   var render = {
+    hero: function (root) {
+      // Title + three headline numbers, all computed from the latest data.
+      var full = D.monthly.filter(function (m) { return !m.partial; });
+      var perDay = full.reduce(function (a, m) { return a + m.riders; }, 0) /
+                   Math.max(1, full.reduce(function (a, m) { return a + m.days; }, 0));
+      var years = Object.keys(D.top_years);
+      var topStation = D.top_years[years[years.length - 1]].stations[0];
+      var hrs = D.hourly[Object.keys(D.hourly).slice(-1)[0]];
+      var peak = hrs.indexOf(Math.max.apply(null, hrs));
+      var tiles = [
+        [(perDay / 1e6).toFixed(1) + 'M', 'riders a day'],
+        [stationLabel(topStation.name).replace(/-42 St.*$/, '').replace(/\/.*$/, ''), 'busiest station'],
+        [(peak % 12 || 12) + (peak < 12 ? ' AM' : ' PM'), 'busiest hour']
+      ];
+      var hero = el('header', 'mta-hero');
+      hero.appendChild(el('h1', null, 'NYC Subway Ridership'));
+      var row = el('div', 'mta-tiles');
+      tiles.forEach(function (t) {
+        row.appendChild(el('div', 'mta-tile', '<strong>' + esc(t[0]) + '</strong><span>' + esc(t[1]) + '</span>'));
+      });
+      hero.appendChild(row);
+      root.appendChild(hero);
+    },
+
     spikes: function (root) {
       if (!T) return trendsMissing(root, 'Unusually busy days');
       eventsSection(root, 'Unusually busy days',

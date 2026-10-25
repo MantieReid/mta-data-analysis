@@ -29,4 +29,11 @@
 .mta-ridership .mta-ratio { font-weight: 700; color: var(--mta-accent); white-space: nowrap; }
 .mta-ridership .mta-legend { display: flex; flex-wrap: wrap; gap: .4em 1.4em; font-size: .9rem; margin: 0 0 .6em; }
 .mta-ridership .mta-legend i { display: inline-block; width: .8em; height: .8em; border-radius: 2px; margin-right: .4em; vertical-align: -0.05em; }
+.mta-ridership .mta-hero { margin: 1.5em 0 2.5em; }
+.mta-ridership .mta-hero h1 { font-weight: 700; font-size: clamp(2rem, 6vw, 3.2rem); line-height: 1.1; margin: 0 0 .6em; letter-spacing: -0.02em; }
+.mta-ridership .mta-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1em; }
+.mta-ridership .mta-tile { border: 1px solid var(--mta-border); border-radius: 12px; padding: 1em 1.2em; }
+.mta-ridership .mta-tile strong { display: block; font-weight: 700; font-size: clamp(1.6rem, 5vw, 2.4rem); line-height: 1.1; color: var(--mta-accent); font-variant-numeric: tabular-nums; }
+.mta-ridership .mta-tile span { display: block; margin-top: .3em; color: var(--mta-muted); font-size: .9rem; }
+@media (max-width: 560px) { .mta-ridership .mta-tiles { grid-template-columns: 1fr; } .mta-ridership .mta-tile { display: flex; align-items: baseline; gap: .6em; padding: .7em 1em; } .mta-ridership .mta-tile span { margin: 0; } }
 @media (prefers-color-scheme: dark) { .mta-ridership { --mta-muted: #98a2b3; --mta-accent: #6ea8fe; } }
