@@ -27,4 +27,6 @@
 .mta-ridership .mta-event .mta-top-name { font-weight: 600; }
 .mta-ridership .mta-event .mta-borough { grid-column: 1 / -1; }
 .mta-ridership .mta-ratio { font-weight: 700; color: var(--mta-accent); white-space: nowrap; }
+.mta-ridership .mta-legend { display: flex; flex-wrap: wrap; gap: .4em 1.4em; font-size: .9rem; margin: 0 0 .6em; }
+.mta-ridership .mta-legend i { display: inline-block; width: .8em; height: .8em; border-radius: 2px; margin-right: .4em; vertical-align: -0.05em; }
 @media (prefers-color-scheme: dark) { .mta-ridership { --mta-muted: #98a2b3; --mta-accent: #6ea8fe; } }

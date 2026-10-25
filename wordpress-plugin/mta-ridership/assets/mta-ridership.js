@@ -188,21 +188,48 @@
       if (!T) return trendsMissing(root, 'Weekend vs weekday stations');
       var s = section(root, 'Weekend vs weekday stations',
         'Average daily riders on weekends compared with weekdays, ' + niceDate(T.year_from) + ' – ' + niceDate(T.latest_day) + '.');
-      var grid = el('div', 'mta-grid');
-      [['Busier on weekends', T.weekend], ['Mostly weekday commuters', T.weekday]].forEach(function (p) {
-        var card = el('div', 'mta-card');
-        card.appendChild(el('h4', null, p[0]));
-        var ol = el('ol', 'mta-top');
-        p[1].forEach(function (x) {
-          ol.appendChild(el('li', null,
-            '<div class="mta-top-row"><span class="mta-top-name">' + esc(stationLabel(x.name)) + ' <span class="mta-lines">' + esc(lines(x.name)) + '</span></span>' +
-            '<span class="mta-top-num">' + (x.ratio >= 1 ? '+' : '') + Math.round((x.ratio - 1) * 100) + '%</span></div>' +
-            '<div class="mta-borough">Weekend ' + fmt(x.weekend_avg) + '/day · weekday ' + fmt(x.weekday_avg) + '/day</div>'));
-        });
-        card.appendChild(ol);
-        grid.appendChild(card);
+      // One diverging chart: only truly weekend-heavy stations on the right, the most weekday-heavy on the left.
+      var WEEKEND = '#2f9e44', WEEKDAY = '#e8590c';
+      var items = T.weekend.filter(function (x) { return x.ratio > 1; })
+        .concat(T.weekday.slice().reverse());
+      var pctOf = function (x) { return Math.round((x.ratio - 1) * 100); };
+      s.appendChild(el('p', 'mta-legend',
+        '<span><i style="background:' + WEEKEND + '"></i>More riders on weekends</span>' +
+        '<span><i style="background:' + WEEKDAY + '"></i>More riders on weekdays</span>'));
+      var wrap = el('div', 'mta-chart');
+      wrap.style.height = (items.length * 26 + 40) + 'px';
+      var c = document.createElement('canvas');
+      wrap.appendChild(c);
+      s.appendChild(wrap);
+      new Chart(c, {
+        type: 'bar',
+        data: {
+          labels: items.map(function (x) { return stationLabel(x.name) + ' (' + lines(x.name) + ')'; }),
+          datasets: [{
+            data: items.map(pctOf),
+            backgroundColor: items.map(function (x) { return x.ratio > 1 ? WEEKEND : WEEKDAY; }),
+            borderRadius: 3, barPercentage: 0.8
+          }]
+        },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: {
+            title: function (it) { return items[it[0].dataIndex].name; },
+            label: function (it) {
+              var x = items[it.dataIndex];
+              return [(pctOf(x) > 0 ? '+' : '') + pctOf(x) + '% on weekends vs weekdays',
+                      'Weekend: ' + fmt(x.weekend_avg) + ' riders/day',
+                      'Weekday: ' + fmt(x.weekday_avg) + ' riders/day'];
+            }
+          } } },
+          scales: {
+            x: { ticks: { callback: function (v) { return (v > 0 ? '+' : '') + v + '%'; } },
+                 grid: { color: function (ctx) { return ctx.tick && ctx.tick.value === 0 ? 'rgba(127,127,127,0.8)' : 'rgba(127,127,127,0.2)'; },
+                         lineWidth: function (ctx) { return ctx.tick && ctx.tick.value === 0 ? 2 : 1; } } },
+            y: { grid: { display: false }, ticks: { autoSkip: false } }
+          }
+        }
       });
-      s.appendChild(grid);
     },
 
     latenight: function (root) {
