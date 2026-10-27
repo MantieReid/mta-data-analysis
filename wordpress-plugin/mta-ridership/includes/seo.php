@@ -207,10 +207,10 @@ function mta_ridership_ssr_metrocard($data)
 }
 
 /** Invitation to talk and share: the page is meant to start conversations about transit data. */
-function mta_ridership_ssr_talk()
+function mta_ridership_ssr_talk($unused = null, $share_text = null)
 {
     $url = rawurlencode(get_permalink(get_queried_object_id()) ?: home_url('/mta-ridership/'));
-    $text = rawurlencode('NYC subway ridership, updated daily: busiest stations, an animated map and the end of the MetroCard');
+    $text = rawurlencode($share_text ?: 'NYC subway ridership, updated daily: busiest stations, an animated map and the end of the MetroCard');
     $links = [
         'Reddit'   => "https://www.reddit.com/submit?url=$url&title=$text",
         'Bluesky'  => "https://bsky.app/intent/compose?text=$text%20$url",
@@ -222,7 +222,7 @@ function mta_ridership_ssr_talk()
     foreach ($links as $name => $href) {
         $share .= '<a class="mta-find-pick" href="' . esc_url($href) . '" target="_blank" rel="noopener">' . esc_html($name) . '</a>';
     }
-    return '<section class="mta-section mta-card mta-talk"><h3>Let\'s talk about subway data</h3>' .
+    return '<section class="mta-section mta-card mta-talk"><h3>Let\'s talk about transit data</h3>' .
         '<p>Found something surprising about your station? Have a question the data could answer, or an idea for what to dig into next ' .
         '(congestion pricing, a train line, an event)? I\'d love to hear it, and I\'m always up for talking about transit data.</p>' .
         '<p><a href="' . esc_url(home_url('/#contact')) . '">Get in touch &rarr;</a> · ' .

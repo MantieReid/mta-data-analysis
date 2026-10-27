@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.7.0
+ * Version: 1.8.0
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -22,6 +22,7 @@ require_once __DIR__ . '/includes/trends.php';
 require_once __DIR__ . '/includes/extras.php';
 require_once __DIR__ . '/includes/seo.php';
 require_once __DIR__ . '/includes/calendar.php';
+require_once __DIR__ . '/includes/congestion.php';
 
 /* ---------- scheduling ---------- */
 
@@ -38,6 +39,7 @@ register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook(MTA_RIDERSHIP_TRENDS_HOOK);
     wp_clear_scheduled_hook(MTA_RIDERSHIP_EXTRAS_HOOK);
     wp_clear_scheduled_hook(MTA_RIDERSHIP_CALENDAR_HOOK);
+    wp_clear_scheduled_hook(MTA_CONGESTION_HOOK);
 });
 
 add_action(MTA_RIDERSHIP_HOOK, 'mta_ridership_refresh');
@@ -49,12 +51,18 @@ function mta_ridership_query(array $params)
     $params['$where'] = isset($params['$where'])
         ? MTA_RIDERSHIP_WHERE . ' AND ' . $params['$where']
         : MTA_RIDERSHIP_WHERE;
+    return mta_ridership_api(MTA_RIDERSHIP_API, $params);
+}
+
+/** Any data.ny.gov dataset: GET with SoQL parameters, decoded JSON back. */
+function mta_ridership_api($url, array $params)
+{
     $args = ['timeout' => 180];
     $token = get_option('mta_ridership_app_token');
     if ($token) {
         $args['headers'] = ['X-App-Token' => $token];
     }
-    $res = wp_remote_get(add_query_arg(array_map('rawurlencode', $params), MTA_RIDERSHIP_API), $args);
+    $res = wp_remote_get(add_query_arg(array_map('rawurlencode', $params), $url), $args);
     if (is_wp_error($res)) {
         throw new Exception($res->get_error_message());
     }
@@ -300,9 +308,9 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.7.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.8.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.7.0', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.8.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     if ($data['extras'] && !in_array('lookup', $show, true)) {

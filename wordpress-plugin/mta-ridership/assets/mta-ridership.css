@@ -96,6 +96,21 @@
 .mta-ridership .mta-faq details { border-bottom: 1px solid var(--mta-border); padding: .7em 0; }
 .mta-ridership .mta-faq summary { font-weight: 600; cursor: pointer; }
 .mta-ridership .mta-faq details p { margin: .5em 0 0; }
+/* congestion pricing page */
+.mta-ridership .mta-table-wrap { overflow-x: auto; }
+.mta-ridership .mta-table { width: 100%; border-collapse: collapse; font-size: .95rem; }
+.mta-ridership .mta-table th, .mta-ridership .mta-table td { text-align: left; padding: .5em .6em; border-bottom: 1px solid var(--mta-border); vertical-align: top; }
+.mta-ridership .mta-table td:not(:first-child), .mta-ridership .mta-table th:not(:first-child) { font-variant-numeric: tabular-nums; }
+.mta-ridership .mta-table td.pos { color: #2f9e44; }
+.mta-ridership .mta-table td.neg { color: #e8590c; }
+.mta-ridership .mta-section a { color: var(--mta-accent); }
+.mta-ridership .mta-calc { margin-top: 1em; }
+.mta-ridership .mta-calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: .4em 1em; }
+.mta-ridership .mta-calc-grid label { display: flex; flex-direction: column; font-size: .85rem; color: var(--mta-muted); }
+.mta-ridership .mta-calc-grid .mta-select { margin: .3em 0 0; width: 100%; }
+.mta-ridership .mta-calc-out { margin: .8em 0 0; font-size: 1.05rem; }
+.mta-ridership .mta-calc-out strong { font-size: 1.8rem; color: var(--mta-accent); margin-right: .2em; }
+.mta-ridership .mta-crz-map { height: 480px; }
 /* holidays calendar */
 .mta-ridership .mta-cal-year { margin: 0 0 1.4em; }
 .mta-ridership .mta-cal-year h4 { margin: 0 0 .4em; }

@@ -140,6 +140,16 @@ Station trends (the script and the WordPress plugin use the same method and get 
 | `extras.json` | Map data (each station's location and average riders per hour, last 8 weeks), this year vs last year (total, by borough, biggest station changes), the station lookup (every station's average riders a day over the last 365 days, rank and change vs last year), fare types (last 365 days) and OMNY vs MetroCard by month |
 | `charts/*.png` | Charts of the above |
 
+## Congestion pricing page
+
+The plugin also has a congestion pricing page, `[mta_congestion]`
+([live](https://mantiereidii.com/congestion-pricing/)), built from
+[MTA Congestion Relief Zone Vehicle Entries](https://data.ny.gov/d/t6yz-b64h) and the
+[zone outline](https://data.ny.gov/d/srxy-5nxn). It shows the tolls with a calculator (E-ZPass rates from
+mta.info), the zone map, vehicles entering per hour, this year vs last year on the same days (Jan 5 to the
+latest day, since tolling began Jan 5, 2025), every bridge and tunnel, entries by vehicle type, and subway
+ridership at stations inside the zone vs outside (a station is inside if its location falls within the outline).
+
 ## WordPress plugin
 
 See [`wordpress-plugin/README.md`](wordpress-plugin/README.md). In short:
