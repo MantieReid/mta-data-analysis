@@ -327,8 +327,8 @@ add_shortcode('mta_congestion', function () {
     wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
     wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.9.2');
-    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.9.2', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.9.3');
+    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.9.3', true);
     wp_add_inline_script('mta-congestion', 'window.MTA_CONGESTION = ' . wp_json_encode($c + ['rates' => mta_congestion_rates()]) . ';', 'before');
 
     $fmt = 'number_format';
@@ -425,7 +425,7 @@ add_shortcode('mta_congestion', function () {
         $faq .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($ans) . '</p></details>';
     }
     $o .= '<section class="mta-section mta-faq"><h3>Congestion pricing questions</h3>' . $faq . '</section>';
-    if (mta_ridership_preview()) { // in review
+    if (true) { // live: links to the other transit data pages
         $o .= mta_ridership_ssr_more('congestion');
     }
     $o .= mta_ridership_ssr_talk(null, 'NYC congestion pricing: zone map, hours, cost, and daily data on whether it is working');
@@ -474,19 +474,19 @@ foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description']
         return mta_congestion_is_page() && ($s = mta_congestion_seo()) ? $s['description'] : $desc;
     });
 }
-// Share image for link previews (zone map with the headline numbers). In review.
+// Share image for link previews (zone map with the headline numbers).
 add_action('wpseo_add_opengraph_images', function ($images) {
-    if (mta_ridership_preview() && mta_congestion_is_page()) {
+    if (mta_congestion_is_page()) {
         $images->add_image(['url' => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg',
                             'width' => 1200, 'height' => 630, 'type' => 'image/jpeg']);
     }
 });
 add_filter('wpseo_twitter_image', function ($img) {
-    return mta_ridership_preview() && mta_congestion_is_page() ? plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg' : $img;
+    return mta_congestion_is_page() ? plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg' : $img;
 });
 // Yoast doesn't print an og:image for this page even with the image above, so print it here.
 add_action('wpseo_head', function () {
-    if (mta_ridership_preview() && mta_congestion_is_page()) {
+    if (mta_congestion_is_page()) {
         $url = esc_url(plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg');
         echo "<meta property=\"og:image\" content=\"$url\" />\n<meta property=\"og:image:width\" content=\"1200\" />\n" .
              "<meta property=\"og:image:height\" content=\"630\" />\n<meta property=\"og:image:type\" content=\"image/jpeg\" />\n";

@@ -227,9 +227,9 @@ function mta_ridership_ssr_more($current)
     return $li ? '<section class="mta-section mta-findings mta-more"><h3>More NYC transit data</h3><ul>' . $li . '</ul></section>' : '';
 }
 
-// Projects page: a description for search results (Yoast has none set). In review.
+// Projects page: a description for search results (Yoast has none set).
 add_filter('wpseo_metadesc', function ($desc) {
-    if (!mta_ridership_preview() || $desc || !is_page('projects')) {
+    if ($desc || !is_page('projects')) {
         return $desc;
     }
     return 'Projects by Mantie Reid II: a Java calculator, a C# chat app and rock paper scissors game, a C++ word game, an NYC MetroCard reader, ' .
