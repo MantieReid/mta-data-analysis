@@ -210,7 +210,7 @@
   var render = {
     map: function (root) {
       if (!X || !window.L) return section(root, 'A day on the subway', 'The map is still being prepared. Check back later today.');
-      var s = section(root, 'A day on the subway',
+      var s = section(root, 'A day on the subway: animated NYC subway map',
         'Each circle is a station, sized by how many riders enter it in that hour on an average day ' +
         '(last 8 weeks of data: ' + niceDate(X.map_from) + ' – ' + niceDate(X.to) + '). Press play to watch a day go by.');
       var st = X.stations;
@@ -306,6 +306,122 @@
         }, { threshold: 0.5 });
         io.observe(box);
       }
+    },
+
+    lookup: function (root) {
+      if (!X || !X.lookup) return;
+      var list = X.lookup, total = list.length;
+      var s = section(root, 'Find your station',
+        'Type a station name to see how busy it is: average riders a day over the last year (' +
+        niceDate(X.from) + ' – ' + niceDate(X.to) + '), its rank among all ' + total + ' stations and its busiest hour.');
+      var hoursById = {};
+      X.stations.forEach(function (x) { hoursById[x.id] = x.hours; });
+      // "42nd Street", "Times Square" and "42 St" should all find Times Sq-42 St.
+      function norm(t) {
+        return (' ' + t.toLowerCase().replace(/[^a-z0-9]+/g, ' ') + ' ')
+          .replace(/ (\d+)(st|nd|rd|th) /g, ' $1 ').replace(/ street /g, ' st ').replace(/ streets /g, ' sts ')
+          .replace(/ avenue /g, ' av ').replace(/ ave /g, ' av ').replace(/ square /g, ' sq ').replace(/ road /g, ' rd ')
+          .replace(/ boulevard /g, ' blvd ').replace(/ parkway /g, ' pkwy ').replace(/ heights /g, ' hts ')
+          .replace(/ center /g, ' ctr ').replace(/ place /g, ' pl ').trim();
+      }
+      list.forEach(function (x) { x._q = norm(x.name + ' ' + x.borough); });
+
+      var wrap = el('div', 'mta-find');
+      var input = document.createElement('input');
+      input.type = 'search'; input.className = 'mta-find-input';
+      input.placeholder = 'e.g. Times Square, 14 St, Jay St…';
+      input.setAttribute('aria-label', 'Search for a subway station');
+      input.setAttribute('autocomplete', 'off');
+      var results = el('ul', 'mta-find-results');
+      results.setAttribute('role', 'listbox');
+      wrap.appendChild(input); wrap.appendChild(results);
+      s.appendChild(wrap);
+      var picks = el('p', 'mta-find-picks', 'Popular: ');
+      s.appendChild(picks);
+      var card = el('div', 'mta-card mta-find-card');
+      s.appendChild(card);
+      var chartBox = null;
+
+      function pickButton(x, parent) {
+        var b = el('button', 'mta-find-pick', esc(stationLabel(x.name)) + ' <span class="mta-lines">' + esc(lines(x.name)) + '</span>');
+        b.type = 'button';
+        b.addEventListener('click', function () { show(x, true); });
+        parent.appendChild(b);
+        return b;
+      }
+      list.slice(0, 5).forEach(function (x) { pickButton(x, picks); });
+
+      function search() {
+        var words = norm(input.value).split(' ').filter(Boolean);
+        results.innerHTML = '';
+        if (!words.length) return;
+        var hits = list.filter(function (x) {
+          return words.every(function (w) { return (' ' + x._q + ' ').indexOf(' ' + w) >= 0; });
+        }).slice(0, 8);
+        if (!hits.length) results.appendChild(el('li', 'mta-find-none', 'No station matches “' + esc(input.value) + '”'));
+        hits.forEach(function (x) {
+          var li = el('li');
+          li.setAttribute('role', 'option');
+          pickButton(x, li).insertAdjacentHTML('beforeend', ' <span class="mta-borough">' + esc(x.borough) + '</span>');
+          results.appendChild(li);
+        });
+      }
+      input.addEventListener('input', search);
+      input.addEventListener('keydown', function (e) {
+        var first = results.querySelector('button');
+        if (e.key === 'Enter' && first) { e.preventDefault(); first.click(); }
+        if (e.key === 'Escape') { input.value = ''; search(); }
+      });
+
+      function show(x, fromUser) {
+        input.value = ''; results.innerHTML = '';
+        var hours = hoursById[x.id];
+        var peak = hours ? hours.indexOf(Math.max.apply(null, hours)) : -1;
+        var beats = Math.round(100 * (total - x.rank) / Math.max(1, total - 1));
+        var tile = function (big, small, cls) { return '<div class="mta-tile' + (cls || '') + '"><strong>' + big + '</strong><span>' + small + '</span></div>'; };
+        card.innerHTML =
+          '<h4 class="mta-find-name">' + esc(stationLabel(x.name)) + ' <span class="mta-lines">' + esc(lines(x.name)) + '</span>' +
+          ' <span class="mta-borough">' + esc(x.borough) + '</span></h4>' +
+          '<div class="mta-tiles mta-tiles-find">' +
+          tile(fmt(x.avg), 'riders a day') +
+          tile('#' + x.rank, 'busiest of ' + total + ' stations') +
+          tile(peak >= 0 ? hourName(peak) : '–', 'busiest hour') +
+          (x.yoy == null ? '' : tile((x.yoy > 0 ? '+' : '') + x.yoy + '%', X.yoy ? X.yoy.year + ' vs ' + X.yoy.prev_year : 'vs last year',
+            ' mta-tile-sm' + (x.yoy < 0 ? ' neg' : ''))) +
+          '</div>' +
+          '<p class="mta-note mta-find-line">Busier than ' + beats + '% of subway stations.' +
+          (navigator.share ? ' <button type="button" class="mta-find-copy mta-find-share">Share</button>' : '') +
+          ' <button type="button" class="mta-find-copy">Copy link</button></p>';
+        if (chartBox) chartBox.destroy();
+        chartBox = null;
+        if (hours) {
+          card.appendChild(el('h4', 'mta-subhead', 'Riders by hour, average day (last 8 weeks)'));
+          chartBox = chart(card, {
+            type: 'bar',
+            data: { labels: hours.map(function (_, h) { return hourName(h); }),
+                    datasets: [{ data: hours, backgroundColor: hours.map(function (_, h) { return h === peak ? '#e8590c' : '#2a6fdb'; }) }] },
+            options: { plugins: { legend: { display: false }, tooltip: tipRiders }, scales: { y: yMillions } }
+          });
+        }
+        var link = location.href.split('#')[0] + '#station-' + x.id;
+        var shareBtn = card.querySelector('.mta-find-share');
+        if (shareBtn) shareBtn.addEventListener('click', function () {
+          navigator.share({ title: stationLabel(x.name) + ' subway ridership', url: link,
+            text: stationLabel(x.name) + ': ' + fmt(x.avg) + ' riders a day, #' + x.rank + ' of ' + total +
+                  ' NYC subway stations, busiest at ' + (peak >= 0 ? hourName(peak) : '?') + '.' }).catch(function () {});
+        });
+        card.querySelector('.mta-find-copy:not(.mta-find-share)').addEventListener('click', function (e) {
+          var b = e.currentTarget;
+          if (navigator.clipboard) navigator.clipboard.writeText(link).then(function () { b.textContent = 'Copied!'; });
+        });
+        if (fromUser && history.replaceState) history.replaceState(null, '', '#station-' + x.id);
+      }
+
+      // A shared link (#station-611) opens that station; otherwise start with the busiest one.
+      var m = location.hash.match(/^#station-(.+)$/);
+      var start = m && list.filter(function (x) { return x.id === decodeURIComponent(m[1]); })[0];
+      show(start || list[0], false);
+      if (start) s.scrollIntoView();
     },
 
     yoy: function (root) {

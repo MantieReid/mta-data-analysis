@@ -64,6 +64,38 @@
 .mta-ridership .mta-subhead { margin: 1.2em 0 .4em; }
 @media (max-width: 760px) { .mta-ridership .mta-tiles-yoy { grid-template-columns: 1fr 1fr; } .mta-ridership .mta-tiles-yoy .mta-tile:first-child { grid-column: 1 / -1; } }
 @media (max-width: 560px) { .mta-ridership .mta-map { height: 440px; } .mta-ridership .mta-tiles-yoy .mta-tile { display: block; } }
+/* find your station */
+.mta-ridership .mta-find { position: relative; max-width: 520px; }
+.mta-ridership .mta-find-input { width: 100%; box-sizing: border-box; padding: .7em .9em; font: inherit; font-size: 1.05rem; color: inherit; background: transparent; border: 1px solid var(--mta-border); border-radius: 10px; }
+.mta-ridership .mta-find-input:focus { outline: 2px solid var(--mta-accent); outline-offset: 1px; }
+.mta-ridership .mta-find-results { list-style: none; margin: .3em 0 0; padding: 0; }
+.mta-ridership .mta-find-results li { margin: 0 0 .3em; }
+.mta-ridership .mta-find-results .mta-find-pick { width: 100%; text-align: left; }
+.mta-ridership .mta-find-none { color: var(--mta-muted); font-size: .9rem; }
+.mta-ridership .mta-find-picks { margin: .7em 0 1em; color: var(--mta-muted); font-size: .9rem; }
+.mta-ridership .mta-find-pick { margin: 0 .3em .3em 0; padding: .35em .7em; font: inherit; font-size: .9rem; color: inherit; background: transparent; border: 1px solid var(--mta-border); border-radius: 999px; cursor: pointer; }
+.mta-ridership .mta-find-pick:hover, .mta-ridership .mta-find-pick:focus-visible { border-color: var(--mta-accent); outline: none; }
+.mta-ridership .mta-find-name { font-size: 1.25rem; margin-bottom: .6em; }
+.mta-ridership .mta-find-pick .mta-lines, .mta-ridership .mta-find-name .mta-lines { display: inline; margin-left: .2em; }
+.mta-ridership .mta-find-name .mta-borough { display: block; font-weight: 400; margin-top: .2em; }
+.mta-ridership .mta-tiles-find { grid-template-columns: repeat(4, 1fr); }
+.mta-ridership .mta-tiles-find .mta-tile strong { font-size: clamp(1.3rem, 4vw, 1.9rem); }
+.mta-ridership .mta-find-line { margin: .8em 0 0; }
+.mta-ridership .mta-find-copy { margin-left: .4em; padding: .15em .6em; font: inherit; font-size: .85rem; color: var(--mta-accent); background: transparent; border: 1px solid var(--mta-border); border-radius: 6px; cursor: pointer; }
+@media (max-width: 760px) { .mta-ridership .mta-tiles-find { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 560px) { .mta-ridership .mta-tiles-find .mta-tile { display: block; } }
+/* key findings, FAQ, let's talk */
+.mta-ridership .mta-talk { padding: 1.2em 1.4em; }
+.mta-ridership .mta-talk h3 { margin-top: 0; }
+.mta-ridership .mta-talk a:not(.mta-find-pick) { color: var(--mta-accent); text-decoration: underline; text-underline-offset: 2px; }
+.mta-ridership .mta-talk .mta-find-pick { display: inline-block; text-decoration: none; }
+.mta-ridership .mta-talk-share { margin-bottom: 0; color: var(--mta-muted); font-size: .9rem; }
+.mta-ridership .mta-findings a { color: var(--mta-accent); }
+.mta-ridership .mta-findings ul { margin: 0; padding-left: 1.2em; line-height: 1.6; }
+.mta-ridership .mta-findings li { margin-bottom: .4em; }
+.mta-ridership .mta-faq details { border-bottom: 1px solid var(--mta-border); padding: .7em 0; }
+.mta-ridership .mta-faq summary { font-weight: 600; cursor: pointer; }
+.mta-ridership .mta-faq details p { margin: .5em 0 0; }
 /* holidays calendar */
 .mta-ridership .mta-cal-year { margin: 0 0 1.4em; }
 .mta-ridership .mta-cal-year h4 { margin: 0 0 .4em; }

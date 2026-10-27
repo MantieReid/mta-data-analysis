@@ -1,7 +1,7 @@
 <?php
 /**
  * Extras: map data (station locations + average riders per hour over the last 8 weeks),
- * year-over-year change, fare types and payment methods. Same method as
+ * year-over-year change, the station lookup, fare types and payment methods. Same method as
  * compute_extras() in mta_ridership.py. Runs as its own cron step after the trends.
  */
 
@@ -147,6 +147,32 @@ function mta_ridership_extras_step()
 
         // Fare types over the last 365 days.
         $year_from = mta_ridership_next_day($latest, -364);
+
+        // Station lookup ("Find your station"): every station's average riders a day over the last
+        // 365 days, its rank, and this year vs the same days last year (if it had 100+ riders/day then).
+        $year_i = mta_ridership_day_index($h['start'], $year_from);
+        $year_days = $days_from($year_from);
+        $days_cur = mta_ridership_day_index("$cur_y-01-01", $latest) + 1;
+        $lookup = [];
+        foreach ($h['st'] as $sid => $series) {
+            $sum = 0;
+            foreach ($series as $i => $v) {
+                $sum += $i >= $year_i ? $v : 0;
+            }
+            $avg = (int) round($sum / max(1, $year_days));
+            if ($avg < 1 || !isset($h['names'][$sid])) { // e.g. St George (SIR), which counts almost no entries
+                continue;
+            }
+            $p = $prev[$sid] ?? 0;
+            $lookup[] = ['id' => (string) $sid, 'name' => $h['names'][$sid][0], 'borough' => $h['names'][$sid][1],
+                         'avg' => $avg,
+                         'yoy' => $p >= $days_cur * 100 && !empty($cur[$sid]) ? round(($cur[$sid] / $p - 1) * 100, 1) : null];
+        }
+        usort($lookup, function ($a, $b) { return $b['avg'] <=> $a['avg'] ?: strcmp($a['id'], $b['id']); });
+        foreach ($lookup as $i => &$row) {
+            $row['rank'] = $i + 1;
+        }
+        unset($row);
         $fares = mta_ridership_query([
             '$select' => 'fare_class_category, sum(ridership) AS riders',
             '$where'  => "transit_timestamp >= '{$year_from}' AND transit_timestamp < '" . mta_ridership_next_day($latest) . "'",
@@ -196,7 +222,7 @@ function mta_ridership_extras_step()
         update_option(MTA_RIDERSHIP_EXTRAS_OPTION, [
             'updated' => gmdate('c'), 'from' => $year_from, 'to' => $latest, 'days' => $days_from($year_from),
             'map_from' => $map_from, 'map_days' => $map_days, 'stations' => $stations,
-            'yoy' => $yoy, 'fares' => $fares, 'payment' => $payment,
+            'yoy' => $yoy, 'fares' => $fares, 'payment' => $payment, 'lookup' => $lookup,
         ], false);
         delete_option('mta_ridership_extras_error');
         mta_ridership_clear_page_cache();

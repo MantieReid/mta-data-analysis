@@ -113,6 +113,171 @@ function mta_ridership_ssr_top5($data)
         $list($data['top_week']) . '</div></div></section>';
 }
 
+/**
+ * Plain-language answers to the questions people search for ("busiest subway station in NYC",
+ * "NYC subway daily ridership"), used by the key findings, the FAQ and its schema.org data.
+ */
+function mta_ridership_answers($data)
+{
+    $x = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: [];
+    $lk = $x['lookup'] ?? [];
+    if (count($lk) < 3) {
+        return null;
+    }
+    $h = mta_ridership_headline($data);
+    $hours = $data['hourly'][(string) max(array_keys($data['hourly']))];
+    $am = array_slice($hours, 0, 12);
+    $st = function ($s) {
+        return mta_ridership_station_name($s['name']) . ' (' . $s['borough'] . ')';
+    };
+    $range = mta_ridership_nice_date($x['from']) . ' – ' . mta_ridership_nice_date($x['to']);
+    $a = [
+        'busiest' => 'The busiest subway station in NYC is ' . $st($lk[0]) . ', with about ' . number_format($lk[0]['avg']) .
+            ' riders a day (' . $range . '). Next are ' . $st($lk[1]) . ' at ' . number_format($lk[1]['avg']) .
+            ' and ' . $st($lk[2]) . ' at ' . number_format($lk[2]['avg']) . ' riders a day.',
+        'daily'   => 'About ' . str_replace('M', ' million', $h['per_day']) . ' subway rides a day on average. On ' .
+            mta_ridership_nice_date($data['latest_day']) . ', the latest day of MTA data, there were ' .
+            number_format($data['latest_total']) . ' rides. Counts are entries through the turnstiles and OMNY readers.',
+        'time'    => 'The evening rush is the busiest: ' . $h['peak'] . ' has the most riders on an average day, with about ' .
+            number_format(max($hours)) . ' entries. The morning peak is ' . mta_ridership_hour_name(array_search(max($am), $am)) .
+            ' (' . number_format(max($am)) . ').',
+        'least'   => 'The least used station is ' . $st(end($lk)) . ', with about ' . number_format(end($lk)['avg']) .
+            ' riders a day over the same period.',
+    ];
+    if (!empty($x['yoy'])) {
+        $y = $x['yoy'];
+        $a['trend'] = 'Ridership in ' . $y['year'] . ' is ' . ($y['total_pct'] >= 0 ? 'up ' : 'down ') . abs($y['total_pct']) .
+            '% on the same days of ' . $y['prev_year'] . ' (Jan 1 – ' . gmdate('M j', strtotime($y['year'] . '-' . $y['through'] . ' UTC')) . ').';
+    }
+    $mc = mta_ridership_metrocard_facts($x);
+    if ($mc) {
+        $a['metrocard'] = 'Very few: the MetroCard was used for ' . $mc['last_pct'] . '% of entries in ' . $mc['last_month'] .
+            ' (about ' . number_format($mc['last_per_day']) . ' swipes a day), down from ' . $mc['first_pct'] . '% in ' .
+            $mc['first_month'] . '. Almost everyone now taps with OMNY.';
+        $a['still'] = 'MetroCard sales and refills ended on December 31, 2025. Existing cards kept working after that, and ' .
+            'about ' . number_format($mc['last_per_day']) . ' entries a day were still paid by MetroCard in ' . $mc['last_month'] .
+            '. The MTA hasn\'t set a final day as of this writing, so check mta.info for the latest.';
+    }
+    return $a;
+}
+
+/** The MetroCard's fade-out, from the OMNY vs MetroCard counts by month (complete months only). */
+function mta_ridership_metrocard_facts($x)
+{
+    $full = array_values(array_filter($x['payment'] ?? [], function ($p) { return !$p['partial']; }));
+    if (count($full) < 2) {
+        return null;
+    }
+    $month = function ($p) { return gmdate('F Y', strtotime($p['month'] . '-01 UTC')); };
+    $first = $full[0];
+    $last = end($full);
+    $crossed = function ($share) use ($full, $month) { // first month OMNY had at least this share
+        foreach ($full as $p) {
+            if ($p['omny_share'] >= $share) {
+                return $month($p);
+            }
+        }
+        return null;
+    };
+    return [
+        'first_month' => $month($first), 'first_pct' => round((1 - $first['omny_share']) * 100),
+        'first_per_day' => (int) round($first['metrocard'] / gmdate('t', strtotime($first['month'] . '-01 UTC'))),
+        'last_month' => $month($last), 'last_pct' => round((1 - $last['omny_share']) * 100, 1),
+        'last_per_day' => (int) round($last['metrocard'] / gmdate('t', strtotime($last['month'] . '-01 UTC'))),
+        'omny_90' => $crossed(0.9), 'omny_99' => $crossed(0.99),
+    ];
+}
+
+function mta_ridership_ssr_metrocard($data)
+{
+    $mc = mta_ridership_metrocard_facts(get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: []);
+    if (!$mc) {
+        return '';
+    }
+    $drop = round((1 - $mc['last_per_day'] / max(1, $mc['first_per_day'])) * 100);
+    return '<section class="mta-section mta-findings"><h3>The end of the MetroCard: OMNY took over</h3><ul>' .
+        '<li>In ' . esc_html($mc['first_month']) . ', ' . esc_html($mc['first_pct']) . '% of subway entries were paid with a MetroCard, about ' .
+        number_format($mc['first_per_day']) . ' swipes a day. By ' . esc_html($mc['last_month']) . ' it was ' . esc_html($mc['last_pct']) .
+        '%, about ' . number_format($mc['last_per_day']) . ' a day: ' . $drop . '% fewer.</li>' .
+        ($mc['omny_90'] ? '<li>OMNY passed 90% of entries in ' . esc_html($mc['omny_90']) .
+            ($mc['omny_99'] ? ' and 99% in ' . esc_html($mc['omny_99']) : '') . '.</li>' : '') .
+        '<li>MetroCard sales and refills ended on December 31, 2025, but existing cards kept working; the MTA hasn\'t ' .
+        'announced a final day as of this writing (<a href="https://www.mta.info/" rel="noopener">mta.info</a> has the latest).</li>' .
+        '</ul><p class="mta-note">The chart below shows the MetroCard\'s share month by month.</p></section>';
+}
+
+/** Invitation to talk and share: the page is meant to start conversations about transit data. */
+function mta_ridership_ssr_talk()
+{
+    $url = rawurlencode(get_permalink(get_queried_object_id()) ?: home_url('/mta-ridership/'));
+    $text = rawurlencode('NYC subway ridership, updated daily: busiest stations, an animated map and the end of the MetroCard');
+    $links = [
+        'Reddit'   => "https://www.reddit.com/submit?url=$url&title=$text",
+        'Bluesky'  => "https://bsky.app/intent/compose?text=$text%20$url",
+        'X'        => "https://x.com/intent/post?url=$url&text=$text",
+        'LinkedIn' => "https://www.linkedin.com/sharing/share-offsite/?url=$url",
+        'Facebook' => "https://www.facebook.com/sharer/sharer.php?u=$url",
+    ];
+    $share = '';
+    foreach ($links as $name => $href) {
+        $share .= '<a class="mta-find-pick" href="' . esc_url($href) . '" target="_blank" rel="noopener">' . esc_html($name) . '</a>';
+    }
+    return '<section class="mta-section mta-card mta-talk"><h3>Let\'s talk about subway data</h3>' .
+        '<p>Found something surprising about your station? Have a question the data could answer, or an idea for what to dig into next ' .
+        '(congestion pricing, a train line, an event)? I\'d love to hear it, and I\'m always up for talking about transit data.</p>' .
+        '<p><a href="' . esc_url(home_url('/#contact')) . '">Get in touch &rarr;</a> · ' .
+        '<a href="' . MTA_RIDERSHIP_REPO . '/issues" rel="noopener">Suggest an idea on GitHub</a></p>' .
+        '<p class="mta-talk-share">Share this page: ' . $share . '</p></section>';
+}
+
+function mta_ridership_faq_items($data)
+{
+    $a = mta_ridership_answers($data);
+    if (!$a) {
+        return [];
+    }
+    $q = [
+        'busiest'   => 'What is the busiest subway station in NYC?',
+        'daily'     => 'How many people ride the NYC subway each day?',
+        'time'      => 'What time is the NYC subway busiest?',
+        'least'     => 'What is the least used subway station in NYC?',
+        'trend'     => 'Is NYC subway ridership going up?',
+        'metrocard' => 'How many people still use a MetroCard?',
+        'still'     => 'Can I still use a MetroCard on the NYC subway?',
+    ];
+    $items = [];
+    foreach ($q as $k => $question) {
+        if (isset($a[$k])) {
+            $items[] = [$question, $a[$k]];
+        }
+    }
+    $items[] = ['Where does this data come from?', 'From the MTA\'s "Subway Hourly Ridership" open dataset on data.ny.gov. ' .
+        'This page refreshes daily; the MTA publishes ridership about 1–2 weeks after the fact.'];
+    return $items;
+}
+
+function mta_ridership_ssr_findings($data)
+{
+    $a = mta_ridership_answers($data);
+    if (!$a) {
+        return '';
+    }
+    $li = '';
+    foreach (['daily', 'busiest', 'time', 'trend', 'metrocard'] as $k) {
+        $li .= isset($a[$k]) ? '<li>' . esc_html($k === 'metrocard' ? preg_replace('/^Very few: the/', 'The', $a[$k]) : $a[$k]) . '</li>' : '';
+    }
+    return '<section class="mta-section mta-findings"><h3>NYC subway ridership: key numbers</h3><ul>' . $li . '</ul></section>';
+}
+
+function mta_ridership_ssr_faq($data)
+{
+    $out = '';
+    foreach (mta_ridership_faq_items($data) as [$q, $a]) {
+        $out .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($a) . '</p></details>';
+    }
+    return $out ? '<section class="mta-section mta-faq"><h3>Questions about NYC subway ridership</h3>' . $out . '</section>' : '';
+}
+
 /** The page currently being viewed uses the shortcode. */
 function mta_ridership_is_page()
 {
@@ -130,10 +295,16 @@ function mta_ridership_seo_texts()
         return null;
     }
     $h = mta_ridership_headline($data);
+    // Wording that matches what people search for ("NYC subway daily ridership",
+    // "busiest subway station in NYC", "NYC subway map"). Live; the old text stays for a quick switch back.
+    $new = true;
     return [
-        'title'       => "NYC Subway Ridership {$h['years']}: Live Map & Busiest Stations",
-        'description' => "Animated map and charts of NYC subway ridership {$h['years']}: busiest stations, rush hours and unusual days. " .
-                         "About {$h['per_day']} rides a day, updated daily from MTA open data.",
+        'title'       => $new ? "NYC Subway Ridership {$h['years']}: Daily Riders, Busiest Stations & Live Map"
+                              : "NYC Subway Ridership {$h['years']}: Live Map & Busiest Stations",
+        'description' => $new ? "NYC subway daily ridership: about {$h['per_day']} rides a day. Find any station's riders and busiest hour, " .
+                                "see the busiest subway stations in NYC and an animated subway map. Updated daily from MTA open data."
+                              : "Animated map and charts of NYC subway ridership {$h['years']}: busiest stations, rush hours and unusual days. " .
+                                "About {$h['per_day']} rides a day, updated daily from MTA open data.",
         'image'       => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/share.jpg',
         'data'        => $data,
     ];
@@ -198,4 +369,13 @@ add_action('wp_head', function () {
         ],
     ];
     echo '<script type="application/ld+json">' . wp_json_encode($ld, JSON_UNESCAPED_SLASHES) . "</script>\n";
+    $faq = mta_ridership_faq_items($d);
+    if ($faq) {
+        echo '<script type="application/ld+json">' . wp_json_encode([
+            '@context' => 'https://schema.org', '@type' => 'FAQPage',
+            'mainEntity' => array_map(function ($i) {
+                return ['@type' => 'Question', 'name' => $i[0], 'acceptedAnswer' => ['@type' => 'Answer', 'text' => $i[1]]];
+            }, $faq),
+        ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
+    }
 });

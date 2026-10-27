@@ -380,6 +380,21 @@ def compute_extras(daily, names, latest, refresh):
                                    for b in boro_p if boro_c.get(b)), key=lambda x: -x["cur"]),
                "up": moves[:8], "down": moves[::-1][:8]}
 
+    # Station lookup ("Find your station"): every station's average riders a day over the last
+    # 365 days, its rank, and this year vs the same days last year (if it had 100+ riders/day then).
+    days_cur = (latest - date(cur_y, 1, 1)).days + 1
+    year_sum = defaultdict(int)
+    for r in daily:
+        if r["day"] >= str(year_from):
+            year_sum[r["station_complex_id"]] += php_round(r["riders"])  # the plugin keeps whole riders per day
+    lookup = [{"id": sid, "name": names[sid][0], "borough": names[sid][1], "avg": php_round(s / max(1, ndays)),
+               "yoy": php_round((cur[sid] / prev[sid] - 1) * 100, 1)
+               if prev.get(sid, 0) >= days_cur * 100 and cur.get(sid) else None}
+              for sid, s in year_sum.items() if php_round(s / max(1, ndays)) >= 1 and sid in names]  # skips e.g. St George (SIR)
+    lookup.sort(key=lambda x: (-x["avg"], x["id"]))
+    for i, row in enumerate(lookup):
+        row["rank"] = i + 1
+
     fares = cached_query(os.path.join(OUT, "fare_class_cache.csv"), "fare_class_category",
                          "fare_class_category", "fare types (last 365 days)", refresh, where=rng)
     ftot = sum(r["riders"] for r in fares)
@@ -404,7 +419,7 @@ def compute_extras(daily, names, latest, refresh):
 
     extras = {"from": str(year_from), "to": str(latest), "days": ndays,
               "map_from": str(map_from), "map_days": map_days, "stations": stations,
-              "yoy": yoy, "fares": fares, "payment": payment}
+              "yoy": yoy, "fares": fares, "payment": payment, "lookup": lookup}
     write_json("extras.json", extras)
     return extras
 

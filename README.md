@@ -113,6 +113,10 @@ Station trends (the script and the WordPress plugin use the same method and get 
   hand-kept list in `mta_ridership.py` (`EVENTS`) and the plugin (`includes/calendar.php`).
 - **Year over year**: Jan 1 to the latest day of data this year vs the same calendar days last year.
   Station changes only include stations with 2,000+ riders a day last year.
+- **Find your station**: each station's riders over the last 365 days ÷ the number of days with data, ranked
+  busiest first. Its change vs last year uses the same calendar days as above, shown only for stations with
+  100+ riders a day last year. Stations that average under 1 rider a day (St George on the Staten Island
+  Railway, which records almost no entries) are left out.
 
 ## Outputs
 
@@ -133,7 +137,7 @@ Station trends (the script and the WordPress plugin use the same method and get 
 | `late_night.json` | Stations with the largest share of riders between midnight and 5 AM, last 365 days |
 | `transfers.json` | Stations with the most transfers, last 365 days |
 | `calendar.json` | Riders per day vs a normal day for that weekday (median of the 26 weeks before), with holidays, storms and events labeled |
-| `extras.json` | Map data (each station's location and average riders per hour, last 8 weeks), this year vs last year (total, by borough, biggest station changes), fare types (last 365 days) and OMNY vs MetroCard by month |
+| `extras.json` | Map data (each station's location and average riders per hour, last 8 weeks), this year vs last year (total, by borough, biggest station changes), the station lookup (every station's average riders a day over the last 365 days, rank and change vs last year), fare types (last 365 days) and OMNY vs MetroCard by month |
 | `charts/*.png` | Charts of the above |
 
 ## WordPress plugin

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.5.0
+ * Version: 1.7.0
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -282,6 +282,17 @@ add_shortcode('mta_ridership', function ($atts) {
         return '<p class="mta-ridership-empty">Subway ridership data is loading. Check back in a few minutes.</p>';
     }
     $show = array_map('trim', explode(',', $atts['show']));
+    if (true) { // live: "Find your station", key findings, MetroCard, FAQ, let's talk; mta_ridership_preview() hides changes behind ?mta_preview=1
+        $at = function ($after, $k) use (&$show) {
+            $i = array_search($after, $show, true);
+            array_splice($show, $i === false ? count($show) : $i + 1, 0, [$k]);
+        };
+        $at('hero', 'lookup');
+        $at('top5', 'findings');
+        $at('fares', 'metrocard'); // just above the OMNY vs MetroCard chart
+        $show[] = 'faq';
+        $show[] = 'talk';
+    }
     $base = plugin_dir_url(__FILE__);
     $deps = ['chartjs'];
     if (in_array('map', $show, true)) { // Leaflet only when the map is on the page
@@ -289,11 +300,14 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.5.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.7.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.5.0', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.7.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
+    if ($data['extras'] && !in_array('lookup', $show, true)) {
+        unset($data['extras']['lookup']); // only send the station list when the lookup is on the page
+    }
     if (in_array('holidays', $show, true)) {
         $data['calendar'] = get_option(MTA_RIDERSHIP_CALENDAR_OPTION) ?: null;
     }
@@ -304,7 +318,10 @@ add_shortcode('mta_ridership', function ($atts) {
         // One slot per section, in order. The headline and top 5 are written here as plain HTML
         // so search engines can read them; the script fills in the other slots.
         foreach ($show as $k) {
-            $html = $k === 'hero' ? mta_ridership_ssr_hero($data) : ($k === 'top5' ? mta_ridership_ssr_top5($data) : '');
+            $ssr = ['hero' => 'mta_ridership_ssr_hero', 'top5' => 'mta_ridership_ssr_top5',
+                    'findings' => 'mta_ridership_ssr_findings', 'faq' => 'mta_ridership_ssr_faq',
+                    'metrocard' => 'mta_ridership_ssr_metrocard', 'talk' => 'mta_ridership_ssr_talk'];
+            $html = isset($ssr[$k]) ? $ssr[$k]($data) : '';
             $inner .= '<div data-slot="' . esc_attr($k) . '"' . ($html ? ' data-ssr' : '') . '>' . $html . '</div>';
         }
         if (true) { // live; mta_ridership_preview() hides it behind ?mta_preview=1
@@ -342,7 +359,7 @@ function mta_ridership_admin_page()
     <div class="wrap">
         <h1>MTA Subway Ridership</h1>
         <p>Add <code>[mta_ridership]</code> to any page or post. Limit sections with
-            <code>[mta_ridership show="top5,monthly"]</code> (options: hero, map, top5, yoy, spikes, monthly, hourly, dow, seasons, holidays, topstations, quiet, weekend, latenight, transfers, fares, payment).</p>
+            <code>[mta_ridership show="top5,monthly"]</code> (options: hero, lookup, map, top5, findings, yoy, spikes, monthly, hourly, dow, seasons, holidays, topstations, quiet, weekend, latenight, transfers, fares, metrocard, payment, faq, talk).</p>
         <p>Trends (unusual days, weekend/late-night/transfer stations):
             <?php echo esc_html(mta_ridership_trends_status()); ?></p>
         <table class="form-table">
