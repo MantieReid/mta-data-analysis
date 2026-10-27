@@ -216,6 +216,7 @@ function mta_ridership_ssr_more($current)
         'ridership'  => ['mta-ridership', 'NYC subway ridership', 'Busiest stations, find your station and an animated subway map, updated daily.'],
         'congestion' => ['congestion-pricing', 'NYC congestion pricing', 'Zone map, hours, cost and daily data on whether it\'s working.'],
         'lines'      => ['subway-lines', 'Every subway line ranked', 'Which line is the worst? On-time rates, delays and a report card for each line.'],
+        'buses'      => ['bus-routes', 'NYC bus routes ranked', 'The busiest, slowest and least reliable buses, with a report card for each route.'],
     ];
     $li = '';
     foreach ($pages as $k => [$slug, $title, $text]) {
