@@ -120,6 +120,7 @@ function mta_ridership_trends_step()
         }
         mta_ridership_history_save($h);
         mta_ridership_build_trends($h, $latest);
+        mta_ridership_calendar_step(); // quick: reuses the history just saved
         mta_ridership_schedule_extras(60); // map, year-over-year, fares, payment: next cron request
         delete_option('mta_ridership_trends_error');
         mta_ridership_clear_page_cache();
@@ -139,6 +140,7 @@ add_action('rest_api_init', function () {
             $data['trends_status'] = mta_ridership_trends_status();
             $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
             $data['extras_error'] = get_option('mta_ridership_extras_error') ?: null;
+            $data['calendar'] = get_option(MTA_RIDERSHIP_CALENDAR_OPTION) ?: null;
             $next = wp_next_scheduled(MTA_RIDERSHIP_HOOK);
             $data['next_refresh'] = $next ? gmdate('c', $next) : null;
             return $data;

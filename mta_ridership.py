@@ -409,6 +409,64 @@ def compute_extras(daily, names, latest, refresh):
     return extras
 
 
+# Storms and events can't be worked out from dates, so they're listed by hand (same list as the plugin).
+EVENTS = {
+    "2026-01-25": "Snowstorm", "2026-01-26": "Snowstorm (cleanup day)",
+    "2026-02-22": "Winter storm", "2026-02-23": "Winter storm",
+    "2026-09-22": "UN General Assembly week", "2026-09-23": "UN General Assembly week",
+    "2026-09-24": "UN General Assembly week",
+}
+
+
+def nth_weekday(y, m, wd, n):
+    """n-th (1-based) weekday of a month, n = -1 for the last; wd: 0 = Mon ... 6 = Sun."""
+    if n > 0:
+        d = date(y, m, 1)
+        return d + timedelta(days=(wd - d.weekday()) % 7 + 7 * (n - 1))
+    d = date(y, m, days_in_month(y, m))
+    return d - timedelta(days=(d.weekday() - wd) % 7)
+
+
+def holidays(y):
+    """US holidays and recurring NYC events for a year, as 'YYYY-MM-DD' -> label."""
+    h = {f"{y}-01-01": "New Year's Day", str(nth_weekday(y, 1, 0, 3)): "MLK Day",
+         str(nth_weekday(y, 2, 0, 3)): "Presidents' Day", str(nth_weekday(y, 5, 0, -1)): "Memorial Day",
+         f"{y}-06-19": "Juneteenth", f"{y}-07-04": "July 4th", str(nth_weekday(y, 9, 0, 1)): "Labor Day",
+         str(nth_weekday(y, 10, 0, 2)): "Columbus / Indigenous Peoples' Day",
+         str(nth_weekday(y, 11, 6, 1)): "NYC Marathon", f"{y}-11-11": "Veterans Day",
+         f"{y}-12-24": "Christmas Eve", f"{y}-12-25": "Christmas", f"{y}-12-31": "New Year's Eve"}
+    thanks = nth_weekday(y, 11, 3, 4)
+    h[str(thanks)] = "Thanksgiving"
+    h[str(thanks + timedelta(days=1))] = "Day after Thanksgiving"
+    july4 = date(y, 7, 4).weekday()
+    if july4 == 5:
+        h[f"{y}-07-03"] = "July 4th (observed)"
+    elif july4 == 6:
+        h[f"{y}-07-05"] = "July 4th (observed)"
+    return h
+
+
+def compute_calendar(daily):
+    """Riders per day vs a normal day for that weekday (median of the 26 weeks before, at least 4).
+    Same method as the plugin's calendar.php; written to output/calendar.json."""
+    sys_tot = defaultdict(int)
+    for r in daily:
+        sys_tot[r["day"]] += php_round(r["riders"])
+    days = sorted(date.fromisoformat(d) for d in sys_tot)
+    labels = dict(EVENTS)
+    for y in range(days[0].year, days[-1].year + 1):
+        for d, l in holidays(y).items():
+            labels.setdefault(d, l)  # hand-listed events win over holidays
+    out = []
+    for d in days:
+        b = [sys_tot[str(d - timedelta(weeks=k))] for k in range(1, 27) if str(d - timedelta(weeks=k)) in sys_tot]
+        out.append({"d": str(d), "r": sys_tot[str(d)],
+                    "x": php_round(sys_tot[str(d)] / statistics.median(b), 3) if len(b) >= 4 else None,
+                    "l": labels.get(str(d))})
+    write_json("calendar.json", {"days": out})
+    return out
+
+
 def make_charts(sys_month, month_partial, weekly, seasons, yearly, dow, hourly_sys, month_hour, top5):
     """Save PNG charts to output/charts. Partial periods are drawn hatched/dashed."""
     import matplotlib
@@ -692,6 +750,7 @@ def main():
     compute_trends(daily, names, last, args.refresh)
     print("Building map, year-over-year, fare and payment data...")
     compute_extras(daily, names, last, args.refresh)
+    compute_calendar(daily)
 
     if not args.no_charts:
         make_charts(sys_month, month_partial, weekly, seasons, yearly, dow, hourly_sys, month_hour, top5)

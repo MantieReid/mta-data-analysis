@@ -14,6 +14,8 @@ By [Mantie Reid II](https://mantiereidii.com). Free to reuse with credit ([CC BY
 - **About 3.6 million subway rides a day.** Times Sq-42 St is the busiest station, and 5 PM the busiest hour.
 - **Ridership in 2026 is up 2.9%** on the same days of 2025: Manhattan +3.7%, Brooklyn +3.2%,
   Queens +1.1%, Bronx −1.1%.
+- **Storms and holidays empty the subway:** a winter storm on Feb 23, 2026 cut ridership to 22% of a normal
+  Monday, and Christmas to 35%.
 - **Big events show up clearly.** Mets-Willets Point jumps to about 14× its normal riders during
   the US Open. The NYC Marathon, July 4th and Yankees games also stand out.
 - **The MetroCard faded out:** from 33% of entries in January 2025 to under 1% by late 2026.
@@ -106,6 +108,9 @@ Station trends (the script and the WordPress plugin use the same method and get 
 - **Map ("a day on the subway")**: riders per station per hour over the last 56 days ÷ the number of
   days with data. The API times out when grouping a longer range by station and hour, so it's
   queried one week at a time and added up.
+- **Holidays and storms calendar**: system riders per day ÷ the median of the same weekday over
+  the previous 26 weeks. US holidays are labeled automatically; storms and events come from a short
+  hand-kept list in `mta_ridership.py` (`EVENTS`) and the plugin (`includes/calendar.php`).
 - **Year over year**: Jan 1 to the latest day of data this year vs the same calendar days last year.
   Station changes only include stations with 2,000+ riders a day last year.
 
@@ -127,6 +132,7 @@ Station trends (the script and the WordPress plugin use the same method and get 
 | `weekend_vs_weekday.json` | Stations busiest on weekends vs mostly weekday, last 364 days |
 | `late_night.json` | Stations with the largest share of riders between midnight and 5 AM, last 365 days |
 | `transfers.json` | Stations with the most transfers, last 365 days |
+| `calendar.json` | Riders per day vs a normal day for that weekday (median of the 26 weeks before), with holidays, storms and events labeled |
 | `extras.json` | Map data (each station's location and average riders per hour, last 8 weeks), this year vs last year (total, by borough, biggest station changes), fare types (last 365 days) and OMNY vs MetroCard by month |
 | `charts/*.png` | Charts of the above |
 

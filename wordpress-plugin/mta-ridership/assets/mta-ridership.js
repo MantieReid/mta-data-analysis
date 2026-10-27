@@ -369,6 +369,105 @@
       });
     },
 
+    holidays: function (root) {
+      var C = D.calendar;
+      if (!C || !C.days) return section(root, 'Holidays, storms and big events', 'This chart is still being prepared. Check back later today.');
+      var WD = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+      var narrow = root.clientWidth < 560;
+      var col = function (x) {
+        return x == null ? '#1f2937' : x < 0.45 ? '#b91c1c' : x < 0.6 ? '#ea580c' : x < 0.75 ? '#f59e0b' :
+          x < 0.85 ? '#facc15' : x < 1.15 ? '#334155' : x < 1.25 ? '#22c55e' : '#16a34a';
+      };
+      var dateOf = function (s) { return new Date(s + 'T00:00:00Z'); };
+      var wday = function (s) { return (dateOf(s).getUTCDay() + 6) % 7; };
+      var shortLabel = function (l) {
+        return (l || '').replace("Columbus / Indigenous Peoples' Day", 'Columbus Day').replace(' (cleanup day)', '')
+          .replace(' (observed)', ' (obs.)').replace('UN General Assembly week', 'UN week').replace('Day after Thanksgiving', 'Black Friday');
+      };
+
+      var s = section(root, 'Holidays, storms and big events',
+        'Each square is one day, colored by how busy the subway was compared with a normal day for that weekday ' +
+        '(the median of the 26 weeks before). Outlined squares are holidays and events. Hover or tap a day.');
+      var tip = el('div', 'mta-cal-tip');
+      document.body.appendChild(tip);
+      var hideTip = function () { tip.style.display = 'none'; };
+      var byYear = {};
+      C.days.forEach(function (d) { (byYear[d.d.slice(0, 4)] = byYear[d.d.slice(0, 4)] || []).push(d); });
+      Object.keys(byYear).reverse().forEach(function (y, yi) {
+        var list = byYear[y], pad = wday(list[0].d);
+        var box = el('div', 'mta-cal-year', '<h4>' + esc(y) + (yi === 0 ? ' (so far)' : '') + '</h4>');
+        var wrap = el('div', 'mta-cal-wrap');
+        var months = el('div', 'mta-cal-months');
+        var row = el('div', 'mta-cal-row');
+        row.appendChild(el('div', 'mta-cal-days', WD.map(function (w, i) { return '<span>' + (i % 2 ? '' : w) + '</span>'; }).join('')));
+        var grid = el('div', 'mta-cal');
+        for (var i = 0; i < pad; i++) grid.appendChild(el('i', 'mta-cal-pad'));
+        var lastM = -1;
+        list.forEach(function (d, i) {
+          var cell = el('i', d.l ? 'lab' : null);
+          cell.style.background = col(d.x);
+          var m = dateOf(d.d).getUTCMonth();
+          if (m !== lastM) {
+            lastM = m;
+            var lab = el('span', null, MONTHS[m]);
+            lab.style.left = (Math.floor((i + pad) / 7) * 16) + 'px';
+            months.appendChild(lab);
+          }
+          var show = function (e) {
+            tip.innerHTML = '<strong>' + WD[wday(d.d)] + ' ' + esc(niceDate(d.d)) + '</strong>' + (d.l ? '<br>' + esc(d.l) : '') +
+              '<br>' + fmt(d.r) + ' riders' + (d.x ? '<br>' + Math.round(d.x * 100) + '% of a normal ' + WD[wday(d.d)] : '');
+            tip.style.display = 'block';
+            var p = e.touches ? e.touches[0] : e;
+            tip.style.left = Math.min(p.clientX + 12, window.innerWidth - 270) + 'px';
+            tip.style.top = (p.clientY + 12) + 'px';
+          };
+          cell.addEventListener('mousemove', show);
+          cell.addEventListener('click', show);
+          cell.addEventListener('mouseleave', hideTip);
+          grid.appendChild(cell);
+        });
+        row.appendChild(grid);
+        wrap.appendChild(months);
+        wrap.appendChild(row);
+        box.appendChild(wrap);
+        s.appendChild(box);
+        // Phones: start scrolled to the most recent months.
+        if (narrow) setTimeout(function () { wrap.scrollLeft = wrap.scrollWidth; }, 0);
+      });
+      window.addEventListener('scroll', hideTip, { passive: true });
+      s.appendChild(el('div', 'mta-cal-legend', 'Fewer riders <span class="mta-cal-swatches">' +
+        ['#b91c1c', '#ea580c', '#f59e0b', '#facc15', '#334155', '#22c55e', '#16a34a'].map(function (c) {
+          return '<i style="background:' + c + '"></i>';
+        }).join('') + '</span> More riders'));
+
+      var low = C.days.filter(function (d) { return d.x; }).sort(function (a, b) { return a.x - b.x; }).slice(0, 12);
+      s.appendChild(el('h4', 'mta-subhead', 'Biggest drops in ridership'));
+      var cbox = el('div', 'mta-chart');
+      cbox.style.height = (low.length * 30 + 40) + 'px';
+      var cv = document.createElement('canvas');
+      cbox.appendChild(cv);
+      s.appendChild(cbox);
+      new Chart(cv, {
+        type: 'bar',
+        data: {
+          labels: low.map(function (d) {
+            var dt = dateOf(d.d);
+            return narrow ? (shortLabel(d.l) || 'Unlabeled') + ' ' + (dt.getUTCMonth() + 1) + '/' + dt.getUTCDate() + '/' + String(dt.getUTCFullYear()).slice(2)
+                          : (d.l || 'Unlabeled day') + ' · ' + MONTHS[dt.getUTCMonth()] + ' ' + dt.getUTCDate() + ', ' + dt.getUTCFullYear();
+          }),
+          datasets: [{ data: low.map(function (d) { return Math.round(d.x * 100); }), backgroundColor: low.map(function (d) { return col(d.x); }), borderRadius: 3 }]
+        },
+        options: {
+          indexAxis: 'y', responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { display: false }, tooltip: { callbacks: {
+            title: function (it) { var d = low[it[0].dataIndex]; return (d.l || 'Unlabeled day') + ' · ' + niceDate(d.d); },
+            label: function (it) { return it.parsed.x + '% of a normal day · ' + fmt(low[it.dataIndex].r) + ' riders'; }
+          } } },
+          scales: { x: { min: 0, max: 100, ticks: { callback: function (v) { return v + '%'; } } }, y: { grid: { display: false } } }
+        }
+      });
+    },
+
     hero: function (root) {
       // Title + three headline numbers, all computed from the latest data.
       var full = D.monthly.filter(function (m) { return !m.partial; });
