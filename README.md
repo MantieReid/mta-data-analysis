@@ -150,6 +150,19 @@ mta.info), the zone map, vehicles entering per hour, this year vs last year on t
 latest day, since tolling began Jan 5, 2025), every bridge and tunnel, entries by vehicle type, and subway
 ridership at stations inside the zone vs outside (a station is inside if its location falls within the outline).
 
+## Subway line report cards
+
+`[mta_lines]` ([live](https://mantiereidii.com/subway-lines/)) ranks every subway line by on-time rate and gives each
+line a report card at `/subway-lines/<line>/` (for example [the B train](https://mantiereidii.com/subway-lines/b/)).
+It combines five MTA monthly datasets: [Terminal On-Time Performance](https://data.ny.gov/d/f6rf-2a3t),
+[Customer Journey-Focused Metrics](https://data.ny.gov/d/r7qk-6tcy), [Trains Delayed](https://data.ny.gov/d/9zbp-wz3y),
+[Wait Assessment](https://data.ny.gov/d/s666-h6b7) and [Major Incidents](https://data.ny.gov/d/ereg-mcvp).
+
+- **On time**: trips reaching the last stop within 5 minutes of schedule ÷ scheduled trips, weekdays and weekends,
+  over the last 12 months of data. The change is vs the 12 months before.
+- **5+ minutes late, extra wait, extra ride time**: from the customer journey metrics, weighted by passengers.
+- The W line is left out: the MTA publishes no on-time data for it.
+
 ## WordPress plugin
 
 See [`wordpress-plugin/README.md`](wordpress-plugin/README.md). In short:
