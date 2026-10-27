@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.9.1
+ * Version: 1.9.2
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -303,6 +303,9 @@ add_shortcode('mta_ridership', function ($atts) {
         $show[] = 'faq';
         $show[] = 'talk';
     }
+    if (mta_ridership_preview()) { // in review: links to the other transit data pages
+        array_splice($show, (int) array_search('talk', $show, true) ?: count($show), 0, ['more']);
+    }
     $base = plugin_dir_url(__FILE__);
     $deps = ['chartjs'];
     if (in_array('map', $show, true)) { // Leaflet only when the map is on the page
@@ -310,9 +313,9 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.9.1');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.9.2');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.9.1', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.9.2', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     if ($data['extras'] && !in_array('lookup', $show, true)) {
@@ -330,7 +333,8 @@ add_shortcode('mta_ridership', function ($atts) {
         foreach ($show as $k) {
             $ssr = ['hero' => 'mta_ridership_ssr_hero', 'top5' => 'mta_ridership_ssr_top5',
                     'findings' => 'mta_ridership_ssr_findings', 'faq' => 'mta_ridership_ssr_faq',
-                    'metrocard' => 'mta_ridership_ssr_metrocard', 'talk' => 'mta_ridership_ssr_talk'];
+                    'metrocard' => 'mta_ridership_ssr_metrocard', 'talk' => 'mta_ridership_ssr_talk',
+                    'more' => function () { return mta_ridership_ssr_more('ridership'); }];
             $html = isset($ssr[$k]) ? $ssr[$k]($data) : '';
             $inner .= '<div data-slot="' . esc_attr($k) . '"' . ($html ? ' data-ssr' : '') . '>' . $html . '</div>';
         }

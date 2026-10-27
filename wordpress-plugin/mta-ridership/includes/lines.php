@@ -307,8 +307,8 @@ add_shortcode('mta_lines', function () {
     $l = mta_lines_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.9.1');
-    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.9.1', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.9.2');
+    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.9.2', true);
     $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l];
     if (!$l) {
         $js['lines'] = array_values(array_map(function ($x) { return ['name' => $x['name'], 'otp' => $x['otp'], 'late5' => $x['late5']]; }, $d['lines']));
@@ -388,6 +388,7 @@ add_shortcode('mta_lines', function () {
         $faq .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($ans) . '</p></details>';
     }
     $o .= '<section class="mta-section mta-faq"><h3>Questions</h3>' . $faq . '</section>';
+    $o .= mta_ridership_ssr_more('lines');
     $o .= mta_ridership_ssr_talk(null, $l ? "How reliable is the {$l['name']}? Report card from MTA open data" : 'Which NYC subway line is the worst? Every line ranked from MTA open data');
     $o .= '<p class="mta-source mta-source-ssr">Data (data.ny.gov): <a href="https://data.ny.gov/d/f6rf-2a3t" rel="noopener">Terminal On-Time Performance</a>, ' .
         '<a href="https://data.ny.gov/d/r7qk-6tcy" rel="noopener">Customer Journey-Focused Metrics</a>, <a href="https://data.ny.gov/d/9zbp-wz3y" rel="noopener">Trains Delayed</a>, ' .

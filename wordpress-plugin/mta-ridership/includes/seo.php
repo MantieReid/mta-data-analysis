@@ -206,6 +206,36 @@ function mta_ridership_ssr_metrocard($data)
         '</ul><p class="mta-note">The chart below shows the MetroCard\'s share month by month.</p></section>';
 }
 
+/**
+ * Links between the transit data pages (the ones that are published), leaving out the current one.
+ * $current: 'ridership', 'congestion' or 'lines'.
+ */
+function mta_ridership_ssr_more($current)
+{
+    $pages = [
+        'ridership'  => ['mta-ridership', 'NYC subway ridership', 'Busiest stations, find your station and an animated subway map, updated daily.'],
+        'congestion' => ['congestion-pricing', 'NYC congestion pricing', 'Zone map, hours, cost and daily data on whether it\'s working.'],
+        'lines'      => ['subway-lines', 'Every subway line ranked', 'Which line is the worst? On-time rates, delays and a report card for each line.'],
+    ];
+    $li = '';
+    foreach ($pages as $k => [$slug, $title, $text]) {
+        $p = get_page_by_path($slug, OBJECT, 'page');
+        if ($k !== $current && $p && $p->post_status === 'publish') {
+            $li .= '<li><a href="' . esc_url(get_permalink($p)) . '">' . esc_html($title) . '</a>: ' . esc_html($text) . '</li>';
+        }
+    }
+    return $li ? '<section class="mta-section mta-findings mta-more"><h3>More NYC transit data</h3><ul>' . $li . '</ul></section>' : '';
+}
+
+// Projects page: a description for search results (Yoast has none set). In review.
+add_filter('wpseo_metadesc', function ($desc) {
+    if (!mta_ridership_preview() || $desc || !is_page('projects')) {
+        return $desc;
+    }
+    return 'Projects by Mantie Reid II: a Java calculator, a C# chat app and rock paper scissors game, a C++ word game, an NYC MetroCard reader, ' .
+        'a Unity shooter and 100 Days of Code challenges, with code on GitHub.';
+});
+
 /** Invitation to talk and share: the page is meant to start conversations about transit data. */
 function mta_ridership_ssr_talk($unused = null, $share_text = null)
 {
