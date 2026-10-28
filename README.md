@@ -163,6 +163,24 @@ It combines five MTA monthly datasets: [Terminal On-Time Performance](https://da
 - **5+ minutes late, extra wait, extra ride time**: from the customer journey metrics, weighted by passengers.
 - The W line is left out: the MTA publishes no on-time data for it.
 
+## Bus route report cards
+
+`[mta_buses]` ([live](https://mantiereidii.com/bus-routes/)) ranks NYC bus routes (busiest, slowest, least reliable,
+most bus-lane camera violations) and gives each route a report card at `/bus-routes/<route>/`
+(for example [the M15 Select Bus Service](https://mantiereidii.com/bus-routes/m15-sbs/)).
+
+- **Riders a day**: [Bus Hourly Ridership](https://data.ny.gov/d/gxb3-akrn) over the last 12 months ÷ days, queried a
+  month at a time. Riders per hour use the last 8 weeks of weekdays, queried a week at a time.
+- **Speed**: [Bus Speeds](https://data.ny.gov/d/cudb-vcni), total miles ÷ total operating time on weekdays (includes
+  time at stops and lights). Rankings of speed and spacing leave out express buses.
+- **Spacing** ([Wait Assessment](https://data.ny.gov/d/v4z4-2h6n)), **service run** ([Service Delivered](https://data.ny.gov/d/6qwi-vjde)),
+  **extra time** ([Customer Journey Metrics](https://data.ny.gov/d/8mkn-d32t), weighted by customers) and
+  **camera violations** ([ACE Violations](https://data.ny.gov/d/kh8p-hcbm)), last 12 months.
+- **Busiest stops**: [Stop Ridership Estimates](https://data.ny.gov/d/fvdm-uavx), latest month, weekday rows ÷ the
+  number of weekdays in that month (each row adds up every Monday, Tuesday… of the month). These come from passenger
+  counters, so they can run higher than fare-based ridership.
+- Temporary shuttles (e.g. T321) and routes with under 50 riders a day are left out.
+
 ## WordPress plugin
 
 See [`wordpress-plugin/README.md`](wordpress-plugin/README.md). In short:
