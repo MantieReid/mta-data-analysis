@@ -330,7 +330,7 @@ function mta_ridership_seo_texts()
     // "busiest subway station in NYC", "NYC subway map"). Live; the old text stays for a quick switch back.
     $new = true;
     return [
-        'title'       => $new ? "NYC Subway Ridership {$h['years']}: Daily Riders, Busiest Stations & " . (mta_ridership_preview() ? 'Interactive Map' : 'Live Map')
+        'title'       => $new ? "NYC Subway Ridership {$h['years']}: Daily Riders, Busiest Stations & " . (true ? 'Interactive Map' : 'Live Map')
                               : "NYC Subway Ridership {$h['years']}: Live Map & Busiest Stations",
         'description' => $new ? "NYC subway daily ridership: about {$h['per_day']} rides a day. Find any station's riders and busiest hour, " .
                                 "see the busiest subway stations in NYC and an animated subway map. Updated daily from MTA open data."

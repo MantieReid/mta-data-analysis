@@ -372,8 +372,8 @@ add_shortcode('mta_buses', function () {
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.10.0');
-    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.10.0', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.12.0');
+    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.12.0', true);
     $js = $r ? ['route' => ['label' => $r['label'], 'hours' => $r['hours']]]
              : ['routes' => array_values(array_map(function ($x) {
                    return [$x['label'], $x['name'], $x['slug'], $x['riders'], $x['mph'] ?? null, $x['group']];
@@ -413,7 +413,7 @@ add_shortcode('mta_buses', function () {
             '</div></header>';
         $o .= $sec('How busy is the ' . $r['label'] . '?', '<p>' . esc_html($a['riders'] . (isset($a['busy']) ? ' ' . $a['busy'] : '')) . '</p><div data-slot="hours"></div>',
             'Average riders per hour on weekdays, ' . esc_html(mta_ridership_nice_date($d['hours_from']) . ' – ' . mta_ridership_nice_date($d['hours_to'])) . '.' .
-            (mta_ridership_preview() ? ' Riders are paid entries (OMNY taps and MetroCard swipes), so people who board without paying aren\'t counted; ' .
+            (true ? ' Riders are paid entries (OMNY taps and MetroCard swipes), so people who board without paying aren\'t counted; ' .
             'riders a day covers ' . esc_html(mta_lines_month($d['from']) . ' – ' . mta_lines_month($d['latest'])) . '.' : ''));
         if (!empty($r['stops'])) {
             $o .= $sec('Busiest stops', $table(['Stop', 'Boardings on an average weekday'], array_map(function ($x) {

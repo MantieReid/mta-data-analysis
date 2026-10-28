@@ -309,8 +309,8 @@ add_shortcode('mta_lines', function () {
     $l = mta_lines_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.10.0');
-    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.10.0', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.12.0');
+    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.12.0', true);
     $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l];
     if (!$l) {
         $js['lines'] = array_values(array_map(function ($x) { return ['name' => $x['name'], 'otp' => $x['otp'], 'late5' => $x['late5']]; }, $d['lines']));

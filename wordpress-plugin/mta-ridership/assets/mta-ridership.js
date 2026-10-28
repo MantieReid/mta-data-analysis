@@ -169,7 +169,7 @@
   };
 
   var X = D.extras;
-  var P = !!D.preview; // in review: clearer labels about periods, units and what the data can show
+  var P = true; // live: clearer labels about periods, units and what the data can show
   var through = niceDate(D.latest_day);
   var hourName = function (h) { return (h % 12 || 12) + (h < 12 ? ' AM' : ' PM'); };
 
