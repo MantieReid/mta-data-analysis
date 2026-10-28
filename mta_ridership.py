@@ -29,7 +29,6 @@ Usage:
 import argparse
 import csv
 import json
-import math
 from decimal import ROUND_HALF_UP, Decimal
 import os
 import statistics
@@ -97,11 +96,45 @@ def cached_query(cache, select, group, label, refresh=False, where=None):
     return out
 
 
-def fetch_daily(refresh=False):
-    """Daily ridership per station, summed by the API."""
-    return cached_query(CACHE, "station_complex_id, station_complex, borough, "
-                               "date_trunc_ymd(transit_timestamp) AS day",
-                        "station_complex_id, station_complex, borough, day", "station-days", refresh)
+DAILY_SELECT = "station_complex_id, station_complex, borough, date_trunc_ymd(transit_timestamp) AS day"
+DAILY_GROUP = "station_complex_id, station_complex, borough, day"
+
+
+def merge_daily(old, new, window_from):
+    """Replace every day from window_from on with the freshly downloaded rows (same logic as the
+    plugin's mta_ridership_history_apply). Re-running with the same rows changes nothing, a revised
+    day overwrites the old value, and a station-day the MTA removed disappears. Returns (rows, counts)."""
+    kept = [r for r in old if r["day"] < window_from]
+    before = {(r["station_complex_id"], r["day"]): r["riders"] for r in old if r["day"] >= window_from}
+    after = {(r["station_complex_id"], r["day"]): r["riders"] for r in new}
+    counts = {"new": sum(k not in before for k in after),
+              "changed": sum(k in before and before[k] != v for k, v in after.items()),
+              "unchanged": sum(k in before and before[k] == v for k, v in after.items()),
+              "removed": sum(k not in after for k in before)}
+    rows = kept + sorted(new, key=lambda r: (r["day"], r["station_complex_id"]))
+    return rows, counts
+
+
+def fetch_daily(refresh=False, reconcile_days=30):
+    """Daily ridership per station, summed by the API. With a cache, only the last
+    `reconcile_days` days (and anything newer) are downloaded again and merged in, so new days
+    arrive and MTA revisions to recent days are picked up without re-downloading everything."""
+    if refresh or not os.path.exists(CACHE) or reconcile_days <= 0:
+        return cached_query(CACHE, DAILY_SELECT, DAILY_GROUP, "station-days", refresh)
+    old = cached_query(CACHE, DAILY_SELECT, DAILY_GROUP, "station-days")
+    window_from = str(date.fromisoformat(max(r["day"] for r in old)) - timedelta(days=reconcile_days - 1))
+    tmp = CACHE + ".window"
+    new = cached_query(tmp, DAILY_SELECT, DAILY_GROUP, f"station-days since {window_from}", True,
+                       where=f"transit_timestamp >= '{window_from}'")
+    os.remove(tmp)
+    rows, counts = merge_daily(old, new, window_from)
+    print(f"  re-checked {reconcile_days} days from {window_from}: "
+          + ", ".join(f"{v:,} {k}" for k, v in counts.items()))
+    with open(CACHE, "w", newline="", encoding="utf-8") as f:
+        w = csv.DictWriter(f, fieldnames=list(rows[0]))
+        w.writeheader()
+        w.writerows(rows)
+    return rows
 
 
 def fetch_hourly(refresh=False):
@@ -604,10 +637,12 @@ def main():
     ap.add_argument("--week", help="any date (YYYY-MM-DD) in the week to report per-station averages for")
     ap.add_argument("--refresh", action="store_true", help="re-query the API instead of using the cache")
     ap.add_argument("--no-charts", action="store_true", help="skip PNG chart generation")
+    ap.add_argument("--reconcile-days", type=int, default=30,
+                    help="with a cache, re-download this many recent days to pick up MTA revisions (0 = off)")
     args = ap.parse_args()
 
     print("Querying data.ny.gov (server-side daily sums)...")
-    daily = fetch_daily(args.refresh)
+    daily = fetch_daily(args.refresh, args.reconcile_days)
     names, system_day = {}, defaultdict(float)
     for r in daily:
         names[r["station_complex_id"]] = (r["station_complex"], r["borough"])

@@ -1,0 +1,45 @@
+# Runs on every push and pull request. No secrets and no calls to the MTA's API: everything uses tests/fixtures.
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  python:
+    name: Python tests and checks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: shivammathur/setup-php@v2  # PHP for the Python/PHP parity test
+        with:
+          php-version: "8.3"
+          coverage: none
+      - run: pip install -r requirements.txt pytest pyflakes
+      - name: Static check
+        run: python -m pyflakes mta_ridership.py tests
+      - name: Tests (including Python/PHP parity)
+        run: python -m pytest tests -v
+
+  php:
+    name: PHP ${{ matrix.php }} lint and tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php: ["7.4", "8.3"]  # the plugin's minimum (Requires PHP: 7.4) and the version on the live host
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: none
+      - name: Syntax check every PHP file
+        run: find wordpress-plugin tests -name '*.php' -print0 | xargs -0 -n1 php -l
+      - name: Plugin tests
+        run: php tests/php/run_tests.php

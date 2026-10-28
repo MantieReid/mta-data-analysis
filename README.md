@@ -55,8 +55,10 @@ python mta_ridership.py
 ```
 
 This writes everything to `output/`. A first run takes a few minutes. After that, the
-downloaded totals are cached in `output/*_cache.csv` (not committed); use `--refresh` to
-download them again.
+downloaded totals are cached in `output/*_cache.csv` (not committed). On later runs the daily
+station totals are updated incrementally: the last 30 days are downloaded again and replace the
+cached ones (new days arrive, and any MTA revisions to those days are picked up); use
+`--refresh` to download everything again.
 
 Options:
 
@@ -64,7 +66,26 @@ Options:
 |---|---|
 | `--week YYYY-MM-DD` | Also writes `output/week_<monday>.json`: riders per station for that week |
 | `--refresh` | Ignore the cache and query the API again |
+| `--reconcile-days N` | How many recent days to download again on a cached run (default 30, 0 = off) |
 | `--no-charts` | Skip the PNG charts |
+
+### Tests
+
+```bash
+pip install pytest pyflakes
+python -m pytest tests          # Python tests; the Python/PHP comparison runs if PHP is installed
+php tests/php/run_tests.php     # plugin tests (plain PHP, no WordPress or database needed)
+```
+
+The tests use small made-up data in `tests/fixtures/` and never call the MTA's API. They cover rounding,
+dates and seasons, unusual-day detection, holidays, and re-checking recent days (re-running is
+idempotent, revised days overwrite old values, a revision changes the trend). The plugin tests also
+cover the run lock, step status, failure alerts and data health. `tests/test_parity.py` runs the same
+input through Python and PHP and checks they agree. GitHub Actions runs everything on every push
+(`.github/workflows/ci.yml`), on PHP 7.4 and 8.3.
+
+`tests/php/live_reconcile_check.php` is an optional live check (not run in CI): it runs the re-check
+against the real API on a copy of a site's stored history and reports any MTA revisions.
 
 Optional: set the `SOCRATA_APP_TOKEN` environment variable to a free
 [Socrata app token](https://data.ny.gov/profile/edit/developer_settings) to avoid throttling.
