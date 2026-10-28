@@ -74,6 +74,41 @@ function mta_ridership_history_last_day($h)
     return mta_ridership_next_day($h['start'], $h['ndays'] - 1);
 }
 
+/**
+ * Per-station sums from $from to $to (inclusive), asked $chunk days at a time and added up.
+ * $sums is the SoQL sums part, e.g. "sum(ridership) AS riders"; returns [station id => [alias => total]].
+ */
+function mta_ridership_station_sums($sums, $extra_where, $from, $to, $chunk = 30)
+{
+    $out = [];
+    for ($lo = $from; $lo <= $to; $lo = $hi) {
+        $hi = min(mta_ridership_next_day($lo, $chunk), mta_ridership_next_day($to));
+        foreach (mta_ridership_query([
+            '$select' => "station_complex_id, $sums",
+            '$where'  => "transit_timestamp >= '{$lo}' AND transit_timestamp < '{$hi}'" . $extra_where,
+            '$group'  => 'station_complex_id', '$limit' => 5000,
+        ]) as $r) {
+            foreach ($r as $k => $v) {
+                if ($k !== 'station_complex_id') {
+                    $out[$r['station_complex_id']][$k] = ($out[$r['station_complex_id']][$k] ?? 0) + (float) $v;
+                }
+            }
+        }
+    }
+    return $out;
+}
+
+/** After a failure, try again in 15 minutes, at most 4 times a day (the MTA's API sometimes times out). */
+function mta_ridership_retry_later($hook, $schedule)
+{
+    $key = 'mta_retries_' . $hook;
+    $n = get_transient($key) ?: 0;
+    if ($n < 4) {
+        set_transient($key, $n + 1, DAY_IN_SECONDS);
+        $schedule(900);
+    }
+}
+
 /** One cron step: fetch missing days for a while, then either reschedule or build the trends. */
 function mta_ridership_trends_step()
 {
@@ -126,6 +161,7 @@ function mta_ridership_trends_step()
         mta_ridership_clear_page_cache();
     } catch (Throwable $e) {
         update_option('mta_ridership_trends_error', gmdate('c') . ' ' . $e->getMessage(), false);
+        mta_ridership_retry_later(MTA_RIDERSHIP_TRENDS_HOOK, 'mta_ridership_schedule_trends');
     }
 }
 
@@ -324,23 +360,15 @@ function mta_ridership_build_trends($h, $latest)
     }
     usort($ww, function ($x, $y) { return $y['ratio'] <=> $x['ratio']; });
 
-    // Late-night share and transfers, last 365 days (summed by the API).
+    // Late-night share and transfers, last 365 days (summed by the API, 30 days per call:
+    // a whole year in one call can run past the 3-minute request limit).
     $year_from = mta_ridership_next_day($latest, -364);
-    $range = "transit_timestamp >= '{$year_from}' AND transit_timestamp < '" . mta_ridership_next_day($latest) . "'";
     $tot = [];
-    foreach (mta_ridership_query([
-        '$select' => 'station_complex_id, sum(ridership) AS riders, sum(transfers) AS transfers',
-        '$where'  => $range, '$group' => 'station_complex_id', '$limit' => 5000,
-    ]) as $r) {
-        $tot[$r['station_complex_id']] = ['riders' => (float) $r['riders'], 'transfers' => (float) ($r['transfers'] ?? 0)];
+    foreach (mta_ridership_station_sums('sum(ridership) AS riders, sum(transfers) AS transfers', '', $year_from, $latest) as $sid => $r) {
+        $tot[$sid] = ['riders' => $r['riders'], 'transfers' => $r['transfers'] ?? 0];
     }
     $night = [];
-    foreach (mta_ridership_query([
-        '$select' => 'station_complex_id, sum(ridership) AS riders',
-        '$where'  => $range . ' AND date_extract_hh(transit_timestamp) < 5',
-        '$group'  => 'station_complex_id', '$limit' => 5000,
-    ]) as $r) {
-        $sid = $r['station_complex_id'];
+    foreach (mta_ridership_station_sums('sum(ridership) AS riders', ' AND date_extract_hh(transit_timestamp) < 5', $year_from, $latest) as $sid => $r) {
         if (empty($tot[$sid]) || $tot[$sid]['riders'] < 365 * 2000 || !isset($h['names'][$sid])) {
             continue;
         }

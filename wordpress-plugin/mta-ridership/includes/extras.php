@@ -229,5 +229,6 @@ function mta_ridership_extras_step()
         mta_congestion_schedule(60); // congestion pricing page: next cron request (uses the map's station locations)
     } catch (Throwable $e) {
         update_option('mta_ridership_extras_error', gmdate('c') . ' ' . $e->getMessage(), false);
+        mta_ridership_retry_later(MTA_RIDERSHIP_EXTRAS_HOOK, 'mta_ridership_schedule_extras');
     }
 }

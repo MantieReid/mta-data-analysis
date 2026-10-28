@@ -67,6 +67,9 @@ function mta_ridership_api($url, array $params)
         $args['headers'] = ['X-App-Token' => $token];
     }
     $res = wp_remote_get(add_query_arg(array_map('rawurlencode', $params), $url), $args);
+    if (is_wp_error($res) && strpos($res->get_error_message(), 'timed out') !== false) {
+        $res = wp_remote_get(add_query_arg(array_map('rawurlencode', $params), $url), $args); // the API is sometimes slow: try once more
+    }
     if (is_wp_error($res)) {
         throw new Exception($res->get_error_message());
     }
@@ -258,6 +261,7 @@ function mta_ridership_refresh()
         mta_ridership_schedule_trends(60);
     } catch (Throwable $e) {
         update_option('mta_ridership_last_error', gmdate('c') . ' ' . $e->getMessage(), false);
+        mta_ridership_retry_later(MTA_RIDERSHIP_HOOK, function ($d) { wp_schedule_single_event(time() + $d, MTA_RIDERSHIP_HOOK); });
     }
 }
 

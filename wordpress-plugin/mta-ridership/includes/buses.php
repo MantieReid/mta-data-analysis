@@ -247,6 +247,7 @@ function mta_buses_step()
         mta_buses_clear_cache();
     } catch (Throwable $e) {
         update_option('mta_ridership_buses_error', gmdate('c') . ' ' . $e->getMessage(), false);
+        mta_ridership_retry_later(MTA_BUSES_HOOK, 'mta_buses_schedule');
     }
 }
 

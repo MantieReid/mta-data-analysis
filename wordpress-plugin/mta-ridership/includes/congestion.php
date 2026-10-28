@@ -238,6 +238,7 @@ function mta_congestion_step()
         mta_lines_schedule(60); // line report cards: next cron request
     } catch (Throwable $e) {
         update_option('mta_ridership_congestion_error', gmdate('c') . ' ' . $e->getMessage(), false);
+        mta_ridership_retry_later(MTA_CONGESTION_HOOK, 'mta_congestion_schedule');
     }
 }
 

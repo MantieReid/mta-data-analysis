@@ -183,6 +183,7 @@ function mta_lines_step()
         mta_buses_schedule(60); // bus route report cards: next cron request
     } catch (Throwable $e) {
         update_option('mta_ridership_lines_error', gmdate('c') . ' ' . $e->getMessage(), false);
+        mta_ridership_retry_later(MTA_LINES_HOOK, 'mta_lines_schedule');
     }
 }
 
