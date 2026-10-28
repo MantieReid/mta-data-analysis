@@ -412,7 +412,9 @@ add_shortcode('mta_buses', function () {
             (isset($r['service']) ? $tile($r['service'] . '%', 'scheduled buses that ran') : '') .
             '</div></header>';
         $o .= $sec('How busy is the ' . $r['label'] . '?', '<p>' . esc_html($a['riders'] . (isset($a['busy']) ? ' ' . $a['busy'] : '')) . '</p><div data-slot="hours"></div>',
-            'Average riders per hour on weekdays, ' . esc_html(mta_ridership_nice_date($d['hours_from']) . ' – ' . mta_ridership_nice_date($d['hours_to'])) . '.');
+            'Average riders per hour on weekdays, ' . esc_html(mta_ridership_nice_date($d['hours_from']) . ' – ' . mta_ridership_nice_date($d['hours_to'])) . '.' .
+            (mta_ridership_preview() ? ' Riders are paid entries (OMNY taps and MetroCard swipes), so people who board without paying aren\'t counted; ' .
+            'riders a day covers ' . esc_html(mta_lines_month($d['from']) . ' – ' . mta_lines_month($d['latest'])) . '.' : ''));
         if (!empty($r['stops'])) {
             $o .= $sec('Busiest stops', $table(['Stop', 'Boardings on an average weekday'], array_map(function ($x) {
                 return [esc_html($x[0]), number_format($x[1])];

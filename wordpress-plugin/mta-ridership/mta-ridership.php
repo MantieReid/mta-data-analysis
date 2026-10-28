@@ -323,6 +323,7 @@ add_shortcode('mta_ridership', function ($atts) {
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.10.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
     wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.10.0', true);
+    $data['preview'] = mta_ridership_preview();
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     if ($data['extras'] && !in_array('lookup', $show, true)) {

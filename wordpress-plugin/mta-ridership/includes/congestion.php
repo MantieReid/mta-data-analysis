@@ -278,9 +278,11 @@ function mta_congestion_answers($c)
         'raise' => 'Yes. The MTA is phasing the toll in: the $9 peak toll for cars goes up to $12 in 2028 and $15 in 2031.',
     ];
     if ($c['pct'] !== null) {
-        $a['working'] = 'About ' . $fmt($c['cur_per_day']) . ' vehicles a day entered the zone in ' . $c['year'] . ' (Jan 5 – ' .
+        $a['working'] = (mta_ridership_preview() ? "This data alone can't answer that. " : '') .
+            'About ' . $fmt($c['cur_per_day']) . ' vehicles a day entered the zone in ' . $c['year'] . ' (Jan 5 – ' .
             mta_congestion_md($c['latest']) . '), ' . ($c['pct'] <= 0 ? abs($c['pct']) . '% fewer' : $c['pct'] . '% more') .
-            ' than the ' . $fmt($c['prev_per_day']) . ' a day on the same days of ' . ($c['year'] - 1) . ', the first year of tolling.';
+            ' than the ' . $fmt($c['prev_per_day']) . ' a day on the same days of ' . ($c['year'] - 1) . ', the first year of tolling.' .
+            (mta_ridership_preview() ? ' ' . mta_congestion_caveat() . " For the change compared with traffic before tolling, see the MTA's own estimates." : '');
     }
     if (!empty($c['entries'])) {
         $a['busiest'] = 'The busiest way into the zone is ' . $c['entries'][0]['name'] . ', with about ' . $fmt($c['entries'][0]['per_day']) .
@@ -290,9 +292,17 @@ function mta_congestion_answers($c)
         $s = $c['subway'];
         $a['subway'] = 'Subway ridership at the ' . $s['stations'] . ' stations inside the zone is ' . ($s['in_pct'] >= 0 ? 'up ' : 'down ') .
             abs($s['in_pct']) . '% on the same days of last year (' . $fmt($s['in_per_day']) . ' riders a day), compared with ' .
-            ($s['out_pct'] >= 0 ? 'up ' : 'down ') . abs($s['out_pct']) . '% at stations outside it.';
+            ($s['out_pct'] >= 0 ? 'up ' : 'down ') . abs($s['out_pct']) . '% at stations outside it.' .
+            (mta_ridership_preview() ? ' Both years had the toll, and ridership also depends on office attendance, tourism and service changes, ' .
+            "so the gap between the two is not a measure of the toll's effect." : '');
     }
     return $a;
+}
+
+/** Why a year-over-year comparison doesn't measure the toll's effect (both years were tolled). */
+function mta_congestion_caveat()
+{
+    return "Tolling began on January 5, 2025, so both periods had the toll: this shows how traffic changed in tolling's second year, not the effect of the toll itself. Traffic also moves with the economy, tourism, construction, weather and how often people work from home.";
 }
 
 function mta_congestion_md($ymd)
@@ -340,7 +350,8 @@ add_shortcode('mta_congestion', function () {
     $sec = function ($title, $body, $note = '') {
         return '<section class="mta-section"><h3>' . esc_html($title) . '</h3>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
     };
-    $o = '<header class="mta-hero"><h1>NYC Congestion Pricing: Map, Hours, Cost &amp; Traffic Data</h1>' .
+    $o = '<header class="mta-hero"><h1>' . (mta_ridership_preview() ? 'NYC Congestion Pricing: Is It Working? Explore the Traffic and Transit Data'
+        : 'NYC Congestion Pricing: Map, Hours, Cost &amp; Traffic Data') . '</h1>' .
         '<p class="mta-hero-links">An independent look at MTA open data, updated daily · Not affiliated with the MTA</p><div class="mta-tiles">' .
         $tile('$9', 'peak toll for cars (E-ZPass)') .
         $tile($fmt($c['cur_per_day']), 'vehicles enter the zone a day') .
@@ -373,10 +384,13 @@ add_shortcode('mta_congestion', function () {
         esc_html(mta_ridership_nice_date($c['latest'])) . '. Shaded hours are peak toll hours.');
 
     if (isset($a['working'])) {
-        $o .= $sec('Is congestion pricing working? ' . $c['year'] . ' vs ' . ($c['year'] - 1),
+        $p = mta_ridership_preview(); // in review: no causal claim from a year-over-year comparison
+        $o .= $sec(($p ? 'Traffic into the zone: ' : 'Is congestion pricing working? ') . $c['year'] . ' vs ' . ($c['year'] - 1),
             '<p>' . esc_html($a['working']) . '</p><div data-slot="monthly"></div>',
             'Average vehicles entering the zone a day, by month (' . esc_html(mta_ridership_nice_date($c['latest'])) . ' is the latest day, ' .
-            'so its month is partial). The MTA\'s own "Vehicle Reductions" page stopped updating after December 2025.');
+            'so its month is partial). ' . ($p ? 'The MTA compares traffic with a pre-tolling baseline on its ' .
+            '<a href="https://metrics.mta.info/?cbdtp/vehiclereductions" rel="noopener">Vehicle Reductions</a> page, which stopped updating after December 2025.'
+            : 'The MTA\'s own "Vehicle Reductions" page stopped updating after December 2025.'));
     }
 
     $er = '';
@@ -429,7 +443,8 @@ add_shortcode('mta_congestion', function () {
     if (true) { // live: links to the other transit data pages
         $o .= mta_ridership_ssr_more('congestion');
     }
-    $o .= mta_ridership_ssr_talk(null, 'NYC congestion pricing: zone map, hours, cost, and daily data on whether it is working');
+    $o .= mta_ridership_ssr_talk(null, mta_ridership_preview() ? 'NYC congestion pricing: zone map, hours, cost, and daily traffic data'
+        : 'NYC congestion pricing: zone map, hours, cost, and daily data on whether it is working');
     $o .= '<p class="mta-source mta-source-ssr">Data: <a href="https://data.ny.gov/d/t6yz-b64h" rel="noopener">MTA Congestion Relief Zone Vehicle Entries</a>' .
         ' and <a href="https://data.ny.gov/d/srxy-5nxn" rel="noopener">zone outline</a> (data.ny.gov), through ' . esc_html(mta_ridership_nice_date($c['latest'])) .
         '. Updated ' . esc_html(gmdate('M j, Y', strtotime($c['updated']))) . '. Also see the MTA\'s ' .
@@ -456,7 +471,8 @@ function mta_congestion_seo()
         return null;
     }
     return [
-        'title' => 'NYC Congestion Pricing: Map, Hours, Cost & Is It Working? (' . $c['year'] . ' Data)',
+        'title' => mta_ridership_preview() ? 'NYC Congestion Pricing: Is It Working? Explore the Traffic and Transit Data'
+            : 'NYC Congestion Pricing: Map, Hours, Cost & Is It Working? (' . $c['year'] . ' Data)',
         'description' => 'NYC congestion pricing explained: zone map, toll hours, how much it costs ($9 peak, $2.25 overnight) and a calculator. ' .
             'Plus daily data on traffic into the zone' . ($c['pct'] !== null ? ' (' . ($c['pct'] > 0 ? '+' : '') . $c['pct'] . '% vs ' . ($c['year'] - 1) . ')' : '') .
             ', every bridge and tunnel, and subway ridership.',

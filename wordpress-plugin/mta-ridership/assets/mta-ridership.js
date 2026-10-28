@@ -169,6 +169,8 @@
   };
 
   var X = D.extras;
+  var P = !!D.preview; // in review: clearer labels about periods, units and what the data can show
+  var through = niceDate(D.latest_day);
   var hourName = function (h) { return (h % 12 || 12) + (h < 12 ? ' AM' : ' PM'); };
 
   // Diverging horizontal bar chart (used for weekend vs weekday and year-over-year).
@@ -503,7 +505,9 @@
 
       var s = section(root, 'Holidays, storms and big events',
         'Each square is one day, colored by how busy the subway was compared with a normal day for that weekday ' +
-        '(the median of the 26 weeks before). Outlined squares are holidays and events. Hover or tap a day.');
+        '(the median of the 26 weeks before). Outlined squares are holidays and events. Hover or tap a day.' +
+        (P ? ' Labels come from the holiday calendar and a short hand-kept list of storms and events: they name what happened that day, ' +
+        'not a measured cause of the change.' : ''));
       var tip = el('div', 'mta-cal-tip');
       document.body.appendChild(tip);
       var hideTip = function () { tip.style.display = 'none'; };
@@ -612,7 +616,8 @@
       if (!T) return trendsMissing(root, 'Unusually busy days');
       eventsSection(root, 'Unusually busy days',
         'Days when a station had far more riders than usual: at least ' + T.settings.spike_ratio + '× its normal level for that weekday ' +
-        '(the median of the 26 weeks before), after allowing for how busy the whole system was. Back-to-back days are grouped together. Click one to see it.',
+        '(the median of the 26 weeks before), after allowing for how busy the whole system was. Back-to-back days are grouped together. Click one to see it.' +
+        (P ? ' These are statistical outliers: the data shows that a station was unusually busy, not why.' : ''),
         T.spikes, T.recent);
     },
 
@@ -620,7 +625,8 @@
       if (!T) return trendsMissing(root, 'Unusually quiet days');
       eventsSection(root, 'Unusually quiet days',
         'Days when a station had far fewer riders than usual (' + Math.round(T.settings.quiet_ratio * 100) + '% of normal or less), ' +
-        'compared with the rest of the system that day. Often a station closure or service change.', T.quiet, null);
+        'compared with the rest of the system that day. ' + (P ? 'The data shows that a station was unusually quiet, not why: a closure, ' +
+        'a service change or a gap in the data can all look the same.' : 'Often a station closure or service change.'), T.quiet, null);
     },
 
     weekend: function (root) {
@@ -702,7 +708,8 @@
     },
 
     monthly: function (root) {
-      var s = section(root, 'Riders per month', 'Faded bars are months with incomplete data.');
+      var s = section(root, 'Riders per month', P ? 'Total subway entries each month, ' + niceDate(D.first_day) + ' – ' + through +
+        '. Faded bars are months with incomplete data.' : 'Faded bars are months with incomplete data.');
       var colors = D.monthly.map(function (m, i) {
         var yrs = Object.keys(D.hourly);
         var c = YEAR_COLORS[Math.max(0, yrs.indexOf(m.month.slice(0, 4))) % YEAR_COLORS.length];
@@ -725,7 +732,8 @@
     },
 
     hourly: function (root) {
-      var s = section(root, 'Riders by hour of day', 'Average riders entering the subway in each hour, across all stations.');
+      var s = section(root, 'Riders by hour of day', P ? 'Riders entering the subway in each hour on an average day, all stations, one line per year ' +
+        '(the latest year runs through ' + through + ').' : 'Average riders entering the subway in each hour, across all stations.');
       chart(s, {
         type: 'line',
         data: {
@@ -739,7 +747,8 @@
     },
 
     dow: function (root) {
-      var s = section(root, 'Riders by day of week', 'Average daily subway riders.');
+      var s = section(root, 'Riders by day of week', P ? 'Average subway entries per day, by day of the week, one bar per year (the latest year runs through ' +
+        through + ').' : 'Average daily subway riders.');
       chart(s, {
         type: 'bar',
         data: {
@@ -778,7 +787,8 @@
     },
 
     topstations: function (root) {
-      var s = section(root, 'Top stations by year and season');
+      var s = section(root, 'Top stations by year and season', P ? 'Total entries at each station over the chosen year or season. ' +
+        '"So far" and "partial" periods are incomplete.' : null);
       var sel = el('select', 'mta-select');
       sel.setAttribute('aria-label', 'Choose a year or season');
       var opts = [];
