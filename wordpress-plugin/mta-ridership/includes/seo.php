@@ -31,7 +31,7 @@ function mta_ridership_ssr_source($data)
         ' (data.ny.gov), ' . esc_html(mta_ridership_nice_date($data['first_day'])) . ' – ' . esc_html(mta_ridership_nice_date($data['latest_day'])) .
         '. Updated ' . esc_html(gmdate('M j, Y', strtotime($data['updated']))) . '.<br>' .
         'Source code and method: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a>' .
-        ' · Analysis by Mantie Reid II, free to reuse with credit (CC BY 4.0).</p>';
+        ' · Analysis by Mantie Reid II, free to reuse with credit (CC BY 4.0).' . mta_ridership_status_link() . '</p>';
 }
 
 function mta_ridership_station_name($name)

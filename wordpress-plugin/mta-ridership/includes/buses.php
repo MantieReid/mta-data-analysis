@@ -372,8 +372,8 @@ add_shortcode('mta_buses', function () {
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.12.0');
-    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.12.0', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.13.1');
+    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.13.1', true);
     $js = $r ? ['route' => ['label' => $r['label'], 'hours' => $r['hours']]]
              : ['routes' => array_values(array_map(function ($x) {
                    return [$x['label'], $x['name'], $x['slug'], $x['riders'], $x['mph'] ?? null, $x['group']];
@@ -488,7 +488,7 @@ add_shortcode('mta_buses', function () {
         '<a href="https://data.ny.gov/d/6qwi-vjde" rel="noopener">Service Delivered</a>, <a href="https://data.ny.gov/d/8mkn-d32t" rel="noopener">Customer Journey Metrics</a>, ' .
         '<a href="https://data.ny.gov/d/fvdm-uavx" rel="noopener">Stop Ridership Estimates</a>, <a href="https://data.ny.gov/d/kh8p-hcbm" rel="noopener">Camera Enforcement Violations</a>. ' .
         'Updated ' . esc_html(gmdate('M j, Y', strtotime($d['updated']))) . '. The MTA\'s own charts: <a href="https://metrics.mta.info/?bus/servicedelivered" rel="noopener">metrics.mta.info</a>.<br>' .
-        'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).</p>';
+        'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).' . mta_ridership_status_link() . '</p>';
     return '<div class="mta-ridership mta-buses">' . $o . '</div>';
 });
 

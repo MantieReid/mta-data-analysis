@@ -169,6 +169,22 @@
   };
 
   var X = D.extras;
+
+  // The big data blocks (map stations, station list, calendar) are either embedded in the page or, when the
+  // server sends D.chunks, fetched once from a cacheable endpoint the first time they're needed.
+  var chunkCache = {};
+  function chunk(name) {
+    if (!chunkCache[name]) {
+      var embedded = name === 'calendar' ? D.calendar : (X && X[name]);
+      chunkCache[name] = embedded ? Promise.resolve(embedded) : !D.chunks ? Promise.reject(new Error('no data')) :
+        fetch(D.chunks.url + name + '?v=' + D.chunks.v).then(function (r) {
+          if (!r.ok) throw new Error('HTTP ' + r.status);
+          return r.json();
+        });
+      chunkCache[name].catch(function () { delete chunkCache[name]; }); // allow a retry later
+    }
+    return chunkCache[name];
+  }
   var P = true; // live: clearer labels about periods, units and what the data can show
   var through = niceDate(D.latest_day);
   var hourName = function (h) { return (h % 12 || 12) + (h < 12 ? ' AM' : ' PM'); };
@@ -311,13 +327,15 @@
     },
 
     lookup: function (root) {
-      if (!X || !X.lookup) return;
-      var list = X.lookup, total = list.length;
+      var lazy = !!D.lookup_top; // only the top five are in the page; the full list is fetched
+      if (!X || !(lazy || X.lookup)) return;
+      var list = lazy ? D.lookup_top : X.lookup, total = lazy ? D.lookup_total : list.length;
       var s = section(root, 'Find your station',
         'Type a station name to see how busy it is: average riders a day over the last year (' +
         niceDate(X.from) + ' – ' + niceDate(X.to) + '), its rank among all ' + total + ' stations and its busiest hour.');
       var hoursById = {};
-      X.stations.forEach(function (x) { hoursById[x.id] = x.hours; });
+      (lazy ? D.lookup_top : X.stations).forEach(function (x) { if (x.hours) hoursById[x.id] = x.hours; });
+      var stationsLoaded = !lazy, current = null;
       // "42nd Street", "Times Square" and "42 St" should all find Times Sq-42 St.
       function norm(t) {
         return (' ' + t.toLowerCase().replace(/[^a-z0-9]+/g, ' ') + ' ')
@@ -353,7 +371,25 @@
       }
       list.slice(0, 5).forEach(function (x) { pickButton(x, picks); });
 
+      var fullList = null;
+      function ensureList() { // fetch the full station list once (idle time, or the first time the box is used)
+        if (!lazy || fullList) return Promise.resolve();
+        fullList = chunk('lookup').then(function (full) {
+          full.forEach(function (x) { x._q = norm(x.name + ' ' + x.borough); });
+          list = full;
+        });
+        return fullList;
+      }
+      if (lazy) {
+        (window.requestIdleCallback || function (f) { setTimeout(f, 1200); })(function () { ensureList().catch(function () {}); }, { timeout: 3000 });
+        input.addEventListener('focus', function () { ensureList().catch(function () {}); });
+      }
+
       function search() {
+        if (lazy && list.length < total) { // the full list isn't here yet: fetch it, then search
+          ensureList().then(search, function () {});
+          return;
+        }
         var words = norm(input.value).split(' ').filter(Boolean);
         results.innerHTML = '';
         if (!words.length) return;
@@ -376,8 +412,16 @@
       });
 
       function show(x, fromUser) {
+        current = x;
         input.value = ''; results.innerHTML = '';
         var hours = hoursById[x.id];
+        if (!hours && !stationsLoaded) { // hourly numbers for this station live in the map data: fetch it, then redraw
+          stationsLoaded = true;
+          chunk('stations').then(function (st) {
+            st.forEach(function (y) { hoursById[y.id] = y.hours; });
+            if (current === x) show(x, false);
+          }, function () {});
+        }
         var peak = hours ? hours.indexOf(Math.max.apply(null, hours)) : -1;
         var beats = Math.round(100 * (total - x.rank) / Math.max(1, total - 1));
         var tile = function (big, small, cls) { return '<div class="mta-tile' + (cls || '') + '"><strong>' + big + '</strong><span>' + small + '</span></div>'; };
@@ -421,9 +465,14 @@
 
       // A shared link (#station-611) opens that station; otherwise start with the busiest one.
       var m = location.hash.match(/^#station-(.+)$/);
-      var start = m && list.filter(function (x) { return x.id === decodeURIComponent(m[1]); })[0];
+      var byId = function (id) { return list.filter(function (x) { return x.id === id; })[0]; };
+      var start = m && byId(decodeURIComponent(m[1]));
       show(start || list[0], false);
       if (start) s.scrollIntoView();
+      else if (m && lazy) ensureList().then(function () {
+        var late = byId(decodeURIComponent(m[1]));
+        if (late) { show(late, false); s.scrollIntoView(); }
+      }, function () {});
     },
 
     yoy: function (root) {
@@ -832,11 +881,35 @@
   document.querySelectorAll('.mta-ridership').forEach(function (root) {
     Chart.defaults.color = getComputedStyle(root).color; // match the theme's text color
     Chart.defaults.borderColor = 'rgba(127,127,127,0.2)';
+    // Sections whose data is fetched: drawn when they get near the screen, after the data arrives.
+    var LAZY = { map: ['stations', function (d) { X.stations = d; }, 640], holidays: ['calendar', function (d) { D.calendar = d; }, 320] };
     (root.getAttribute('data-show') || '').split(',').forEach(function (k) {
       // The server writes a slot per section, in order; some (hero, top5) are already filled in
       // as plain HTML so search engines can read them. Only render the empty ones.
       var slot = root.querySelector('[data-slot="' + k + '"]');
       if (slot && slot.hasAttribute('data-ssr')) return;
+      var lz = D.chunks && X && slot && LAZY[k] && !(k === 'holidays' && !D.chunks.calendar);
+      if (lz && 'IntersectionObserver' in window) {
+        slot.style.minHeight = LAZY[k][2] + 'px'; // reserve the space so the page doesn't jump when it fills in
+        var io = new IntersectionObserver(function (ents) {
+          if (!ents[0].isIntersecting) return;
+          io.disconnect();
+          chunk(LAZY[k][0]).then(function (d) {
+            LAZY[k][1](d);
+            slot.style.minHeight = '';
+            render[k](slot);
+          }, function () {
+            slot.style.minHeight = '';
+            section(slot, k === 'map' ? 'A day on the subway' : 'Holidays, storms and big events', 'This section could not be loaded. Try reloading the page.');
+          });
+        }, { rootMargin: '700px 0px' });
+        io.observe(slot);
+        return;
+      }
+      if (lz) { // no IntersectionObserver: fetch now
+        chunk(LAZY[k][0]).then(function (d) { LAZY[k][1](d); render[k](slot); }, function () {});
+        return;
+      }
       if (render[k]) render[k](slot || root);
     });
     if (root.querySelector('.mta-source')) return;

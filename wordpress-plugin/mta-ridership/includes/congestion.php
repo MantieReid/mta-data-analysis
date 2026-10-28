@@ -338,8 +338,8 @@ add_shortcode('mta_congestion', function () {
     wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
     wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.12.0');
-    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.12.0', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.13.1');
+    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.13.1', true);
     wp_add_inline_script('mta-congestion', 'window.MTA_CONGESTION = ' . wp_json_encode($c + ['rates' => mta_congestion_rates()]) . ';', 'before');
 
     $fmt = 'number_format';
@@ -449,7 +449,7 @@ add_shortcode('mta_congestion', function () {
         ' and <a href="https://data.ny.gov/d/srxy-5nxn" rel="noopener">zone outline</a> (data.ny.gov), through ' . esc_html(mta_ridership_nice_date($c['latest'])) .
         '. Updated ' . esc_html(gmdate('M j, Y', strtotime($c['updated']))) . '. Also see the MTA\'s ' .
         '<a href="https://metrics.mta.info/?cbdtp/about" rel="noopener">congestion pricing dashboards</a>.<br>' .
-        'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).</p>';
+        'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).' . mta_ridership_status_link() . '</p>';
     return '<div class="mta-ridership mta-congestion">' . $o . '</div>';
 });
 

@@ -67,6 +67,33 @@ Check it with `wp cron event list | grep mta` (the daily refresh should be liste
 - **Log.** Each run writes one line to the PHP error log, e.g.
   `[mta-ridership] trends ok in 352.1s, data through 2026-10-14`.
 
+## Page load size
+
+The ridership page used to embed all its data in the HTML. The three biggest blocks (map stations, the full
+station list, the holidays calendar) are now fetched on demand from `/wp-json/mta-ridership/v1/chunk/<name>`
+(`stations`, `lookup`, `calendar` only; read-only; the address carries a data version so browsers cache it).
+The map and calendar load as they approach the screen, the station list when the page is idle or the search
+box is used, and the page embeds just the top five stations so the first station card shows instantly.
+
+Measured on the live site (Oct 28, 2026), first load of `/mta-ridership/`:
+
+| | Before | After |
+|---|---|---|
+| HTML | 243 KB (65 KB compressed) | 95 KB (26 KB compressed) |
+| Data embedded in the HTML | 186 KB | 39 KB |
+| Fetched later, compressed | – | station list 9 KB, map data 26 KB, calendar 7 KB |
+
+A visitor who scrolls the whole page downloads about the same total (68 KB vs 65 KB compressed); the gain is a
+much smaller first load, and nothing at all for the map and calendar data if they never scroll that far.
+Page timings were not compared: repeat loads in the same browser come from its cache, so they weren't reliable.
+
+## Public status page
+
+`[mta_status]` (page `/data-status/`) and `/wp-json/mta-ridership/v1/status` show, for each dataset the site
+displays, the newest MTA data date, the last refresh, and whether it is current, delayed by the MTA, or delayed
+by our refresh. Only names, dates and states are exposed (tests check that errors, file paths, timings and
+internal steps never appear); the page is excluded from page caching so it is always live.
+
 WP-CLI commands:
 
 | Command | What it does |

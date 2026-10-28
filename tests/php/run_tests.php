@@ -122,5 +122,61 @@ check('ridership 10 days behind is current', $hl['refresh']['state'] === 'curren
 check('congestion 40 days behind is delayed by the MTA', $hl['congestion']['state'] === 'delayed' && $hl['congestion']['reason'] === 'source');
 check('a step with no data yet is unavailable', $hl['buses']['state'] === 'unavailable');
 
+/* ---------- lazy-loaded data blocks (chunks) ---------- */
+
+reset_wp();
+$stations = [];
+$lookup = [];
+for ($i = 1; $i <= 200; $i++) { // about as many stations as the real data
+    $stations[] = ['id' => "s$i", 'name' => "Station $i", 'borough' => 'M', 'lat' => 40.7, 'lon' => -74.0, 'hours' => array_fill(0, 24, $i)];
+    $lookup[] = ['id' => "s$i", 'name' => "Station $i", 'borough' => 'M', 'avg' => 1000 * (201 - $i), 'yoy' => 1.5, 'rank' => $i];
+}
+$calendar = ['updated' => 'c1', 'days' => ['2026-10-01' => 1.0]];
+$extras = ['updated' => 'e1', 'stations' => $stations, 'lookup' => $lookup, 'to' => '2026-10-14', 'yoy' => ['x' => 1]];
+update_option(MTA_RIDERSHIP_EXTRAS_OPTION, $extras);
+update_option(MTA_RIDERSHIP_CALENDAR_OPTION, $calendar);
+
+check('only the three listed blocks can be fetched', mta_ridership_chunk('options') === null && mta_ridership_chunk('../x') === null
+    && mta_ridership_chunk('mta_ridership_app_token') === null && mta_ridership_chunk('') === null);
+check('the three blocks come back as stored', mta_ridership_chunk('stations') === $stations && mta_ridership_chunk('lookup') === $lookup && mta_ridership_chunk('calendar') === $calendar);
+update_option(MTA_RIDERSHIP_EXTRAS_OPTION, ['updated' => 'e1']);
+check('a block that is not built yet is not found', mta_ridership_chunk('stations') === null);
+update_option(MTA_RIDERSHIP_EXTRAS_OPTION, $extras);
+
+$full = ['extras' => $extras, 'calendar' => $calendar, 'monthly' => [['month' => '2026-10']]];
+$p = mta_ridership_lazy_payload($full, ['map', 'lookup', 'holidays']);
+check('the big blocks are not embedded in the page', !isset($p['extras']['stations']) && !isset($p['extras']['lookup']) && !isset($p['calendar']));
+check('small data stays embedded', $p['extras']['to'] === '2026-10-14' && $p['extras']['yoy'] === ['x' => 1] && $p['monthly'] === $full['monthly']);
+check('the top five stations come with their hourly riders', count($p['lookup_top']) === 5 && $p['lookup_top'][0]['id'] === 's1' && $p['lookup_top'][0]['hours'] === array_fill(0, 24, 1));
+check('the station total is sent', $p['lookup_total'] === 200);
+check('the payload is much smaller', strlen(json_encode($p)) < strlen(json_encode($full)) / 2);
+$v1 = $p['chunks']['v'];
+update_option(MTA_RIDERSHIP_EXTRAS_OPTION, ['updated' => 'e2'] + $extras);
+check('the fetch address changes when the data is rebuilt', mta_ridership_lazy_payload($full, ['map'])['chunks']['v'] !== $v1);
+check('the calendar is only fetched when the page has it', $p['chunks']['calendar'] === true && mta_ridership_lazy_payload($full, ['map'])['chunks']['calendar'] === false);
+
+/* ---------- public data status: only safe fields ---------- */
+
+reset_wp();
+update_option('mta_ridership_data', ['latest_day' => gmdate('Y-m-d', strtotime('-9 days')), 'updated' => gmdate('c')]);
+update_option('mta_ridership_congestion', ['latest' => gmdate('Y-m-d', strtotime('-50 days')), 'updated' => gmdate('c')]);
+update_option(MTA_RIDERSHIP_STATUS_OPTION, [
+    'trends' => ['failures' => 3, 'error' => 'cURL error 28 at /home/mantiere/public_html/secret-file.php', 'last_attempt' => gmdate('c'), 'seconds' => 351.2],
+    'lines'  => ['failures' => 2, 'error' => 'HTTP 500: stack trace in /home/mantiere/x.php', 'last_attempt' => gmdate('c')],
+]);
+$rows = mta_ridership_public_status();
+check('only the four public datasets are listed', array_column($rows, 'id') === ['refresh', 'congestion', 'lines', 'buses']);
+check('a recent dataset is current', $rows[0]['state'] === 'current' && $rows[0]['reason'] === null);
+check('an old dataset with a healthy refresh is delayed by the MTA', $rows[1]['state'] === 'delayed' && $rows[1]['reason'] === 'mta');
+check('a dataset with no data is unavailable', $rows[3]['state'] === 'unavailable');
+update_option('mta_ridership_lines', ['latest' => gmdate('Y-m', strtotime('-1 month')), 'updated' => gmdate('c')]);
+check("a failing refresh is reported as ours, not the MTA's", mta_ridership_public_status()[2]['reason'] === 'our-refresh');
+$all = json_encode(mta_ridership_public_status()) . mta_ridership_status_html();
+check('no error text, file paths, timings or internal steps leak', strpos($all, 'cURL') === false && strpos($all, '/home/') === false
+    && strpos($all, 'secret-file') === false && strpos($all, 'stack trace') === false && strpos($all, 'seconds') === false
+    && stripos($all, 'trends') === false && stripos($all, 'extras') === false);
+check('the page explains the difference between an MTA delay and ours', strpos($all, 'Waiting on the MTA') !== false && strpos($all, 'retrying automatically') !== false);
+check('no status link until the page is published', mta_ridership_status_link() === '');
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

@@ -50,6 +50,12 @@ function wp_mail($to, $subject, $body) { $GLOBALS['wp_mails'][] = compact('to', 
 function admin_url($p = '') { return 'https://example.test/wp-admin/' . $p; }
 function home_url($p = '') { return 'https://example.test' . $p; }
 function plugin_dir_url($f) { return 'https://example.test/wp-content/plugins/mta-ridership/'; }
+function rest_url($p = '') { return 'https://example.test/wp-json/' . $p; }
+function esc_html($s) { return htmlspecialchars((string) $s, ENT_QUOTES); }
+function esc_attr($s) { return htmlspecialchars((string) $s, ENT_QUOTES); }
+function esc_url($s) { return (string) $s; }
+function get_page_by_path($p, $o = 'OBJECT', $t = 'page') { return null; }
+define('OBJECT', 'OBJECT');
 
 function reset_wp() {
     $GLOBALS['wp_options'] = [];
