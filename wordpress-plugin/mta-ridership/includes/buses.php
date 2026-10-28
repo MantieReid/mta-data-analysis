@@ -317,7 +317,7 @@ function mta_buses_answers($d, $r = null)
             'busiest' => 'The busiest NYC bus route is the ' . mta_buses_title($busy[0]) . ', with about ' . number_format($busy[0]['riders']) .
                 ' riders a day (' . $range . '), followed by the ' . $busy[1]['label'] . ' (' . number_format($busy[1]['riders']) . ') and the ' .
                 $busy[2]['label'] . ' (' . number_format($busy[2]['riders']) . ').',
-            'slowest' => 'The slowest bus route is the ' . mta_buses_title($slow[0]) . ', averaging ' . $slow[0]['mph'] . ' mph on weekdays, about walking pace. ' .
+            'slowest' => 'The slowest bus route is the ' . mta_buses_title($slow[0]) . ', averaging ' . $slow[0]['mph'] . ' mph on weekdays, barely faster than a brisk walk. ' .
                 'Local and Select Bus Service routes average ' . $s['mph'] . ' mph.',
             'riders' => 'NYC buses carry about ' . number_format($s['riders']) . ' riders a day across ' . $s['routes'] . ' routes.',
             'tickets' => 'Bus-lane and bus-stop cameras issued about ' . number_format($s['tickets']) . ' violations over the same 12 months.',
