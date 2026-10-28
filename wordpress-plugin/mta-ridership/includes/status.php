@@ -83,7 +83,7 @@ function mta_ridership_run_step($key)
     if (!mta_ridership_lock($key)) {
         wp_schedule_single_event(time() + 300, $s['hook']);
         error_log("[mta-ridership] $key: another step is running, retrying in 5 minutes");
-        return;
+        return 'postponed';
     }
     $t0 = microtime(true);
     $started = time();
@@ -97,6 +97,7 @@ function mta_ridership_run_step($key)
     $err = (string) get_option($s['err'], '');
     $failed = $err !== '' && strtotime(substr($err, 0, 25)) >= $started;
     mta_ridership_record($key, !$failed, $failed ? $err : '', round(microtime(true) - $t0, 1));
+    return $failed ? 'failed' : 'ok';
 }
 
 /** Store the result of a run and send an alert if the step keeps failing. */
@@ -217,7 +218,10 @@ if (defined('WP_CLI') && WP_CLI) {
             if (!isset(mta_ridership_steps()[$args[0]])) {
                 WP_CLI::error('Unknown step. Use: ' . implode(', ', array_keys(mta_ridership_steps())));
             }
-            mta_ridership_run_step($args[0]);
+            if (mta_ridership_run_step($args[0]) === 'postponed') {
+                WP_CLI::warning('Another data step is running; this one is scheduled to try again in 5 minutes.');
+                return;
+            }
             $h = mta_ridership_health()[$args[0]];
             $h['error'] ? WP_CLI::warning($h['error']) : WP_CLI::success("{$args[0]} done in {$h['seconds']}s, data through {$h['through']}");
         }

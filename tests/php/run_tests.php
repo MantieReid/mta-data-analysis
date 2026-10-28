@@ -93,8 +93,7 @@ check('a successful run is recorded', $st['failures'] === 0 && !empty($st['last_
 check('the lock is released after the run', get_option(MTA_RIDERSHIP_LOCK_OPTION) === false);
 
 update_option(MTA_RIDERSHIP_LOCK_OPTION, ['owner' => 'buses', 'until' => time() + 600]);
-mta_ridership_run_step('lines');
-check('an overlapping run is postponed, not run', wp_next_scheduled('mta_ridership_lines_step') > time() && get_option(MTA_RIDERSHIP_STATUS_OPTION)['lines']['last_attempt'] === $st['last_attempt']);
+check('an overlapping run is postponed, not run', mta_ridership_run_step('lines') === 'postponed' && wp_next_scheduled('mta_ridership_lines_step') > time() && get_option(MTA_RIDERSHIP_STATUS_OPTION)['lines']['last_attempt'] === $st['last_attempt']);
 mta_ridership_unlock();
 
 update_option('mta_ridership_alert_email', 'owner@example.test');
