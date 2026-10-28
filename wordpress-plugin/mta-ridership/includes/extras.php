@@ -12,7 +12,7 @@ if (!defined('ABSPATH')) {
 const MTA_RIDERSHIP_EXTRAS_HOOK   = 'mta_ridership_extras_step';
 const MTA_RIDERSHIP_EXTRAS_OPTION = 'mta_ridership_extras';
 
-add_action(MTA_RIDERSHIP_EXTRAS_HOOK, 'mta_ridership_extras_step');
+add_action(MTA_RIDERSHIP_EXTRAS_HOOK, function () { mta_ridership_run_step('extras'); });
 
 add_action('init', function () {
     if (!get_option(MTA_RIDERSHIP_EXTRAS_OPTION) && get_option(MTA_RIDERSHIP_TRENDS_OPTION)) {

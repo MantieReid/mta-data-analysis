@@ -22,7 +22,7 @@ const MTA_QUIET_MIN_BASELINE = 3000;
 const MTA_SPIKE_RATIO        = 3.0;  // "unusually busy" = 3x its normal level (vs the system that day)
 const MTA_QUIET_RATIO        = 0.35;
 
-add_action(MTA_RIDERSHIP_TRENDS_HOOK, 'mta_ridership_trends_step');
+add_action(MTA_RIDERSHIP_TRENDS_HOOK, function () { mta_ridership_run_step('trends'); });
 
 // First build after install/upgrade: start it without waiting for the next daily refresh.
 add_action('init', function () {
@@ -109,7 +109,80 @@ function mta_ridership_retry_later($hook, $schedule)
     }
 }
 
-/** One cron step: fetch missing days for a while, then either reschedule or build the trends. */
+/** How many recent days each run downloads again, to pick up MTA revisions (0 = only new days). */
+function mta_ridership_reconcile_days()
+{
+    return max(0, (int) get_option('mta_ridership_reconcile_days', 30));
+}
+
+/** Station-day totals for $from..$to (inclusive) from the API, paged. */
+function mta_ridership_history_fetch($from, $to)
+{
+    $rows = [];
+    for ($offset = 0; ; $offset += 50000) {
+        $page = mta_ridership_query([
+            '$select' => 'station_complex_id, station_complex, borough, date_trunc_ymd(transit_timestamp) AS day, sum(ridership) AS riders',
+            '$where'  => "transit_timestamp >= '{$from}' AND transit_timestamp < '" . mta_ridership_next_day($to) . "'",
+            '$group'  => 'station_complex_id, station_complex, borough, day',
+            '$order'  => 'day, station_complex_id',
+            '$limit'  => 50000, '$offset' => $offset,
+        ]);
+        $rows = array_merge($rows, $page);
+        if (count($page) < 50000) {
+            return $rows;
+        }
+    }
+}
+
+/**
+ * Put freshly downloaded rows for $from..$to into the history, replacing whatever was stored for those
+ * days (same logic as merge_daily() in mta_ridership.py). Re-applying the same rows changes nothing,
+ * a revised day overwrites the old value, and a station-day the MTA removed disappears.
+ * Returns [$h, ['new' => n, 'changed' => n, 'unchanged' => n, 'removed' => n]].
+ */
+function mta_ridership_history_apply(array $h, array $rows, $from, $to)
+{
+    $fi = max(0, mta_ridership_day_index($h['start'], $from));
+    $ti = mta_ridership_day_index($h['start'], $to);
+    $before = [];
+    foreach ($h['st'] as $sid => $series) {
+        for ($i = $fi; $i <= $ti; $i++) {
+            if (isset($series[$i])) {
+                $before["$sid|$i"] = $series[$i];
+                unset($h['st'][$sid][$i]);
+            }
+        }
+    }
+    $c = ['new' => 0, 'changed' => 0, 'unchanged' => 0, 'removed' => 0];
+    foreach ($rows as $r) {
+        $i = mta_ridership_day_index($h['start'], substr($r['day'], 0, 10));
+        if ($i < $fi || $i > $ti) {
+            continue;
+        }
+        $sid = $r['station_complex_id'];
+        $v = (int) round($r['riders']);
+        $h['names'][$sid] = [$r['station_complex'], $r['borough'] ?? ''];
+        $h['st'][$sid][$i] = $v;
+        $k = "$sid|$i";
+        if (!array_key_exists($k, $before)) {
+            $c['new']++;
+        } else {
+            $c[$before[$k] === $v ? 'unchanged' : 'changed']++;
+            unset($before[$k]);
+        }
+    }
+    $c['removed'] = count($before);
+    foreach ($h['st'] as $sid => $series) {
+        ksort($h['st'][$sid]);
+    }
+    $h['ndays'] = max($h['ndays'], $ti + 1);
+    return [$h, $c];
+}
+
+/**
+ * One cron step: fetch missing days for a while (rescheduling itself if that takes long), download the
+ * last few weeks again to pick up revisions, then rebuild the trends if anything changed.
+ */
 function mta_ridership_trends_step()
 {
     if (function_exists('set_time_limit')) {
@@ -123,6 +196,12 @@ function mta_ridership_trends_step()
         }
         $latest = $data['latest_day'];
         $h = mta_ridership_history_load() ?: ['start' => $data['first_day'], 'ndays' => 0, 'st' => [], 'names' => []];
+        $counts = ['new' => 0, 'changed' => 0, 'unchanged' => 0, 'removed' => 0];
+        $add = function ($c) use (&$counts) {
+            foreach ($c as $k => $v) {
+                $counts[$k] += $v;
+            }
+        };
 
         while (mta_ridership_history_last_day($h) < $latest || $h['ndays'] === 0) {
             if (time() - $t0 > MTA_RIDERSHIP_STEP_SECONDS) {
@@ -132,29 +211,35 @@ function mta_ridership_trends_step()
             }
             $from = mta_ridership_next_day($h['start'], $h['ndays']);
             $to   = min(mta_ridership_next_day($from, MTA_RIDERSHIP_CHUNK_DAYS - 1), $latest);
-            $rows = [];
-            for ($offset = 0; ; $offset += 50000) {
-                $page = mta_ridership_query([
-                    '$select' => 'station_complex_id, station_complex, borough, date_trunc_ymd(transit_timestamp) AS day, sum(ridership) AS riders',
-                    '$where'  => "transit_timestamp >= '{$from}' AND transit_timestamp < '" . mta_ridership_next_day($to) . "'",
-                    '$group'  => 'station_complex_id, station_complex, borough, day',
-                    '$order'  => 'day, station_complex_id',
-                    '$limit'  => 50000, '$offset' => $offset,
-                ]);
-                $rows = array_merge($rows, $page);
-                if (count($page) < 50000) {
-                    break;
-                }
-            }
-            foreach ($rows as $r) {
-                $sid = $r['station_complex_id'];
-                $h['names'][$sid] = [$r['station_complex'], $r['borough'] ?? ''];
-                $h['st'][$sid][mta_ridership_day_index($h['start'], substr($r['day'], 0, 10))] = (int) round($r['riders']);
-            }
+            [$h, $c] = mta_ridership_history_apply($h, mta_ridership_history_fetch($from, $to), $from, $to);
             $h['ndays'] = mta_ridership_day_index($h['start'], $to) + 1;
+            $add($c);
+        }
+        // Re-check recent days: the MTA sometimes revises them after first publishing.
+        $n = mta_ridership_reconcile_days();
+        if ($n > 0) {
+            $from = max($h['start'], mta_ridership_next_day($latest, 1 - $n));
+            for ($lo = $from; $lo <= $latest; $lo = mta_ridership_next_day($hi)) {
+                $hi = min(mta_ridership_next_day($lo, MTA_RIDERSHIP_CHUNK_DAYS - 1), $latest);
+                [$h, $c] = mta_ridership_history_apply($h, mta_ridership_history_fetch($lo, $hi), $lo, $hi);
+                $add($c);
+            }
         }
         mta_ridership_history_save($h);
+        update_option('mta_ridership_history_counts', $counts + ['at' => gmdate('c'), 'reconcile_days' => $n], false);
+
+        // Rebuild only when the history changed, the latest day moved, or the last build is a week old
+        // (the late-night and transfer totals come from separate queries over a full year).
+        $old = get_option(MTA_RIDERSHIP_TRENDS_OPTION);
+        $stale = !$old || ($old['latest_day'] ?? '') !== $latest || strtotime($old['updated'] ?? '2000-01-01') < time() - 7 * DAY_IN_SECONDS
+            || get_option('mta_ridership_trends_force');
+        if ($counts['new'] + $counts['changed'] + $counts['removed'] === 0 && !$stale) {
+            mta_ridership_schedule_extras(60);
+            delete_option('mta_ridership_trends_error');
+            return;
+        }
         mta_ridership_build_trends($h, $latest);
+        delete_option('mta_ridership_trends_force');
         mta_ridership_calendar_step(); // quick: reuses the history just saved
         mta_ridership_schedule_extras(60); // map, year-over-year, fares, payment: next cron request
         delete_option('mta_ridership_trends_error');

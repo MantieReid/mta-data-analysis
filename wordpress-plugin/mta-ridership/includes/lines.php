@@ -36,7 +36,7 @@ function mta_lines_code($line)
     return $alias[$line] ?? $line;
 }
 
-add_action(MTA_LINES_HOOK, 'mta_lines_step');
+add_action(MTA_LINES_HOOK, function () { mta_ridership_run_step('lines'); });
 
 add_action('init', function () {
     add_rewrite_rule('^' . MTA_LINES_SLUG . '/([a-z0-9-]+)/?$', 'index.php?pagename=' . MTA_LINES_SLUG . '&mta_line=$matches[1]', 'top');

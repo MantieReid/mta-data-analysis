@@ -17,7 +17,7 @@ const MTA_CONGESTION_HOOK     = 'mta_ridership_congestion_step';
 const MTA_CONGESTION_OPTION   = 'mta_ridership_congestion';
 const MTA_CONGESTION_START    = '2025-01-05'; // tolling began Sunday, January 5, 2025
 
-add_action(MTA_CONGESTION_HOOK, 'mta_congestion_step');
+add_action(MTA_CONGESTION_HOOK, function () { mta_ridership_run_step('congestion'); });
 
 add_action('init', function () {
     if (!get_option(MTA_CONGESTION_OPTION) && get_option(MTA_RIDERSHIP_EXTRAS_OPTION)) {

@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.10.0
+ * Version: 1.11.0
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -25,6 +25,7 @@ require_once __DIR__ . '/includes/calendar.php';
 require_once __DIR__ . '/includes/congestion.php';
 require_once __DIR__ . '/includes/lines.php';
 require_once __DIR__ . '/includes/buses.php';
+require_once __DIR__ . '/includes/status.php';
 
 /* ---------- scheduling ---------- */
 
@@ -46,7 +47,7 @@ register_deactivation_hook(__FILE__, function () {
     wp_clear_scheduled_hook(MTA_BUSES_HOOK);
 });
 
-add_action(MTA_RIDERSHIP_HOOK, 'mta_ridership_refresh');
+add_action(MTA_RIDERSHIP_HOOK, function () { mta_ridership_run_step('refresh'); });
 
 /* ---------- data.ny.gov queries (all sums done server-side) ---------- */
 
@@ -363,8 +364,11 @@ add_action('admin_post_mta_ridership_save', function () {
     }
     check_admin_referer('mta_ridership_save');
     update_option('mta_ridership_app_token', sanitize_text_field(wp_unslash($_POST['app_token'] ?? '')));
+    $email = sanitize_email(wp_unslash($_POST['alert_email'] ?? ''));
+    update_option('mta_ridership_alert_email', is_email($email) ? $email : '', false);
+    update_option('mta_ridership_reconcile_days', min(365, max(0, (int) ($_POST['reconcile_days'] ?? 30))), false);
     if (!empty($_POST['refresh_now'])) {
-        mta_ridership_refresh();
+        mta_ridership_run_step('refresh');
     }
     wp_safe_redirect(admin_url('options-general.php?page=mta-ridership&done=1'));
     exit;
@@ -390,11 +394,36 @@ function mta_ridership_admin_page()
                 <tr><th>Last error</th><td style="color:#b32d2e"><?php echo esc_html($error); ?></td></tr>
             <?php endif; ?>
         </table>
+        <h2>Data steps</h2>
+        <p>"Data through" is the newest day the MTA has published. Delayed means older than the usual publishing
+            lag for that dataset; "MTA" means our refreshes work and the MTA hasn't published newer data yet,
+            "our refresh" means the step itself keeps failing.</p>
+        <table class="widefat striped" style="max-width:1100px">
+            <thead><tr><th>Step</th><th>State</th><th>Data through</th><th>Last success (UTC)</th><th>Last run</th><th>Error</th></tr></thead>
+            <tbody>
+            <?php foreach (mta_ridership_health() as $h) :
+                $color = ['current' => '#1a7f37', 'delayed' => '#9a6700', 'unavailable' => '#b32d2e'][$h['state']]; ?>
+                <tr>
+                    <td><?php echo esc_html($h['label']); ?></td>
+                    <td style="color:<?php echo esc_attr($color); ?>;font-weight:600"><?php echo esc_html(ucfirst($h['state']) .
+                        ($h['state'] === 'delayed' ? ($h['reason'] === 'source' ? ' (MTA)' : ' (our refresh)') : '')); ?></td>
+                    <td><?php echo esc_html(($h['through'] ?: '–') . ($h['age'] !== null ? " ({$h['age']} days ago, usual max {$h['max_age']})" : '')); ?></td>
+                    <td><?php echo esc_html($h['last_success'] ?: '–'); ?></td>
+                    <td><?php echo esc_html($h['seconds'] !== null ? $h['seconds'] . 's' . ($h['failures'] ? ", {$h['failures']} failure(s) in a row" : '') : '–'); ?></td>
+                    <td style="color:#b32d2e"><?php echo esc_html($h['error']); ?></td>
+                </tr>
+            <?php endforeach; ?>
+            </tbody>
+        </table>
         <form method="post" action="<?php echo esc_url(admin_url('admin-post.php')); ?>">
             <input type="hidden" name="action" value="mta_ridership_save">
             <?php wp_nonce_field('mta_ridership_save'); ?>
             <p><label>Socrata app token (optional, avoids throttling):<br>
                 <input type="text" name="app_token" class="regular-text" value="<?php echo esc_attr(get_option('mta_ridership_app_token')); ?>"></label></p>
+            <p><label>Email alerts to (leave empty for no alerts; at most one email per problem per day):<br>
+                <input type="email" name="alert_email" class="regular-text" value="<?php echo esc_attr(get_option('mta_ridership_alert_email')); ?>"></label></p>
+            <p><label>Re-check the last <input type="number" name="reconcile_days" min="0" max="365" style="width:5em"
+                value="<?php echo esc_attr(mta_ridership_reconcile_days()); ?>"> days of subway history on every run (picks up MTA revisions; 0 = off)</label></p>
             <p>
                 <?php submit_button('Save', 'secondary', 'save', false); ?>
                 <?php submit_button('Save and refresh data now (takes up to a few minutes)', 'primary', 'refresh_now', false); ?>

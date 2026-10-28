@@ -16,7 +16,7 @@ const MTA_BUSES_HOOK   = 'mta_ridership_buses_step';
 const MTA_BUSES_OPTION = 'mta_ridership_buses';
 const MTA_BUSES_SLUG   = 'bus-routes';
 
-add_action(MTA_BUSES_HOOK, 'mta_buses_step');
+add_action(MTA_BUSES_HOOK, function () { mta_ridership_run_step('buses'); });
 
 add_action('init', function () {
     add_rewrite_rule('^' . MTA_BUSES_SLUG . '/([a-z0-9-]+)/?$', 'index.php?pagename=' . MTA_BUSES_SLUG . '&mta_bus=$matches[1]', 'top');
