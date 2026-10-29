@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.13.1
+ * Version: 1.14.0
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -322,9 +322,9 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.13.1');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.0');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.13.1', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.14.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     if ($data['extras'] && !in_array('lookup', $show, true)) {
@@ -333,8 +333,8 @@ add_shortcode('mta_ridership', function ($atts) {
     if (in_array('holidays', $show, true)) {
         $data['calendar'] = get_option(MTA_RIDERSHIP_CALENDAR_OPTION) ?: null;
     }
-    // In review: fetch the big data blocks when they're needed instead of embedding them in the page.
-    $payload = mta_ridership_preview() ? mta_ridership_lazy_payload($data, $show) : $data;
+    // Live: fetch the big data blocks when they're needed instead of embedding them in the page.
+    $payload = mta_ridership_lazy_payload($data, $show);
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($payload) . ';', 'before');
 
     $inner = '';

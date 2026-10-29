@@ -309,8 +309,8 @@ add_shortcode('mta_lines', function () {
     $l = mta_lines_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.13.1');
-    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.13.1', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.0');
+    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.14.0', true);
     $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l];
     if (!$l) {
         $js['lines'] = array_values(array_map(function ($x) { return ['name' => $x['name'], 'otp' => $x['otp'], 'late5' => $x['late5']]; }, $d['lines']));
@@ -352,7 +352,7 @@ add_shortcode('mta_lines', function () {
             ['Trips 5+ minutes late', $l['late5'] !== null ? $l['late5'] . '%' : '–', $s['late5'] . '%'],
             ['Extra wait on the platform', $l['extra_wait'] !== null ? round($l['extra_wait'] * 60) . ' sec' : '–', round($s['extra_wait'] * 60) . ' sec'],
             ['Extra time on the train', $l['extra_ride'] !== null ? round($l['extra_ride'] * 60) . ' sec' : '–', round($s['extra_ride'] * 60) . ' sec'],
-            ['Gaps kept to schedule, rush hour', $l['wait_peak'] !== null ? $l['wait_peak'] . '%' : '–', '–'],
+            ['Trips passing the MTA wait assessment, rush hour (even spacing of trains)', $l['wait_peak'] !== null ? $l['wait_peak'] . '%' : '–', '–'],
             ['Major incidents (50+ trains delayed)', (string) $l['incidents'], (string) $s['incidents']],
             // Per-line trips (a transfer counts once on each line), so a subway total would double-count.
             ['Trips a month on this line (MTA estimate)', $l['riders_month'] ? number_format($l['riders_month']) : '–', '–'],
@@ -362,7 +362,7 @@ add_shortcode('mta_lines', function () {
             $tr .= '<tr><td>' . esc_html($k) . '</td><td>' . esc_html($v) . '</td><td>' . esc_html($sv) . '</td></tr>';
         }
         $o .= $sec('Report card', '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>' . esc_html($l['name']) .
-            '</th><th>Whole subway</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', $range . '. Major incidents are counted per line, so the subway total is the sum.');
+            '</th><th>Whole subway</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', $range . '. The wait assessment is the MTA\'s measure of how regularly trains are spaced during rush hour at selected points on each line. Major incidents are counted per line, so the subway total is the sum.');
         $o .= $sec('Other lines', $pills);
     } else {
         $o .= '<header class="mta-hero"><h1>Which NYC Subway Line Is the Worst? Every Line Ranked</h1>' .

@@ -100,7 +100,7 @@ function mta_ridership_status_html($now = null)
 
 add_shortcode('mta_status', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.13.1');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.0');
     if (!defined('DONOTCACHEPAGE')) {
         define('DONOTCACHEPAGE', true); // always live: don't let a page cache serve an old status
     }

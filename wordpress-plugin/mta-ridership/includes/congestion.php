@@ -338,8 +338,8 @@ add_shortcode('mta_congestion', function () {
     wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
     wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.13.1');
-    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.13.1', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.0');
+    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.14.0', true);
     wp_add_inline_script('mta-congestion', 'window.MTA_CONGESTION = ' . wp_json_encode($c + ['rates' => mta_congestion_rates()]) . ';', 'before');
 
     $fmt = 'number_format';
