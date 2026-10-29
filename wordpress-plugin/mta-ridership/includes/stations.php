@@ -3,7 +3,7 @@
  * Station pages at /stations/<station>/: riders a day, rank, change vs last year, the busiest hours,
  * the lines that stop there and the nearest stations. Built only from data the ridership page already
  * stores (the "Find your station" list and the map's hourly riders), so it adds no API calls.
- * In review: shown only with ?mta_preview=1 (and kept out of search results); otherwise a 404.
+ * Public since 2026-10-29; each page is in Yoast's page sitemap.
  */
 
 if (!defined('ABSPATH')) {
@@ -147,10 +147,9 @@ function mta_stations_url($slug = '')
     return home_url('/' . MTA_STATIONS_SLUG . '/' . ($slug ? $slug . '/' : ''));
 }
 
-/** Links between station pages carry the preview flag while the pages are in review. */
 function mta_stations_link($slug = '')
 {
-    return add_query_arg('mta_preview', '1', mta_stations_url($slug));
+    return mta_stations_url($slug);
 }
 
 /** Every line served, from all the brackets in the MTA's name, e.g. "Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)". */
@@ -267,27 +266,65 @@ function mta_stations_answers($st, $total, $x)
     return $a;
 }
 
-// Preview only for now: anyone without ?mta_preview=1 gets a 404, like an unknown station.
+/** Questions and answers shown on a station page and sent to search engines as FAQ data. */
+function mta_stations_faq($st)
+{
+    $x = get_option(MTA_RIDERSHIP_EXTRAS_OPTION);
+    $a = mta_stations_answers($st, count($x['lookup']), $x);
+    $name = mta_stations_display($st['name']);
+    $q = ['riders' => "How many people use $name station?", 'busy' => "When is $name station busiest?",
+          'trend' => "Is $name getting busier?", 'lines' => "Which trains stop at $name?"];
+    $out = [];
+    foreach ($q as $k => $question) {
+        if (isset($a[$k])) {
+            $out[] = [$question, $a[$k]];
+        }
+    }
+    return $out;
+}
+
+// These pages have no WordPress page behind them: render them here. An unknown station is a 404.
 add_action('template_redirect', function () {
     if (!get_query_var('mta_station')) {
         return;
     }
     $ranking = get_query_var('mta_station') === MTA_STATIONS_ALL;
     $st = $ranking ? null : mta_stations_current();
-    if ((!$st && !($ranking && mta_stations_all())) || !mta_ridership_preview()) {
+    if (!$st && !($ranking && mta_stations_all())) {
         global $wp_query;
         $wp_query->set_404();
         status_header(404);
         return;
     }
     status_header(200);
-    add_filter('wp_robots', function ($r) { return ['noindex' => true, 'nofollow' => true] + $r; });
-    $title = function () use ($st) {
-        return ($st ? mta_stations_display($st['name']) . ' Station Ridership: Riders a Day & Busiest Hours'
-                    : 'Busiest NYC Subway Stations: All ' . count(mta_stations_all()) . ' Stations Ranked') . ' - ' . get_bloginfo('name');
-    };
+    $total = count(mta_stations_all());
+    $name = $st ? mta_stations_display($st['name']) : '';
+    $seo_title = $st ? "$name Station Ridership: Riders a Day & Busiest Hours" : "Busiest NYC Subway Stations: All $total Stations Ranked";
+    $desc = $st ? "$name station ($st[borough]): about " . number_format($st['avg']) . " riders a day, #$st[rank] of $total NYC subway stations. " .
+                  'Busiest hours, accessibility, elevator and escalator reliability, and where riders go. From MTA open data.'
+                : "All $total NYC subway stations ranked by riders a day, with search, a borough filter and the fastest-growing stations. From MTA open data.";
+    $url = mta_stations_url($st['slug'] ?? '');
+    $title = function () use ($seo_title) { return $seo_title . ' - ' . get_bloginfo('name'); };
     add_filter('pre_get_document_title', $title, 99);
     add_filter('wpseo_title', $title, 99); // Yoast sets the title on its own
+    add_filter('wpseo_opengraph_title', function () use ($seo_title) { return $seo_title; }, 99);
+    foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description'] as $f) {
+        add_filter($f, function () use ($desc) { return $desc; }, 99);
+    }
+    foreach (['wpseo_canonical', 'wpseo_opengraph_url'] as $f) {
+        add_filter($f, function () use ($url) { return $url; }, 99); // otherwise Yoast points these at the home page
+    }
+    add_filter('wpseo_robots', function () { return 'index, follow'; }, 99);
+    if ($st) {
+        add_action('wp_head', function () use ($st) {
+            echo '<script type="application/ld+json">' . wp_json_encode([
+                '@context' => 'https://schema.org', '@type' => 'FAQPage',
+                'mainEntity' => array_map(function ($i) {
+                    return ['@type' => 'Question', 'name' => $i[0], 'acceptedAnswer' => ['@type' => 'Answer', 'text' => $i[1]]];
+                }, mta_stations_faq($st)),
+            ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
+        });
+    }
     add_filter('body_class', function ($c) { $c[] = 'page'; return $c; });
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
@@ -317,7 +354,7 @@ function mta_stations_render($st)
         return $k && isset($known[$k]) ? mta_lines_url($known[$k][0]) : null;
     };
 
-    $o = '<p class="mta-note"><strong>Preview</strong> · not public yet and hidden from search engines.</p>';
+    $o = '';
     $o .= '<header class="mta-hero"><h1>' . esc_html($name) . ' Station: Ridership &amp; Busiest Hours</h1>' .
         '<p class="mta-hero-links">' . esc_html($st['borough']) . ($lines ? ' · ' . esc_html(implode(' ', $lines)) . ' trains' : '') .
         ' · From MTA open data, ' . $range . ' · Not affiliated with the MTA</p><div class="mta-tiles mta-tiles-find">' .
@@ -373,13 +410,9 @@ function mta_stations_render($st)
             $tr . '</tbody></table></div>', 'Straight-line distance.');
     }
 
-    $q = ['riders' => "How many people use $name station?", 'busy' => "When is $name station busiest?",
-          'trend' => "Is $name getting busier?", 'lines' => "Which trains stop at $name?"];
     $faq = '';
-    foreach ($q as $k => $question) {
-        if (isset($a[$k])) {
-            $faq .= '<details><summary>' . esc_html($question) . '</summary><p>' . esc_html($a[$k]) . '</p></details>';
-        }
+    foreach (mta_stations_faq($st) as [$question, $answer]) {
+        $faq .= '<details><summary>' . esc_html($question) . '</summary><p>' . esc_html($answer) . '</p></details>';
     }
     $o .= '<section class="mta-section mta-faq"><h3>Questions</h3>' . $faq . '</section>';
     $o .= '<p class="mta-source mta-source-ssr">Data: <a href="https://data.ny.gov/d/5wq4-mkjj" rel="noopener">MTA Subway Hourly Ridership</a> (data.ny.gov). ' .
@@ -412,7 +445,7 @@ function mta_stations_render_ranking()
     sort($boroughs);
     $top = $all[0];
 
-    $o = '<p class="mta-note"><strong>Preview</strong> · not public yet and hidden from search engines.</p>';
+    $o = '';
     $o .= '<header class="mta-hero"><h1>Busiest NYC Subway Stations: All ' . $total . ' Ranked</h1>' .
         '<p class="mta-hero-links">Average riders a day from MTA open data, ' . $range . ' · Not affiliated with the MTA</p><div class="mta-tiles">' .
         $tile(number_format($top['avg']), 'riders a day at the busiest, ' . mta_stations_display($top['name'])) .
@@ -456,6 +489,7 @@ function mta_stations_render_ranking()
         'var ok=(!v||x.dataset.b===v)&&(!t||x.dataset.n.indexOf(t)>-1);x.hidden=!ok;c+=ok?1:0;});n.textContent=c+" stations";}q.oninput=b.onchange=f;f();})();</script>',
         $range . '. Riders = entries at the turnstiles and OMNY readers. "vs last year" compares this year so far with the same days last year (stations with 100+ riders a day then).');
 
+    $o .= mta_ridership_ssr_more('stations');
     $o .= '<p class="mta-source mta-source-ssr">Data: <a href="https://data.ny.gov/d/5wq4-mkjj" rel="noopener">MTA Subway Hourly Ridership</a> (data.ny.gov). ' .
         'Updated ' . esc_html(gmdate('M j, Y', strtotime($x['updated']))) . '. <a href="' . esc_url(home_url('/mta-ridership/')) . '">All subway ridership &rarr;</a><br>' .
         'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).</p>';
@@ -518,3 +552,17 @@ function mta_stations_report_card($st, $sec)
     }
     return $o;
 }
+
+// List the ranking page and every station in Yoast's page sitemap.
+add_filter('wpseo_sitemap_page_content', function ($xml) {
+    $x = get_option(MTA_RIDERSHIP_EXTRAS_OPTION);
+    if (empty($x['updated'])) {
+        return $xml;
+    }
+    $mod = esc_html(gmdate('c', strtotime($x['updated'])));
+    $xml .= '<url><loc>' . esc_url(mta_stations_url()) . "</loc><lastmod>$mod</lastmod></url>\n";
+    foreach (mta_stations_all() as $s) {
+        $xml .= '<url><loc>' . esc_url(mta_stations_url($s['slug'])) . "</loc><lastmod>$mod</lastmod></url>\n";
+    }
+    return $xml;
+});

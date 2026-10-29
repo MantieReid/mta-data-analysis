@@ -232,6 +232,10 @@ function mta_ridership_ssr_more($current)
         if ($k !== $current && $p && $p->post_status === 'publish') {
             $li .= '<li><a href="' . esc_url(get_permalink($p)) . '">' . esc_html($title) . '</a>: ' . esc_html($text) . '</li>';
         }
+        if ($k === 'ridership' && $current !== 'stations' && function_exists('mta_stations_url')) { // built by the plugin, no WordPress page
+            $li .= '<li><a href="' . esc_url(mta_stations_url()) . '">Every subway station ranked</a>: riders a day, busiest hours, accessibility and elevator reliability for all ' .
+                count(mta_stations_all()) . ' stations.</li>';
+        }
     }
     return $li ? '<section class="mta-section mta-findings mta-more"><h3>More NYC transit data</h3><ul>' . $li . '</ul></section>' : '';
 }
