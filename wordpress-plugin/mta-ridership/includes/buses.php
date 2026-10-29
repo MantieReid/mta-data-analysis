@@ -245,6 +245,7 @@ function mta_buses_step()
         ], false);
         delete_option('mta_ridership_buses_error');
         mta_buses_clear_cache();
+        mta_stations_schedule(60); // station report cards: next cron request
     } catch (Throwable $e) {
         update_option('mta_ridership_buses_error', gmdate('c') . ' ' . $e->getMessage(), false);
         mta_ridership_retry_later(MTA_BUSES_HOOK, 'mta_buses_schedule');

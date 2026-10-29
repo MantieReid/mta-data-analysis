@@ -44,6 +44,7 @@ function mta_ridership_steps()
         'congestion' => ['Congestion pricing', 'mta_congestion_step', 'mta_ridership_congestion_step', 'mta_ridership_congestion_error', $opt('mta_ridership_congestion', 'latest'), 21, true],
         'lines'      => ['Subway lines', 'mta_lines_step', 'mta_ridership_lines_step', 'mta_ridership_lines_error', $month_end('mta_ridership_lines'), 60, true],
         'buses'      => ['Bus routes', 'mta_buses_step', 'mta_ridership_buses_step', 'mta_ridership_buses_error', $month_end('mta_ridership_buses'), 60, true],
+        'stations'   => ['Station report cards', 'mta_stations_step', 'mta_ridership_stations_step', 'mta_ridership_stations_error', $month_end('mta_ridership_stations'), 60, false],
     ];
     $custom = (array) get_option('mta_ridership_max_age', []); // per-step overrides, in days
     $steps = [];

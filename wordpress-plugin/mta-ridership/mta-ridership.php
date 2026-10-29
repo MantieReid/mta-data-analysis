@@ -25,6 +25,7 @@ require_once __DIR__ . '/includes/calendar.php';
 require_once __DIR__ . '/includes/congestion.php';
 require_once __DIR__ . '/includes/lines.php';
 require_once __DIR__ . '/includes/buses.php';
+require_once __DIR__ . '/includes/stations.php';
 require_once __DIR__ . '/includes/status.php';
 require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';
