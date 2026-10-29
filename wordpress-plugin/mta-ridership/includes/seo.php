@@ -24,6 +24,16 @@ function mta_ridership_preview()
     return !empty($_GET['mta_preview']);
 }
 
+/**
+ * The SEO pass of 2026-10-29 (shorter titles and descriptions, h2 section headings, share images, sub-page
+ * data, stops and elevator lists, the "Where do riders go" card). Live; return mta_ridership_preview()
+ * here to put it back behind ?mta_preview=1.
+ */
+function mta_ridership_seo_live()
+{
+    return true;
+}
+
 /** Source line at the bottom of the page: data source plus a link to the code. */
 function mta_ridership_ssr_source($data)
 {
@@ -41,6 +51,69 @@ function mta_ridership_disclaimer()
         '<p>Data is sourced from the MTA through the <a href="https://data.ny.gov/" rel="noopener">New York State Open Data Portal</a>. Visualizations, calculations, and interpretations are independently produced. ' .
         'Data may be revised, incomplete, or delayed. For official transit information, visit <a href="https://www.mta.info/" rel="noopener">mta.info</a>.</p></div>';
 }
+
+/** Page title for search results: the site name is added only while the whole title stays within
+ *  60 characters (Google cuts longer ones). Off (mta_ridership_seo_live()) keeps the suffix. */
+function mta_ridership_seo_title($t)
+{
+    $full = $t . ' - ' . get_bloginfo('name');
+    return mta_ridership_seo_live() && mb_strlen($full) > 60 ? $t : $full;
+}
+
+/** Search description within 155 characters: cut at the last full sentence (or word) that fits. */
+function mta_ridership_seo_desc($d)
+{
+    if (!mta_ridership_seo_live() || mb_strlen($d) <= 155) {
+        return $d;
+    }
+    $cut = mb_substr($d, 0, 155);
+    $dot = mb_strrpos($cut, '. ');
+    return $dot !== false && $dot > 90 ? mb_substr($cut, 0, $dot + 1) : rtrim(mb_substr($cut, 0, mb_strrpos($cut, ' ')), ',;:') . '…';
+}
+
+/** Heading tag for a section (or a sub-heading inside one): h2/h3 under the page's h1 (h3/h4 if the SEO pass is off). */
+function mta_ridership_h($sub = false)
+{
+    return mta_ridership_seo_live() ? ($sub ? 'h3' : 'h2') : ($sub ? 'h4' : 'h3');
+}
+
+// The scripts draw some sections too: tell them which heading tags to use.
+add_action('wp_head', function () {
+    if (mta_ridership_seo_live()) {
+        echo "<script>window.MTA_H2 = true;</script>\n";
+    }
+}, 1);
+/**
+ * Link-preview image for a page: $is_page says whether the current request is that page.
+ * Yoast doesn't always print og:image for these pages, so print it ourselves (as congestion.php does).
+ * Part of the SEO pass (mta_ridership_seo_live()).
+ */
+function mta_ridership_share_image(callable $is_page, $file, $w = 1200, $h = 630)
+{
+    $url = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/' . $file;
+    add_filter('wpseo_twitter_image', function ($img) use ($is_page, $url) {
+        return mta_ridership_seo_live() && $is_page() ? $url : $img;
+    });
+    add_action('wpseo_head', function () use ($is_page, $url, $w, $h) {
+        if (mta_ridership_seo_live() && $is_page()) {
+            echo '<meta property="og:image" content="' . esc_url($url) . "\" />\n<meta property=\"og:image:width\" content=\"$w\" />\n" .
+                 "<meta property=\"og:image:height\" content=\"$h\" />\n<meta property=\"og:image:type\" content=\"image/jpeg\" />\n";
+        }
+    }, 30);
+}
+add_action('init', function () {
+    mta_ridership_share_image(function () { return (bool) mta_lines_seo(); }, 'lines-share.jpg');
+    mta_ridership_share_image(function () { return (bool) mta_buses_seo(); }, 'buses-share.jpg');
+    mta_ridership_share_image(function () { return is_page(MTA_STATIONS_SLUG); }, 'stations-share.jpg');
+    mta_ridership_share_image('mta_ridership_status_is_page', 'share.jpg', 800, 544);
+});
+
+add_filter('body_class', function ($c) {
+    if (mta_ridership_seo_live()) {
+        $c[] = 'mta-h2'; // the stylesheet styles the new heading levels like the old ones
+    }
+    return $c;
+});
 
 function mta_ridership_station_name($name)
 {
@@ -100,11 +173,20 @@ function mta_ridership_ssr_hero($data)
 
 function mta_ridership_ssr_top5($data)
 {
-    $list = function ($stations) {
+    // Each name links to its station page.
+    $slugs = [];
+    if (mta_ridership_seo_live() && function_exists('mta_stations_all')) {
+        foreach (mta_stations_all() as $id => $st) {
+            $slugs[(string) $id] = $st['slug'];
+        }
+    }
+    $list = function ($stations) use ($slugs) {
         $max = max(1, $stations[0]['riders'] ?? 1);
         $out = '<ol class="mta-top">';
         foreach ($stations as $s) {
-            $out .= '<li><div class="mta-top-row"><span class="mta-top-name">' . esc_html(mta_ridership_station_name($s['name'])) .
+            $name = esc_html(mta_ridership_station_name($s['name']));
+            $slug = $slugs[(string) ($s['id'] ?? '')] ?? null;
+            $out .= '<li><div class="mta-top-row"><span class="mta-top-name">' . ($slug ? '<a href="' . esc_url(mta_stations_url($slug)) . '">' . $name . '</a>' : $name) .
                 ' <span class="mta-lines">' . esc_html(mta_ridership_station_lines($s['name'])) . '</span></span>' .
                 '<span class="mta-top-num">' . number_format($s['riders']) . '</span></div>' .
                 '<div class="mta-bar"><span style="width:' . round(100 * $s['riders'] / $max, 1) . '%"></span></div>' .
@@ -113,11 +195,11 @@ function mta_ridership_ssr_top5($data)
         return $out . '</ol>';
     };
     $latest = mta_ridership_nice_date($data['latest_day']);
-    return '<section class="mta-section"><h3>Busiest stations</h3>' .
+    return '<section class="mta-section"><' . mta_ridership_h() . '>Busiest stations</' . mta_ridership_h() . '>' .
         '<p class="mta-note">Latest data from MTA: <strong>' . esc_html($latest) . '</strong> (' . number_format($data['latest_total']) .
         ' subway riders that day). MTA publishes ridership about 1–2 weeks after the fact; this page refreshes daily.</p>' .
-        '<div class="mta-grid"><div class="mta-card"><h4>Top 5 on ' . esc_html($latest) . '</h4>' . $list($data['top_latest']) . '</div>' .
-        '<div class="mta-card"><h4>Top 5, ' . esc_html(mta_ridership_nice_date($data['week_from'])) . ' – ' . esc_html($latest) . '</h4>' .
+        '<div class="mta-grid"><div class="mta-card"><' . mta_ridership_h(true) . '>Top 5 on ' . esc_html($latest) . '</' . mta_ridership_h(true) . '>' . $list($data['top_latest']) . '</div>' .
+        '<div class="mta-card"><' . mta_ridership_h(true) . '>Top 5, ' . esc_html(mta_ridership_nice_date($data['week_from'])) . ' – ' . esc_html($latest) . '</' . mta_ridership_h(true) . '>' .
         $list($data['top_week']) . '</div></div></section>';
 }
 
@@ -203,7 +285,7 @@ function mta_ridership_ssr_metrocard($data)
         return '';
     }
     $drop = round((1 - $mc['last_per_day'] / max(1, $mc['first_per_day'])) * 100);
-    return '<section class="mta-section mta-findings"><h3>The end of the MetroCard: OMNY took over</h3><ul>' .
+    return '<section class="mta-section mta-findings"><' . mta_ridership_h() . '>' . (mta_ridership_seo_live() ? 'OMNY vs MetroCard: OMNY took over' : 'The end of the MetroCard: OMNY took over') . '</' . mta_ridership_h() . '><ul>' .
         '<li>In ' . esc_html($mc['first_month']) . ', ' . esc_html($mc['first_pct']) . '% of subway entries were paid with a MetroCard, about ' .
         number_format($mc['first_per_day']) . ' swipes a day. By ' . esc_html($mc['last_month']) . ' it was ' . esc_html($mc['last_pct']) .
         '%, about ' . number_format($mc['last_per_day']) . ' a day: ' . $drop . '% fewer.</li>' .
@@ -237,7 +319,7 @@ function mta_ridership_ssr_more($current)
                 count(mta_stations_all()) . ' stations.</li>';
         }
     }
-    return $li ? '<section class="mta-section mta-findings mta-more"><h3>More NYC transit data</h3><ul>' . $li . '</ul></section>' : '';
+    return $li ? '<section class="mta-section mta-findings mta-more"><' . mta_ridership_h() . '>More NYC transit data</' . mta_ridership_h() . '><ul>' . $li . '</ul></section>' : '';
 }
 
 // Projects page: a description for search results (Yoast has none set).
@@ -265,7 +347,7 @@ function mta_ridership_ssr_talk($unused = null, $share_text = null)
     foreach ($links as $name => $href) {
         $share .= '<a class="mta-find-pick" href="' . esc_url($href) . '" target="_blank" rel="noopener">' . esc_html($name) . '</a>';
     }
-    return '<section class="mta-section mta-card mta-talk"><h3>Let\'s talk about transit data</h3>' .
+    return '<section class="mta-section mta-card mta-talk"><' . mta_ridership_h() . '>Let\'s talk about transit data</' . mta_ridership_h() . '>' .
         '<p>Found something surprising about your station? Have a question the data could answer, or an idea for what to dig into next ' .
         '(congestion pricing, a train line, an event)? I\'d love to hear it, and I\'m always up for talking about transit data.</p>' .
         '<p><a href="' . esc_url(home_url('/#contact')) . '">Get in touch &rarr;</a> · ' .
@@ -309,7 +391,7 @@ function mta_ridership_ssr_findings($data)
     foreach (['daily', 'busiest', 'time', 'trend', 'metrocard'] as $k) {
         $li .= isset($a[$k]) ? '<li>' . esc_html($k === 'metrocard' ? preg_replace('/^Very few: the/', 'The', $a[$k]) : $a[$k]) . '</li>' : '';
     }
-    return '<section class="mta-section mta-findings"><h3>NYC subway ridership: key numbers</h3><ul>' . $li . '</ul></section>';
+    return '<section class="mta-section mta-findings"><' . mta_ridership_h() . '>NYC subway ridership: key numbers</' . mta_ridership_h() . '><ul>' . $li . '</ul></section>';
 }
 
 function mta_ridership_ssr_faq($data)
@@ -318,7 +400,7 @@ function mta_ridership_ssr_faq($data)
     foreach (mta_ridership_faq_items($data) as [$q, $a]) {
         $out .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($a) . '</p></details>';
     }
-    return $out ? '<section class="mta-section mta-faq"><h3>Questions about NYC subway ridership</h3>' . $out . '</section>' : '';
+    return $out ? '<section class="mta-section mta-faq"><' . mta_ridership_h() . '>Questions about NYC subway ridership</' . mta_ridership_h() . '>' . $out . '</section>' : '';
 }
 
 /** The page currently being viewed uses the shortcode. */
@@ -341,6 +423,16 @@ function mta_ridership_seo_texts()
     // Wording that matches what people search for ("NYC subway daily ridership",
     // "busiest subway station in NYC", "NYC subway map"). Live; the old text stays for a quick switch back.
     $new = true;
+    if (mta_ridership_seo_live()) { // shorter title and description
+        $year = substr($h['years'], -4);
+        return [
+            'title'       => "NYC Subway Ridership $year: Daily Riders & Busiest Stations",
+            'description' => "NYC subway ridership: about {$h['per_day']} rides a day. Look up any station's riders and busiest hour, " .
+                             'the busiest stations and a live map. From MTA open data.',
+            'image'       => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/share.jpg',
+            'data'        => $data,
+        ];
+    }
     return [
         'title'       => $new ? "NYC Subway Ridership {$h['years']}: Daily Riders, Busiest Stations & " . (true ? 'Interactive Map' : 'Live Map')
                               : "NYC Subway Ridership {$h['years']}: Live Map & Busiest Stations",
@@ -357,14 +449,14 @@ add_filter('wpseo_title', function ($title) {
     if (!mta_ridership_seo_enabled() || !mta_ridership_is_page() || !($t = mta_ridership_seo_texts())) {
         return $title;
     }
-    return $t['title'] . ' - ' . get_bloginfo('name');
+    return mta_ridership_seo_title($t['title']);
 });
 foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description'] as $f) {
     add_filter($f, function ($desc) {
         if (!mta_ridership_seo_enabled() || !mta_ridership_is_page() || !($t = mta_ridership_seo_texts())) {
             return $desc;
         }
-        return $t['description'];
+        return mta_ridership_seo_desc($t['description']);
     });
 }
 add_filter('wpseo_opengraph_title', function ($title) {
@@ -421,4 +513,146 @@ add_action('wp_head', function () {
             }, $faq),
         ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
     }
+});
+
+/* ---------- Sub-pages (one line, bus route or station): their own page data for search engines. ---------- */
+
+/** The line, bus route or station sub-page being viewed: its URL, name and parent page; null elsewhere. */
+function mta_ridership_subpage()
+{
+    if (!is_singular()) {
+        return null;
+    }
+    if (($s = mta_lines_seo()) && $s['l']) {
+        return ['url' => $s['url'], 'name' => $s['l']['name'], 'parent' => 'Subway lines ranked', 'parent_url' => mta_lines_url()];
+    }
+    if (($s = mta_buses_seo()) && $s['r']) {
+        return ['url' => $s['url'], 'name' => $s['r']['label'] . ' bus', 'parent' => 'Bus routes ranked', 'parent_url' => mta_buses_url()];
+    }
+    if (is_page(MTA_STATIONS_SLUG) && ($st = mta_stations_current())) {
+        return ['url' => mta_stations_url($st['slug']), 'name' => mta_stations_display($st['name']) . ' station',
+                'parent' => 'Subway stations ranked', 'parent_url' => mta_stations_url(), 'station' => $st];
+    }
+    return null;
+}
+
+// Breadcrumb: Home > Subway lines ranked > A train (Yoast stops at the parent page), with plain "&" in names.
+add_filter('wpseo_breadcrumb_links', function ($links) {
+    if (!mta_ridership_seo_live()) {
+        return $links;
+    }
+    foreach ($links as &$l) {
+        if (isset($l['text'])) {
+            $l['text'] = html_entity_decode($l['text'], ENT_QUOTES, 'UTF-8');
+        }
+    }
+    unset($l);
+    if ($sub = mta_ridership_subpage()) {
+        $last = count($links) - 1;
+        $links[$last] = ['url' => $sub['parent_url'], 'text' => $sub['parent']];
+        $links[] = ['url' => $sub['url'], 'text' => $sub['name']];
+    }
+    return $links;
+});
+
+// Yoast describes a sub-page as its parent page: give it its own address and name.
+add_filter('wpseo_schema_webpage', function ($data) {
+    if (mta_ridership_seo_live() && ($sub = mta_ridership_subpage())) {
+        $data['url'] = $sub['url'];
+        $data['name'] = wp_get_document_title();
+    }
+    return $data;
+});
+
+// Ranking pages: a Dataset entry (like the ridership page); station pages: the station as a place.
+add_action('wp_head', function () {
+    if (!mta_ridership_seo_live() || !is_singular()) {
+        return;
+    }
+    $ld = null;
+    $base = ['@context' => 'https://schema.org', '@type' => 'Dataset', 'creator' => ['@type' => 'Person', 'name' => 'Mantie Reid II', 'url' => home_url('/')],
+             'license' => 'https://creativecommons.org/licenses/by/4.0/', 'isAccessibleForFree' => true,
+             'sameAs' => 'https://github.com/MantieReid/mta-data-analysis', 'spatialCoverage' => ['@type' => 'Place', 'name' => 'New York City, NY, USA']];
+    if (($s = mta_lines_seo()) && !$s['l']) {
+        $ld = $base + ['name' => 'NYC subway line report cards', 'description' => $s['description'], 'url' => $s['url'],
+                       'isBasedOn' => ['https://data.ny.gov/d/f6rf-2a3t', 'https://data.ny.gov/d/r7qk-6tcy', 'https://data.ny.gov/d/9zbp-wz3y'],
+                       'keywords' => ['NYC subway', 'MTA', 'on-time performance', 'subway delays'], 'temporalCoverage' => $s['d']['from'] . '/' . $s['d']['latest']];
+    } elseif (($s = mta_buses_seo()) && !$s['r']) {
+        $ld = $base + ['name' => 'NYC bus route report cards', 'description' => $s['description'], 'url' => $s['url'],
+                       'isBasedOn' => 'https://data.ny.gov/d/gxb3-akrn', 'keywords' => ['NYC bus', 'MTA', 'bus ridership', 'bus speed'],
+                       'temporalCoverage' => $s['d']['from'] . '/' . $s['d']['latest']];
+    } elseif (is_page(MTA_STATIONS_SLUG) && mta_stations_all()) {
+        $st = mta_stations_current();
+        $x = get_option(MTA_RIDERSHIP_EXTRAS_OPTION);
+        if ($st) {
+            $ld = ['@context' => 'https://schema.org', '@type' => 'TrainStation', 'name' => mta_stations_display($st['name']) . ' subway station',
+                   'url' => mta_stations_url($st['slug']), 'publicAccess' => true,
+                   'address' => ['@type' => 'PostalAddress', 'addressLocality' => $st['borough'], 'addressRegion' => 'NY', 'addressCountry' => 'US']];
+            if ($st['lat'] !== null) {
+                $ld['geo'] = ['@type' => 'GeoCoordinates', 'latitude' => $st['lat'], 'longitude' => $st['lon']];
+            }
+        } else {
+            $ld = $base + ['name' => 'NYC subway station ridership ranking', 'url' => mta_stations_url(),
+                           'description' => 'Average riders a day at all ' . count(mta_stations_all()) . ' NYC subway stations, with change vs last year.',
+                           'isBasedOn' => 'https://data.ny.gov/d/5wq4-mkjj', 'keywords' => ['NYC subway', 'MTA', 'busiest stations', 'ridership'],
+                           'temporalCoverage' => $x['from'] . '/' . $x['to']];
+        }
+    }
+    if ($ld) {
+        echo '<script type="application/ld+json">' . wp_json_encode($ld, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
+    }
+});
+
+/* ---------- Home and Projects: titles and descriptions sized for search results. ---------- */
+
+add_filter('wpseo_title', function ($t) {
+    if (!mta_ridership_seo_live()) {
+        return $t;
+    }
+    if (is_front_page()) {
+        return 'Mantie Reid II | IT Support Engineer in New York City';
+    }
+    return is_page('projects') ? 'Projects by Mantie Reid II: Java, C#, C++ & Unity' : $t;
+}, 20);
+foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description'] as $f) {
+    add_filter($f, function ($d) {
+        if (!mta_ridership_seo_live()) {
+            return $d;
+        }
+        if (is_front_page()) {
+            return 'Mantie Reid II, IT support engineer in New York City: systems administration, ITSM, automation and API integrations, plus NYC transit data projects.';
+        }
+        return is_page('projects') ? 'Projects by Mantie Reid II: a Java calculator, C# chat app, C++ word game, NYC MetroCard reader and Unity shooter, with code on GitHub.' : $d;
+    }, 20);
+}
+
+/* ---------- Yoast in the editor: analyse the page's real text, not the bare [mta_...] shortcode. ---------- */
+
+// Editor screen only: fetch the published page and add its plugin-built text to what Yoast analyses,
+// so the keyphrase, length and link checks see what visitors see.
+add_action('admin_enqueue_scripts', function ($hook) {
+    if ($hook !== 'post.php' || !($post = get_post()) || $post->post_type !== 'page') {
+        return;
+    }
+    $codes = ['mta_ridership', 'mta_congestion', 'mta_lines', 'mta_buses', 'mta_stations', 'mta_status'];
+    if (!array_filter($codes, function ($c) use ($post) { return has_shortcode($post->post_content, $c); })) {
+        return;
+    }
+    wp_register_script('mta-yoast', '', ['jquery'], '1', true);
+    wp_enqueue_script('mta-yoast');
+    wp_add_inline_script('mta-yoast', '(function ($) {
+  var url = ' . wp_json_encode(get_permalink($post)) . ', html = "";
+  function hook() {
+    var app = window.YoastSEO && window.YoastSEO.app;
+    if (!app || !app.registerPlugin) return false;
+    app.registerPlugin("mtaRidership", { status: "loading" });
+    app.registerModification("content", function (c) { return c + html; }, "mtaRidership", 5);
+    fetch(url, { credentials: "omit" }).then(function (r) { return r.text(); }).then(function (t) {
+      var m = new DOMParser().parseFromString(t, "text/html").querySelector(".mta-ridership");
+      html = m ? m.innerHTML : "";
+    }).finally(function () { app.pluginReady("mtaRidership"); app.pluginReloaded("mtaRidership"); });
+    return true;
+  }
+  if (!hook()) $(window).on("YoastSEO:ready", hook);
+})(jQuery);');
 });

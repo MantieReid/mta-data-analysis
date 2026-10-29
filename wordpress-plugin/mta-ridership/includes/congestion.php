@@ -338,8 +338,8 @@ add_shortcode('mta_congestion', function () {
     wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
     wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
-    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.14.0', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
+    wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.15.0', true);
     wp_add_inline_script('mta-congestion', 'window.MTA_CONGESTION = ' . wp_json_encode($c + ['rates' => mta_congestion_rates()]) . ';', 'before');
 
     $fmt = 'number_format';
@@ -348,7 +348,7 @@ add_shortcode('mta_congestion', function () {
         return '<div class="mta-tile' . $cls . '"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>';
     };
     $sec = function ($title, $body, $note = '') {
-        return '<section class="mta-section"><h3>' . esc_html($title) . '</h3>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
+        return '<section class="mta-section"><' . mta_ridership_h() . '>' . esc_html($title) . '</' . mta_ridership_h() . '>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
     };
     $o = '<header class="mta-hero"><h1>' . (true ? 'NYC Congestion Pricing: Is It Working? Explore the Traffic and Transit Data'
         : 'NYC Congestion Pricing: Map, Hours, Cost &amp; Traffic Data') . '</h1>' .
@@ -439,7 +439,7 @@ add_shortcode('mta_congestion', function () {
     foreach (mta_congestion_faq($c) as [$q, $ans]) {
         $faq .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($ans) . '</p></details>';
     }
-    $o .= '<section class="mta-section mta-faq"><h3>Congestion pricing questions</h3>' . $faq . '</section>';
+    $o .= '<section class="mta-section mta-faq"><' . mta_ridership_h() . '>Congestion pricing questions</' . mta_ridership_h() . '>' . $faq . '</section>';
     if (true) { // live: links to the other transit data pages
         $o .= mta_ridership_ssr_more('congestion');
     }
@@ -470,6 +470,14 @@ function mta_congestion_seo()
     if (!$c) {
         return null;
     }
+    if (mta_ridership_seo_live()) { // shorter title and description
+        return [
+            'title' => 'NYC Congestion Pricing: Map, Hours, Cost & Is It Working?',
+            'description' => 'NYC congestion pricing: zone map, toll hours, cost ($9 peak) and a calculator, plus daily traffic into the zone' .
+                ($c['pct'] !== null ? ' (' . ($c['pct'] > 0 ? '+' : '') . $c['pct'] . '% vs ' . ($c['year'] - 1) . ')' : '') . ' and subway riders.',
+            'c' => $c,
+        ];
+    }
     return [
         'title' => true ? 'NYC Congestion Pricing: Is It Working? Explore the Traffic and Transit Data'
             : 'NYC Congestion Pricing: Map, Hours, Cost & Is It Working? (' . $c['year'] . ' Data)',
@@ -481,14 +489,14 @@ function mta_congestion_seo()
 }
 
 add_filter('wpseo_title', function ($title) {
-    return mta_congestion_is_page() && ($s = mta_congestion_seo()) ? $s['title'] . ' - ' . get_bloginfo('name') : $title;
+    return mta_congestion_is_page() && ($s = mta_congestion_seo()) ? mta_ridership_seo_title($s['title']) : $title;
 });
 add_filter('wpseo_opengraph_title', function ($title) {
     return mta_congestion_is_page() && ($s = mta_congestion_seo()) ? $s['title'] : $title;
 });
 foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description'] as $f) {
     add_filter($f, function ($desc) {
-        return mta_congestion_is_page() && ($s = mta_congestion_seo()) ? $s['description'] : $desc;
+        return mta_congestion_is_page() && ($s = mta_congestion_seo()) ? mta_ridership_seo_desc($s['description']) : $desc;
     });
 }
 // Share image for link previews (zone map with the headline numbers).

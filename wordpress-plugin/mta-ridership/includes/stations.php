@@ -288,7 +288,7 @@ add_shortcode('mta_stations', function () {
         return '<p>Station data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
     $st = mta_stations_current();
     return $st ? mta_stations_render($st) : mta_stations_render_ranking();
 });
@@ -310,12 +310,17 @@ add_action('template_redirect', function () {
     }
     $total = count(mta_stations_all());
     $name = $st ? mta_stations_display($st['name']) : '';
-    $seo_title = $st ? "$name Station Ridership: Riders a Day & Busiest Hours" : "Busiest NYC Subway Stations: All $total Stations Ranked";
+    $seo_title = $st ? (mta_ridership_seo_live() ? "$name Station: Riders & Busiest Hours" : "$name Station Ridership: Riders a Day & Busiest Hours")
+                     : (mta_ridership_seo_live() ? "NYC Subway Stations Ranked: Busiest of All $total" : "Busiest NYC Subway Stations: All $total Stations Ranked");
     $desc = $st ? "$name station ($st[borough]): about " . number_format($st['avg']) . " riders a day, #$st[rank] of $total NYC subway stations. " .
                   'Busiest hours, accessibility, elevator and escalator reliability, and where riders go. From MTA open data.'
                 : "All $total NYC subway stations ranked by riders a day, with search, a borough filter and the fastest-growing stations. From MTA open data.";
+    if (mta_ridership_seo_live()) { // shorter descriptions
+        $desc = mta_ridership_seo_desc($st ? "$name subway station: " . number_format($st['avg']) . " riders a day, #$st[rank] of $total in NYC. Busiest hours, accessibility, elevators and where riders go."
+                    : "All $total NYC subway stations ranked by riders a day, with search, the fastest-growing stations and every station with elevators. From MTA open data.");
+    }
     $url = mta_stations_url($st['slug'] ?? '');
-    $title = function () use ($seo_title) { return $seo_title . ' - ' . get_bloginfo('name'); };
+    $title = function () use ($seo_title) { return mta_ridership_seo_title($seo_title); };
     add_filter('pre_get_document_title', $title, 99);
     add_filter('wpseo_title', $title, 99); // Yoast sets the title on its own
     add_filter('wpseo_opengraph_title', function () use ($seo_title) { return $seo_title; }, 99);
@@ -349,7 +354,7 @@ function mta_stations_render($st)
         return '<div class="mta-tile"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>';
     };
     $sec = function ($title, $body, $note = '') {
-        return '<section class="mta-section"><h3>' . esc_html($title) . '</h3>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
+        return '<section class="mta-section"><' . mta_ridership_h() . '>' . esc_html($title) . '</' . mta_ridership_h() . '>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
     };
     $lines = mta_stations_lines_of($st['name']);
     $known = function_exists('mta_lines_list') ? mta_lines_list() : [];
@@ -418,7 +423,7 @@ function mta_stations_render($st)
     foreach (mta_stations_faq($st) as [$question, $answer]) {
         $faq .= '<details><summary>' . esc_html($question) . '</summary><p>' . esc_html($answer) . '</p></details>';
     }
-    $o .= '<section class="mta-section mta-faq"><h3>Questions</h3>' . $faq . '</section>';
+    $o .= '<section class="mta-section mta-faq"><' . mta_ridership_h() . '>Questions</' . mta_ridership_h() . '>' . $faq . '</section>';
     $o .= '<p class="mta-source mta-source-ssr">Data: <a href="https://data.ny.gov/d/5wq4-mkjj" rel="noopener">MTA Subway Hourly Ridership</a> (data.ny.gov). ' .
         'Riders are entries at the turnstiles and OMNY readers, so transfers inside the station are not counted. ' .
         'Updated ' . esc_html(gmdate('M j, Y', strtotime($x['updated']))) . '. <a href="' . esc_url(mta_stations_link()) . '">All stations ranked &rarr;</a> · <a href="' . esc_url(home_url('/mta-ridership/')) . '">All subway ridership &rarr;</a><br>' .
@@ -434,7 +439,7 @@ function mta_stations_render_ranking()
     $total = count($all);
     $range = esc_html(mta_ridership_nice_date($x['from']) . ' – ' . mta_ridership_nice_date($x['to']));
     $sec = function ($title, $body, $note = '') {
-        return '<section class="mta-section"><h3>' . esc_html($title) . '</h3>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
+        return '<section class="mta-section"><' . mta_ridership_h() . '>' . esc_html($title) . '</' . mta_ridership_h() . '>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
     };
     $tile = function ($big, $small) {
         return '<div class="mta-tile"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>';
@@ -456,21 +461,59 @@ function mta_stations_render_ranking()
         $tile(number_format(array_sum(array_column($all, 'avg'))), 'riders a day, all stations') .
         $tile((string) $total, 'stations') . '</div></header>';
 
+    // "Find a station": jumps straight to a station page; the matches come from the table rows below.
+    $o .= '<section class="mta-section mta-st-find"><label for="mta-st-go" class="mta-st-find-label">Find a station</label>' .
+        '<div class="mta-find"><input type="search" id="mta-st-go" class="mta-find-input" placeholder="Type a station name" autocomplete="off">' .
+        '<ul class="mta-find-results" id="mta-st-go-r"></ul></div></section>';
+
     // Biggest movers: this year so far vs the same days last year, stations with 2,000+ riders a day.
     $movers = array_values(array_filter($all, function ($s) { return $s['yoy'] !== null && $s['avg'] >= 2000; }));
     usort($movers, function ($a, $b) { return $b['yoy'] <=> $a['yoy']; });
     if (count($movers) >= 10) {
-        $list = function ($rows) use ($link, $pct) {
-            $out = '<ol class="mta-top">';
+        $card = function ($title, $cls, $rows) use ($link, $pct) {
+            $max = max(1, max(array_map(function ($s) { return abs($s['yoy']); }, $rows)));
+            $li = '';
             foreach ($rows as $s) {
-                $out .= '<li><div class="mta-top-row"><span class="mta-top-name">' . $link($s) . ' <span class="mta-lines">' .
-                    esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</span></span><span class="mta-top-num">' . $pct($s['yoy']) . '</span></div></li>';
+                $li .= '<li><div class="mta-mv-row"><span class="mta-top-name">' . $link($s) . '<span class="mta-lines">' .
+                    esc_html(implode(' ', mta_stations_lines_of($s['name']))) . ' · ' . number_format($s['avg']) . ' riders a day</span></span>' .
+                    '<span class="mta-mv-pct">' . $pct($s['yoy']) . '</span></div>' .
+                    '<div class="mta-bar"><span style="width:' . round(abs($s['yoy']) / $max * 100, 1) . '%"></span></div></li>';
             }
-            return $out . '</ol>';
+            return '<div class="mta-card mta-mv ' . $cls . '"><' . mta_ridership_h(true) . '>' . $title . '</' . mta_ridership_h(true) . '><ol class="mta-mv-list">' . $li . '</ol></div>';
         };
         $yr = $x['yoy']['year'] ?? '';
-        $o .= $sec('Growing fastest', $list(array_slice($movers, 0, 5)), esc_html("$yr so far vs the same days last year, stations with 2,000+ riders a day."));
-        $o .= $sec('Shrinking fastest', $list(array_slice(array_reverse($movers), 0, 5)));
+        $o .= $sec('Biggest changes this year',
+            '<div class="mta-mv-grid">' . $card('&#9650; Growing fastest', 'up', array_slice($movers, 0, 5)) .
+            $card('&#9660; Shrinking fastest', 'down', array_slice(array_reverse($movers), 0, 5)) . '</div>',
+            esc_html("$yr so far vs the same days last year, stations with 2,000+ riders a day."));
+    }
+
+    // Every station with elevators, from the monthly report card data.
+    $rc = get_option(MTA_STATIONS_OPTION);
+    if (mta_ridership_seo_live() && !empty($rc['stations'])) {
+        $ev = [];
+        foreach ($all as $s) {
+            $e = $rc['stations'][$s['id']]['equip']['elevator'] ?? null;
+            if ($e) {
+                $ev[] = $s + ['e' => $e, 'ada' => $rc['stations'][$s['id']]['ada'] ?? null];
+            }
+        }
+        usort($ev, function ($a, $b) { return strcmp(mta_stations_display($a['name']), mta_stations_display($b['name'])); });
+        if ($ev) {
+            $full = count(array_filter($ev, function ($s) { return $s['ada'] === 'yes'; }));
+            $tr = '';
+            foreach ($ev as $s) {
+                $tr .= '<tr><td>' . $link($s) . '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</td><td>' . esc_html($s['borough']) .
+                    '</td><td>' . (int) $s['e']['units'] . '</td><td>' . esc_html($s['e']['avail']) . '%</td><td>' .
+                    esc_html(['yes' => 'Yes', 'partly' => 'Partly', 'no' => 'No'][$s['ada']] ?? '–') . '</td></tr>';
+            }
+            $o .= $sec('NYC subway stations with elevators',
+                '<p>' . count($ev) . ' stations have elevators run by NYC Transit; ' . $full . ' of them are fully accessible (ADA).</p>' .
+                '<details><summary>Show all ' . count($ev) . ' stations with elevators</summary><div class="mta-table-wrap"><table class="mta-table">' .
+                '<thead><tr><th>Station</th><th>Lines</th><th>Borough</th><th>Elevators</th><th>Working</th><th>Accessible (ADA)</th></tr></thead><tbody>' . $tr . '</tbody></table></div></details>',
+                'Working = share of hours the elevators were in service over 24 hours, ' . esc_html(gmdate('F Y', strtotime($rc['equip_from'] . '-01 UTC')) . ' – ' .
+                gmdate('F Y', strtotime($rc['equip_to'] . '-01 UTC'))) . ' (MTA availability). Some elevators lead to the street, others only between platforms.');
+        }
     }
 
     $opts = '<option value="">All boroughs</option>';
@@ -479,18 +522,25 @@ function mta_stations_render_ranking()
     }
     $tr = '';
     foreach ($all as $s) {
-        $tr .= '<tr data-b="' . esc_attr($s['borough']) . '" data-n="' . esc_attr(strtolower($s['name'])) . '"><td>' . (int) $s['rank'] . '</td><td>' . $link($s) .
+        $tr .= '<tr data-b="' . esc_attr($s['borough']) . '" data-n="' . esc_attr(strtolower($s['name'])) . '" data-a="' . (int) $s['avg'] . '"><td>' . (int) $s['rank'] . '</td><td>' . $link($s) .
             '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</td><td>' . esc_html($s['borough']) . '</td><td>' . number_format($s['avg']) .
             '</td><td class="' . ($s['yoy'] !== null && $s['yoy'] < 0 ? 'neg' : 'pos') . '">' . $pct($s['yoy']) . '</td></tr>';
     }
     $o .= $sec('Every station ranked',
-        '<p><input type="search" id="mta-st-q" placeholder="Search a station" aria-label="Search a station" style="max-width:16em"> ' .
-        '<select id="mta-st-b" aria-label="Borough">' . $opts . '</select> <span id="mta-st-n" class="mta-note"></span></p>' .
+        '<div class="mta-st-filter"><input type="search" id="mta-st-q" class="mta-find-input" placeholder="Filter the table by name" aria-label="Filter the table by station name">' .
+        '<select id="mta-st-b" class="mta-find-input" aria-label="Borough">' . $opts . '</select><span id="mta-st-n" class="mta-note"></span></div>' .
         '<div class="mta-table-wrap"><table class="mta-table" id="mta-st-t"><thead><tr><th>#</th><th>Station</th><th>Lines</th><th>Borough</th><th>Riders a day</th><th>vs last year</th></tr></thead><tbody>' .
         $tr . '</tbody></table></div>' .
         '<script>(function(){var q=document.getElementById("mta-st-q"),b=document.getElementById("mta-st-b"),n=document.getElementById("mta-st-n"),' .
         'r=document.querySelectorAll("#mta-st-t tbody tr");function f(){var t=q.value.trim().toLowerCase(),v=b.value,c=0;r.forEach(function(x){' .
-        'var ok=(!v||x.dataset.b===v)&&(!t||x.dataset.n.indexOf(t)>-1);x.hidden=!ok;c+=ok?1:0;});n.textContent=c+" stations";}q.oninput=b.onchange=f;f();})();</script>',
+        'var ok=(!v||x.dataset.b===v)&&(!t||x.dataset.n.indexOf(t)>-1);x.hidden=!ok;c+=ok?1:0;});n.textContent=c+" stations";}q.oninput=b.onchange=f;f();' .
+        // Find a station: up to 8 matches as buttons; Enter opens the first.
+        'var g=document.getElementById("mta-st-go"),gr=document.getElementById("mta-st-go-r");function h(){var t=g.value.trim().toLowerCase(),k=0;gr.innerHTML="";' .
+        'if(!t)return;for(var i=0;i<r.length&&k<8;i++){var x=r[i];if(x.dataset.n.indexOf(t)<0)continue;var a=x.querySelector("a"),li=document.createElement("li"),p=document.createElement("a");' .
+        'p.className="mta-find-pick";p.href=a.href;p.textContent=a.textContent+" ";var s=document.createElement("span");s.className="mta-lines";' .
+        's.textContent=x.cells[2].textContent+" · "+Number(x.dataset.a).toLocaleString("en-US")+" riders a day";p.appendChild(s);li.appendChild(p);gr.appendChild(li);k++;}' .
+        'if(!k)gr.innerHTML="<li class=\"mta-find-none\">No station matches that name.</li>";}g.oninput=h;' .
+        'g.onkeydown=function(e){var a=gr.querySelector("a");if(e.key==="Enter"&&a)location.href=a.href;};})();</script>',
         $range . '. Riders = entries at the turnstiles and OMNY readers. "vs last year" compares this year so far with the same days last year (stations with 100+ riders a day then).');
 
     $o .= mta_ridership_ssr_more('stations');
@@ -542,7 +592,23 @@ function mta_stations_report_card($st, $sec)
         'Elevators and escalators: share of hours in service over 24 hours, ' . esc_html($month($d['equip_from']) . ' – ' . $month($d['equip_to'])) .
         ' (MTA availability). Entrapments = times riders were stuck inside an elevator. Riders vs 2019 compares the last 12 months with 2019, the last full year before the pandemic.');
 
-    if (!empty($r['to'])) {
+    if (!empty($r['to']) && mta_ridership_seo_live()) { // the card version below
+        $rows = array_values(array_filter($r['to'], function ($t) use ($all) { return isset($all[$t['id']]); }));
+        $max = max(1, max(array_column($rows, 'share')));
+        $li = '';
+        foreach ($rows as $i => $t) {
+            $s = $all[$t['id']];
+            $li .= '<li><span class="mta-od-n">' . ($i + 1) . '</span><div class="mta-od-body"><div class="mta-mv-row"><span class="mta-top-name"><a href="' .
+                esc_url(mta_stations_link($s['slug'])) . '">' . esc_html(mta_stations_display($s['name'])) . '</a><span class="mta-lines">' .
+                esc_html(implode(' ', mta_stations_lines_of($s['name'])) . ' · ' . $s['borough']) . '</span></span><span class="mta-mv-pct">' . $t['share'] . '%</span></div>' .
+                '<div class="mta-bar"><span style="width:' . round($t['share'] / $max * 100, 1) . '%"></span></div></div></li>';
+        }
+        $sum = round(array_sum(array_column($rows, 'share')));
+        $o .= $sec('Where do riders from here go?',
+            '<p>The top ' . count($rows) . ' destinations take ' . $sum . '% of subway trips that start at ' . esc_html(mta_stations_display($st['name'])) . '.</p>' .
+            '<div class="mta-card mta-od"><ol class="mta-od-list">' . $li . '</ol></div>',
+            'Share of subway trips starting here that end at each station, ' . esc_html($month($d['od_month'])) . ' (MTA origin-destination ridership estimate).');
+    } elseif (!empty($r['to'])) {
         $li = '';
         foreach ($r['to'] as $t) {
             $s = $all[$t['id']] ?? null;
@@ -570,3 +636,46 @@ add_filter('wpseo_sitemap_page_content', function ($xml) {
     }
     return $xml;
 });
+
+/**
+ * The stations a subway line stops at (from the lines in each station's MTA name), grouped by borough
+ * and listed north to south. The MTA data has no stop order, so this is not the exact order of stops.
+ * Empty for the shuttles, which all share the name "S".
+ */
+function mta_stations_for_line($code)
+{
+    $letters = $code === 'JZ' ? ['J', 'Z'] : (strpos($code, 'S ') === 0 ? [] : [$code]);
+    $by = [];
+    foreach ($letters ? mta_stations_all() : [] as $s) {
+        if (array_intersect($letters, mta_stations_lines_of($s['name']))) {
+            $by[$s['borough']][] = $s;
+        }
+    }
+    $order = array_flip(['Bronx', 'Manhattan', 'Queens', 'Brooklyn', 'Staten Island']);
+    uksort($by, function ($a, $b) use ($order) { return ($order[$a] ?? 9) <=> ($order[$b] ?? 9); });
+    foreach ($by as &$list) {
+        usort($list, function ($a, $b) { return ($b['lat'] ?? 0) <=> ($a['lat'] ?? 0); });
+    }
+    return $by;
+}
+
+/** "Stops on the A train": the stations by borough, each linking to its station page. */
+function mta_stations_line_section($l, $sec)
+{
+    $by = mta_stations_for_line($l['code']);
+    if (!$by) {
+        return '';
+    }
+    $n = array_sum(array_map('count', $by));
+    $body = '<p>The ' . esc_html($l['name']) . ' stops at ' . $n . ' stations in ' . count($by) . ' borough' . (count($by) > 1 ? 's' : '') . '.</p>';
+    foreach ($by as $boro => $list) {
+        $body .= '<' . mta_ridership_h(true) . '>' . esc_html($boro) . ' (' . count($list) . ')</' . mta_ridership_h(true) . '><p class="mta-find-picks">';
+        foreach ($list as $s) {
+            $body .= '<a class="mta-find-pick" href="' . esc_url(mta_stations_url($s['slug'])) . '">' . esc_html(mta_stations_display($s['name'])) . '</a> ';
+        }
+        $body .= '</p>';
+    }
+    return $sec('Stops on the ' . $l['name'], $body,
+        'Stations whose MTA name lists the ' . esc_html(str_replace(' train', '', $l['name'])) . ', grouped by borough and listed north to south; not the exact order of stops. ' .
+        'Some stops are served only at certain times. Check <a href="https://www.mta.info/schedules" rel="noopener">mta.info</a> before you travel.');
+}

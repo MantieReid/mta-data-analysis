@@ -2,6 +2,7 @@
 (function () {
   var C = window.MTA_CONGESTION;
   if (!C) return;
+  var H = window.MTA_H2 ? ['h2', 'h3'] : ['h3', 'h4']; // section and sub-heading tags (set by the plugin)
   var MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
   var YEAR_COLORS = ['#e8590c', '#2a6fdb', '#2f9e44'];
 
@@ -36,7 +37,7 @@
     var opts = function (pairs) { return pairs.map(function (p) { return '<option value="' + p[0] + '">' + p[1] + '</option>'; }).join(''); };
     var hours = [];
     for (var h = 0; h < 24; h++) hours.push([h, hourName(h)]);
-    calc.innerHTML = '<h4>Toll calculator</h4><div class="mta-calc-grid">' +
+    calc.innerHTML = '<' + H[1] + '>Toll calculator</' + H[1] + '><div class="mta-calc-grid">' +
       '<label>Vehicle<select class="mta-select" name="v">' + opts(Object.keys(C.rates).map(function (k) { return [k, C.rates[k][0]]; })) + '</select></label>' +
       '<label>Day<select class="mta-select" name="d">' + opts([['weekday', 'Weekday'], ['weekend', 'Weekend']]) + '</select></label>' +
       '<label>Time you enter<select class="mta-select" name="h">' + opts(hours) + '</select></label>' +

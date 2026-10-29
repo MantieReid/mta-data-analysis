@@ -88,9 +88,9 @@ function mta_ridership_status_html($now = null)
     }
     return '<div class="mta-ridership mta-status"><header class="mta-hero"><h1>NYC Transit Data Status</h1>' .
         '<p class="mta-hero-links">Is the data on this site current? ' . esc_html($summary) . ' Checked ' . esc_html(gmdate('M j, Y H:i', $now ?? time())) . ' UTC.</p></header>' .
-        '<section class="mta-section"><h3>Datasets</h3><div class="mta-table-wrap"><table class="mta-table"><thead><tr>' .
+        '<section class="mta-section"><' . mta_ridership_h() . '>Datasets</' . mta_ridership_h() . '><div class="mta-table-wrap"><table class="mta-table"><thead><tr>' .
         '<th>Dataset</th><th>Status</th><th>Latest MTA data</th><th>Last refreshed</th><th>How often the MTA publishes</th></tr></thead><tbody>' . $tr . '</tbody></table></div></section>' .
-        '<section class="mta-section mta-faq"><h3>How to read this</h3>' .
+        '<section class="mta-section mta-faq"><' . mta_ridership_h() . '>How to read this</' . mta_ridership_h() . '>' .
         '<details open><summary>Why is data from a week or two ago normal?</summary><p>The MTA publishes ridership and traffic data with a delay: usually 1–2 weeks for the weekly datasets and 3–4 weeks after month end for the monthly ones. "Latest MTA data" is the newest day or month the MTA has released, not today.</p></details>' .
         '<details open><summary>What does "Delayed" mean?</summary><p>The newest data is older than that dataset\'s usual schedule. "(MTA)" means the MTA hasn\'t published newer data yet and our refreshes are working. "(our refresh)" means a refresh on this site hit a problem and is retrying automatically.</p></details>' .
         '<details open><summary>How often does this site refresh?</summary><p>Every day, around 6 AM New York time, plus automatic retries if a refresh fails. Pages show new data as soon as the MTA publishes it and the next refresh runs.</p></details></section>' .
@@ -100,7 +100,7 @@ function mta_ridership_status_html($now = null)
 
 add_shortcode('mta_status', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
     if (!defined('DONOTCACHEPAGE')) {
         define('DONOTCACHEPAGE', true); // always live: don't let a page cache serve an old status
     }
@@ -129,8 +129,10 @@ function mta_ridership_status_is_page()
 }
 
 add_filter('wpseo_title', function ($t) {
-    return mta_ridership_status_is_page() ? 'NYC Transit Data Status: Is the MTA Data Current? - ' . get_bloginfo('name') : $t;
+    return mta_ridership_status_is_page() ? mta_ridership_seo_title('NYC Transit Data Status: Is the MTA Data Current?') : $t;
 });
 add_filter('wpseo_metadesc', function ($t) {
-    return mta_ridership_status_is_page() ? 'Is the NYC subway, bus and congestion pricing data on this site current? Latest MTA data date and last refresh for each dataset, and whether a delay is the MTA\'s or ours.' : $t;
+    return mta_ridership_status_is_page() ? mta_ridership_seo_desc(mta_ridership_seo_live()
+        ? 'Is the NYC subway, bus and congestion pricing data here current? The latest MTA data and last refresh for each dataset, and who caused any delay.'
+        : 'Is the NYC subway, bus and congestion pricing data on this site current? Latest MTA data date and last refresh for each dataset, and whether a delay is the MTA\'s or ours.') : $t;
 });

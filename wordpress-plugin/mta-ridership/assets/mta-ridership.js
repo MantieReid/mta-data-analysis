@@ -2,6 +2,7 @@
 (function () {
   var D = window.MTA_RIDERSHIP;
   if (!D || !window.Chart) return;
+  var H = window.MTA_H2 ? ['h2', 'h3'] : ['h3', 'h4']; // section and sub-heading tags (set by the plugin)
 
   var YEAR_COLORS = ['#2a6fdb', '#e8590c', '#2f9e44', '#ae3ec9', '#f08c00'];
   var SEASON_COLORS = { Winter: '#4c9be8', Spring: '#5cb85c', Summer: '#f0ad4e', Fall: '#d35400' };
@@ -30,7 +31,7 @@
 
   function section(root, title, note) {
     var s = el('section', 'mta-section');
-    s.appendChild(el('h3', null, esc(title)));
+    s.appendChild(el(H[0], null, esc(title)));
     if (note) s.appendChild(el('p', 'mta-note', note));
     root.appendChild(s);
     return s;
@@ -426,8 +427,8 @@
         var beats = Math.round(100 * (total - x.rank) / Math.max(1, total - 1));
         var tile = function (big, small, cls) { return '<div class="mta-tile' + (cls || '') + '"><strong>' + big + '</strong><span>' + small + '</span></div>'; };
         card.innerHTML =
-          '<h4 class="mta-find-name">' + esc(stationLabel(x.name)) + ' <span class="mta-lines">' + esc(lines(x.name)) + '</span>' +
-          ' <span class="mta-borough">' + esc(x.borough) + '</span></h4>' +
+          '<' + H[1] + ' class="mta-find-name">' + esc(stationLabel(x.name)) + ' <span class="mta-lines">' + esc(lines(x.name)) + '</span>' +
+          ' <span class="mta-borough">' + esc(x.borough) + '</span></' + H[1] + '>' +
           '<div class="mta-tiles mta-tiles-find">' +
           tile(fmt(x.avg), 'riders a day') +
           tile('#' + x.rank, 'busiest of ' + total + ' stations') +
@@ -441,7 +442,7 @@
         if (chartBox) chartBox.destroy();
         chartBox = null;
         if (hours) {
-          card.appendChild(el('h4', 'mta-subhead', 'Riders by hour, average day (last 8 weeks)'));
+          card.appendChild(el(H[1], 'mta-subhead', 'Riders by hour, average day (last 8 weeks)'));
           chartBox = chart(card, {
             type: 'bar',
             data: { labels: hours.map(function (_, h) { return hourName(h); }),
@@ -489,7 +490,7 @@
           '<strong>' + (b.pct > 0 ? '+' : '') + b.pct + '%</strong><span>' + esc(b.borough) + '</span>'));
       });
       s.appendChild(tiles);
-      s.appendChild(el('h4', 'mta-subhead', 'Biggest changes by station'));
+      s.appendChild(el(H[1], 'mta-subhead', 'Biggest changes by station'));
       legend(s, [['#2f9e44', 'More riders in ' + y.year], ['#e8590c', 'Fewer riders in ' + y.year]]);
       diverging(s, y.up.concat(y.down.slice().reverse()), function (x) { return x.pct; }, '#2f9e44', '#e8590c', function (x) {
         return [(x.pct > 0 ? '+' : '') + x.pct + '%', y.prev_year + ': ' + fmt(x.prev) + ' riders', y.year + ': ' + fmt(x.cur) + ' riders'];
@@ -516,7 +517,7 @@
     payment: function (root) {
       if (!X || !X.payment) return;
       var p = X.payment;
-      var s = section(root, 'The MetroCard fades out',
+      var s = section(root, window.MTA_H2 ? 'OMNY vs MetroCard: the MetroCard fades out' : 'The MetroCard fades out', // MTA_H2: SEO pass on
         'Share of subway entries paid with a MetroCard each month. MetroCard sales ended Dec 31, 2025; ' +
         'everyone else taps with OMNY.');
       chart(s, {
@@ -564,7 +565,7 @@
       C.days.forEach(function (d) { (byYear[d.d.slice(0, 4)] = byYear[d.d.slice(0, 4)] || []).push(d); });
       Object.keys(byYear).reverse().forEach(function (y, yi) {
         var list = byYear[y], pad = wday(list[0].d);
-        var box = el('div', 'mta-cal-year', '<h4>' + esc(y) + (yi === 0 ? ' (so far)' : '') + '</h4>');
+        var box = el('div', 'mta-cal-year', '<' + H[1] + '>' + esc(y) + (yi === 0 ? ' (so far)' : '') + '</' + H[1] + '>');
         var wrap = el('div', 'mta-cal-wrap');
         var months = el('div', 'mta-cal-months');
         var row = el('div', 'mta-cal-row');
@@ -610,7 +611,7 @@
         }).join('') + '</span> More riders'));
 
       var low = C.days.filter(function (d) { return d.x; }).sort(function (a, b) { return a.x - b.x; }).slice(0, 12);
-      s.appendChild(el('h4', 'mta-subhead', 'Biggest drops in ridership'));
+      s.appendChild(el(H[1], 'mta-subhead', 'Biggest drops in ridership'));
       var cbox = el('div', 'mta-chart');
       cbox.style.height = (low.length * 30 + 40) + 'px';
       var cv = document.createElement('canvas');
@@ -747,10 +748,10 @@
         ' subway riders that day). MTA publishes ridership about 1–2 weeks after the fact; this page refreshes daily.');
       var grid = el('div', 'mta-grid');
       var a = el('div', 'mta-card');
-      a.appendChild(el('h4', null, 'Top 5 on ' + niceDate(D.latest_day)));
+      a.appendChild(el(H[1], null, 'Top 5 on ' + niceDate(D.latest_day)));
       a.appendChild(topList(D.top_latest));
       var b = el('div', 'mta-card');
-      b.appendChild(el('h4', null, 'Top 5, ' + niceDate(D.week_from) + ' – ' + niceDate(D.latest_day)));
+      b.appendChild(el(H[1], null, 'Top 5, ' + niceDate(D.week_from) + ' – ' + niceDate(D.latest_day)));
       b.appendChild(topList(D.top_week));
       grid.appendChild(a); grid.appendChild(b);
       s.appendChild(grid);

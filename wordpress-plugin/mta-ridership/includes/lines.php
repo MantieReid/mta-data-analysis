@@ -309,7 +309,7 @@ add_shortcode('mta_lines', function () {
     $l = mta_lines_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
     wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.14.0', true);
     $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l];
     if (!$l) {
@@ -324,7 +324,7 @@ add_shortcode('mta_lines', function () {
         return '<div class="mta-tile' . $cls . '"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>';
     };
     $sec = function ($title, $body, $note = '') {
-        return '<section class="mta-section"><h3>' . esc_html($title) . '</h3>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
+        return '<section class="mta-section"><' . mta_ridership_h() . '>' . esc_html($title) . '</' . mta_ridership_h() . '>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
     };
     $pills = '<p class="mta-find-picks">' . ($l ? '<a class="mta-find-pick" href="' . esc_url(mta_lines_url()) . '">All lines ranked</a> ' : '');
     foreach ($d['lines'] as $x) {
@@ -335,7 +335,7 @@ add_shortcode('mta_lines', function () {
     $o = '';
 
     if ($l) {
-        $o .= '<header class="mta-hero"><h1>' . esc_html($l['name']) . ': Delays, On-Time Rate &amp; Reliability</h1>' .
+        $o .= '<header class="mta-hero"><h1>' . esc_html($l['name']) . (mta_ridership_seo_live() && strpos($l['code'], 'S ') !== 0 ? ': Stops, Delays' : ': Delays') . ', On-Time Rate &amp; Reliability</h1>' .
             '<p class="mta-hero-links">Report card from MTA open data, ' . $range . ' · Not affiliated with the MTA · ' .
             '<a href="https://www.mta.info/alerts" rel="noopener">Live service status on mta.info &rarr;</a></p><div class="mta-tiles mta-tiles-find">' .
             $tile($l['otp'] . '%', 'trips on time (subway: ' . $s['otp'] . '%)') .
@@ -363,6 +363,9 @@ add_shortcode('mta_lines', function () {
         }
         $o .= $sec('Report card', '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>' . esc_html($l['name']) .
             '</th><th>Whole subway</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', $range . '. The wait assessment is the MTA\'s measure of how regularly trains are spaced during rush hour at selected points on each line. Major incidents are counted per line, so the subway total is the sum.');
+        if (mta_ridership_seo_live() && function_exists('mta_stations_line_section')) {
+            $o .= mta_stations_line_section($l, $sec);
+        }
         $o .= $sec('Other lines', $pills);
     } else {
         $o .= '<header class="mta-hero"><h1>Which NYC Subway Line Is the Worst? Every Line Ranked</h1>' .
@@ -389,7 +392,7 @@ add_shortcode('mta_lines', function () {
     foreach (mta_lines_faq($d, $l) as [$q, $ans]) {
         $faq .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($ans) . '</p></details>';
     }
-    $o .= '<section class="mta-section mta-faq"><h3>Questions</h3>' . $faq . '</section>';
+    $o .= '<section class="mta-section mta-faq"><' . mta_ridership_h() . '>Questions</' . mta_ridership_h() . '>' . $faq . '</section>';
     $o .= mta_ridership_ssr_more('lines');
     $o .= mta_ridership_ssr_talk(null, $l ? "How reliable is the {$l['name']}? Report card from MTA open data" : 'Which NYC subway line is the worst? Every line ranked from MTA open data');
     $o .= '<p class="mta-source mta-source-ssr">Data (data.ny.gov): <a href="https://data.ny.gov/d/f6rf-2a3t" rel="noopener">Terminal On-Time Performance</a>, ' .
@@ -419,6 +422,18 @@ function mta_lines_seo()
     }
     $l = mta_lines_current();
     $s = $d['system'];
+    if (mta_ridership_seo_live()) { // shorter title and description
+        if ($l) {
+            return ['d' => $d, 'l' => $l, 'url' => mta_lines_url($l['slug']),
+                    'title' => strpos($l['code'], 'S ') === 0 ? "{$l['name']} Delays & On-Time Rate (" . substr($d['latest'], 0, 4) . ')'
+                                                              : ucfirst($l['name']) . ' Stops, Delays & On-Time Rate (' . substr($d['latest'], 0, 4) . ')',
+                    'description' => "{$l['name']} stops by borough, delays and reliability: {$l['otp']}% of trips on time (subway: {$s['otp']}%), #{$l['rank']} of " . count($d['lines']) .
+                        ' lines. From MTA open data.'];
+        }
+        return ['d' => $d, 'l' => null, 'url' => mta_lines_url(),
+                'title' => 'Worst NYC Subway Line? Every Line Ranked by Delays',
+                'description' => "Every NYC subway line ranked by on-time rate, late trips and delays, with a report card for each. Subway-wide: {$s['otp']}% on time. From MTA open data."];
+    }
     if ($l) {
         return ['d' => $d, 'l' => $l, 'url' => mta_lines_url($l['slug']),
                 'title' => "{$l['name']} Delays & On-Time Rate: How Reliable Is It? (" . substr($d['latest'], 0, 4) . ')',
@@ -430,10 +445,10 @@ function mta_lines_seo()
             'description' => "Every NYC subway line ranked by on-time rate, late trips and delays, with a report card for each line. Subway-wide: {$s['otp']}% of trips on time. From MTA open data."];
 }
 
-add_filter('wpseo_title', function ($t) { return ($s = mta_lines_seo()) ? $s['title'] . ' - ' . get_bloginfo('name') : $t; });
+add_filter('wpseo_title', function ($t) { return ($s = mta_lines_seo()) ? mta_ridership_seo_title($s['title']) : $t; });
 add_filter('wpseo_opengraph_title', function ($t) { return ($s = mta_lines_seo()) ? $s['title'] : $t; });
 foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description'] as $f) {
-    add_filter($f, function ($t) { return ($s = mta_lines_seo()) ? $s['description'] : $t; });
+    add_filter($f, function ($t) { return ($s = mta_lines_seo()) ? mta_ridership_seo_desc($s['description']) : $t; });
 }
 foreach (['wpseo_canonical', 'wpseo_opengraph_url'] as $f) {
     add_filter($f, function ($u) { return ($s = mta_lines_seo()) ? $s['url'] : $u; });

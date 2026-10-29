@@ -373,7 +373,7 @@ add_shortcode('mta_buses', function () {
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
     wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.14.0', true);
     $js = $r ? ['route' => ['label' => $r['label'], 'hours' => $r['hours']]]
              : ['routes' => array_values(array_map(function ($x) {
@@ -385,7 +385,7 @@ add_shortcode('mta_buses', function () {
     $range = esc_html(mta_lines_month($d['from']) . ' – ' . mta_lines_month($d['latest']));
     $tile = function ($big, $small) { return '<div class="mta-tile"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>'; };
     $sec = function ($title, $body, $note = '') {
-        return '<section class="mta-section"><h3>' . esc_html($title) . '</h3>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
+        return '<section class="mta-section"><' . mta_ridership_h() . '>' . esc_html($title) . '</' . mta_ridership_h() . '>' . ($note ? '<p class="mta-note">' . $note . '</p>' : '') . $body . '</section>';
     };
     $link = function ($x) { return '<a href="' . esc_url(mta_buses_url($x['slug'])) . '">' . esc_html($x['label']) . '</a>'; };
     $table = function ($head, $rows) {
@@ -470,7 +470,7 @@ add_shortcode('mta_buses', function () {
         $all = '';
         foreach ($groups as $g => $xs) {
             usort($xs, function ($x, $y) { return strnatcasecmp($x['label'], $y['label']); });
-            $all .= '<h4>' . esc_html($g) . '</h4><p class="mta-find-picks">' . implode(' ', array_map(function ($x) {
+            $all .= '<' . mta_ridership_h(true) . '>' . esc_html($g) . '</' . mta_ridership_h(true) . '><p class="mta-find-picks">' . implode(' ', array_map(function ($x) {
                 return '<a class="mta-find-pick" href="' . esc_url(mta_buses_url($x['slug'])) . '">' . esc_html($x['label']) . '</a>';
             }, $xs)) . '</p>';
         }
@@ -481,7 +481,7 @@ add_shortcode('mta_buses', function () {
     foreach (mta_buses_faq($d, $r) as [$q, $ans]) {
         $faq .= '<details><summary>' . esc_html($q) . '</summary><p>' . esc_html($ans) . '</p></details>';
     }
-    $o .= '<section class="mta-section mta-faq"><h3>Questions</h3>' . $faq . '</section>';
+    $o .= '<section class="mta-section mta-faq"><' . mta_ridership_h() . '>Questions</' . mta_ridership_h() . '>' . $faq . '</section>';
     $o .= mta_ridership_ssr_more('buses');
     $o .= mta_ridership_ssr_talk(null, $r ? "How busy, fast and reliable is the {$r['label']} bus? Report card from MTA open data" : 'NYC bus routes ranked: busiest, slowest and least reliable, from MTA open data');
     $o .= '<p class="mta-source mta-source-ssr">Data (data.ny.gov): <a href="https://data.ny.gov/d/gxb3-akrn" rel="noopener">Bus Hourly Ridership</a>, ' .
@@ -507,6 +507,19 @@ function mta_buses_seo()
     }
     $r = mta_buses_current();
     $s = $d['system'];
+    if (mta_ridership_seo_live()) { // shorter title and description
+        if ($r) {
+            return ['d' => $d, 'r' => $r, 'url' => mta_buses_url($r['slug']),
+                    'title' => $r['label'] . ' Bus: Riders, Speed & Reliability',
+                    'description' => "{$r['label']} bus" . ($r['name'] ? " ({$r['name']})" : '') . ': ' . number_format($r['riders']) . ' riders a day' .
+                        (isset($r['mph']) ? ", {$r['mph']} mph average" : '') . (isset($r['wait']) ? ", {$r['wait']}% of trips arriving when riders expected them" : '') .
+                        '. Busiest hours and stops, from MTA open data.'];
+        }
+        return ['d' => $d, 'r' => null, 'url' => mta_buses_url(),
+                'title' => 'NYC Bus Routes Ranked: Busiest, Slowest & Least Reliable',
+                'description' => 'Every NYC bus route ranked by riders, speed and reliability, with a report card for each. ' .
+                    number_format($s['riders']) . ' bus riders a day. From MTA open data.'];
+    }
     if ($r) {
         return ['d' => $d, 'r' => $r, 'url' => mta_buses_url($r['slug']),
                 'title' => $r['label'] . ' Bus' . ($r['name'] ? ' (' . $r['name'] . ')' : '') . ': Riders, Speed & Reliability',
@@ -520,10 +533,10 @@ function mta_buses_seo()
                 number_format($s['riders']) . " bus riders a day; local buses average {$s['mph']} mph. From MTA open data."];
 }
 
-add_filter('wpseo_title', function ($t) { return ($s = mta_buses_seo()) ? $s['title'] . ' - ' . get_bloginfo('name') : $t; });
+add_filter('wpseo_title', function ($t) { return ($s = mta_buses_seo()) ? mta_ridership_seo_title($s['title']) : $t; });
 add_filter('wpseo_opengraph_title', function ($t) { return ($s = mta_buses_seo()) ? $s['title'] : $t; });
 foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description'] as $f) {
-    add_filter($f, function ($t) { return ($s = mta_buses_seo()) ? $s['description'] : $t; });
+    add_filter($f, function ($t) { return ($s = mta_buses_seo()) ? mta_ridership_seo_desc($s['description']) : $t; });
 }
 foreach (['wpseo_canonical', 'wpseo_opengraph_url'] as $f) {
     add_filter($f, function ($u) { return ($s = mta_buses_seo()) ? $s['url'] : $u; });
