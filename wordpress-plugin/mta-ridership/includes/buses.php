@@ -373,8 +373,11 @@ add_shortcode('mta_buses', function () {
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.0');
     wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.14.0', true);
+    if (mta_ridership_look_v2()) {
+        wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
+    }
     $js = $r ? ['route' => ['label' => $r['label'], 'hours' => $r['hours']]]
              : ['routes' => array_values(array_map(function ($x) {
                    return [$x['label'], $x['name'], $x['slug'], $x['riders'], $x['mph'] ?? null, $x['group']];
@@ -444,19 +447,23 @@ add_shortcode('mta_buses', function () {
             '</div></header>';
         $o .= $sec('Find your bus route', '<div data-slot="find"></div>', 'Type a route (M15, Bx12, B46, SIM22…) or a street.');
         $routes = $d['routes'];
-        $o .= $sec('Busiest bus routes', '<p>' . esc_html($a['busiest']) . '</p>' . $table(['#', 'Route', 'Riders a day', 'Avg speed'],
-            array_map(function ($x, $i) use ($link) { return [$i + 1, $link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', number_format($x['riders']), isset($x['mph']) ? $x['mph'] . ' mph' : '–']; },
-                array_slice(array_values($routes), 0, 15), range(0, 14))));
-        $local = array_values(array_filter($routes, function ($x) { return isset($x['mph_rank']); }));
-        usort($local, function ($x, $y) { return $x['mph'] <=> $y['mph']; });
-        $o .= $sec('Slowest bus routes', '<p>' . esc_html($a['slowest']) . '</p>' . $table(['Route', 'Avg weekday speed', 'Riders a day'],
-            array_map(function ($x) use ($link) { return [$link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', $x['mph'] . ' mph', number_format($x['riders'])]; }, array_slice($local, 0, 15))),
-            'Local, limited and Select Bus Service routes. Express buses are left out because they mostly run on highways.');
-        $rel = array_values(array_filter($routes, function ($x) { return isset($x['wait_rank']) && $x['riders'] >= 2000; }));
-        usort($rel, function ($x, $y) { return $x['wait'] <=> $y['wait']; });
-        $o .= $sec('Least reliable bus routes', $table(['Route', 'Trips arriving when expected (wait assessment)', 'Riders a day'],
-            array_map(function ($x) use ($link) { return [$link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', $x['wait'] . '%', number_format($x['riders'])]; }, array_slice($rel, 0, 15))),
-            'Routes with 2,000+ riders a day. All local and SBS routes: ' . $s['wait'] . '% of trips arrived when riders expected them, the MTA\'s wait assessment (the gap since the previous bus is no more than 3 minutes over the scheduled interval).');
+        if (mta_ridership_look_v2()) {
+            $o .= mta_buses_rankings_v2($routes, $s, $link, $sec, $range);
+        } else {
+            $o .= $sec('Busiest bus routes', '<p>' . esc_html($a['busiest']) . '</p>' . $table(['#', 'Route', 'Riders a day', 'Avg speed'],
+                array_map(function ($x, $i) use ($link) { return [$i + 1, $link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', number_format($x['riders']), isset($x['mph']) ? $x['mph'] . ' mph' : '–']; },
+                    array_slice(array_values($routes), 0, 15), range(0, 14))));
+            $local = array_values(array_filter($routes, function ($x) { return isset($x['mph_rank']); }));
+            usort($local, function ($x, $y) { return $x['mph'] <=> $y['mph']; });
+            $o .= $sec('Slowest bus routes', '<p>' . esc_html($a['slowest']) . '</p>' . $table(['Route', 'Avg weekday speed', 'Riders a day'],
+                array_map(function ($x) use ($link) { return [$link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', $x['mph'] . ' mph', number_format($x['riders'])]; }, array_slice($local, 0, 15))),
+                'Local, limited and Select Bus Service routes. Express buses are left out because they mostly run on highways.');
+            $rel = array_values(array_filter($routes, function ($x) { return isset($x['wait_rank']) && $x['riders'] >= 2000; }));
+            usort($rel, function ($x, $y) { return $x['wait'] <=> $y['wait']; });
+            $o .= $sec('Least reliable bus routes', $table(['Route', 'Trips arriving when expected (wait assessment)', 'Riders a day'],
+                array_map(function ($x) use ($link) { return [$link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', $x['wait'] . '%', number_format($x['riders'])]; }, array_slice($rel, 0, 15))),
+                'Routes with 2,000+ riders a day. All local and SBS routes: ' . $s['wait'] . '% of trips arrived when riders expected them, the MTA\'s wait assessment (the gap since the previous bus is no more than 3 minutes over the scheduled interval).');
+        }
         $tix = array_values(array_filter($routes, function ($x) { return !empty($x['tickets']); }));
         usort($tix, function ($x, $y) { return $y['tickets'] <=> $x['tickets']; });
         $o .= $sec('Most bus-lane camera violations', '<p>' . esc_html($a['tickets']) . '</p>' . $table(['Route', 'Violations (12 months)'],
@@ -564,3 +571,89 @@ add_filter('wpseo_sitemap_page_content', function ($xml) {
     }
     return $xml;
 });
+
+/**
+ * Look v2 of the busiest, slowest and least reliable sections on /bus-routes/: a lead sentence, stat cards,
+ * the method under "How this is measured", and sortable tables with a bar in each number cell.
+ */
+function mta_buses_rankings_v2($routes, $s, $link, $sec, $range)
+{
+    $card = function ($cls, $big, $label, $text = '') {
+        return '<li class="mta-stat ' . $cls . '"><strong>' . esc_html($big) . '</strong><span class="mta-stat-label">' . esc_html($label) . '</span>' .
+            ($text ? '<p>' . esc_html($text) . '</p>' : '') . '</li>';
+    };
+    $bar = function ($v, $max, $text, $cls = '') {
+        return '<span class="mta-cb ' . $cls . '"><b>' . esc_html($text) . '</b><span class="mta-cb-track"><span style="width:' .
+            max(2, min(100, round($v / max(0.01, $max) * 100, 1))) . '%"></span></span></span>';
+    };
+    $route = function ($x) use ($link) { return $link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>'; };
+    $how = function ($html) { return '<details class="mta-how"><summary>How this is measured</summary>' . $html . '</details>'; };
+    $table = function ($head, $rows) {
+        $o = '<p class="mta-sort-hint">Click a column heading to sort.</p><div class="mta-table-wrap"><table class="mta-table mta-sortable"><thead><tr>';
+        foreach ($head as [$label, $sort]) {
+            $o .= '<th' . ($sort ? ' data-sort="' . ($sort === 'rank' ? 'num" data-first="asc' : $sort) . '"' : '') . '>' . esc_html($label) . '</th>';
+        }
+        $o .= '</tr></thead><tbody>';
+        foreach ($rows as $row) {
+            $o .= '<tr>';
+            foreach ($row as $cell) {
+                $o .= is_array($cell) ? '<td data-v="' . esc_attr($cell[0]) . '">' . $cell[1] . '</td>' : '<td>' . $cell . '</td>';
+            }
+            $o .= '</tr>';
+        }
+        return $o . '</tbody></table></div>';
+    };
+    $rank = function ($i) { return [$i + 1, '<span class="mta-rank">' . ($i + 1) . '</span>']; };
+    $o = '';
+
+    // Busiest.
+    $busy = array_slice(array_values($routes), 0, 15);
+    $maxr = $busy[0]['riders'];
+    $maxmph = max(array_map(function ($x) { return $x['mph'] ?? 0; }, $busy));
+    $top = '';
+    foreach (array_slice($busy, 0, 3) as $i => $x) {
+        $top .= $card('', number_format($x['riders']), 'riders a day · #' . ($i + 1) . ' ' . $x['label'], $x['name']);
+    }
+    $o .= $sec('Busiest bus routes',
+        '<p class="mta-lead">The busiest NYC bus route is the <strong>' . esc_html($busy[0]['label']) . '</strong> (' . esc_html($busy[0]['name']) . '), with about ' .
+        number_format($busy[0]['riders']) . ' riders a day.</p><ul class="mta-stats">' . $top . '</ul><div style="height:1.2em"></div>' .
+        $table([['#', 'rank'], ['Route', 'text'], ['Riders a day', 'num'], ['Avg speed', 'num']], array_map(function ($x, $i) use ($route, $bar, $rank, $maxr, $maxmph) {
+            return [$rank($i), $route($x), [$x['riders'], $bar($x['riders'], $maxr, number_format($x['riders']))],
+                    isset($x['mph']) ? [$x['mph'], $bar($x['mph'], $maxmph, $x['mph'] . ' mph')] : ['', '–']];
+        }, $busy, array_keys($busy))) . '<p class="mta-caveat">Average riders a day, ' . $range . '.</p>');
+
+    // Slowest.
+    $local = array_values(array_filter($routes, function ($x) { return isset($x['mph_rank']); }));
+    usort($local, function ($x, $y) { return $x['mph'] <=> $y['mph']; });
+    $slow = array_slice($local, 0, 15);
+    $fast = end($local);
+    $max = $fast['mph']; // bars against the fastest route, so short bars mean slow
+    $o .= $sec('Slowest bus routes',
+        '<p class="mta-lead">The slowest bus route is the <strong>' . esc_html($slow[0]['label']) . '</strong> (' . esc_html($slow[0]['name']) . '), averaging ' .
+        $slow[0]['mph'] . ' mph on weekdays, barely faster than a brisk walk.</p>' .
+        '<ul class="mta-stats">' . $card('neg', $slow[0]['mph'] . ' mph', 'slowest: ' . $slow[0]['label']) . $card('', $s['mph'] . ' mph', 'average local and SBS route') .
+        $card('pos', $fast['mph'] . ' mph', 'fastest: ' . $fast['label']) . '</ul><div style="height:.8em"></div>' .
+        $how('<p>Average weekday speed from start to end of each trip, including time at stops and red lights.</p><p>Local, limited and Select Bus Service routes only. ' .
+            'Express buses are left out because they mostly run on highways.</p>') .
+        $table([['#', 'rank'], ['Route', 'text'], ['Avg weekday speed', 'num'], ['Riders a day', 'num']], array_map(function ($x, $i) use ($route, $bar, $rank, $max) {
+            return [$rank($i), $route($x), [$x['mph'], $bar($x['mph'], $max, $x['mph'] . ' mph', $x['mph'] < 6 ? 'bad' : 'warn')],
+                    [$x['riders'], number_format($x['riders'])]];
+        }, $slow, array_keys($slow))) . '<p class="mta-caveat">' . $range . '. Bars compare each route with the fastest, the ' . esc_html($fast['label']) . ' (' . $fast['mph'] . ' mph).</p>');
+
+    // Least reliable.
+    $rel = array_values(array_filter($routes, function ($x) { return isset($x['wait_rank']) && $x['riders'] >= 2000; }));
+    usort($rel, function ($x, $y) { return $x['wait'] <=> $y['wait']; });
+    $rel = array_slice($rel, 0, 15);
+    $o .= $sec('Least reliable bus routes',
+        '<p class="mta-lead">On the <strong>' . esc_html($rel[0]['label']) . '</strong> (' . esc_html($rel[0]['name']) . '), only ' . $rel[0]['wait'] .
+        '% of trips arrived when riders expected them, compared with ' . $s['wait'] . '% across all local and SBS routes.</p>' .
+        '<ul class="mta-stats">' . $card('neg', $rel[0]['wait'] . '%', 'least reliable: ' . $rel[0]['label']) . $card('', $s['wait'] . '%', 'all local and SBS routes') . '</ul>' .
+        '<div style="height:.8em"></div>' .
+        $how('<p>"Arrived when riders expected them" is the MTA\'s <em>wait assessment</em>: a trip passes when the gap since the previous bus is no more than ' .
+            '3 minutes over the scheduled interval. It measures even spacing, not whether a bus left on time.</p><p>Routes with 2,000+ riders a day.</p>') .
+        $table([['#', 'rank'], ['Route', 'text'], ['Trips arriving when expected', 'num'], ['Riders a day', 'num']], array_map(function ($x, $i) use ($route, $bar, $rank) {
+            return [$rank($i), $route($x), [$x['wait'], $bar($x['wait'], 100, $x['wait'] . '%', $x['wait'] < 60 ? 'bad' : 'warn')],
+                    [$x['riders'], number_format($x['riders'])]];
+        }, $rel, array_keys($rel))) . '<p class="mta-caveat">' . $range . '. Bars run from 0% to 100%.</p>');
+    return $o;
+}

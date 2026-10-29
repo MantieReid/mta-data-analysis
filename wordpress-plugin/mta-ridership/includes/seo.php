@@ -82,7 +82,20 @@ add_action('wp_head', function () {
     if (mta_ridership_seo_live()) {
         echo "<script>window.MTA_H2 = true;</script>\n";
     }
+    if (mta_ridership_look_v2()) {
+        echo "<script>window.MTA_V2 = true;</script>\n";
+    }
 }, 1);
+
+/**
+ * Look v2 (2026-10-29): bold section headings, short lead sentences with the method in "How this is
+ * measured", stat cards, sortable tables. Live; return mta_ridership_preview() here to put it back
+ * behind ?mta_preview=1.
+ */
+function mta_ridership_look_v2()
+{
+    return true;
+}
 /**
  * Link-preview image for a page: $is_page says whether the current request is that page.
  * Yoast doesn't always print og:image for these pages, so print it ourselves (as congestion.php does).
@@ -111,6 +124,9 @@ add_action('init', function () {
 add_filter('body_class', function ($c) {
     if (mta_ridership_seo_live()) {
         $c[] = 'mta-h2'; // the stylesheet styles the new heading levels like the old ones
+    }
+    if (mta_ridership_look_v2()) {
+        $c[] = 'mta-v2';
     }
     return $c;
 });
@@ -285,6 +301,30 @@ function mta_ridership_ssr_metrocard($data)
         return '';
     }
     $drop = round((1 - $mc['last_per_day'] / max(1, $mc['first_per_day'])) * 100);
+    if (mta_ridership_look_v2()) {
+        $card = function ($cls, $big, $label, $text) {
+            return '<div class="mta-stat ' . $cls . '"><strong>' . esc_html($big) . '</strong><span class="mta-stat-label">' . esc_html($label) . '</span><p>' . esc_html($text) . '</p></div>';
+        };
+        $steps = [];
+        if ($mc['omny_90']) {
+            $steps[] = [$mc['omny_90'], 'OMNY passed 90% of subway entries.'];
+        }
+        $steps[] = ['December 31, 2025', 'MetroCard sales and refills ended. Cards already in people\'s wallets kept working.'];
+        if ($mc['omny_99']) {
+            $steps[] = [$mc['omny_99'], 'OMNY passed 99% of entries.'];
+        }
+        $tl = '';
+        foreach ($steps as [$when, $what]) {
+            $tl .= '<li><time>' . esc_html($when) . '</time>' . esc_html($what) . '</li>';
+        }
+        return '<section class="mta-section mta-findings"><' . mta_ridership_h() . '>OMNY vs MetroCard: OMNY took over</' . mta_ridership_h() . '>' .
+            '<p class="mta-lead">MetroCard swipes fell <strong>' . $drop . '%</strong> in under two years. Almost everyone now taps with OMNY.</p>' .
+            '<div class="mta-ba">' . $card('old', $mc['first_pct'] . '%', 'paid with MetroCard, ' . $mc['first_month'], 'About ' . number_format($mc['first_per_day']) . ' swipes a day') .
+            '<span class="mta-ba-arrow" aria-hidden="true">&rarr;</span>' .
+            $card('', $mc['last_pct'] . '%', 'paid with MetroCard, ' . $mc['last_month'], 'About ' . number_format($mc['last_per_day']) . ' swipes a day') . '</div>' .
+            '<ol class="mta-timeline">' . $tl . '</ol>' .
+            '<p class="mta-caveat">The MTA hasn\'t announced a final day for existing MetroCards as of this writing. <a href="https://www.mta.info/" rel="noopener">mta.info</a> has the latest.</p></section>';
+    }
     return '<section class="mta-section mta-findings"><' . mta_ridership_h() . '>' . (mta_ridership_seo_live() ? 'OMNY vs MetroCard: OMNY took over' : 'The end of the MetroCard: OMNY took over') . '</' . mta_ridership_h() . '><ul>' .
         '<li>In ' . esc_html($mc['first_month']) . ', ' . esc_html($mc['first_pct']) . '% of subway entries were paid with a MetroCard, about ' .
         number_format($mc['first_per_day']) . ' swipes a day. By ' . esc_html($mc['last_month']) . ' it was ' . esc_html($mc['last_pct']) .
@@ -386,6 +426,31 @@ function mta_ridership_ssr_findings($data)
     $a = mta_ridership_answers($data);
     if (!$a) {
         return '';
+    }
+    if (mta_ridership_look_v2()) { // stat cards; the full sentences stay in the FAQ below
+        $x = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: [];
+        $lk = $x['lookup'];
+        $h = mta_ridership_headline($data);
+        $hours = $data['hourly'][(string) max(array_keys($data['hourly']))];
+        $am = array_slice($hours, 0, 12);
+        $card = function ($cls, $big, $label, $text) {
+            return '<li class="mta-stat ' . $cls . '"><strong>' . esc_html($big) . '</strong><span class="mta-stat-label">' . esc_html($label) . '</span><p>' . esc_html($text) . '</p></li>';
+        };
+        $name = function ($s) { return mta_ridership_station_name($s['name']); };
+        $short = function ($s) use ($name) { return preg_replace('/\/.*$/', '', $name($s)); }; // "Times Sq-42 St"
+        $o = $card('', $h['per_day'], 'subway rides a day', 'On ' . mta_ridership_nice_date($data['latest_day']) . ', the latest day of data: ' . number_format($data['latest_total']) . ' rides.');
+        $o .= $card('', number_format($lk[0]['avg']), 'riders a day at ' . $short($lk[0]), 'The busiest station. Next: ' . $name($lk[1]) . ' (' . number_format($lk[1]['avg']) . ') and ' . $name($lk[2]) . ' (' . number_format($lk[2]['avg']) . ').');
+        $o .= $card('', $h['peak'], 'busiest hour', 'About ' . number_format(max($hours)) . ' entries on an average day. Morning peak: ' . mta_ridership_hour_name(array_search(max($am), $am)) . ' (' . number_format(max($am)) . ').');
+        if (!empty($x['yoy'])) {
+            $y = $x['yoy'];
+            $o .= $card($y['total_pct'] >= 0 ? 'pos' : 'neg', ($y['total_pct'] > 0 ? '+' : '') . $y['total_pct'] . '%', 'riders vs ' . $y['prev_year'], 'Same days of each year, Jan 1 – ' . gmdate('M j', strtotime($y['year'] . '-' . $y['through'] . ' UTC')) . '.');
+        }
+        if ($mc = mta_ridership_metrocard_facts($x)) {
+            $o .= $card('', $mc['last_pct'] . '%', 'of entries by MetroCard', $mc['last_month'] . ', down from ' . $mc['first_pct'] . '% in ' . $mc['first_month'] . '.');
+        }
+        return '<section class="mta-section mta-findings"><' . mta_ridership_h() . '>NYC subway ridership: key numbers</' . mta_ridership_h() . '><ul class="mta-stats">' . $o . '</ul>' .
+            '<p class="mta-caveat">Rides are entries through the turnstiles and OMNY readers. Station figures are averages for ' .
+            esc_html(mta_ridership_nice_date($x['from']) . ' – ' . mta_ridership_nice_date($x['to'])) . '.</p></section>';
     }
     $li = '';
     foreach (['daily', 'busiest', 'time', 'trend', 'metrocard'] as $k) {

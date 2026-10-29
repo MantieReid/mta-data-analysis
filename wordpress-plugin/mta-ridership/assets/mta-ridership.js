@@ -3,6 +3,7 @@
   var D = window.MTA_RIDERSHIP;
   if (!D || !window.Chart) return;
   var H = window.MTA_H2 ? ['h2', 'h3'] : ['h3', 'h4']; // section and sub-heading tags (set by the plugin)
+  var V2 = !!window.MTA_V2; // look v2: lead sentences, method in "How this is measured"
 
   var YEAR_COLORS = ['#2a6fdb', '#e8590c', '#2f9e44', '#ae3ec9', '#f08c00'];
   var SEASON_COLORS = { Winter: '#4c9be8', Spring: '#5cb85c', Summer: '#f0ad4e', Fall: '#d35400' };
@@ -114,8 +115,13 @@
     });
   }
 
-  function eventsSection(root, title, note, byYear, recent) {
+  function eventsSection(root, title, note, byYear, recent, lead, how) {
     var s = section(root, title, note);
+    if (lead) s.appendChild(el('p', 'mta-lead', lead));
+    if (how) {
+      var d = el('details', 'mta-how', '<summary>How this is measured</summary>' + how);
+      s.appendChild(d);
+    }
     var grid = el('div', 'mta-grid mta-grid-events');
     var left = el('div');
     var box = el('div', 'mta-card');
@@ -480,9 +486,12 @@
       if (!X || !X.yoy) return;
       var y = X.yoy;
       var period = 'Jan 1 – ' + MONTHS[+y.through.slice(0, 2) - 1] + ' ' + (+y.through.slice(3));
-      var s = section(root, y.year + ' vs ' + y.prev_year,
+      var s = V2 ? section(root, 'Ridership in ' + y.year + ' vs ' + y.prev_year)
+                 : section(root, y.year + ' vs ' + y.prev_year,
         'Riders from ' + period + ' each year. Very large changes at a single station usually mean it was closed ' +
         'or had a service change for part of a year, not that riders moved.');
+      if (V2) s.appendChild(el('p', 'mta-lead', 'Subway ridership is <strong>' + (y.total_pct >= 0 ? 'up ' : 'down ') + Math.abs(y.total_pct) +
+        '%</strong> so far this year, comparing the same days (' + period + ') of ' + y.year + ' and ' + y.prev_year + '.'));
       var tiles = el('div', 'mta-tiles mta-tiles-yoy');
       tiles.appendChild(el('div', 'mta-tile', '<strong>' + (y.total_pct > 0 ? '+' : '') + y.total_pct + '%</strong><span>all subway riders</span>'));
       y.boroughs.forEach(function (b) {
@@ -495,6 +504,8 @@
       diverging(s, y.up.concat(y.down.slice().reverse()), function (x) { return x.pct; }, '#2f9e44', '#e8590c', function (x) {
         return [(x.pct > 0 ? '+' : '') + x.pct + '%', y.prev_year + ': ' + fmt(x.prev) + ' riders', y.year + ': ' + fmt(x.cur) + ' riders'];
       });
+      if (V2) s.appendChild(el('p', 'mta-caveat', 'A very large change at one station usually means it was closed or had a service change ' +
+        'for part of a year, not that riders moved. Stations with 2,000+ riders a day last year.'));
     },
 
     fares: function (root) {
@@ -517,7 +528,7 @@
     payment: function (root) {
       if (!X || !X.payment) return;
       var p = X.payment;
-      var s = section(root, window.MTA_H2 ? 'OMNY vs MetroCard: the MetroCard fades out' : 'The MetroCard fades out', // MTA_H2: SEO pass on
+      var s = section(root, V2 ? 'MetroCard share of subway entries, by month' : window.MTA_H2 ? 'OMNY vs MetroCard: the MetroCard fades out' : 'The MetroCard fades out', // MTA_H2: SEO pass on
         'Share of subway entries paid with a MetroCard each month. MetroCard sales ended Dec 31, 2025; ' +
         'everyone else taps with OMNY.');
       chart(s, {
@@ -664,6 +675,11 @@
 
     spikes: function (root) {
       if (!T) return trendsMissing(root, 'Unusually busy days');
+      if (V2) return eventsSection(root, 'Unusually busy days', null, T.spikes, T.recent,
+        'Days when a station had at least <strong>' + T.settings.spike_ratio + '× its normal riders</strong>. Pick a time frame, then click a day to see it.',
+        '<p>Normal = the median for that weekday over the 26 weeks before, adjusted for how busy the whole subway was that day. ' +
+        'Back-to-back days at the same station are grouped together.</p><p>These are statistical outliers: the data shows that a station was ' +
+        'unusually busy, not why. Big events, holidays and service changes can all cause them.</p>');
       eventsSection(root, 'Unusually busy days',
         'Days when a station had far more riders than usual: at least ' + T.settings.spike_ratio + '× its normal level for that weekday ' +
         '(the median of the 26 weeks before), after allowing for how busy the whole system was. Back-to-back days are grouped together. Click one to see it.' +

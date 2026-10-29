@@ -288,7 +288,10 @@ add_shortcode('mta_stations', function () {
         return '<p>Station data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.0');
+    if (mta_ridership_look_v2()) {
+        wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
+    }
     $st = mta_stations_current();
     return $st ? mta_stations_render($st) : mta_stations_render_ranking();
 });
@@ -504,13 +507,18 @@ function mta_stations_render_ranking()
             $tr = '';
             foreach ($ev as $s) {
                 $tr .= '<tr><td>' . $link($s) . '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</td><td>' . esc_html($s['borough']) .
-                    '</td><td>' . (int) $s['e']['units'] . '</td><td>' . esc_html($s['e']['avail']) . '%</td><td>' .
+                    '</td><td>' . (int) $s['e']['units'] . '</td><td data-v="' . esc_attr($s['e']['avail']) . '">' . esc_html($s['e']['avail']) . '%</td><td>' .
                     esc_html(['yes' => 'Yes', 'partly' => 'Partly', 'no' => 'No'][$s['ada']] ?? '–') . '</td></tr>';
             }
             $o .= $sec('NYC subway stations with elevators',
                 '<p>' . count($ev) . ' stations have elevators run by NYC Transit; ' . $full . ' of them are fully accessible (ADA).</p>' .
-                '<details><summary>Show all ' . count($ev) . ' stations with elevators</summary><div class="mta-table-wrap"><table class="mta-table">' .
-                '<thead><tr><th>Station</th><th>Lines</th><th>Borough</th><th>Elevators</th><th>Working</th><th>Accessible (ADA)</th></tr></thead><tbody>' . $tr . '</tbody></table></div></details>',
+                (mta_ridership_look_v2()
+                    ? '<details class="mta-more-btn"><summary>Show all ' . count($ev) . ' stations with elevators</summary><p class="mta-sort-hint">Click a column heading to sort.</p>' .
+                      '<div class="mta-table-wrap mta-scroll"><table class="mta-table mta-sortable"><thead><tr><th data-sort="text">Station</th><th>Lines</th><th data-sort="text">Borough</th>' .
+                      '<th data-sort="num">Elevators</th><th data-sort="num">Working</th><th data-sort="text">Accessible (ADA)</th></tr></thead>'
+                    : '<details><summary>Show all ' . count($ev) . ' stations with elevators</summary><div class="mta-table-wrap"><table class="mta-table">' .
+                      '<thead><tr><th>Station</th><th>Lines</th><th>Borough</th><th>Elevators</th><th>Working</th><th>Accessible (ADA)</th></tr></thead>') .
+                '<tbody>' . $tr . '</tbody></table></div></details>',
                 'Working = share of hours the elevators were in service over 24 hours, ' . esc_html(gmdate('F Y', strtotime($rc['equip_from'] . '-01 UTC')) . ' – ' .
                 gmdate('F Y', strtotime($rc['equip_to'] . '-01 UTC'))) . ' (MTA availability). Some elevators lead to the street, others only between platforms.');
         }
@@ -523,13 +531,16 @@ function mta_stations_render_ranking()
     $tr = '';
     foreach ($all as $s) {
         $tr .= '<tr data-b="' . esc_attr($s['borough']) . '" data-n="' . esc_attr(strtolower($s['name'])) . '" data-a="' . (int) $s['avg'] . '"><td>' . (int) $s['rank'] . '</td><td>' . $link($s) .
-            '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</td><td>' . esc_html($s['borough']) . '</td><td>' . number_format($s['avg']) .
-            '</td><td class="' . ($s['yoy'] !== null && $s['yoy'] < 0 ? 'neg' : 'pos') . '">' . $pct($s['yoy']) . '</td></tr>';
+            '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</td><td>' . esc_html($s['borough']) . '</td><td data-v="' . (int) $s['avg'] . '">' . number_format($s['avg']) .
+            '</td><td data-v="' . ($s['yoy'] ?? '') . '" class="' . ($s['yoy'] !== null && $s['yoy'] < 0 ? 'neg' : 'pos') . '">' . $pct($s['yoy']) . '</td></tr>';
     }
     $o .= $sec('Every station ranked',
         '<div class="mta-st-filter"><input type="search" id="mta-st-q" class="mta-find-input" placeholder="Filter the table by name" aria-label="Filter the table by station name">' .
         '<select id="mta-st-b" class="mta-find-input" aria-label="Borough">' . $opts . '</select><span id="mta-st-n" class="mta-note"></span></div>' .
-        '<div class="mta-table-wrap"><table class="mta-table" id="mta-st-t"><thead><tr><th>#</th><th>Station</th><th>Lines</th><th>Borough</th><th>Riders a day</th><th>vs last year</th></tr></thead><tbody>' .
+        (mta_ridership_look_v2()
+            ? '<p class="mta-sort-hint">Click a column heading to sort. The table scrolls on its own.</p><div class="mta-table-wrap mta-scroll"><table class="mta-table mta-sortable" id="mta-st-t"><thead><tr>' .
+              '<th data-sort="num" data-first="asc">#</th><th data-sort="text">Station</th><th>Lines</th><th data-sort="text">Borough</th><th data-sort="num">Riders a day</th><th data-sort="num">vs last year</th></tr></thead><tbody>'
+            : '<div class="mta-table-wrap"><table class="mta-table" id="mta-st-t"><thead><tr><th>#</th><th>Station</th><th>Lines</th><th>Borough</th><th>Riders a day</th><th>vs last year</th></tr></thead><tbody>') .
         $tr . '</tbody></table></div>' .
         '<script>(function(){var q=document.getElementById("mta-st-q"),b=document.getElementById("mta-st-b"),n=document.getElementById("mta-st-n"),' .
         'r=document.querySelectorAll("#mta-st-t tbody tr");function f(){var t=q.value.trim().toLowerCase(),v=b.value,c=0;r.forEach(function(x){' .
