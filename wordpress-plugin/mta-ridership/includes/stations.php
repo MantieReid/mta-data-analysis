@@ -290,7 +290,7 @@ add_action('template_redirect', function () {
     add_filter('wpseo_title', $title, 99); // Yoast sets the title on its own
     add_filter('body_class', function ($c) { $c[] = 'page'; return $c; });
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.15.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
     get_header();
     echo '<main id="primary" class="site-main"><article class="page type-page"><div class="entry-content">' . ($st ? mta_stations_render($st) : mta_stations_render_ranking()) . '</div></article></main>';
     get_footer();
@@ -386,7 +386,7 @@ function mta_stations_render($st)
         'Riders are entries at the turnstiles and OMNY readers, so transfers inside the station are not counted. ' .
         'Updated ' . esc_html(gmdate('M j, Y', strtotime($x['updated']))) . '. <a href="' . esc_url(mta_stations_link()) . '">All stations ranked &rarr;</a> · <a href="' . esc_url(home_url('/mta-ridership/')) . '">All subway ridership &rarr;</a><br>' .
         'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).</p>';
-    return '<div class="mta-ridership mta-stations">' . $o . '</div>';
+    return '<div class="mta-ridership mta-stations">' . $o . mta_ridership_disclaimer() . '</div>';
 }
 
 /** /stations/: every station ranked by riders a day, with a name search, borough filter and the biggest movers. */
@@ -459,7 +459,7 @@ function mta_stations_render_ranking()
     $o .= '<p class="mta-source mta-source-ssr">Data: <a href="https://data.ny.gov/d/5wq4-mkjj" rel="noopener">MTA Subway Hourly Ridership</a> (data.ny.gov). ' .
         'Updated ' . esc_html(gmdate('M j, Y', strtotime($x['updated']))) . '. <a href="' . esc_url(home_url('/mta-ridership/')) . '">All subway ridership &rarr;</a><br>' .
         'Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a> · Analysis by Mantie Reid II (CC BY 4.0).</p>';
-    return '<div class="mta-ridership mta-stations">' . $o . '</div>';
+    return '<div class="mta-ridership mta-stations">' . $o . mta_ridership_disclaimer() . '</div>';
 }
 
 /** Accessibility, elevators and escalators, ridership vs 2019 and where trips go. Empty until the monthly step has run. */

@@ -95,12 +95,12 @@ function mta_ridership_status_html($now = null)
         '<details open><summary>What does "Delayed" mean?</summary><p>The newest data is older than that dataset\'s usual schedule. "(MTA)" means the MTA hasn\'t published newer data yet and our refreshes are working. "(our refresh)" means a refresh on this site hit a problem and is retrying automatically.</p></details>' .
         '<details open><summary>How often does this site refresh?</summary><p>Every day, around 6 AM New York time, plus automatic retries if a refresh fails. Pages show new data as soon as the MTA publishes it and the next refresh runs.</p></details></section>' .
         '<p class="mta-source mta-source-ssr">Data from <a href="https://data.ny.gov/" rel="noopener">data.ny.gov</a>. Source code: <a href="' . MTA_RIDERSHIP_REPO . '" rel="noopener">github.com/MantieReid/mta-data-analysis</a>. ' .
-        'Machine-readable: <a href="' . esc_url(rest_url('mta-ridership/v1/status')) . '" rel="noopener">status JSON</a>.</p></div>';
+        'Machine-readable: <a href="' . esc_url(rest_url('mta-ridership/v1/status')) . '" rel="noopener">status JSON</a>.</p>' . mta_ridership_disclaimer() . '</div>';
 }
 
 add_shortcode('mta_status', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
     if (!defined('DONOTCACHEPAGE')) {
         define('DONOTCACHEPAGE', true); // always live: don't let a page cache serve an old status
     }

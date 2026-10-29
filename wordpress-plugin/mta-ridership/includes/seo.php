@@ -34,6 +34,14 @@ function mta_ridership_ssr_source($data)
         ' · Analysis by Mantie Reid II, free to reuse with credit (CC BY 4.0).' . mta_ridership_status_link() . '</p>';
 }
 
+/** The disclaimer at the bottom of every MTA data page (the owner's wording). */
+function mta_ridership_disclaimer()
+{
+    return '<div class="mta-disclaimer"><p>This is an independent data analysis project and is not affiliated with, sponsored by, or endorsed by the Metropolitan Transportation Authority (MTA).</p>' .
+        '<p>Data is sourced from the MTA through the <a href="https://data.ny.gov/" rel="noopener">New York State Open Data Portal</a>. Visualizations, calculations, and interpretations are independently produced. ' .
+        'Data may be revised, incomplete, or delayed. For official transit information, visit <a href="https://www.mta.info/" rel="noopener">mta.info</a>.</p></div>';
+}
+
 function mta_ridership_station_name($name)
 {
     return preg_replace('/\s*\(.*$/', '', $name);

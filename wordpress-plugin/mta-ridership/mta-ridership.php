@@ -323,7 +323,7 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
     wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.14.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
@@ -354,7 +354,7 @@ add_shortcode('mta_ridership', function ($atts) {
             $inner .= mta_ridership_ssr_source($data); // the script skips its own source line when this exists
         }
     }
-    return '<div class="mta-ridership" data-show="' . esc_attr(implode(',', $show)) . '">' . $inner . '</div>';
+    return '<div class="mta-ridership" data-show="' . esc_attr(implode(',', $show)) . '">' . $inner . mta_ridership_disclaimer() . '</div>';
 });
 
 /* ---------- admin: Settings > MTA Ridership ---------- */
