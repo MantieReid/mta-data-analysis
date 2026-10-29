@@ -3,7 +3,7 @@
  * Station pages at /stations/<station>/: riders a day, rank, change vs last year, the busiest hours,
  * the lines that stop there and the nearest stations. Built only from data the ridership page already
  * stores (the "Find your station" list and the map's hourly riders), so it adds no API calls.
- * Public since 2026-10-29; each page is in Yoast's page sitemap.
+ * Public since 2026-10-29. The WordPress page "stations" holds [mta_stations], like the line and bus pages.
  */
 
 if (!defined('ABSPATH')) {
@@ -11,7 +11,6 @@ if (!defined('ABSPATH')) {
 }
 
 const MTA_STATIONS_SLUG = 'stations';
-const MTA_STATIONS_ALL  = '_all'; // query value for the ranking page at /stations/ (no station slug starts with _)
 const MTA_STATIONS_HOOK   = 'mta_ridership_stations_step';
 const MTA_STATIONS_OPTION = 'mta_ridership_stations';
 
@@ -127,11 +126,12 @@ function mta_stations_step()
 }
 
 add_action('init', function () {
-    add_rewrite_rule('^' . MTA_STATIONS_SLUG . '/([a-z0-9-]+)/?$', 'index.php?mta_station=$matches[1]', 'top');
-    add_rewrite_rule('^' . MTA_STATIONS_SLUG . '/?$', 'index.php?mta_station=' . MTA_STATIONS_ALL, 'top');
-    if (get_option('mta_stations_rewrite') !== '2') {
+    // Like the line and bus pages: the WordPress page "stations" ([mta_stations], the theme's Content Page
+    // template, so it gets the site header and menu) shows the ranking, and /stations/<slug>/ one station.
+    add_rewrite_rule('^' . MTA_STATIONS_SLUG . '/([a-z0-9-]+)/?$', 'index.php?pagename=' . MTA_STATIONS_SLUG . '&mta_station=$matches[1]', 'top');
+    if (get_option('mta_stations_rewrite') !== '3') {
         flush_rewrite_rules(false);
-        update_option('mta_stations_rewrite', '2');
+        update_option('mta_stations_rewrite', '3');
     }
     if (!get_option(MTA_STATIONS_OPTION) && get_option(MTA_RIDERSHIP_EXTRAS_OPTION)) {
         mta_stations_schedule(10);
@@ -283,20 +283,31 @@ function mta_stations_faq($st)
     return $out;
 }
 
-// These pages have no WordPress page behind them: render them here. An unknown station is a 404.
+add_shortcode('mta_stations', function () {
+    if (!mta_stations_all()) {
+        return '<p>Station data is loading. Check back in a few minutes.</p>';
+    }
+    $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
+    $st = mta_stations_current();
+    return $st ? mta_stations_render($st) : mta_stations_render_ranking();
+});
+
+// Search details for the "stations" page; an unknown station is a real 404, not the ranking.
 add_action('template_redirect', function () {
-    if (!get_query_var('mta_station')) {
+    if (!is_page(MTA_STATIONS_SLUG)) {
         return;
     }
-    $ranking = get_query_var('mta_station') === MTA_STATIONS_ALL;
-    $st = $ranking ? null : mta_stations_current();
-    if (!$st && !($ranking && mta_stations_all())) {
+    $st = mta_stations_current();
+    if (get_query_var('mta_station') && !$st) {
         global $wp_query;
         $wp_query->set_404();
         status_header(404);
         return;
     }
-    status_header(200);
+    if (!mta_stations_all()) {
+        return;
+    }
     $total = count(mta_stations_all());
     $name = $st ? mta_stations_display($st['name']) : '';
     $seo_title = $st ? "$name Station Ridership: Riders a Day & Busiest Hours" : "Busiest NYC Subway Stations: All $total Stations Ranked";
@@ -325,13 +336,6 @@ add_action('template_redirect', function () {
             ], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE) . "</script>\n";
         });
     }
-    add_filter('body_class', function ($c) { $c[] = 'page'; return $c; });
-    $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.14.2');
-    get_header();
-    echo '<main id="primary" class="site-main"><article class="page type-page"><div class="entry-content">' . ($st ? mta_stations_render($st) : mta_stations_render_ranking()) . '</div></article></main>';
-    get_footer();
-    exit;
 });
 
 function mta_stations_render($st)
@@ -553,14 +557,14 @@ function mta_stations_report_card($st, $sec)
     return $o;
 }
 
-// List the ranking page and every station in Yoast's page sitemap.
+// List every station in Yoast's page sitemap (Yoast lists the "stations" page itself).
 add_filter('wpseo_sitemap_page_content', function ($xml) {
+    $page = get_page_by_path(MTA_STATIONS_SLUG, OBJECT, 'page');
     $x = get_option(MTA_RIDERSHIP_EXTRAS_OPTION);
-    if (empty($x['updated'])) {
+    if (!$page || $page->post_status !== 'publish' || empty($x['updated'])) {
         return $xml;
     }
     $mod = esc_html(gmdate('c', strtotime($x['updated'])));
-    $xml .= '<url><loc>' . esc_url(mta_stations_url()) . "</loc><lastmod>$mod</lastmod></url>\n";
     foreach (mta_stations_all() as $s) {
         $xml .= '<url><loc>' . esc_url(mta_stations_url($s['slug'])) . "</loc><lastmod>$mod</lastmod></url>\n";
     }
