@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.14.0
+ * Version: 1.14.1
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/

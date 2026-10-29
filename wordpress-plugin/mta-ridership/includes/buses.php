@@ -337,7 +337,7 @@ function mta_buses_answers($d, $r = null)
                 : ', ' . ($r['mph'] > $r['mph_prev'] ? 'up' : 'down') . ' from ' . $r['mph_prev'] . ' mph the year before') : '') . '.';
     }
     if (isset($r['wait'])) {
-        $a['reliable'] = $r['wait'] . '% of its trips passed the MTA\'s wait assessment, which checks that buses are evenly spaced: a trip passes when the gap since the previous bus is no more than 3 minutes over the scheduled interval (local and Select Bus routes overall: ' . $s['wait'] . '%)' .
+        $a['reliable'] = $r['wait'] . '% of its trips arrived when riders expected them. That is the MTA\'s wait assessment, which checks that buses are evenly spaced: a trip passes when the gap since the previous bus is no more than 3 minutes over the scheduled interval (local and Select Bus routes overall: ' . $s['wait'] . '%)' .
             (isset($r['service']) ? ', and ' . $r['service'] . '% of scheduled buses actually ran' : '') . '.';
     }
     if (!empty($r['tickets'])) {
@@ -408,7 +408,7 @@ add_shortcode('mta_buses', function () {
             '<div class="mta-tiles mta-tiles-find">' .
             $tile(number_format($r['riders']), 'riders a day (#' . $r['riders_rank'] . ' of ' . $r['riders_of'] . ')') .
             (isset($r['mph']) ? $tile($r['mph'] . ' mph', 'average weekday speed' . (isset($r['mph_rank']) ? ' (#' . $r['mph_rank'] . ' fastest)' : '')) : '') .
-            (isset($r['wait']) ? $tile($r['wait'] . '%', 'of trips pass the MTA wait assessment') : '') .
+            (isset($r['wait']) ? $tile($r['wait'] . '%', 'of trips arrived when riders expected them (MTA wait assessment)') : '') .
             (isset($r['service']) ? $tile($r['service'] . '%', 'scheduled buses that ran') : '') .
             '</div></header>';
         $o .= $sec('How busy is the ' . $r['label'] . '?', '<p>' . esc_html($a['riders'] . (isset($a['busy']) ? ' ' . $a['busy'] : '')) . '</p><div data-slot="hours"></div>',
@@ -424,7 +424,7 @@ add_shortcode('mta_buses', function () {
         $o .= $sec('Speed and reliability', '<p>' . esc_html(trim(($a['speed'] ?? '') . ' ' . ($a['reliable'] ?? ''))) . '</p>' .
             $table(['', $r['label'], 'All local and SBS routes'], [
                 ['Average weekday speed', isset($r['mph']) ? $r['mph'] . ' mph' : '–', $s['mph'] . ' mph'],
-                ['Trips passing the wait assessment (even spacing)', isset($r['wait']) ? $r['wait'] . '%' : '–', $s['wait'] . '%'],
+                ['Trips arriving when riders expected them (MTA wait assessment)', isset($r['wait']) ? $r['wait'] . '%' : '–', $s['wait'] . '%'],
                 ['Scheduled buses that actually ran', isset($r['service']) ? $r['service'] . '%' : '–', $s['service'] . '%'],
                 ['Extra time at stops vs schedule', isset($r['extra_stop']) ? $r['extra_stop'] . ' min' : '–', '–'],
                 ['Extra time on board vs schedule', isset($r['extra_ride']) ? $r['extra_ride'] . ' min' : '–', '–'],
@@ -453,9 +453,9 @@ add_shortcode('mta_buses', function () {
             'Local, limited and Select Bus Service routes. Express buses are left out because they mostly run on highways.');
         $rel = array_values(array_filter($routes, function ($x) { return isset($x['wait_rank']) && $x['riders'] >= 2000; }));
         usort($rel, function ($x, $y) { return $x['wait'] <=> $y['wait']; });
-        $o .= $sec('Least reliable bus routes', $table(['Route', 'Trips passing wait assessment', 'Riders a day'],
+        $o .= $sec('Least reliable bus routes', $table(['Route', 'Trips arriving when expected (wait assessment)', 'Riders a day'],
             array_map(function ($x) use ($link) { return [$link($x) . ' <span class="mta-lines">' . esc_html($x['name']) . '</span>', $x['wait'] . '%', number_format($x['riders'])]; }, array_slice($rel, 0, 15))),
-            'Routes with 2,000+ riders a day. All local and SBS routes: ' . $s['wait'] . '% of trips passed the MTA\'s wait assessment (the gap since the previous bus is no more than 3 minutes over the scheduled interval).');
+            'Routes with 2,000+ riders a day. All local and SBS routes: ' . $s['wait'] . '% of trips arrived when riders expected them, the MTA\'s wait assessment (the gap since the previous bus is no more than 3 minutes over the scheduled interval).');
         $tix = array_values(array_filter($routes, function ($x) { return !empty($x['tickets']); }));
         usort($tix, function ($x, $y) { return $y['tickets'] <=> $x['tickets']; });
         $o .= $sec('Most bus-lane camera violations', '<p>' . esc_html($a['tickets']) . '</p>' . $table(['Route', 'Violations (12 months)'],
@@ -510,7 +510,7 @@ function mta_buses_seo()
         return ['d' => $d, 'r' => $r, 'url' => mta_buses_url($r['slug']),
                 'title' => $r['label'] . ' Bus' . ($r['name'] ? ' (' . $r['name'] . ')' : '') . ': Riders, Speed & Reliability',
                 'description' => "{$r['label']} bus report card: " . number_format($r['riders']) . ' riders a day' .
-                    (isset($r['mph']) ? ", {$r['mph']} mph average speed" : '') . (isset($r['wait']) ? ", {$r['wait']}% of trips passing the MTA wait assessment" : '') .
+                    (isset($r['mph']) ? ", {$r['mph']} mph average speed" : '') . (isset($r['wait']) ? ", {$r['wait']}% of trips arriving when riders expected them" : '') .
                     ', busiest hours and stops. From MTA open data.'];
     }
     return ['d' => $d, 'r' => null, 'url' => mta_buses_url(),
