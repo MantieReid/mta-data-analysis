@@ -1,0 +1,31 @@
+Line colours (the MTA's official colours, from its GTFS data).
+When you draw a line in geojson.io, click it, then in the table add two rows:
+  route   = the line (for example A)
+  stroke  = its colour code below (for example #0062CF)
+
+A    #0062CF   A train — 8 Avenue Express
+C    #0062CF   C train — 8 Avenue Local
+E    #0062CF   E train — 8 Avenue Local
+B    #EB6800   B train — 6 Avenue Express
+D    #EB6800   D train — 6 Avenue Express
+F    #EB6800   F train — Queens Blvd Express/6 Av Local
+M    #EB6800   M train — Queens Blvd Local/6 Av Local
+G    #799534   G train — Brooklyn-Queens Crosstown
+J    #8E5C33   J train — Nassau St Local
+Z    #8E5C33   Z train — Nassau St Express
+L    #7C858C   L train — 14 St-Canarsie Local
+N    #F6BC26   N train — Broadway Local
+Q    #F6BC26   Q train — Broadway Express
+R    #F6BC26   R train — Broadway Local
+W    #F6BC26   W train — Broadway Local
+GS   #7C858C   42 St Shuttle (S) — 42 St Shuttle
+FS   #7C858C   Franklin Av Shuttle (S) — Franklin Avenue Shuttle
+H    #7C858C   Rockaway Park Shuttle (S) — Rockaway Park Shuttle
+1    #D82233   1 train — Broadway - 7 Avenue Local
+2    #D82233   2 train — 7 Avenue Express
+3    #D82233   3 train — 7 Avenue Express
+4    #009952   4 train — Lexington Avenue Express
+5    #009952   5 train — Lexington Avenue Express
+6    #009952   6 train — Lexington Avenue Local
+7    #9A38A1   7 train — Flushing Local
+SI   #08179C   Staten Island Railway (SIR) — Staten Island Railway

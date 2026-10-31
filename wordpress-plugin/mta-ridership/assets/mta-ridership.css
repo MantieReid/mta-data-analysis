@@ -45,6 +45,57 @@ body.mta-h2 .mta-ridership .mta-cal-year h3 { margin: 0 0 .4em; }
 .mta-ridership .mta-od-n { flex: 0 0 auto; width: 1.9em; height: 1.9em; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: .9rem; color: var(--mta-accent); border: 1.5px solid var(--mta-accent); }
 .mta-ridership .mta-od-body { flex: 1; min-width: 0; }
 .mta-ridership .mta-od .mta-mv-pct { color: var(--mta-accent); }
+/* ---------- Live subway map (includes/subwaymap.php, assets/mta-map.js) ---------- */
+.mta-ridership .mta-map-canvas { height: 480px; border: 1px solid var(--mta-border); border-radius: 12px; background: #f2efe9; overflow: hidden; }
+.mta-ridership .mta-map-canvas.dark { background: #1c1b1b; border-color: #2c2b29; }
+.mta-ridership .mta-map-canvas.dark .maplibregl-ctrl-attrib { background: rgba(28,27,27,.85); color: #a89f8c; }
+.mta-ridership .mta-map-canvas.dark .maplibregl-ctrl-attrib a { color: #d1c5ae; }
+.mta-ridership .mta-map-canvas.dark .maplibregl-ctrl-attrib-button { filter: invert(1); }
+.mta-ridership .mta-map-canvas.dark .maplibregl-ctrl-group { background: #2a2928; }
+.mta-ridership .mta-map-canvas.dark .maplibregl-ctrl-group button + button { border-top-color: #3a3936; }
+.mta-ridership .mta-map-canvas.dark .maplibregl-ctrl-group .maplibregl-ctrl-icon { filter: invert(1); }
+@media (max-width: 560px) { .mta-ridership .mta-map-canvas { height: 400px; } }
+.mta-ridership .mta-map-status { margin-top: .5em; }
+.mta-ridership .mta-view-switch { display: inline-flex; margin: 0 0 .6em; border: 1px solid var(--mta-border); border-radius: 999px; overflow: hidden; }
+.mta-ridership .mta-view-switch button { padding: .4em 1.1em; font: inherit; font-size: .9rem; font-weight: 600; color: var(--mta-muted); background: transparent; border: 0; cursor: pointer; }
+.mta-ridership .mta-view-switch button[aria-pressed="true"] { color: #0b1220; background: var(--mta-accent); }
+.mta-boro { font: 700 15px/1 Inter, system-ui, sans-serif; letter-spacing: .04em; text-transform: uppercase; color: rgba(17, 24, 39, .28); white-space: nowrap; transform: translate(-50%, -50%); pointer-events: none; }
+.mta-ridership .mta-bullet, .mta-pop .mta-bullet { display: inline-flex; align-items: center; justify-content: center; min-width: 1.55em; height: 1.55em; padding: 0 .25em; border-radius: 999px; font-weight: 700; font-size: .85em; line-height: 1; margin: 0 .12em; border: 0; vertical-align: middle; box-sizing: border-box; }
+.mta-ridership .mta-bullets { display: flex; flex-wrap: wrap; gap: .4em; align-items: center; }
+.mta-ridership .mta-bullets .mta-bullet.wide { padding: 0 .7em; font-size: .85rem; }
+.mta-ridership .mta-bullets .mta-bullet { font-size: 1rem; min-width: 2em; height: 2em; cursor: pointer; transition: transform .1s, box-shadow .1s; }
+.mta-ridership .mta-bullets .mta-bullet:hover, .mta-ridership .mta-bullets .mta-bullet[aria-pressed="true"] { transform: scale(1.12); box-shadow: 0 0 0 2px #0b1220, 0 0 0 4px var(--mta-accent); }
+.mta-ridership .mta-map-alerts { margin-bottom: .8em; }
+.mta-ridership .mta-map-alerts-head { margin: 0 0 .4em; font-size: .9rem; color: var(--mta-muted); }
+.mta-ridership .mta-map-ok { margin: 0 0 .6em; padding: .5em .8em; border-radius: 8px; background: rgba(47,158,68,.12); color: #8ce99a; font-size: .9rem; }
+.mta-ridership .mta-alerts { list-style: none; margin: 0 0 .5em; padding: 0; }
+.mta-ridership .mta-alert { margin: 0 0 .45em; padding: .55em .8em; border-left: 4px solid #f0ad4e; border-radius: 6px; background: rgba(255,255,255,.03); font-size: .92rem; line-height: 1.45; }
+.mta-ridership .mta-alert.delay { border-left-color: #e8590c; }
+.mta-ridership .mta-alert.planned { border-left-color: var(--mta-accent); }
+.mta-ridership .mta-alert-type { display: inline-block; margin-right: .35em; font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .03em; color: var(--mta-muted); }
+.mta-ridership .mta-stop-list { margin: 0 0 1.2em; padding-left: 1.6em; columns: 2 16em; column-gap: 2em; }
+.mta-ridership .mta-stop-list li { margin: 0 0 .25em; break-inside: avoid; }
+.mta-ridership .mta-stop-list li.part { opacity: .75; }
+.mta-ridership .mta-stop-list .mta-lines { display: inline; }
+.mta-ridership .mta-tester { margin-top: 1em; padding: 1em 1.1em; border: 1.5px dashed var(--mta-accent); border-radius: 12px; font-size: .9rem; }
+.mta-ridership .mta-tester-head { margin: 0 0 .6em; color: var(--mta-muted); }
+.mta-ridership .mta-tester-presets { margin-bottom: .7em; }
+.mta-ridership .mta-tester-row { display: flex; flex-wrap: wrap; gap: .6em 1.2em; align-items: center; }
+.mta-ridership .mta-tester-row label { display: inline-flex; align-items: center; gap: .4em; }
+.mta-ridership .mta-tester-row input[type=color] { width: 2.4em; height: 1.8em; padding: 0; border: 1px solid var(--mta-border); border-radius: 6px; background: none; cursor: pointer; }
+.mta-ridership .mta-tester-row select { padding: .3em .5em; color: inherit; background: #0b1220; border: 1px solid var(--mta-border); border-radius: 6px; font: inherit; }
+.mta-ridership .mta-tester-out { margin: .8em 0 0; word-break: break-all; }
+.mta-ridership .mta-tester-out code { color: var(--mta-accent); }
+.mta-ridership .maplibregl-popup-content { padding: 12px 14px; border-radius: 10px; box-shadow: 0 8px 24px rgba(0,0,0,.25); }
+.mta-ridership .maplibregl-popup-close-button { font-size: 18px; padding: 2px 8px; color: #6b7280; }
+.mta-pop { font: 14px/1.4 Inter, system-ui, sans-serif; color: #111827; min-width: 220px; }
+.mta-pop strong { font-size: 15px; }
+.mta-pop-lines { margin: .3em 0 .5em; }
+.mta-pop-times { width: 100%; border-collapse: collapse; font-size: 13px; }
+.mta-pop-times td { padding: .25em .3em; border-top: 1px solid #e5e7eb; vertical-align: middle; }
+.mta-pop-min { font-weight: 700; white-space: nowrap; text-align: right; }
+.mta-pop-note { margin: .4em 0 0; font-size: 12px; color: #6b7280; }
+.mta-pop-link { display: block; margin-top: .5em; font-weight: 600; }
 /* ---------- Look v2 (body.mta-v2; see mta_ridership_look_v2()) ---------- */
 body.mta-v2 .mta-ridership .mta-section > h2 { font-size: 1.4rem; font-weight: 700; letter-spacing: -.01em; line-height: 1.25; margin: 0 0 .4em; }
 body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; margin-top: 1.4em; }

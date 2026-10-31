@@ -178,5 +178,35 @@ check('no error text, file paths, timings or internal steps leak', strpos($all, 
 check('the page explains the difference between an MTA delay and ours', strpos($all, 'Waiting on the MTA') !== false && strpos($all, 'retrying automatically') !== false);
 check('no status link until the page is published', mta_ridership_status_link() === '');
 
+// ---- Live subway map: stop order, branches and part-time stops from a tiny GTFS (tests/fixtures/gtfs_mini.zip) ----
+$m = mta_map_build(dirname(__DIR__) . '/fixtures/gtfs_mini.zip');
+$a = $m['routes']['A'] ?? null;
+check('map: every route is read, and 6X folds into the 6', isset($a, $m['routes']['6']) && !isset($m['routes']['6X']));
+check('map: one branch per pair of end stations, busiest first', $a && count($a['b']) === 2 && $a['b'][0][0] === 'S1' && $a['b'][0][1] === 'S4' && $a['b'][1][1] === 'S5');
+check('map: a short turn inside a longer pattern is not a branch', $a && array_sum(array_column($a['b'], 2)) === 20);
+check('map: the branch lists every stop in order, from its longest pattern', $a && array_column($a['b'][0][3], 0) === ['S1', 'S2', 'SX', 'S3', 'S4']);
+check('map: a stop fewer than half the trains make is part-time', $a && array_column($a['b'][0][3], 1) === [0, 0, 1, 0, 0]);
+check('map: the 6 counts trips of the 6 and the 6X', ($m['routes']['6']['b'][0][2] ?? 0) === 5);
+check('map: one shape per pattern kept, encoded', $a && count($a['sh']) === 3 && $a['sh'][0] !== '');
+check('map: the encoded shape decodes back to its points', mta_map_encode([[38.5, -120.2], [40.7, -120.95], [43.252, -126.453]]) === '_p~iF~ps|U_ulLnnqC_mqNvxq`@');
+check('map: only stops a branch uses are kept', count($m['stops']) === 6 && $m['stops']['SX'][0] === 'Local');
+check('map: each line knows its live feed', $a['f'] === 'gtfs-ace' && $m['routes']['6']['f'] === 'gtfs');
+
+// ---- Alerts: only active ones, in the MTA's words, delays first ----
+$t = 1800000000;
+$en = function ($s) { return ['translation' => [['text' => $s, 'language' => 'en'], ['text' => "<p>$s</p>", 'language' => 'en-html']]]; };
+$raw = ['entity' => [
+    ['alert' => ['active_period' => [['start' => $t - 100]], 'informed_entity' => [['route_id' => 'Q']], 'header_text' => $en('Planned work'),
+                 'transit_realtime.mercury_alert' => ['alert_type' => 'Planned - Stops Skipped']]],
+    ['alert' => ['active_period' => [['start' => $t - 9000, 'end' => $t - 10]], 'informed_entity' => [['route_id' => 'A']], 'header_text' => $en('Old delay'),
+                 'transit_realtime.mercury_alert' => ['alert_type' => 'Delays']]],
+    ['alert' => ['active_period' => [['start' => $t - 60, 'end' => $t + 600]], 'informed_entity' => [['route_id' => '6X'], ['agency_id' => 'MTASBWY']],
+                 'header_text' => $en("Downtown [6] trains   are delayed."), 'transit_realtime.mercury_alert' => ['alert_type' => 'Delays']]],
+]];
+$al = mta_map_trim_alerts($raw, $t);
+check('alerts: ended alerts are left out', count($al) === 2 && !in_array('Old delay', array_column($al, 'header'), true));
+check('alerts: delays come before planned work', $al[0]['type'] === 'Delays' && $al[1]['type'] === 'Planned - Stops Skipped');
+check('alerts: plain English text, routes folded (6X is the 6), end time kept', $al[0]['header'] === 'Downtown [6] trains are delayed.' && $al[0]['routes'] === ['6'] && $al[0]['until'] === $t + 600);
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

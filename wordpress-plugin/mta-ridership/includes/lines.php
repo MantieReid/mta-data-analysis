@@ -309,7 +309,7 @@ add_shortcode('mta_lines', function () {
     $l = mta_lines_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
     wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.14.0', true);
     $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l];
     if (!$l) {
@@ -343,6 +343,9 @@ add_shortcode('mta_lines', function () {
             ($l['late5'] !== null ? $tile($l['late5'] . '%', 'trips 5+ min late') : '') .
             $tile(number_format($l['delays_month']), 'delayed trains a month') .
             '</div></header>';
+        // Live map and stops in real order near the top (in review); the older stops list is the fallback.
+        $map = mta_map_live() && function_exists('mta_map_line_sections') ? mta_map_line_sections($l, $sec) : '';
+        $o .= $map;
         $o .= $sec('How reliable is the ' . $l['name'] . '?', '<p>' . esc_html($a['reliable']) . (isset($a['trend']) ? ' ' . esc_html($a['trend']) : '') . '</p><div data-slot="trend"></div>',
             'Share of trips reaching the last stop within 5 minutes of schedule, by month, vs the whole subway.');
         $o .= $sec('Why is the ' . $l['name'] . ' delayed?', '<p>' . esc_html($a['why']) . '</p><div data-slot="causes"></div>',
@@ -363,7 +366,7 @@ add_shortcode('mta_lines', function () {
         }
         $o .= $sec('Report card', '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>' . esc_html($l['name']) .
             '</th><th>Whole subway</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', $range . '. The wait assessment is the MTA\'s measure of how regularly trains are spaced during rush hour at selected points on each line. Major incidents are counted per line, so the subway total is the sum.');
-        if (mta_ridership_seo_live() && function_exists('mta_stations_line_section')) {
+        if (!$map && mta_ridership_seo_live() && function_exists('mta_stations_line_section')) {
             $o .= mta_stations_line_section($l, $sec);
         }
         $o .= $sec('Other lines', $pills);

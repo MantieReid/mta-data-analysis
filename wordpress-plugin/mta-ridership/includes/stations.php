@@ -41,9 +41,14 @@ function mta_stations_step()
         $c = [];
 
         // Accessibility: each platform-level station has ada 0 (no), 1 (yes) or 2 (partly).
-        foreach ($api('39hk-dx4f', ['$select' => 'complex_id, stop_name, daytime_routes, ada, ada_notes']) as $r) {
+        // Its GTFS stop id ("A27") links the live subway map's stops to the station pages.
+        $gtfs = [];
+        foreach ($api('39hk-dx4f', ['$select' => 'complex_id, gtfs_stop_id, stop_name, daytime_routes, ada, ada_notes']) as $r) {
             $c[$r['complex_id']]['ada'][] = ['name' => $r['stop_name'], 'routes' => $r['daytime_routes'] ?? '', 'ada' => (int) $r['ada'],
                                              'notes' => ($r['ada_notes'] ?? 'NaN') === 'NaN' ? '' : $r['ada_notes']];
+            if (!empty($r['gtfs_stop_id'])) {
+                $gtfs[$r['gtfs_stop_id']] = (string) $r['complex_id'];
+            }
         }
 
         // Elevators and escalators, last 12 months.
@@ -113,7 +118,7 @@ function mta_stations_step()
         }
         update_option(MTA_STATIONS_OPTION, [
             'updated' => gmdate('c'), 'latest' => $e_to, 'equip_from' => $e_from, 'equip_to' => $e_to,
-            'months_from' => $m_from, 'months_to' => $m_to, 'od_month' => $od_m, 'stations' => $out,
+            'months_from' => $m_from, 'months_to' => $m_to, 'od_month' => $od_m, 'stations' => $out, 'gtfs' => $gtfs,
         ], false);
         delete_option('mta_ridership_stations_error');
         if (function_exists('rocket_clean_domain')) {
@@ -288,7 +293,7 @@ add_shortcode('mta_stations', function () {
         return '<p>Station data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }

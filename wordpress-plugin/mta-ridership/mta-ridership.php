@@ -26,6 +26,7 @@ require_once __DIR__ . '/includes/congestion.php';
 require_once __DIR__ . '/includes/lines.php';
 require_once __DIR__ . '/includes/buses.php';
 require_once __DIR__ . '/includes/stations.php';
+require_once __DIR__ . '/includes/subwaymap.php';
 require_once __DIR__ . '/includes/status.php';
 require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';
@@ -323,7 +324,7 @@ add_shortcode('mta_ridership', function ($atts) {
         wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
     wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.16.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;

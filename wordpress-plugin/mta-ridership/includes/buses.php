@@ -373,7 +373,7 @@ add_shortcode('mta_buses', function () {
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.0');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
     wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.14.0', true);
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
