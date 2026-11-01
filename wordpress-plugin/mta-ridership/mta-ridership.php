@@ -30,6 +30,7 @@ require_once __DIR__ . '/includes/subwaymap.php';
 require_once __DIR__ . '/includes/status.php';
 require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';
+require_once __DIR__ . '/includes/share-images.php';
 
 /* ---------- scheduling ---------- */
 

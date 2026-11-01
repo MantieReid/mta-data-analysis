@@ -35,6 +35,8 @@ function apply_filters($hook, $value, ...$args) {
     }
     return $value;
 }
+// Actions are not run in tests (the share-image redraw hooked to step_done needs GD and uploads).
+function do_action($hook, ...$args) {}
 function add_shortcode($tag, $cb) {}
 function register_activation_hook($f, $cb) {}
 function register_deactivation_hook($f, $cb) {}

@@ -502,12 +502,12 @@ foreach (['wpseo_metadesc', 'wpseo_opengraph_desc', 'wpseo_twitter_description']
 // Share image for link previews (zone map with the headline numbers).
 add_action('wpseo_add_opengraph_images', function ($images) {
     if (mta_congestion_is_page()) {
-        $images->add_image(['url' => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg',
+        $images->add_image(['url' => mta_share_url('congestion'),
                             'width' => 1200, 'height' => 630, 'type' => 'image/jpeg']);
     }
 });
 add_filter('wpseo_twitter_image', function ($img) {
-    return mta_congestion_is_page() ? plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg' : $img;
+    return mta_congestion_is_page() ? mta_share_url('congestion') : $img;
 });
 // Drop Yoast's own og:image here (it would print the site-wide default image first).
 add_filter('wpseo_frontend_presenters', function ($presenters) {
@@ -521,7 +521,7 @@ add_filter('wpseo_frontend_presenters', function ($presenters) {
 // Yoast doesn't print an og:image for this page even with the image above, so print it here.
 add_action('wpseo_head', function () {
     if (mta_congestion_is_page()) {
-        $url = esc_url(plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg');
+        $url = esc_url(mta_share_url('congestion'));
         echo "<meta property=\"og:image\" content=\"$url\" />\n<meta property=\"og:image:width\" content=\"1200\" />\n" .
              "<meta property=\"og:image:height\" content=\"630\" />\n<meta property=\"og:image:type\" content=\"image/jpeg\" />\n";
     }

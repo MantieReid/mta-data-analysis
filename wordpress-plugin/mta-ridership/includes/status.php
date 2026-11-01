@@ -139,6 +139,7 @@ function mta_ridership_record($key, $ok, $error, $seconds)
             }
         }
     }
+    do_action('mta_ridership_step_done', $key, $ok);
 }
 
 /**
