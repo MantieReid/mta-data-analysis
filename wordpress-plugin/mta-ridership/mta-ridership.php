@@ -32,6 +32,19 @@ require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';
 require_once __DIR__ . '/includes/share-images.php';
 
+/* ---------- page cache ---------- */
+
+// Line, bus route and station pages are served through their parent page (/stations/<slug>/ is pagename=stations),
+// so WP Rocket sees an address that isn't the page's permalink: it won't save them, and its preload never marks
+// them done. Skip that check when the item exists.
+add_filter('rocket_disable_url_validation', function ($off) {
+    if ((get_query_var('mta_line') && mta_lines_current()) || (get_query_var('mta_bus') && mta_buses_current()) ||
+        (get_query_var('mta_station') && mta_stations_current())) {
+        return true;
+    }
+    return $off;
+});
+
 /* ---------- scheduling ---------- */
 
 register_activation_hook(__FILE__, function () {

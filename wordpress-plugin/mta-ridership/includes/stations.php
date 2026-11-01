@@ -116,12 +116,17 @@ function mta_stations_step()
             }
             $out[(string) $id] = $row;
         }
-        update_option(MTA_STATIONS_OPTION, [
-            'updated' => gmdate('c'), 'latest' => $e_to, 'equip_from' => $e_from, 'equip_to' => $e_to,
-            'months_from' => $m_from, 'months_to' => $m_to, 'od_month' => $od_m, 'stations' => $out, 'gtfs' => $gtfs,
-        ], false);
+        $new = ['latest' => $e_to, 'equip_from' => $e_from, 'equip_to' => $e_to,
+                'months_from' => $m_from, 'months_to' => $m_to, 'od_month' => $od_m, 'stations' => $out, 'gtfs' => $gtfs];
+        $old = get_option(MTA_STATIONS_OPTION);
+        if (is_array($old)) {
+            unset($old['updated']);
+        }
+        update_option(MTA_STATIONS_OPTION, ['updated' => gmdate('c')] + $new, false);
         delete_option('mta_ridership_stations_error');
-        if (function_exists('rocket_clean_domain')) {
+        // Station numbers show up all over the site, so clear every page, but only when they changed: a full
+        // clear takes the cache warm-up a couple of hours to rebuild.
+        if ($old != $new && function_exists('rocket_clean_domain')) {
             rocket_clean_domain();
         }
     } catch (Throwable $e) {
