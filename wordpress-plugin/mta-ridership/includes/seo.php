@@ -34,6 +34,16 @@ function mta_ridership_seo_live()
     return true;
 }
 
+/**
+ * Click-through titles and descriptions of 2026-11-01 for the ridership, congestion and subway lines pages (the
+ * searcher's own words, no answer given away, an "updated" date). Live; return mta_ridership_preview() here to put
+ * them back behind ?mta_preview=1.
+ */
+function mta_ridership_ctr_live()
+{
+    return true;
+}
+
 /** Source line at the bottom of the page: data source plus a link to the code. */
 function mta_ridership_ssr_source($data)
 {
@@ -500,6 +510,15 @@ function mta_ridership_seo_texts()
     // Wording that matches what people search for ("NYC subway daily ridership",
     // "busiest subway station in NYC", "NYC subway map"). Live; the old text stays for a quick switch back.
     $new = true;
+    if (mta_ridership_ctr_live()) { // click-through wording: the searcher's own question, and a reason to click
+        return [
+            'title'       => 'How Many People Ride the NYC Subway Daily? ' . substr($h['years'], -4) . ' Data',
+            'description' => "The latest daily subway ridership, how busy each hour gets, the busiest stations and riders at any station you look up. " .
+                             'Updated ' . gmdate('M Y', strtotime($data['updated'])) . ' from MTA data.',
+            'image'       => mta_share_url('ridership'),
+            'data'        => $data,
+        ];
+    }
     if (mta_ridership_seo_live()) { // shorter title and description
         $year = substr($h['years'], -4);
         return [

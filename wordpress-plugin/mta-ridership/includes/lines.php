@@ -437,6 +437,12 @@ function mta_lines_seo()
                     'description' => "{$l['name']} stops by borough, delays and reliability: {$l['otp']}% of trips on time (subway: {$s['otp']}%), #{$l['rank']} of " . count($d['lines']) .
                         ' lines. From MTA open data.'];
         }
+        if (mta_ridership_ctr_live()) { // click-through wording: "worst subway line in NYC" word order, no number given away
+            return ['d' => $d, 'l' => null, 'url' => mta_lines_url(),
+                    'title' => 'Worst Subway Line in NYC? Every Line Ranked (' . substr($d['latest'], 0, 4) . ')',
+                    'description' => 'See which lines are late most often, what causes their delays and a report card for your line, from the A to the 7. ' .
+                        'MTA data through ' . mta_lines_month($d['latest']) . '.'];
+        }
         return ['d' => $d, 'l' => null, 'url' => mta_lines_url(),
                 'title' => 'Worst NYC Subway Line? Every Line Ranked by Delays',
                 'description' => "Every NYC subway line ranked by on-time rate, late trips and delays, with a report card for each. Subway-wide: {$s['otp']}% on time. From MTA open data."];

@@ -470,6 +470,14 @@ function mta_congestion_seo()
     if (!$c) {
         return null;
     }
+    if (mta_ridership_ctr_live()) { // click-through wording: hours and cost first, without giving the price away
+        return [
+            'title' => 'NYC Congestion Pricing ' . gmdate('Y') . ': Hours, Cost & Zone Map',
+            'description' => 'Peak and overnight toll hours, what you pay by car, motorcycle or truck, a trip cost calculator and the zone map. ' .
+                'Updated ' . gmdate('M Y', strtotime($c['updated'] ?? 'now')) . '.',
+            'c' => $c,
+        ];
+    }
     if (mta_ridership_seo_live()) { // shorter title and description
         return [
             'title' => 'NYC Congestion Pricing: Map, Hours, Cost & Is It Working?',
