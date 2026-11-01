@@ -345,6 +345,10 @@ add_shortcode('mta_lines', function () {
             '</div></header>';
         // Live map and stops in real order near the top (in review); the older stops list is the fallback.
         $map = mta_map_live() && function_exists('mta_map_line_sections') ? mta_map_line_sections($l, $sec) : '';
+        if ($map === '' && function_exists('mta_map_app_url')) {
+            $map = $sec('Live map: ' . $l['name'], '<p><a href="' . esc_url(mta_map_app_url($l['code'])) . '">See the ' . esc_html($l['name']) .
+                ' on the live NYC subway map &rarr;</a></p>', 'Every route and station on one map, with live train positions from MTA data.');
+        }
         $o .= $map;
         $o .= $sec('How reliable is the ' . $l['name'] . '?', '<p>' . esc_html($a['reliable']) . (isset($a['trend']) ? ' ' . esc_html($a['trend']) : '') . '</p><div data-slot="trend"></div>',
             'Share of trips reaching the last stop within 5 minutes of schedule, by month, vs the whole subway.');

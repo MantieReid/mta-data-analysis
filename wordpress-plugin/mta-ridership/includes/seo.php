@@ -359,6 +359,9 @@ function mta_ridership_ssr_more($current)
                 count(mta_stations_all()) . ' stations.</li>';
         }
     }
+    if (function_exists('mta_map_app_url')) {
+        $li .= '<li><a href="' . esc_url(mta_map_app_url()) . '">Live NYC subway map</a>: every route and station on one map, with live train positions.</li>';
+    }
     return $li ? '<section class="mta-section mta-findings mta-more"><' . mta_ridership_h() . '>More NYC transit data</' . mta_ridership_h() . '><ul>' . $li . '</ul></section>' : '';
 }
 

@@ -28,6 +28,19 @@ function mta_map_live()
     return mta_ridership_preview();
 }
 
+/** The public live map is its own app on a subdomain (repo MantieReid/nyc-subway-map). */
+const MTA_MAP_APP = 'https://map.mantiereidii.com/';
+
+/** Link to the map app, opened on one line when $code (a line page code such as "Q" or "S 42nd") is given. */
+function mta_map_app_url($code = null)
+{
+    if ($code === null) {
+        return MTA_MAP_APP;
+    }
+    $filter = strpos($code, 'S ') === 0 || $code === 'S' ? 'Shuttles' : strtoupper($code);
+    return MTA_MAP_APP . '#mta/' . rawurlencode($filter) . '?view=map';
+}
+
 add_action(MTA_MAP_HOOK, function () { mta_ridership_run_step('map'); });
 
 function mta_map_schedule($delay)
@@ -525,12 +538,11 @@ add_shortcode('mta_map', function () {
     return '<div class="mta-ridership mta-map-page">' . $o . mta_ridership_disclaimer() . '</div>';
 });
 
-// While in review, /subway-map/ is a 404 for everyone else and kept out of search results.
+// The WordPress map stays in review (?mta_preview=1); everyone else goes to the map app.
 add_action('template_redirect', function () {
     if (is_page(MTA_MAP_SLUG) && !mta_map_live()) {
-        global $wp_query;
-        $wp_query->set_404();
-        status_header(404);
+        wp_redirect(mta_map_app_url(), 301);
+        exit;
     }
 });
 add_filter('wp_robots', function ($r) {
