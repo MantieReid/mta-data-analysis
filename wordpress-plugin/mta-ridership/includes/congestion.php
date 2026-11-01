@@ -509,6 +509,15 @@ add_action('wpseo_add_opengraph_images', function ($images) {
 add_filter('wpseo_twitter_image', function ($img) {
     return mta_congestion_is_page() ? plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/congestion-share.jpg' : $img;
 });
+// Drop Yoast's own og:image here (it would print the site-wide default image first).
+add_filter('wpseo_frontend_presenters', function ($presenters) {
+    if (!mta_congestion_is_page()) {
+        return $presenters;
+    }
+    return array_values(array_filter($presenters, function ($p) {
+        return !($p instanceof \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter);
+    }));
+});
 // Yoast doesn't print an og:image for this page even with the image above, so print it here.
 add_action('wpseo_head', function () {
     if (mta_congestion_is_page()) {

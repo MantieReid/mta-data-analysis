@@ -107,6 +107,15 @@ function mta_ridership_share_image(callable $is_page, $file, $w = 1200, $h = 630
     add_filter('wpseo_twitter_image', function ($img) use ($is_page, $url) {
         return mta_ridership_seo_live() && $is_page() ? $url : $img;
     });
+    // Drop Yoast's own og:image here (it would print the site-wide default image first).
+    add_filter('wpseo_frontend_presenters', function ($presenters) use ($is_page) {
+        if (!mta_ridership_seo_live() || !$is_page()) {
+            return $presenters;
+        }
+        return array_values(array_filter($presenters, function ($p) {
+            return !($p instanceof \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter);
+        }));
+    });
     add_action('wpseo_head', function () use ($is_page, $url, $w, $h) {
         if (mta_ridership_seo_live() && $is_page()) {
             echo '<meta property="og:image" content="' . esc_url($url) . "\" />\n<meta property=\"og:image:width\" content=\"$w\" />\n" .
@@ -118,7 +127,7 @@ add_action('init', function () {
     mta_ridership_share_image(function () { return (bool) mta_lines_seo(); }, 'lines-share.jpg');
     mta_ridership_share_image(function () { return (bool) mta_buses_seo(); }, 'buses-share.jpg');
     mta_ridership_share_image(function () { return is_page(MTA_STATIONS_SLUG); }, 'stations-share.jpg');
-    mta_ridership_share_image('mta_ridership_status_is_page', 'share.jpg', 800, 544);
+    mta_ridership_share_image('mta_ridership_status_is_page', 'ridership-share.jpg');
 });
 
 add_filter('body_class', function ($c) {
@@ -497,7 +506,7 @@ function mta_ridership_seo_texts()
             'title'       => "NYC Subway Ridership $year: Daily Riders & Busiest Stations",
             'description' => "NYC subway ridership: about {$h['per_day']} rides a day. Look up any station's riders and busiest hour, " .
                              'the busiest stations and a live map. From MTA open data.',
-            'image'       => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/share.jpg',
+            'image'       => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/ridership-share.jpg',
             'data'        => $data,
         ];
     }
@@ -508,7 +517,7 @@ function mta_ridership_seo_texts()
                                 "see the busiest subway stations in NYC and an animated subway map. Updated daily from MTA open data."
                               : "Animated map and charts of NYC subway ridership {$h['years']}: busiest stations, rush hours and unusual days. " .
                                 "About {$h['per_day']} rides a day, updated daily from MTA open data.",
-        'image'       => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/share.jpg',
+        'image'       => plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/ridership-share.jpg',
         'data'        => $data,
     ];
 }
@@ -535,7 +544,7 @@ add_filter('wpseo_opengraph_title', function ($title) {
 });
 add_action('wpseo_add_opengraph_images', function ($images) {
     if (mta_ridership_seo_enabled() && mta_ridership_is_page() && ($t = mta_ridership_seo_texts())) {
-        $images->add_image(['url' => $t['image'], 'width' => 800, 'height' => 544, 'type' => 'image/jpeg']);
+        $images->add_image(['url' => $t['image'], 'width' => 1200, 'height' => 630, 'type' => 'image/jpeg']);
     }
 });
 add_filter('wpseo_twitter_image', function ($img) {

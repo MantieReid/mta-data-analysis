@@ -53,27 +53,44 @@ def card(name, title, subtitle, stats, bars_title, bars, bar_fmt, footer, top=No
     print('wrote', os.path.normpath(path))
 
 
+def hour_label(h):
+    return f"{h % 12 or 12} {'AM' if h < 12 else 'PM'}"
+
+
 def main():
+    # Each card is made only when its data is in data.json, so one card can be remade on its own.
     data = json.load(open(sys.argv[1], encoding='utf-8'))
-    lines = sorted(data['lines'], key=lambda x: x[1])
-    card('lines-share.jpg', 'NYC Subway Lines Ranked', 'Which line is the worst? Delays & on-time rate',
-         [(f"{data['otp']}%", 'subway trips on time'), (str(len(lines)), 'lines with report cards')],
-         'Least on-time lines', [(n, v) for n, v in lines[:6]], lambda v: f'{v}%',
-         'mantiereidii.com/subway-lines  ·  MTA open data, updated monthly', top=100)
+    if 'lines' in data:
+        lines = sorted(data['lines'], key=lambda x: x[1])
+        card('lines-share.jpg', 'NYC Subway Lines Ranked', 'Which line is the worst? Delays & on-time rate',
+             [(f"{data['otp']}%", 'subway trips on time'), (str(len(lines)), 'lines with report cards')],
+             'Least on-time lines', [(n, v) for n, v in lines[:6]], lambda v: f'{v}%',
+             'mantiereidii.com/subway-lines  ·  MTA open data, updated monthly', top=100)
 
-    riders, mph, n_routes = data['bus']
-    routes = list(data['routes'].values()) if isinstance(data['routes'], dict) else data['routes']
-    routes = sorted(routes, key=lambda r: -int(r[1] or 0))[:6]
-    card('buses-share.jpg', 'NYC Bus Routes Ranked', 'Busiest, slowest & least reliable buses',
-         [(f'{riders / 1e6:.1f}M', 'bus riders a day'), (f'{mph} mph', 'local bus average')],
-         'Busiest routes (riders a day)', [(r, int(v)) for r, v in routes], lambda v: f'{v:,}',
-         f'mantiereidii.com/bus-routes  ·  {n_routes} routes, MTA open data')
+    if 'bus' in data:
+        riders, mph, n_routes = data['bus']
+        routes = list(data['routes'].values()) if isinstance(data['routes'], dict) else data['routes']
+        routes = sorted(routes, key=lambda r: -int(r[1] or 0))[:6]
+        card('buses-share.jpg', 'NYC Bus Routes Ranked', 'Busiest, slowest & least reliable buses',
+             [(f'{riders / 1e6:.1f}M', 'bus riders a day'), (f'{mph} mph', 'local bus average')],
+             'Busiest routes (riders a day)', [(r, int(v)) for r, v in routes], lambda v: f'{v:,}',
+             f'mantiereidii.com/bus-routes  ·  {n_routes} routes, MTA open data')
 
-    short = lambda s: re.sub(r'\s*\(.*$', '', s).split('/')[0]
-    card('stations-share.jpg', 'Busiest NYC Subway Stations', f"All {data['nst']} stations ranked, with busiest hours",
-         [(f"{data['st'][0][1]:,}", 'riders a day at the busiest'), (str(data['nst']), 'stations')],
-         'Busiest stations (riders a day)', [(short(n), v) for n, v in data['st'][:6]], lambda v: f'{v:,}',
-         'mantiereidii.com/stations  ·  MTA open data, updated daily')
+    if 'st' in data:
+        short = lambda s: re.sub(r'\s*\(.*$', '', s).split('/')[0]
+        card('stations-share.jpg', 'Busiest NYC Subway Stations', f"All {data['nst']} stations ranked, with busiest hours",
+             [(f"{data['st'][0][1]:,}", 'riders a day at the busiest'), (str(data['nst']), 'stations')],
+             'Busiest stations (riders a day)', [(short(n), v) for n, v in data['st'][:6]], lambda v: f'{v:,}',
+             'mantiereidii.com/stations  ·  MTA open data, updated daily')
+
+    # {"ride": {"per_day": riders a day, "hourly": [24 average riders per hour]}}
+    if 'ride' in data:
+        hourly = data['ride']['hourly']
+        busiest = sorted(range(24), key=lambda h: -hourly[h])[:6]
+        card('ridership-share.jpg', 'NYC Subway Ridership', 'Daily riders, busiest stations & rush hours',
+             [(f"{data['ride']['per_day'] / 1e6:.1f}M", 'subway rides a day'), (hour_label(busiest[0]), 'busiest hour')],
+             'Busiest hours (average riders)', [(hour_label(h), hourly[h]) for h in busiest], lambda v: f'{v:,}',
+             'mantiereidii.com/mta-ridership  ·  MTA open data, updated daily')
 
 
 if __name__ == '__main__':
