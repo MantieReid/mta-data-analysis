@@ -280,15 +280,20 @@ check('station map: growth and elevators', $sm[0][6] === null && $sm[0][7] === 9
 
 // ---- Bus lane tickets: by stop, quiet stops left out, fewest first ----
 $lb = mta_buslanes_build([
-    ['s' => '1', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'lane', 'n' => '30'],
-    ['s' => '1', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'dbl', 'n' => '5'],
-    ['s' => '2', 'name' => 'W 207 ST/10 AV', 'lat' => '40.864', 'lon' => '-73.91', 'k' => 'stop', 'n' => '12'],
-    ['s' => '3', 'name' => 'QUIET RD', 'lat' => '40.7', 'lon' => '-73.9', 'k' => 'stop', 'n' => '2'],
-], [['s' => '1', 'h' => '8', 'b' => 'wk', 'n' => '20'], ['s' => '1', 'h' => '8', 'b' => 'wk', 'n' => '3'], ['s' => '2', 'h' => '23', 'b' => 'we', 'n' => '12'], ['s' => '3', 'h' => '1', 'b' => 'wk', 'n' => '2']],
-   [['s' => '1', 'r' => 'M100'], ['s' => '1', 'r' => 'Bx12+'], ['s' => '2', 'r' => 'M100'], ['s' => '3', 'r' => 'Q1']]);
-check('bus lanes: quiet stops left out, fewest tickets first', array_column($lb['stops'], 2) === ['W 207 St/10 Av', 'Broadway/Isham St']);
+    ['s' => '1', 'r' => 'M100', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'lane', 'n' => '20'],
+    ['s' => '1', 'r' => 'Bx12+', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'lane', 'n' => '10'],
+    ['s' => '1', 'r' => 'M100', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'dbl', 'n' => '5'],
+    ['s' => '2', 'r' => 'M100', 'name' => 'W 207 ST/10 AV', 'lat' => '40.864', 'lon' => '-73.91', 'k' => 'stop', 'n' => '12'],
+    ['s' => '3', 'r' => 'Q1', 'name' => 'QUIET RD', 'lat' => '40.7', 'lon' => '-73.9', 'k' => 'stop', 'n' => '2'],
+    ['s' => '4', 'r' => 'Q10/Q80', 'name' => 'LEFFERTS BLVD', 'lat' => '40.69', 'lon' => '-73.82', 'k' => 'stop', 'n' => '40'],
+], [['s' => '1', 'r' => 'M100', 'h' => '8', 'b' => 'wk', 'n' => '20'], ['s' => '1', 'r' => 'Bx12+', 'h' => '8', 'b' => 'wk', 'n' => '3'],
+    ['s' => '2', 'r' => 'M100', 'h' => '23', 'b' => 'we', 'n' => '12'], ['s' => '3', 'r' => 'Q1', 'h' => '1', 'b' => 'wk', 'n' => '2']]);
+check('bus lanes: quiet stops left out, fewest tickets first', array_column($lb['stops'], 2) === ['W 207 St/10 Av', 'Broadway/Isham St', 'Lefferts Blvd']);
 check('bus lanes: kinds and hours add up', $lb['stops'][1][4] === 30 && $lb['stops'][1][6] === 5 && $lb['wk'][1][8] === 23 && $lb['we'][0][23] === 12);
-check('bus lanes: routes per stop', count($lb['routes']) === 2 && count($lb['stops'][1][3]) === 2 && $lb['stops'][0][3] === [0]);
+check('bus lanes: routes per stop', $lb['routes'] === ['Bx12-SBS', 'M100', 'Q10', 'Q80'] && $lb['stops'][1][3] === [0, 1] && $lb['stops'][0][3] === [1]);
+check('bus lanes: each route counts only its own cameras', array_keys($lb['by']) === ['Bx12-SBS', 'M100', 'Q10', 'Q80'] && $lb['by']['Q80']['stops'][0][5] === 40 && count($lb['by']['Bx12-SBS']['stops']) === 1 &&
+    $lb['by']['Bx12-SBS']['stops'][0][4] === 10 && $lb['by']['Bx12-SBS']['wk'][0][8] === 3 &&
+    array_column($lb['by']['M100']['stops'], 4) === [0, 20] && $lb['by']['M100']['wk'][1][8] === 20);
 
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

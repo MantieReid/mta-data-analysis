@@ -6,7 +6,8 @@
  * counted: exempt vehicles (buses, emergency vehicles…), technical problems and missing details are left out.
  *
  * - The cameras ride on buses on some routes only, so more tickets can mean more cameras, not only more blocking.
- * - One small set of queries a month (~10-30 s in all), saved to uploads/mta-buslanes/lanes.json.
+ * - One small set of queries a month, saved to uploads/mta-buslanes/lanes.json (citywide) and routes/<route>.json
+ *   (each route's own cameras only, for its route page).
  * Live since 2026-11-02; mta_buslanes_live() switches it off again if needed.
  */
 
@@ -32,6 +33,12 @@ function mta_buslanes_live()
     return true;
 }
 
+/** The map on each route page is live (since 2026-11-02); return mta_ridership_preview() to put it back in review. */
+function mta_buslanes_route_live()
+{
+    return true;
+}
+
 function mta_buslanes_schedule($delay)
 {
     if (!wp_next_scheduled(MTA_BUSLANES_HOOK)) {
@@ -46,15 +53,20 @@ function mta_buslanes_file()
 }
 
 /**
- * Pure part, for tests. $stops: rows {s, name, lat, lon, k (lane/stop/dbl), n}; $hours: {s, h, b (wk/we), n};
- * $routes: {s, r}. Returns {routes: [labels], stops: [[lat, lon, name, [route indexes], lane, stop, double], ...]
- * (fewest tickets first, so the worst draw on top), wk/we: [[24 counts], ...] in the same order}.
+ * Pure part, for tests. $stops: rows {s, r, name, lat, lon, k (lane/stop/dbl), n}; $hours: {s, r, h, b (wk/we), n}
+ * (r = the route whose bus camera issued the tickets). Returns {routes: [labels], stops: [[lat, lon, name, [route indexes],
+ * lane, stop, double], ...] (fewest tickets first, so the worst draw on top), wk/we: [[24 counts], ...] in the same order,
+ * by: {label: the same shape for one route, counting only that route's tickets}}.
  */
-function mta_buslanes_build(array $stops, array $hours, array $routes, $min = MTA_BUSLANES_MIN)
+function mta_buslanes_build(array $stops, array $hours, $min = MTA_BUSLANES_MIN)
 {
     $s = [];
+    // A camera on a bus that runs two routes ("Q10/Q80") counts on both route pages.
+    $labels = function ($r) {
+        return array_map(function ($x) { return mta_buses_label(strtoupper(trim($x))); }, array_filter(explode('/', (string) ($r['r'] ?? '')), 'strlen'));
+    };
     foreach ($stops as $r) {
-        if (!isset($r['s'], $r['lat'], $r['lon'], $r['k'])) {
+        if (!isset($r['s'], $r['lat'], $r['lon'], $r['k']) || !in_array($r['k'], ['lane', 'stop', 'dbl'], true)) {
             continue;
         }
         $id = (string) $r['s'];
@@ -62,45 +74,77 @@ function mta_buslanes_build(array $stops, array $hours, array $routes, $min = MT
             $s[$id] = ['lat' => round((float) $r['lat'], 5), 'lon' => round((float) $r['lon'], 5), 'name' => mta_busspeeds_name($r['name'] ?? ''),
                        'lane' => 0, 'stop' => 0, 'dbl' => 0, 'r' => []];
         }
-        if (isset($s[$id][$r['k']])) {
-            $s[$id][$r['k']] += (int) $r['n'];
-        }
-    }
-    $s = array_filter($s, function ($x) use ($min) { return $x['lane'] + $x['stop'] + $x['dbl'] >= $min; });
-    $labels = [];
-    foreach ($routes as $r) {
-        $id = (string) ($r['s'] ?? '');
-        if (isset($s[$id], $r['r'])) {
-            $label = mta_buses_label(strtoupper($r['r']));
-            if (!isset($labels[$label])) {
-                $labels[$label] = count($labels);
-            }
-            $s[$id]['r'][$labels[$label]] = $labels[$label];
-        }
-    }
-    $h = [];
-    foreach ($hours as $r) {
-        $id = (string) ($r['s'] ?? '');
-        if (isset($s[$id]) && in_array($r['b'] ?? '', ['wk', 'we'], true)) {
-            $h[$id][$r['b']][(int) $r['h'] % 24] = ($h[$id][$r['b']][(int) $r['h'] % 24] ?? 0) + (int) $r['n'];
+        $s[$id][$r['k']] += (int) $r['n'];
+        foreach ($labels($r) as $l) {
+            $s[$id]['r'][$l] = $s[$id]['r'][$l] ?? ['lane' => 0, 'stop' => 0, 'dbl' => 0];
+            $s[$id]['r'][$l][$r['k']] += (int) $r['n'];
         }
     }
     $total = function ($x) { return $x['lane'] + $x['stop'] + $x['dbl']; };
-    uksort($s, function ($a, $b) use ($s, $total) { return [$total($s[$a]), $a] <=> [$total($s[$b]), $b]; });
-    $out = ['routes' => array_keys($labels), 'stops' => [], 'wk' => [], 'we' => []];
-    foreach ($s as $id => $x) {
-        $r = array_values($x['r']);
-        sort($r);
-        $out['stops'][] = [$x['lat'], $x['lon'], $x['name'], $r, $x['lane'], $x['stop'], $x['dbl']];
-        foreach (['wk', 'we'] as $b) {
-            $row = [];
-            for ($i = 0; $i < 24; $i++) {
-                $row[] = $h[$id][$b][$i] ?? 0;
+    $s = array_filter($s, function ($x) use ($min, $total) { return $total($x) >= $min; });
+    $all = [];
+    foreach ($s as $x) {
+        $all += array_fill_keys(array_keys($x['r']), true);
+    }
+    $all = array_keys($all);
+    sort($all, SORT_NATURAL);
+    $index = array_flip($all);
+    $h = [];
+    $hr = [];
+    foreach ($hours as $r) {
+        $id = (string) ($r['s'] ?? '');
+        $b = $r['b'] ?? '';
+        if (!isset($s[$id]) || !in_array($b, ['wk', 'we'], true)) {
+            continue;
+        }
+        $hh = (int) $r['h'] % 24;
+        $h[$id][$b][$hh] = ($h[$id][$b][$hh] ?? 0) + (int) $r['n'];
+        foreach ($labels($r) as $l) {
+            if (isset($s[$id]['r'][$l])) {
+                $hr[$l][$id][$b][$hh] = ($hr[$l][$id][$b][$hh] ?? 0) + (int) $r['n'];
             }
-            $out[$b][] = $row;
         }
     }
+    // One map's worth: $pick(id, stop) gives [lane, stop, dbl] for a stop (null to leave it out); $hrs holds its hours.
+    $map = function ($pick, $hrs) use ($s, $index) {
+        $rows = [];
+        foreach ($s as $id => $x) {
+            if ($k = $pick($id, $x)) {
+                $rows[$id] = $k;
+            }
+        }
+        uksort($rows, function ($a, $b) use ($rows) { return [array_sum($rows[$a]), $a] <=> [array_sum($rows[$b]), $b]; });
+        $out = ['stops' => [], 'wk' => [], 'we' => []];
+        foreach ($rows as $id => $k) {
+            $x = $s[$id];
+            $ri = array_map(function ($l) use ($index) { return $index[$l]; }, array_keys($x['r']));
+            sort($ri);
+            $out['stops'][] = [$x['lat'], $x['lon'], $x['name'], $ri, $k[0], $k[1], $k[2]];
+            foreach (['wk', 'we'] as $b) {
+                $row = [];
+                for ($i = 0; $i < 24; $i++) {
+                    $row[] = $hrs[$id][$b][$i] ?? 0;
+                }
+                $out[$b][] = $row;
+            }
+        }
+        return $out;
+    };
+    $out = ['routes' => $all] + $map(function ($id, $x) { return [$x['lane'], $x['stop'], $x['dbl']]; }, $h) + ['by' => []];
+    foreach ($all as $l) {
+        $out['by'][$l] = $map(function ($id, $x) use ($l) {
+            return isset($x['r'][$l]) ? [$x['r'][$l]['lane'], $x['r'][$l]['stop'], $x['r'][$l]['dbl']] : null;
+        }, $hr[$l] ?? []);
+    }
     return $out;
+}
+
+/** Where one route's ticket file lives ("M15-SBS" => routes/m15-sbs.json). */
+function mta_buslanes_route_file($label)
+{
+    [$path, $url] = mta_buslanes_file();
+    $name = 'routes/' . strtolower($label) . '.json';
+    return [dirname($path) . '/' . $name, dirname($url) . '/' . $name];
 }
 
 /** Monthly step: the last 12 full months of tickets, by stop and hour. */
@@ -133,25 +177,41 @@ function mta_buslanes_step()
         $latest = gmdate('Y-m', strtotime("$to -1 month UTC"));
         if (($st['month'] ?? '') !== $latest) {
             $where = "first_occurrence >= '$from' AND first_occurrence < '$to' AND violation_status = 'VIOLATION ISSUED'";
-            $stops = $all(['$select' => "stop_id AS s, max(stop_name) AS name, avg(bus_stop_latitude) AS lat, avg(bus_stop_longitude) AS lon, " .
+            // Grouped by route too (r = the route whose bus camera issued the ticket), so each route page can show its own.
+            $stops = $all(['$select' => "stop_id AS s, bus_route_id AS r, max(stop_name) AS name, avg(bus_stop_latitude) AS lat, avg(bus_stop_longitude) AS lon, " .
                                         "case(violation_type = 'MOBILE BUS LANE', 'lane', violation_type = 'MOBILE BUS STOP', 'stop', true, 'dbl') AS k, count(*) AS n",
-                           '$where' => $where, '$group' => 's, k', '$order' => 's, k']);
-            $hours = $all(['$select' => "stop_id AS s, date_extract_hh(first_occurrence) AS h, " .
+                           '$where' => $where, '$group' => 's, r, k', '$order' => 's, r, k']);
+            $hours = $all(['$select' => "stop_id AS s, bus_route_id AS r, date_extract_hh(first_occurrence) AS h, " .
                                         "case(date_extract_dow(first_occurrence) = 0, 'we', date_extract_dow(first_occurrence) = 6, 'we', true, 'wk') AS b, count(*) AS n",
-                           '$where' => $where, '$group' => 's, h, b', '$order' => 's, h, b']);
-            $routes = $all(['$select' => 'stop_id AS s, bus_route_id AS r, count(*) AS n', '$where' => $where, '$group' => 's, r', '$order' => 's, r']);
-            $data = mta_buslanes_build($stops, $hours, $routes);
+                           '$where' => $where, '$group' => 's, r, h, b', '$order' => 's, r, h, b']);
+            $data = mta_buslanes_build($stops, $hours);
             if (!$data['stops']) {
                 throw new Exception('No stops with tickets');
             }
+            $by = $data['by'];
+            unset($data['by']);
             [$path] = mta_buslanes_file();
-            wp_mkdir_p(dirname($path));
-            $json = wp_json_encode(['month' => $latest, 'from' => substr($from, 0, 7)] + $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+            wp_mkdir_p(dirname($path) . '/routes');
+            $head = ['month' => $latest, 'from' => substr($from, 0, 7)];
+            $json = wp_json_encode($head + $data, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
             if (!$json || file_put_contents($path, $json) === false) {
                 throw new Exception('Could not write lanes.json');
             }
+            $count = function ($stops) { return array_sum(array_map(function ($x) { return $x[4] + $x[5] + $x[6]; }, $stops)); };
+            $per = [];
+            foreach ($by as $label => $one) {
+                if (!$one['stops']) {
+                    continue;
+                }
+                [$rpath] = mta_buslanes_route_file($label);
+                $json = wp_json_encode($head + ['route' => $label, 'routes' => $data['routes']] + $one, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+                if (!$json || file_put_contents($rpath, $json) === false) {
+                    throw new Exception("Could not write the $label ticket file");
+                }
+                $per[$label] = $count($one['stops']);
+            }
             $st = ['month' => $latest, 'latest' => $latest, 'from' => substr($from, 0, 7), 'stops' => count($data['stops']),
-                   'tickets' => array_sum(array_map(function ($x) { return $x[4] + $x[5] + $x[6]; }, $data['stops'])), 'updated' => gmdate('c')];
+                   'tickets' => $count($data['stops']), 'routes' => $per, 'updated' => gmdate('c')];
             if (function_exists('rocket_clean_domain')) {
                 rocket_clean_domain();
             }
@@ -165,19 +225,36 @@ function mta_buslanes_step()
     }
 }
 
-/** The bus lane map section for the Bus Routes page, or '' before its file exists. */
-function mta_buslanes_section($sec)
+/** The bus lane map section for the Bus Routes page (or one route's page, with $r), or '' before its file exists. */
+function mta_buslanes_section($sec, $r = null)
 {
     $st = get_option(MTA_BUSLANES_OPTION);
     [$path, $url] = mta_buslanes_file();
     if (!mta_buslanes_live() || empty($st['month']) || !file_exists($path)) {
         return '';
     }
+    $label = $r ? mta_buses_label($r['id']) : '';
+    $tickets = $r ? ($st['routes'][$label] ?? 0) : ($st['tickets'] ?? 0);
+    if ($r) {
+        [$path, $url] = mta_buslanes_route_file($label);
+        if (!mta_buslanes_route_live() || !$tickets || !file_exists($path)) {
+            return ''; // no bus cameras on this route
+        }
+    }
+    $note = esc_html(number_format($tickets)) . ' tickets issued from ' . esc_html(mta_lines_month($st['from']) . ' to ' . mta_lines_month($st['month'])) .
+        ' (MTA Bus Automated Camera Enforcement). Exempt vehicles and rejected cases are left out. ';
+    if ($r) {
+        return $sec('Where drivers block the ' . esc_html($label) . ', hour by hour',
+            '<p>Cameras on ' . esc_html($label) . ' buses ticket drivers who block a bus lane, park at a bus stop or double park on the route. Each circle is a stop, ' .
+            'sized and coloured by the tickets these cameras issued nearby in that hour over a year: green for few, red for the most. ' .
+            'Press play to watch a day; tap a stop for its numbers.</p>' .
+            '<div data-slot="buslanes" data-route="' . esc_attr($label) . '" data-src="' . esc_url($url . '?v=' . $st['month']) . '"></div>',
+            $note . 'Only tickets from cameras on ' . esc_html($label) . ' buses are counted; cameras on other routes that share a stop are left out. ' .
+            'The cameras ride on some buses only, so more tickets can mean more cameras, not only more blocking.');
+    }
     return $sec('Where drivers block NYC buses, hour by hour',
         '<p>Cameras on MTA buses ticket drivers who block a bus lane, park at a bus stop or double park on the route. Each circle is a bus stop, ' .
         'sized and coloured by the tickets issued nearby in that hour over a year: green for few, red for the most. Press play to watch a day; tap a stop for its numbers.</p>' .
         '<div data-slot="buslanes" data-src="' . esc_url($url . '?v=' . $st['month']) . '"></div>',
-        esc_html(number_format($st['tickets'])) . ' tickets issued from ' . esc_html(mta_lines_month($st['from']) . ' to ' . mta_lines_month($st['month'])) .
-        ' (MTA Bus Automated Camera Enforcement). Exempt vehicles and rejected cases are left out. The cameras ride on buses on some routes only, ' .
-        'so more tickets can mean more cameras, not only more blocking.');
+        $note . 'The cameras ride on buses on some routes only, so more tickets can mean more cameras, not only more blocking.');
 }

@@ -101,11 +101,11 @@
       if (lanesOn) return;
       lanesOn = true;
       lanes.innerHTML = '<p class="mta-note">Loading the tickets…</p>';
-      fetch(lanes.dataset.src).then(function (r) { if (!r.ok) throw r; return r.json(); }).then(function (d) { busLanes(lanes, d); })
+      fetch(lanes.dataset.src).then(function (r) { if (!r.ok) throw r; return r.json(); }).then(function (d) { busLanes(lanes, d, lanes.dataset.route || ''); })
         .catch(function () { lanes.innerHTML = '<p class="mta-note">The bus lane map couldn’t load. Try reloading the page.</p>'; });
     };
     if ('IntersectionObserver' in window) {
-      var io4 = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io4.disconnect(); lanesGo(); } }, { rootMargin: '300px' });
+      var io4 = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io4.disconnect(); lanesGo(); } }, { rootMargin: lanes.dataset.route ? '600px' : '300px' });
       io4.observe(lanes);
     } else lanesGo();
   }
@@ -547,9 +547,12 @@
   }
 
   // Bus lane blocking map: each bus stop, coloured and sized by camera tickets issued near it in the chosen hour (over a year).
-  function busLanes(box, d) {
+  // route: '' for every stop (Bus Routes page), or a route label for its page (d then holds that route's cameras only).
+  function busLanes(box, d, route) {
     var DAYS = [['wk', 'Weekdays'], ['we', 'Weekends']];
-    var day = 'wk', hour = 8, max = 1, sums = [], markers = [], timer = null, touched = false;
+    var day = 'wk', hour = 8, max = 1, sums = [], markers = [], timer = null, touched = false, sel = null; // sel: the stop picked by a tap
+    var base = location.pathname.replace(/\/+$/, '');
+    if (route) base = base.replace(/\/[^\/]+$/, ''); // route pages link to their sibling routes
     var ramp = [[34, 160, 70], [250, 204, 21], [220, 38, 38]]; // green (fewest) → yellow (middle) → red (most)
     function share(x) { return Math.sqrt(Math.min(1, x / max)); }
     function colour(x) {
@@ -573,8 +576,8 @@
     L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
       maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
     }).addTo(map);
-    var renderer = L.canvas({ padding: 0.2 });
-    map.fitBounds(d.stops.map(function (s) { return [s[0], s[1]]; }), { padding: [12, 12] });
+    var renderer = L.canvas({ padding: 0.2, tolerance: 6 }); // tolerance: easier to hit a small circle with a finger
+    map.fitBounds(d.stops.map(function (s) { return [s[0], s[1]]; }), { padding: [24, 24], maxZoom: 15 });
     function size() { return Math.max(6, Math.min(13, map.getContainer().clientWidth / 80)) * Math.pow(1.3, map.getZoom() - 11); }
     var big = size();
     map.on('zoomend', function () { big = size(); setHour(hour); });
@@ -584,15 +587,22 @@
       return '<strong>' + esc(s[2]) + '</strong><br>' + span(hour) + ' on ' + dayWord() + ': ' + tickets(d[day][i][hour]) + ' in a year' +
         '<br><span class="mta-tt-lines">' + esc(s[3].map(function (r) { return d.routes[r]; }).join(', ')) + '</span>';
     }, { direction: 'top', className: 'mta-tt' });
+    // A tap picks the stop: a white ring marks it, the day stops playing and a box gives its numbers and route links.
     group.on('click', function (e) {
-      var s = d.stops[e.layer.stop];
-      L.popup({ className: 'mta-busall-pop' }).setLatLng(e.layer.getLatLng()).setContent('<strong>' + esc(s[2]) + '</strong><br>' +
-        tickets(s[4] + s[5] + s[6]) + ' in a year: ' + s[4].toLocaleString('en-US') + ' bus lane, ' + s[5].toLocaleString('en-US') + ' bus stop, ' +
-        s[6].toLocaleString('en-US') + ' double parking<br>' + s[3].map(function (r) {
-          var label = d.routes[r];
-          return '<a href="' + location.pathname.replace(/\/+$/, '') + '/' + label.toLowerCase() + '/">' + esc(label) + '</a>';
-        }).join(' ')).openOn(map);
+      var i = e.layer.stop, s = d.stops[i], a = d[day][i], best = 0;
+      a.forEach(function (x, h) { if (x > a[best]) best = h; });
+      var others = s[3].map(function (r) { return d.routes[r]; }).filter(function (l) { return l !== route; });
+      L.popup({ className: 'mta-busall-pop', offset: [0, -4], autoPanPaddingTopLeft: [56, 16], autoPanPaddingBottomRight: [16, 16],
+                maxWidth: Math.min(300, map.getSize().x - 120) }).setLatLng(e.layer.getLatLng()).setContent('<strong>' + esc(s[2]) + '</strong><br>' +
+        span(hour) + ' on ' + dayWord() + ': ' + tickets(a[hour]) + ' in a year' + (a[best] ? '; busiest ' + span(best) : '') + '<br>' +
+        'All year: ' + tickets(s[4] + s[5] + s[6]) + ' (' + s[4].toLocaleString('en-US') + ' bus lane, ' + s[5].toLocaleString('en-US') + ' bus stop, ' +
+        s[6].toLocaleString('en-US') + ' double parking)' +
+        (others.length ? '<br>' + (route ? 'Other routes with cameras here: ' : 'Routes: ') + others.map(function (label) {
+          return '<a href="' + base + '/' + label.toLowerCase() + '/">' + esc(label) + '</a>';
+        }).join(' ') : '')).openOn(map);
+      group.closeTooltip(); sel = e.layer; stopPlay(); setHour(hour); // after openOn: closing the last box clears the old pick
     });
+    map.on('popupclose', function () { if (sel) { sel = null; setHour(hour); } });
     markers = d.stops.map(function (s, i) {
       var m = L.circleMarker([s[0], s[1]], { renderer: renderer, radius: 0, stroke: false, fillOpacity: 0 });
       m.stop = i; group.addLayer(m);
@@ -618,9 +628,10 @@
       var a = d[day];
       markers.forEach(function (m, i) {
         var x = a[i][h];
-        m.setStyle({ fillColor: x ? colour(x) : '#000', fillOpacity: x ? 0.85 : 0 });
-        m.setRadius(x ? Math.max(1.5, big * share(x)) : 0);
+        m.setStyle({ fillColor: x ? colour(x) : '#475569', fillOpacity: x ? 0.85 : (m === sel ? 0.8 : 0), stroke: m === sel, color: '#fff', weight: 3 });
+        m.setRadius(m === sel ? Math.max(7, big * share(x)) : x ? Math.max(1.5, big * share(x)) : 0);
       });
+      if (sel) sel.bringToFront();
       strip.querySelectorAll('button').forEach(function (b, i) { b.classList.toggle('on', i === h); });
     }
     function stopPlay() { touched = true; clearInterval(timer); timer = null; play.textContent = '▶'; play.setAttribute('aria-label', 'Play'); }
