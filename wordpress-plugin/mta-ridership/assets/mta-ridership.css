@@ -311,3 +311,7 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 .mta-ridership .mta-heat thead th.on { color: var(--mta-accent); font-weight: 700; }
 .mta-ridership .mta-heat-map { height: 480px; }
 @media (max-width: 560px) { .mta-ridership .mta-heat-map { height: 400px; } }
+.mta-ridership [data-slot="busall"] { min-height: 760px; }
+.mta-ridership .mta-busall-map { height: 600px; }
+.mta-ridership .mta-busall-pop a { margin-right: .45em; white-space: nowrap; }
+@media (max-width: 560px) { .mta-ridership [data-slot="busall"] { min-height: 640px; } .mta-ridership .mta-busall-map { height: 460px; } }

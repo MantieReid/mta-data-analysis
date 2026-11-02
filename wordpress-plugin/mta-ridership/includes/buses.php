@@ -375,11 +375,11 @@ add_shortcode('mta_buses', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     mta_ridership_chartjs();
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
-    $heat_map = $r && mta_busstops_live(); // the stop heat map draws its map with Leaflet
+    $heat_map = $r ? mta_busstops_live() : mta_busstops_all_live(); // the stop maps are drawn with Leaflet
     if ($heat_map) {
         mta_ridership_leaflet();
     }
-    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', $heat_map ? ['chartjs', 'leaflet'] : ['chartjs'], '1.16.1', true);
+    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', $heat_map ? ['chartjs', 'leaflet'] : ['chartjs'], '1.17.3', true);
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }
@@ -456,6 +456,7 @@ add_shortcode('mta_buses', function () {
         $o .= $sec('Find your bus route', '<div data-slot="find"><div class="mta-find"><input type="search" class="mta-find-input" ' .
             'placeholder="e.g. M15, Bx12, Fordham, Flatbush…" aria-label="Search for a bus route" autocomplete="off">' .
             '<ul class="mta-find-results" aria-label="Matching bus routes"></ul></div></div>', 'Type a route (M15, Bx12, B46, SIM22…) or a street.');
+        $o .= mta_busstops_all_section($sec);
         $routes = $d['routes'];
         if (mta_ridership_look_v2()) {
             $o .= mta_buses_rankings_v2($routes, $s, $link, $sec, $range);

@@ -226,5 +226,16 @@ check('stops: each day kind has 24 hours', count($d0['stops'][1][1]['wk']) === 2
 check('stops: places kept for the map, none for a stop without one', ($d0['stops'][0][2] ?? null) === 40.6 && ($d0['stops'][2][3] ?? null) === -73.95 && count($d0['stops'][1]) === 2);
 check('stops: small numbers keep one decimal', $hb['dirs'][1]['stops'][0][1]['su'][23] === 0.5);
 
+// ---- Citywide bus stop map: routes sharing a stop are added together ----
+$h24 = function ($at, $v) { $a = array_fill(0, 24, null); $a[$at] = $v; return $a; };
+$st = function ($name, $lat, $lon, $wk) use ($h24) { return [$name, ['wk' => $wk, 'sa' => array_fill(0, 24, null), 'su' => array_fill(0, 24, null)], $lat, $lon]; };
+$cb = mta_busstops_combine([
+    ['B1', ['dirs' => [['to' => 'X', 'stops' => [$st('Shared St', 40.6, -73.9, $h24(8, 10.4)), $st('Quiet Av', 40.61, -73.91, $h24(8, 0.3)), ['No Place Rd', []]]]]]],
+    ['B2', ['dirs' => [['to' => 'Y', 'stops' => [$st('Shared St', 40.6, -73.9, $h24(8, 5.2))]]]]],
+]);
+check('citywide: one entry per place, quietest first', array_column($cb['stops'], 2) === ['Quiet Av', 'Shared St']);
+check('citywide: a shared stop adds its routes together', $cb['wk'][1][8] === 16 && $cb['stops'][1][3] === [0, 1] && $cb['routes'] === ['B1', 'B2']);
+check('citywide: gaps stay empty, stops without a place are left out', $cb['wk'][1][7] === null && $cb['sa'][0][8] === null && count($cb['stops']) === 2);
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

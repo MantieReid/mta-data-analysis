@@ -183,6 +183,7 @@ function mta_busstops_step()
             $st['latest'] = $latest; // the status page reads it as a month
             $st['routes'] = $st['done'];
             $st['updated'] = gmdate('c');
+            $st['all'] = mta_busstops_build_all($latest);
             if (function_exists('rocket_clean_domain')) {
                 rocket_clean_domain();
             }
@@ -194,6 +195,107 @@ function mta_busstops_step()
         update_option('mta_ridership_busstops_error', gmdate('c') . ' ' . $e->getMessage(), false);
         mta_ridership_retry_later(MTA_BUSSTOPS_HOOK, 'mta_busstops_schedule');
     }
+}
+
+/** The citywide map (every bus stop on one map): live for everyone since 2026-11-02. */
+function mta_busstops_all_live()
+{
+    return true;
+}
+
+/**
+ * Every route's stops added up into one citywide map, read from the route files (no extra MTA queries).
+ * A stop is its place: routes sharing a stop are added together; the two sides of a street are separate stops.
+ * Pure part, for tests: $routes gives [route label, file data] pairs (a generator, so one route file is in memory at a time). Returns
+ * {routes: [labels], stops: [[lat, lon, name, [route indexes]], ...] (quietest first, so busy stops draw on top),
+ *  wk/sa/su: [[24 whole numbers or null], ...] in the same order}.
+ */
+function mta_busstops_combine(iterable $routes)
+{
+    $labels = $places = $vals = [];
+    foreach ($routes as [$label, $data]) {
+        $ri = count($labels);
+        $labels[] = $label;
+        foreach ($data['dirs'] as $d) {
+            foreach ($d['stops'] as $st) {
+                if (!isset($st[2], $st[3])) {
+                    continue; // no known place
+                }
+                $k = $st[2] . ',' . $st[3];
+                if (!isset($places[$k])) {
+                    $places[$k] = [$st[2], $st[3], $st[0], []];
+                }
+                $places[$k][3][$ri] = $ri;
+                foreach (['wk', 'sa', 'su'] as $b) {
+                    foreach ($st[1][$b] as $h => $v) {
+                        if ($v !== null) {
+                            $vals[$b][$k][$h] = ($vals[$b][$k][$h] ?? 0) + $v;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    $day = function ($k) use ($vals) { return array_sum($vals['wk'][$k] ?? []); };
+    $keys = array_keys($places);
+    usort($keys, function ($a, $b) use ($day) { return [$day($a), $a] <=> [$day($b), $b]; });
+    $out = ['routes' => $labels, 'stops' => []];
+    foreach ($keys as $k) {
+        $out['stops'][] = [$places[$k][0], $places[$k][1], $places[$k][2], array_values($places[$k][3])];
+        foreach (['wk', 'sa', 'su'] as $b) {
+            $row = [];
+            for ($h = 0; $h < 24; $h++) {
+                $row[] = isset($vals[$b][$k][$h]) ? (int) round($vals[$b][$k][$h]) : null;
+            }
+            $out[$b][] = $row;
+        }
+    }
+    return $out;
+}
+
+/** Write the citywide files: all-places.json (stops and routes) and all-wk/sa/su.json (hours), each loaded only when needed. */
+function mta_busstops_build_all($month)
+{
+    $buses = get_option(MTA_BUSES_OPTION);
+    $routes = (function () use ($buses) {
+        foreach (array_keys($buses['routes'] ?? []) as $id) {
+            [$path] = mta_busstops_file(mta_buses_slug($id));
+            $data = file_exists($path) ? json_decode((string) file_get_contents($path), true) : null;
+            if (!empty($data['dirs'])) {
+                yield [mta_buses_label($id), $data];
+            }
+        }
+    })();
+    $all = mta_busstops_combine($routes);
+    $files = ['places' => ['month' => $month, 'routes' => $all['routes'], 'stops' => $all['stops']]];
+    foreach (['wk', 'sa', 'su'] as $b) {
+        $files[$b] = ['month' => $month, 'hours' => $all[$b]];
+    }
+    foreach ($files as $name => $obj) {
+        [$path] = mta_busstops_file("all-$name");
+        $json = wp_json_encode($obj, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE);
+        if (!$json || file_put_contents($path, $json) === false) {
+            throw new Exception("Could not write all-$name.json");
+        }
+    }
+    return count($all['stops']);
+}
+
+/** The citywide map section for the Bus Routes page, or '' before its files exist. */
+function mta_busstops_all_section($sec)
+{
+    $st = get_option(MTA_BUSSTOPS_OPTION);
+    [$path, $url] = mta_busstops_file('all-places');
+    if (!mta_busstops_all_live() || empty($st['month']) || !file_exists($path)) {
+        return '';
+    }
+    return $sec('A day on NYC buses: every bus stop, hour by hour',
+        '<p>Each circle is one of ' . esc_html(number_format($st['all'] ?? 0)) . ' bus stops, coloured and sized by how many people get on there in that hour: ' .
+        'green for the fewest, yellow in between, red for the most. Press play to watch a day go by; tap a stop for its numbers and routes.</p>' .
+        '<div data-slot="busall" data-src="' . esc_url(dirname($url) . '/') . '" data-v="' . esc_attr($st['month']) . '"></div>',
+        'MTA estimates for ' . esc_html(mta_lines_month($st['month'])) . ' from passenger counters on the buses, people getting on during each hour on an ' .
+        'average day. A stop served by several routes shows them added together; the two sides of a street are separate stops. ' .
+        'They show how busy each stop is, not exact counts, and won\'t add up to riders a day (paid entries).');
 }
 
 /** The heat map section for a route page, or '' when there's no file for it yet. */

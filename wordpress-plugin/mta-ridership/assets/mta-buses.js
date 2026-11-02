@@ -76,6 +76,16 @@
     } else go();
   }
 
+  var all = slot('busall');
+  if (all && all.dataset.src && window.L) {
+    var started = false, begin = function () { if (!started) { started = true; busAll(all, all.dataset.src, all.dataset.v); } };
+    if ('IntersectionObserver' in window) {
+      // Only once it's actually on screen: it sits near the top and its files are big, so don't fetch them for visitors who never scroll.
+      var io2 = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io2.disconnect(); begin(); } });
+      io2.observe(all);
+    } else begin();
+  }
+
   function stopHeat(box, data) {
     var DAYS = [['wk', 'Weekdays', 'weekday'], ['sa', 'Saturdays', 'Saturday'], ['su', 'Sundays', 'Sunday']];
     var dir = 0, day = 'wk', hour = 8, max = 0, pick = null;
@@ -246,6 +256,139 @@
         if (!touched) { setHour(5); startPlay(); } // don't override an hour the visitor already picked
       }, { threshold: 0.5 });
       io.observe(map.getContainer());
+    }
+  }
+
+  // Citywide map: every bus stop, coloured and sized by people getting on in the chosen hour. Places load once
+  // (all-places.json); each day kind's hours (all-wk/sa/su.json) load when first picked.
+  function busAll(box, base, v) {
+    var DAYS = [['wk', 'Weekdays', 'weekday'], ['sa', 'Saturdays', 'Saturday'], ['su', 'Sundays', 'Sunday']];
+    var day = 'wk', hour = 8, max = 1, places, hours = {}, markers = [], sums = [], timer = null, touched = false;
+    var ramp = [[34, 160, 70], [250, 204, 21], [220, 38, 38]]; // green (fewest) → yellow (middle) → red (most)
+    function get(name) { return fetch(base + 'all-' + name + '.json?v=' + v).then(function (r) { if (!r.ok) throw r; return r.json(); }); }
+    function share(x) { return Math.sqrt(Math.min(1, x / max)); }
+    function colour(x) {
+      var t = share(x) * (ramp.length - 1), i = Math.min(ramp.length - 2, Math.floor(t)), f = t - i;
+      return 'rgb(' + ramp[i].map(function (c, k) { return Math.round(c + (ramp[i + 1][k] - c) * f); }).join(',') + ')';
+    }
+    function num(x) { return x < 1 ? 'fewer than 1' : 'about ' + Math.round(x).toLocaleString('en-US'); }
+    function people(x) { return num(x) + (x < 1.5 ? ' person gets on' : ' people get on'); }
+    function span(h) { return hourName(h) + '–' + hourName((h + 1) % 24); }
+    function dayWord() { return DAYS.filter(function (d) { return d[0] === day; })[0][2]; }
+
+    box.innerHTML = '<p class="mta-note">Loading the bus stops…</p>';
+    Promise.all([get('places'), get('wk')]).then(function (r) {
+      places = r[0]; hours.wk = r[1].hours;
+      build();
+    }).catch(function () { box.innerHTML = '<p class="mta-note">The bus stop map couldn’t load. Try reloading the page.</p>'; });
+
+    function build() {
+      box.innerHTML = '<div class="mta-heat-controls"><div class="mta-view-switch" role="group" aria-label="Day">' + DAYS.map(function (d) {
+        return '<button type="button" data-day="' + d[0] + '" aria-pressed="' + (d[0] === day) + '">' + d[1] + '</button>';
+      }).join('') + '</div></div>' +
+        '<div class="mta-map-bar"><button type="button" class="mta-play" aria-label="Play">▶</button><div class="mta-clock"></div>' +
+        '<input type="range" class="mta-slider" min="0" max="23" value="8" aria-label="Hour of day"></div><div class="mta-map mta-busall-map"></div>' +
+        '<div class="mta-strip"></div><div class="mta-strip-labels"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div>' +
+        '<div class="mta-heat-key"><span>Fewer</span><i></i><span>More people getting on</span></div>';
+      var clock = box.querySelector('.mta-clock'), slider = box.querySelector('.mta-slider'), play = box.querySelector('.mta-play'), strip = box.querySelector('.mta-strip');
+      var map = L.map(box.querySelector('.mta-busall-map'), { preferCanvas: true, scrollWheelZoom: false, zoomSnap: 0.25 });
+      // Esri's dark gray canvas: free to use with attribution, no API key (same as the subway map).
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
+      }).addTo(map);
+      var renderer = L.canvas({ padding: 0.2 });
+      map.fitBounds(places.stops.map(function (s) { return [s[0], s[1]]; }), { padding: [12, 12] });
+      function size() { return Math.max(5, Math.min(11, map.getContainer().clientWidth / 90)) * Math.pow(1.35, map.getZoom() - 10.5); }
+      var big = size();
+      map.on('zoomend', function () { big = size(); setHour(hour); });
+
+      // Stops come quietest first, so the busy ones are drawn on top. One shared tooltip and popup for all of them, and
+      // the circles are made a batch at a time so the page never freezes while 13,000 of them are set up.
+      var group = L.featureGroup().addTo(map), building = true;
+      group.bindTooltip(function (m) {
+        var s = places.stops[m.i], x = hours[day][m.i][hour];
+        return '<strong>' + esc(s[2]) + '</strong><br>' + span(hour) + ': ' + (x === null ? 'no MTA estimate' : people(x)) +
+          '<br><span class="mta-tt-lines">' + esc(s[3].map(function (r) { return places.routes[r]; }).join(', ')) + '</span>';
+      }, { direction: 'top', className: 'mta-tt' });
+      group.on('click', function (e) {
+        var m = e.layer, s = places.stops[m.i], a = hours[day][m.i], t = 0, best = -1;
+        a.forEach(function (x, h) { if (x !== null) { t += x; if (best < 0 || x > a[best]) best = h; } });
+        L.popup({ className: 'mta-busall-pop' }).setLatLng(m.getLatLng()).setContent(
+          '<strong>' + esc(s[2]) + '</strong><br>' + span(hour) + ': ' + (a[hour] === null ? 'no MTA estimate' : people(a[hour])) + '<br>' +
+          'Average ' + dayWord() + ': ' + people(t) + (best >= 0 && a[best] >= 1 ? '; busiest ' + span(best) : '') + '<br>' +
+          s[3].map(function (r) {
+            var label = places.routes[r];
+            return '<a href="' + location.pathname.replace(/\/+$/, '') + '/' + label.toLowerCase() + '/">' + esc(label) + '</a>';
+          }).join(' ')).openOn(map);
+      });
+      markers = [];
+      (function batch(from) {
+        var to = Math.min(places.stops.length, from + 1500);
+        for (var i = from; i < to; i++) {
+          var m = L.circleMarker([places.stops[i][0], places.stops[i][1]], { renderer: renderer, radius: 0, stroke: false, fillOpacity: 0 });
+          m.i = i;
+          markers.push(m);
+          group.addLayer(m);
+        }
+        if (to < places.stops.length) setTimeout(function () { batch(to); }, 0);
+        else { building = false; setHour(hour); }
+      })(0);
+
+      function totals() {
+        max = 1; sums = [];
+        for (var h = 0; h < 24; h++) sums.push(0);
+        hours[day].forEach(function (a) { a.forEach(function (x, h) { if (x) { sums[h] += x; if (x > max) max = x; } }); });
+        var top = Math.max.apply(null, sums) || 1;
+        strip.innerHTML = sums.map(function (x, h) {
+          return '<button type="button" data-h="' + h + '" title="' + hourName(h) + ': ' + num(x) + ' people getting on at bus stops">' +
+            '<span style="height:' + Math.max(4, 100 * x / top) + '%"></span></button>';
+        }).join('');
+      }
+      function setHour(h) {
+        hour = h;
+        slider.value = h;
+        clock.innerHTML = '<strong>' + hourName(h) + '</strong><span>' + num(sums[h]) + ' get on at bus stops this hour</span>';
+        if (building) return; // drawn once all the circles exist
+        var a = hours[day];
+        markers.forEach(function (m) {
+          var x = a[m.i][h];
+          m.options.fillColor = x ? colour(x) : '#000';
+          m.options.fillOpacity = x ? 0.85 : 0; // the map draws even a size-0 circle 1 pixel wide
+          m.setRadius(x ? Math.max(1.2, big * share(x)) : 0); // one redraw per frame for all of them
+        });
+        strip.querySelectorAll('button').forEach(function (b, i) { b.classList.toggle('on', i === h); });
+      }
+      function stopPlay() { touched = true; clearInterval(timer); timer = null; play.textContent = '▶'; play.setAttribute('aria-label', 'Play'); }
+      function startPlay() {
+        if (timer) return;
+        play.textContent = '❚❚'; play.setAttribute('aria-label', 'Pause');
+        timer = setInterval(function () { setHour((hour + 1) % 24); }, 800);
+      }
+      play.addEventListener('click', function () { touched = true; timer ? stopPlay() : startPlay(); });
+      slider.addEventListener('input', function () { stopPlay(); setHour(+slider.value); });
+      strip.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { stopPlay(); setHour(+b.dataset.h); } });
+      box.querySelector('.mta-heat-controls').addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-day]');
+        if (!b) return;
+        b.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        var want = b.dataset.day;
+        (hours[want] ? Promise.resolve() : get(want).then(function (r) { hours[want] = r.hours; })).then(function () {
+          day = want; totals(); setHour(hour);
+        });
+      });
+      totals();
+      setHour(hour);
+
+      // Play the day once, the first time the map scrolls into view (unless the visitor prefers less motion).
+      var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!calm && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (ents) {
+          if (!ents[0].isIntersecting) return;
+          io.disconnect();
+          if (!touched) { setHour(5); startPlay(); }
+        }, { threshold: 0.5 });
+        io.observe(map.getContainer());
+      }
     }
   }
 })();
