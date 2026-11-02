@@ -1,7 +1,9 @@
 # NYC Subway Ridership Analysis (MTA Open Data, 2025–2026)
 
 How New York rides the subway: the busiest stations, rush hours, seasons, unusual days, and
-an animated map of a day on the subway, built from the MTA's hourly ridership data.
+an animated map of a day on the subway, built from the MTA's hourly ridership data. The same
+plugin also has report cards for every subway line, station and bus route, maps of where and
+when people get on at every NYC bus stop, and a congestion pricing page.
 
 **Live demo:** [mantiereidii.com/mta-ridership](https://mantiereidii.com/mta-ridership/), updated daily.
 
@@ -171,6 +173,8 @@ mta.info), the zone map, vehicles entering per hour, this year vs last year on t
 latest day, since tolling began Jan 5, 2025), every bridge and tunnel, entries by vehicle type, and subway
 ridership at stations inside the zone vs outside (a station is inside if its location falls within the outline).
 
+[![Congestion pricing zone map with the subway stations inside it](docs/images/congestion-zone-map.jpg)](https://mantiereidii.com/congestion-pricing/)
+
 ## Subway line report cards
 
 `[mta_lines]` ([live](https://mantiereidii.com/subway-lines/)) ranks every subway line by on-time rate and gives each
@@ -183,6 +187,16 @@ It combines five MTA monthly datasets: [Terminal On-Time Performance](https://da
   over the last 12 months of data. The change is vs the 12 months before.
 - **5+ minutes late, extra wait, extra ride time**: from the customer journey metrics, weighted by passengers.
 - The W line is left out: the MTA publishes no on-time data for it.
+
+[![Every subway line ranked by on-time rate](docs/images/subway-lines-ranked.jpg)](https://mantiereidii.com/subway-lines/)
+
+## Station rankings
+
+[`/stations/`](https://mantiereidii.com/stations/) ranks all 424 subway stations by riders a day over the last 365 days
+(entries at the turnstiles and OMNY readers), with the change vs the same days last year, the biggest gainers and
+losers, and a report card for each station.
+
+[![Every subway station ranked by riders a day](docs/images/stations-ranked.jpg)](https://mantiereidii.com/stations/)
 
 ## Bus route report cards
 
@@ -198,9 +212,35 @@ most bus-lane camera violations) and gives each route a report card at `/bus-rou
   **extra time** ([Customer Journey Metrics](https://data.ny.gov/d/8mkn-d32t), weighted by customers) and
   **camera violations** ([ACE Violations](https://data.ny.gov/d/kh8p-hcbm)), last 12 months.
 - **Busiest stops**: [Stop Ridership Estimates](https://data.ny.gov/d/fvdm-uavx), latest month, weekday rows ÷ the
-  number of weekdays in that month (each row adds up every Monday, Tuesday… of the month). These come from passenger
-  counters, so they can run higher than fare-based ridership.
+  number of weekdays in that month (each row adds up every Monday, Tuesday… of the month).
 - Temporary shuttles (e.g. T321) and routes with under 50 riders a day are left out.
+
+[![The busiest NYC bus routes](docs/images/bus-busiest.jpg)](https://mantiereidii.com/bus-routes/)
+
+### Where and when people get on: bus stop maps
+
+Every route page has a map of its stops and a stop-by-hour grid, and the Bus Routes page has one map with every
+NYC bus stop (about 13,300). Each stop is a circle coloured green (fewest) → yellow → red (most) and sized by how many
+people get on there in the chosen hour. Press play to watch a day go by, or pick weekdays, Saturdays or Sundays.
+
+- **Data**: [Bus Stop Ridership Estimates](https://data.ny.gov/d/fvdm-uavx), latest month, one query per route,
+  grouped by direction, stop, hour and day type. Each row adds up every Monday (Tuesday…) of the month, so it is
+  divided by the number of those days. Stop names and places come from [MTA Bus Stops](https://data.ny.gov/d/2ucp-7wg5).
+- **Stop order**: a stop can have several positions on a route (limited and local trips); the MTA says the lowest
+  is its true place on the route.
+- **Citywide map**: the route files added up by stop, so a stop served by several routes shows them together;
+  the two sides of a street are separate stops.
+- **What the numbers are**: estimates from passenger counters above the bus doors; the MTA fills in buses without
+  counters from similar trips. They show how busy each stop is, not exact counts, and don't add up to the
+  fare-based riders a day. A blank hour means no estimate, not zero riders.
+- Built once a month when the MTA posts a new month, as one small file per route plus four citywide files,
+  loaded only when the map is on screen.
+
+| Every bus stop at 8 AM on a weekday | One route's stops at 7 AM (B44 SBS) |
+|---|---|
+| [![Every NYC bus stop, coloured by people getting on at 8 AM](docs/images/bus-stops-citywide.jpg)](https://mantiereidii.com/bus-routes/) | [![B44 SBS stops on a map, coloured by people getting on at 7 AM](docs/images/bus-route-map.jpg)](https://mantiereidii.com/bus-routes/b44-sbs/) |
+
+[![Every B44 SBS stop by hour of the day](docs/images/bus-route-grid.jpg)](https://mantiereidii.com/bus-routes/b44-sbs/)
 
 ## WordPress plugin
 
