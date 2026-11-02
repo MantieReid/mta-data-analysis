@@ -237,5 +237,58 @@ check('citywide: one entry per place, quietest first', array_column($cb['stops']
 check('citywide: a shared stop adds its routes together', $cb['wk'][1][8] === 16 && $cb['stops'][1][3] === [0, 1] && $cb['routes'] === ['B1', 'B2']);
 check('citywide: gaps stay empty, stops without a place are left out', $cb['wk'][1][7] === null && $cb['sa'][0][8] === null && count($cb['stops']) === 2);
 
+// ---- Station trip flows: weekday rows ÷ 5, the station itself and unknown places left out, busiest last ----
+$fs = ['1' => ['Home St', 'home-st', 40.7, -73.9], '2' => ['Big Av', 'big-av', 40.75, -73.98], '3' => ['Small Rd', 'small-rd', 40.6, -73.95],
+       '4' => ['Nowhere', 'nowhere', null, null], '5' => ['Tiny Pl', 'tiny-pl', 40.65, -73.8]];
+$fb = mta_flows_build('1', [
+    ['d' => '2', 'h' => '8', 'b' => 'wk', 'n' => '500'], ['d' => '2', 'h' => '17', 'b' => 'wk', 'n' => '100'], ['d' => '2', 'h' => '8', 'b' => 'sa', 'n' => '30'],
+    ['d' => '3', 'h' => '8', 'b' => 'wk', 'n' => '200'], ['d' => '3', 'h' => '23', 'b' => 'su', 'n' => '2.25'],
+    ['d' => '1', 'h' => '8', 'b' => 'wk', 'n' => '50'], // same station in and out: counted in the total only
+    ['d' => '4', 'h' => '8', 'b' => 'wk', 'n' => '50'], // no place on the map
+    ['d' => '5', 'h' => '9', 'b' => 'wk', 'n' => '5'],
+], $fs, 2);
+check('flows: top destinations kept, busiest last', array_column($fb['to'], 0) === ['Small Rd', 'Big Av']);
+check('flows: weekday rows are divided by 5', $fb['to'][1][4]['wk'][8] === 100.0 && $fb['to'][1][4]['wk'][17] === 20.0 && $fb['to'][1][4]['sa'][8] === 30.0);
+check('flows: small numbers keep one decimal', $fb['to'][0][4]['su'][23] === 2.3);
+check('flows: the total counts every trip from here', $fb['total']['wk'][8] === 160 && $fb['total']['wk'][9] === 1);
+check('flows: share of weekday trips the kept stations take', $fb['share'] == 88.0 && $fb['from'] === ['Home St', 40.7, -73.9]);
+check('flows: unknown station gives no file', mta_flows_build('9', [], $fs) === null && mta_flows_build('4', [], $fs) === null);
+
+// ---- Bus speeds: speed = distance ÷ time over all trips, routes sharing a stretch added together ----
+$sr = function ($h, $b, $d, $t, $n, $alat = '40.6', $zlat = '40.61') {
+    return ['a' => 'NOSTRAND AV/AVENUE H', 'z' => 'FLATBUSH AV', 'alat' => $alat, 'alon' => '-73.95', 'zlat' => $zlat, 'zlon' => '-73.95', 'h' => $h, 'b' => $b, 'd' => $d, 't' => $t, 'n' => $n];
+};
+$s1 = mta_busspeeds_route([$sr('8', 'wk', '10', '120', '10'), $sr('8', 'wk', '5', '30', '5'), $sr('9', 'sa', '1', '6', '2'),
+                           $sr('8', 'wk', '9', '9', '9', '40.6', '40.9')]); // 33 km straight line: left out
+check('speeds: one stretch per place, long jumps left out', count($s1) === 1 && reset($s1)[0] === 'Nostrand Av/Avenue H' && reset($s1)[1] === 'Flatbush Av');
+check('speeds: trips in the same hour are added up', reset($s1)[6]['wk'][8] === [15.0, 150.0, 15]);
+$s2 = mta_busspeeds_route([$sr('8', 'wk', '6', '30', '6'), $sr('8', 'wk', '4', '20', '4', '40.62', '40.63')]);
+$sc = mta_busspeeds_combine([['B44', $s1], ['B41', $s2]]);
+check('speeds: shared stretch adds routes together', count($sc['segs']) === 2 && $sc['routes'] === ['B44', 'B41'] && in_array([0, 1], array_column($sc['segs'], 6), true));
+$shared = array_search([0, 1], array_column($sc['segs'], 6), true);
+check('speeds: mph from total distance ÷ total time', $sc['wk'][$shared][8] === 7.0); // 21 miles in 180 minutes
+check('speeds: fewer than 3 trips gives no speed; fastest first', $sc['sa'][$shared][9] === null && $sc['wk'][0][8] >= $sc['wk'][1][8]);
+
+// ---- Station map: busiest first, elevators only where the report card has them, no place = left out ----
+$sm = mta_stationmap_data([
+    '1' => ['name' => 'Small St (G)', 'slug' => 'small-st', 'avg' => 900, 'yoy' => -4.5, 'lat' => 40.7, 'lon' => -73.9],
+    '2' => ['name' => 'Big Sq (1,2,3)', 'slug' => 'big-sq', 'avg' => 90000, 'yoy' => null, 'lat' => 40.75, 'lon' => -73.98],
+    '3' => ['name' => 'Lost Pl (A)', 'slug' => 'lost-pl', 'avg' => 5000, 'yoy' => 2, 'lat' => null, 'lon' => null],
+], ['stations' => ['2' => ['equip' => ['elevator' => ['units' => 4, 'avail' => 96.2]]]]]);
+check('station map: busiest first, stations without a place left out', array_column($sm, 1) === ['big-sq', 'small-st']);
+check('station map: growth and elevators', $sm[0][6] === null && $sm[0][7] === 96.2 && $sm[0][8] === 4 && $sm[1][6] === -4.5 && $sm[1][7] === null && $sm[1][8] === 0);
+
+// ---- Bus lane tickets: by stop, quiet stops left out, fewest first ----
+$lb = mta_buslanes_build([
+    ['s' => '1', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'lane', 'n' => '30'],
+    ['s' => '1', 'name' => 'BROADWAY/ISHAM ST', 'lat' => '40.868', 'lon' => '-73.92', 'k' => 'dbl', 'n' => '5'],
+    ['s' => '2', 'name' => 'W 207 ST/10 AV', 'lat' => '40.864', 'lon' => '-73.91', 'k' => 'stop', 'n' => '12'],
+    ['s' => '3', 'name' => 'QUIET RD', 'lat' => '40.7', 'lon' => '-73.9', 'k' => 'stop', 'n' => '2'],
+], [['s' => '1', 'h' => '8', 'b' => 'wk', 'n' => '20'], ['s' => '1', 'h' => '8', 'b' => 'wk', 'n' => '3'], ['s' => '2', 'h' => '23', 'b' => 'we', 'n' => '12'], ['s' => '3', 'h' => '1', 'b' => 'wk', 'n' => '2']],
+   [['s' => '1', 'r' => 'M100'], ['s' => '1', 'r' => 'Bx12+'], ['s' => '2', 'r' => 'M100'], ['s' => '3', 'r' => 'Q1']]);
+check('bus lanes: quiet stops left out, fewest tickets first', array_column($lb['stops'], 2) === ['W 207 St/10 Av', 'Broadway/Isham St']);
+check('bus lanes: kinds and hours add up', $lb['stops'][1][4] === 30 && $lb['stops'][1][6] === 5 && $lb['wk'][1][8] === 23 && $lb['we'][0][23] === 12);
+check('bus lanes: routes per stop', count($lb['routes']) === 2 && count($lb['stops'][1][3]) === 2 && $lb['stops'][0][3] === [0]);
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

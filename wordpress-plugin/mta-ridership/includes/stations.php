@@ -303,6 +303,10 @@ add_shortcode('mta_stations', function () {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }
     $st = mta_stations_current();
+    if ($st ? mta_flows_live() : mta_stationmap_live()) { // the station maps are drawn with Leaflet
+        mta_ridership_leaflet();
+        wp_enqueue_script('mta-station-maps', $base . 'assets/mta-station-maps.js', ['leaflet'], '1.1.5', true);
+    }
     return $st ? mta_stations_render($st) : mta_stations_render_ranking();
 });
 
@@ -400,6 +404,7 @@ function mta_stations_render($st)
     }
 
     $o .= mta_stations_report_card($st, $sec);
+    $o .= mta_flows_section($st, $sec);
 
     if ($lines) {
         // Each line's on-time rate from its own report card: the MTA measures delays per line, not per station.
@@ -500,6 +505,8 @@ function mta_stations_render_ranking()
             $card('&#9660; Shrinking fastest', 'down', array_slice(array_reverse($movers), 0, 5)) . '</div>',
             esc_html("$yr so far vs the same days last year, stations with 2,000+ riders a day."));
     }
+
+    $o .= mta_stationmap_section($sec);
 
     // Every station with elevators, from the monthly report card data.
     $rc = get_option(MTA_STATIONS_OPTION);

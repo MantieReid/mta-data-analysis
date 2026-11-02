@@ -86,6 +86,30 @@
     } else begin();
   }
 
+  var spd = slot('busspeed');
+  if (spd && spd.dataset.src && window.L) {
+    var spdOn = false, spdGo = function () { if (!spdOn) { spdOn = true; busSpeed(spd, spd.dataset.src, spd.dataset.v, spd.dataset.route || ''); } };
+    if ('IntersectionObserver' in window) {
+      var io3 = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io3.disconnect(); spdGo(); } }, { rootMargin: spd.dataset.route ? '600px' : '0px' });
+      io3.observe(spd);
+    } else spdGo();
+  }
+
+  var lanes = slot('buslanes');
+  if (lanes && lanes.dataset.src && window.L) {
+    var lanesOn = false, lanesGo = function () {
+      if (lanesOn) return;
+      lanesOn = true;
+      lanes.innerHTML = '<p class="mta-note">Loading the tickets…</p>';
+      fetch(lanes.dataset.src).then(function (r) { if (!r.ok) throw r; return r.json(); }).then(function (d) { busLanes(lanes, d); })
+        .catch(function () { lanes.innerHTML = '<p class="mta-note">The bus lane map couldn’t load. Try reloading the page.</p>'; });
+    };
+    if ('IntersectionObserver' in window) {
+      var io4 = new IntersectionObserver(function (es) { if (es[0].isIntersecting) { io4.disconnect(); lanesGo(); } }, { rootMargin: '300px' });
+      io4.observe(lanes);
+    } else lanesGo();
+  }
+
   function stopHeat(box, data) {
     var DAYS = [['wk', 'Weekdays', 'weekday'], ['sa', 'Saturdays', 'Saturday'], ['su', 'Sundays', 'Sunday']];
     var dir = 0, day = 'wk', hour = 8, max = 0, pick = null;
@@ -389,6 +413,243 @@
         }, { threshold: 0.5 });
         io.observe(map.getContainer());
       }
+    }
+  }
+
+  // Bus speed map: each stretch of street between main stops, coloured by the buses' average speed in the chosen hour.
+  // On a route page (route set) only that route's stretches are drawn. Places load once (speed-places.json); each
+  // day kind's speeds (speed-wk/sa/su.json) load when first picked.
+  function busSpeed(box, base, v, route) {
+    var DAYS = [['wk', 'Weekdays', 'weekday'], ['sa', 'Saturdays', 'Saturday'], ['su', 'Sundays', 'Sunday']];
+    var day = 'wk', places, mph = {}, lines = [], keep = [], timer = null, touched = false, avg = [];
+    var SLOW = 3, FAST = 13; // mph: red at or below SLOW, green at or above FAST
+    var ramp = [[220, 38, 38], [250, 204, 21], [34, 160, 70]]; // red (slow) → yellow → green (fast)
+    function get(name) { return fetch(base + 'speed-' + name + '.json?v=' + v).then(function (r) { if (!r.ok) throw r; return r.json(); }); }
+    function colour(x) {
+      var t = Math.max(0, Math.min(1, (x - SLOW) / (FAST - SLOW))) * (ramp.length - 1), i = Math.min(ramp.length - 2, Math.floor(t)), f = t - i;
+      return 'rgb(' + ramp[i].map(function (c, k) { return Math.round(c + (ramp[i + 1][k] - c) * f); }).join(',') + ')';
+    }
+    function speed(x) { return x.toFixed(1) + ' mph'; }
+    function span(h) { return hourName(h) + '–' + hourName((h + 1) % 24); }
+
+    box.innerHTML = '<p class="mta-note">Loading the bus speeds…</p>';
+    Promise.all([get('places'), get('wk')]).then(function (r) {
+      places = r[0]; mph.wk = r[1].mph;
+      var ri = route ? places.routes.indexOf(route) : -1;
+      places.segs.forEach(function (s, i) { if (!route || s[6].indexOf(ri) > -1) keep.push(i); });
+      if (!keep.length) { box.innerHTML = ''; return; }
+      build();
+    }).catch(function () { box.innerHTML = '<p class="mta-note">The bus speed map couldn’t load. Try reloading the page.</p>'; });
+
+    function build() {
+      box.innerHTML = '<div class="mta-heat-controls"><div class="mta-view-switch" role="group" aria-label="Day">' + DAYS.map(function (d) {
+        return '<button type="button" data-day="' + d[0] + '" aria-pressed="' + (d[0] === day) + '">' + d[1] + '</button>';
+      }).join('') + '</div></div>' +
+        '<div class="mta-map-bar"><button type="button" class="mta-play" aria-label="Play">▶</button><div class="mta-clock"></div>' +
+        '<input type="range" class="mta-slider" min="0" max="23" value="8" aria-label="Hour of day"></div><div class="mta-map mta-speed-map' + (route ? ' mta-speed-route' : '') + '"></div>' +
+        '<div class="mta-strip"></div><div class="mta-strip-labels"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div>' +
+        '<div class="mta-heat-key mta-speed-key"><span>Slow (' + SLOW + ' mph)</span><i></i><span>Fast (' + FAST + '+ mph)</span></div>';
+      var clock = box.querySelector('.mta-clock'), slider = box.querySelector('.mta-slider'), play = box.querySelector('.mta-play'), strip = box.querySelector('.mta-strip');
+      var map = L.map(box.querySelector('.mta-speed-map'), { preferCanvas: true, scrollWheelZoom: false, zoomSnap: 0.25 });
+      // Esri's dark gray canvas: free to use with attribution, no API key (same as the subway map).
+      L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+        maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
+      }).addTo(map);
+      var renderer = L.canvas({ padding: 0.2, tolerance: 4 });
+      var pts = [];
+      keep.forEach(function (i) { var s = places.segs[i]; pts.push([s[0], s[1]], [s[2], s[3]]); });
+      map.fitBounds(pts, { padding: [16, 16], paddingBottomRight: [16, 36] });
+      function width() { return (route ? 5 : 2.5) * Math.max(1, Math.pow(1.25, map.getZoom() - 11)); }
+      var w = width();
+      map.on('zoomend', function () { w = width(); setHour(hour); });
+      var group = L.featureGroup().addTo(map);
+      group.bindTooltip(function (layer) {
+        var i = layer.seg, s = places.segs[i], x = mph[day][i][hour];
+        return '<strong>' + esc(s[4]) + ' → ' + esc(s[5]) + '</strong><br>' + span(hour) + ': ' + (x === null ? 'too few buses to tell' : speed(x)) +
+          (route ? '' : '<br><span class="mta-tt-lines">' + esc(s[6].map(function (r) { return places.routes[r]; }).join(', ')) + '</span>');
+      }, { sticky: true, className: 'mta-tt' });
+      if (!route) group.on('click', function (e) {
+        var s = places.segs[e.layer.seg];
+        L.popup({ className: 'mta-busall-pop' }).setLatLng(e.latlng).setContent('<strong>' + esc(s[4]) + ' → ' + esc(s[5]) + '</strong><br>' +
+          s[6].map(function (r) {
+            var label = places.routes[r];
+            return '<a href="' + location.pathname.replace(/\/+$/, '') + '/' + label.toLowerCase() + '/">' + esc(label) + '</a>';
+          }).join(' ')).openOn(map);
+      });
+      var hour = 8;
+      totals();
+      setHour(hour); // fill the clock now so nothing below it moves when the lines arrive
+      // Fastest come first in the file, so the slow (red) stretches draw on top. Added in batches so the page stays responsive.
+      (function add(from) {
+        keep.slice(from, from + 1500).forEach(function (i) {
+          var s = places.segs[i], l = L.polyline([[s[0], s[1]], [s[2], s[3]]], { renderer: renderer, weight: 0, opacity: 0 });
+          l.seg = i; lines.push(l); group.addLayer(l);
+        });
+        if (from + 1500 < keep.length) setTimeout(function () { add(from + 1500); }, 0);
+        else setHour(hour);
+      })(0);
+
+      function totals() {
+        avg = [];
+        for (var h = 0; h < 24; h++) {
+          var t = 0, n = 0;
+          keep.forEach(function (i) { var x = mph[day][i][h]; if (x !== null) { t += x; n++; } });
+          avg.push(n ? t / n : null);
+        }
+        var top = Math.max.apply(null, avg.map(function (x) { return x || 0; })) || 1;
+        strip.innerHTML = avg.map(function (x, h) {
+          return '<button type="button" data-h="' + h + '" title="' + hourName(h) + ': ' + (x === null ? 'no data' : 'average ' + speed(x)) + '">' +
+            '<span style="height:' + (x === null ? 0 : Math.max(4, 100 * x / top)) + '%' + (x === null ? '' : ';background:' + colour(x)) + '"></span></button>';
+        }).join('');
+      }
+      function setHour(h) {
+        hour = h;
+        slider.value = h;
+        clock.innerHTML = '<strong>' + hourName(h) + '</strong><span>' + (avg[h] === null ? 'too few buses to tell' : 'average ' + speed(avg[h]) +
+          (route ? ' along the route' : ' citywide')) + '</span>';
+        var a = mph[day];
+        lines.forEach(function (l) {
+          var x = a[l.seg][h];
+          l.setStyle(x === null ? { weight: 0, opacity: 0 } : { color: colour(x), weight: w, opacity: 0.9 });
+        });
+        strip.querySelectorAll('button').forEach(function (b, i) { b.classList.toggle('on', i === h); });
+      }
+      function stopPlay() { touched = true; clearInterval(timer); timer = null; play.textContent = '▶'; play.setAttribute('aria-label', 'Play'); }
+      function startPlay() {
+        if (timer) return;
+        play.textContent = '❚❚'; play.setAttribute('aria-label', 'Pause');
+        timer = setInterval(function () { setHour((hour + 1) % 24); }, 800);
+      }
+      play.addEventListener('click', function () { touched = true; timer ? stopPlay() : startPlay(); });
+      slider.addEventListener('input', function () { stopPlay(); setHour(+slider.value); });
+      strip.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { stopPlay(); setHour(+b.dataset.h); } });
+      box.querySelector('.mta-heat-controls').addEventListener('click', function (e) {
+        var b = e.target.closest('button[data-day]');
+        if (!b) return;
+        b.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+        var want = b.dataset.day;
+        (mph[want] ? Promise.resolve() : get(want).then(function (r) { mph[want] = r.mph; })).then(function () {
+          day = want; totals(); setHour(hour);
+        });
+      });
+
+      // Play the day once, the first time the map scrolls into view (unless the visitor prefers less motion).
+      var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!calm && 'IntersectionObserver' in window) {
+        var io = new IntersectionObserver(function (ents) {
+          if (!ents[0].isIntersecting) return;
+          io.disconnect();
+          if (!touched) { setHour(5); startPlay(); }
+        }, { threshold: 0.5 });
+        io.observe(map.getContainer());
+      }
+    }
+  }
+
+  // Bus lane blocking map: each bus stop, coloured and sized by camera tickets issued near it in the chosen hour (over a year).
+  function busLanes(box, d) {
+    var DAYS = [['wk', 'Weekdays'], ['we', 'Weekends']];
+    var day = 'wk', hour = 8, max = 1, sums = [], markers = [], timer = null, touched = false;
+    var ramp = [[34, 160, 70], [250, 204, 21], [220, 38, 38]]; // green (fewest) → yellow (middle) → red (most)
+    function share(x) { return Math.sqrt(Math.min(1, x / max)); }
+    function colour(x) {
+      var t = share(x) * (ramp.length - 1), i = Math.min(ramp.length - 2, Math.floor(t)), f = t - i;
+      return 'rgb(' + ramp[i].map(function (c, k) { return Math.round(c + (ramp[i + 1][k] - c) * f); }).join(',') + ')';
+    }
+    function tickets(x) { return x.toLocaleString('en-US') + (x === 1 ? ' ticket' : ' tickets'); }
+    function span(h) { return hourName(h) + '–' + hourName((h + 1) % 24); }
+    function dayWord() { return day === 'wk' ? 'weekdays' : 'weekends'; }
+
+    box.innerHTML = '<div class="mta-heat-controls"><div class="mta-view-switch" role="group" aria-label="Day">' + DAYS.map(function (x) {
+      return '<button type="button" data-day="' + x[0] + '" aria-pressed="' + (x[0] === day) + '">' + x[1] + '</button>';
+    }).join('') + '</div></div>' +
+      '<div class="mta-map-bar"><button type="button" class="mta-play" aria-label="Play">▶</button><div class="mta-clock"></div>' +
+      '<input type="range" class="mta-slider" min="0" max="23" value="8" aria-label="Hour of day"></div><div class="mta-map mta-busall-map"></div>' +
+      '<div class="mta-strip"></div><div class="mta-strip-labels"><span>12 AM</span><span>6 AM</span><span>12 PM</span><span>6 PM</span><span>11 PM</span></div>' +
+      '<div class="mta-heat-key"><span>Fewer</span><i></i><span>More tickets</span></div>';
+    var clock = box.querySelector('.mta-clock'), slider = box.querySelector('.mta-slider'), play = box.querySelector('.mta-play'), strip = box.querySelector('.mta-strip');
+    var map = L.map(box.querySelector('.mta-busall-map'), { preferCanvas: true, scrollWheelZoom: false, zoomSnap: 0.25 });
+    // Esri's dark gray canvas: free to use with attribution, no API key (same as the subway map).
+    L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16, attribution: 'Tiles &copy; Esri &mdash; Esri, HERE, Garmin, &copy; OpenStreetMap contributors'
+    }).addTo(map);
+    var renderer = L.canvas({ padding: 0.2 });
+    map.fitBounds(d.stops.map(function (s) { return [s[0], s[1]]; }), { padding: [12, 12] });
+    function size() { return Math.max(6, Math.min(13, map.getContainer().clientWidth / 80)) * Math.pow(1.3, map.getZoom() - 11); }
+    var big = size();
+    map.on('zoomend', function () { big = size(); setHour(hour); });
+    var group = L.featureGroup().addTo(map);
+    group.bindTooltip(function (layer) {
+      var i = layer.stop, s = d.stops[i];
+      return '<strong>' + esc(s[2]) + '</strong><br>' + span(hour) + ' on ' + dayWord() + ': ' + tickets(d[day][i][hour]) + ' in a year' +
+        '<br><span class="mta-tt-lines">' + esc(s[3].map(function (r) { return d.routes[r]; }).join(', ')) + '</span>';
+    }, { direction: 'top', className: 'mta-tt' });
+    group.on('click', function (e) {
+      var s = d.stops[e.layer.stop];
+      L.popup({ className: 'mta-busall-pop' }).setLatLng(e.layer.getLatLng()).setContent('<strong>' + esc(s[2]) + '</strong><br>' +
+        tickets(s[4] + s[5] + s[6]) + ' in a year: ' + s[4].toLocaleString('en-US') + ' bus lane, ' + s[5].toLocaleString('en-US') + ' bus stop, ' +
+        s[6].toLocaleString('en-US') + ' double parking<br>' + s[3].map(function (r) {
+          var label = d.routes[r];
+          return '<a href="' + location.pathname.replace(/\/+$/, '') + '/' + label.toLowerCase() + '/">' + esc(label) + '</a>';
+        }).join(' ')).openOn(map);
+    });
+    markers = d.stops.map(function (s, i) {
+      var m = L.circleMarker([s[0], s[1]], { renderer: renderer, radius: 0, stroke: false, fillOpacity: 0 });
+      m.stop = i; group.addLayer(m);
+      return m;
+    });
+
+    function totals() {
+      var all = []; sums = [];
+      for (var h = 0; h < 24; h++) sums.push(0);
+      d[day].forEach(function (a) { a.forEach(function (x, h) { sums[h] += x; if (x) all.push(x); }); });
+      // Red from the busiest 0.5% of stop-hours up, so one extreme stop doesn't turn every other stop green.
+      all.sort(function (a, b) { return a - b; });
+      max = Math.max(1, all.length ? all[Math.floor(all.length * 0.995)] : 1);
+      var top = Math.max.apply(null, sums) || 1;
+      strip.innerHTML = sums.map(function (x, h) {
+        return '<button type="button" data-h="' + h + '" title="' + hourName(h) + ': ' + tickets(x) + '"><span style="height:' + Math.max(4, 100 * x / top) + '%"></span></button>';
+      }).join('');
+    }
+    function setHour(h) {
+      hour = h;
+      slider.value = h;
+      clock.innerHTML = '<strong>' + hourName(h) + '</strong><span>' + tickets(sums[h]) + ' in this hour on ' + dayWord() + ' over a year</span>';
+      var a = d[day];
+      markers.forEach(function (m, i) {
+        var x = a[i][h];
+        m.setStyle({ fillColor: x ? colour(x) : '#000', fillOpacity: x ? 0.85 : 0 });
+        m.setRadius(x ? Math.max(1.5, big * share(x)) : 0);
+      });
+      strip.querySelectorAll('button').forEach(function (b, i) { b.classList.toggle('on', i === h); });
+    }
+    function stopPlay() { touched = true; clearInterval(timer); timer = null; play.textContent = '▶'; play.setAttribute('aria-label', 'Play'); }
+    function startPlay() {
+      if (timer) return;
+      play.textContent = '❚❚'; play.setAttribute('aria-label', 'Pause');
+      timer = setInterval(function () { setHour((hour + 1) % 24); }, 800);
+    }
+    play.addEventListener('click', function () { touched = true; timer ? stopPlay() : startPlay(); });
+    slider.addEventListener('input', function () { stopPlay(); setHour(+slider.value); });
+    strip.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) { stopPlay(); setHour(+b.dataset.h); } });
+    box.querySelector('.mta-heat-controls').addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-day]');
+      if (!b) return;
+      b.parentNode.querySelectorAll('button').forEach(function (x) { x.setAttribute('aria-pressed', String(x === b)); });
+      day = b.dataset.day; totals(); setHour(hour);
+    });
+    totals();
+    setHour(hour);
+
+    // Play the day once, the first time the map scrolls into view (unless the visitor prefers less motion).
+    var calm = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!calm && 'IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function (ents) {
+        if (!ents[0].isIntersecting) return;
+        io.disconnect();
+        if (!touched) { setHour(5); startPlay(); }
+      }, { threshold: 0.5 });
+      io.observe(map.getContainer());
     }
   }
 })();

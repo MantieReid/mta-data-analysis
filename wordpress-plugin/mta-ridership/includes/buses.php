@@ -375,11 +375,11 @@ add_shortcode('mta_buses', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     mta_ridership_chartjs();
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
-    $heat_map = $r ? mta_busstops_live() : mta_busstops_all_live(); // the stop maps are drawn with Leaflet
+    $heat_map = ($r ? mta_busstops_live() : mta_busstops_all_live()) || mta_busspeeds_live() || (!$r && mta_buslanes_live()); // the stop and speed maps are drawn with Leaflet
     if ($heat_map) {
         mta_ridership_leaflet();
     }
-    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', $heat_map ? ['chartjs', 'leaflet'] : ['chartjs'], '1.17.3', true);
+    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', $heat_map ? ['chartjs', 'leaflet'] : ['chartjs'], '1.18.3', true);
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }
@@ -432,6 +432,7 @@ add_shortcode('mta_buses', function () {
                                      : 'They count everyone who boards, so they can run higher than fare-based ridership.'));
         }
         $o .= mta_busstops_section($r, $sec);
+        $o .= mta_busspeeds_section($r, $sec);
         $o .= $sec('Speed and reliability', '<p>' . esc_html(trim(($a['speed'] ?? '') . ' ' . ($a['reliable'] ?? ''))) . '</p>' .
             $table(['', $r['label'], 'All local and SBS routes'], [
                 ['Average weekday speed', isset($r['mph']) ? $r['mph'] . ' mph' : '–', $s['mph'] . ' mph'],
@@ -457,6 +458,8 @@ add_shortcode('mta_buses', function () {
             'placeholder="e.g. M15, Bx12, Fordham, Flatbush…" aria-label="Search for a bus route" autocomplete="off">' .
             '<ul class="mta-find-results" aria-label="Matching bus routes"></ul></div></div>', 'Type a route (M15, Bx12, B46, SIM22…) or a street.');
         $o .= mta_busstops_all_section($sec);
+        $o .= mta_busspeeds_section(null, $sec);
+        $o .= mta_buslanes_section($sec);
         $routes = $d['routes'];
         if (mta_ridership_look_v2()) {
             $o .= mta_buses_rankings_v2($routes, $s, $link, $sec, $range);

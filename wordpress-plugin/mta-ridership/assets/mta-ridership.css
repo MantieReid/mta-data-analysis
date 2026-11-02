@@ -203,6 +203,7 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 .mta-tt::before { display: none; }
 .mta-tt .mta-tt-lines { color: #94a3b8; font-size: 12px; }
 .mta-ridership .leaflet-container a { color: #8ab4f8; }
+.mta-ridership .leaflet-container { isolation: isolate; } /* keep the zoom buttons and boxes under the site header */
 /* year over year */
 .mta-ridership .mta-tiles-yoy { grid-template-columns: 1.4fr repeat(4, 1fr); margin-bottom: 1.2em; }
 .mta-ridership .mta-tile-sm strong { font-size: clamp(1.2rem, 3.5vw, 1.6rem); color: #2f9e44; }
@@ -311,7 +312,23 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 .mta-ridership .mta-heat thead th.on { color: var(--mta-accent); font-weight: 700; }
 .mta-ridership .mta-heat-map { height: 480px; }
 @media (max-width: 560px) { .mta-ridership .mta-heat-map { height: 400px; } }
-.mta-ridership [data-slot="busall"] { min-height: 760px; }
+.mta-ridership [data-slot="busall"] { min-height: 820px; }
 .mta-ridership .mta-busall-map { height: 600px; }
 .mta-ridership .mta-busall-pop a { margin-right: .45em; white-space: nowrap; }
-@media (max-width: 560px) { .mta-ridership [data-slot="busall"] { min-height: 640px; } .mta-ridership .mta-busall-map { height: 460px; } }
+.mta-ridership .mta-busall-pop .leaflet-popup-content { font: 14px/1.45 Inter, system-ui, sans-serif; }
+.mta-ridership .mta-busall-pop a.mta-pop-go { display: inline-block; margin-top: .3em; font-weight: 600; }
+@media (max-width: 560px) { .mta-ridership [data-slot="busall"] { min-height: 715px; } .mta-ridership .mta-busall-map { height: 460px; } }
+.mta-ridership [data-slot="flows"] { min-height: 640px; }
+.mta-ridership .mta-flows-map { height: 480px; }
+@media (max-width: 560px) { .mta-ridership [data-slot="flows"] { min-height: 560px; } .mta-ridership .mta-flows-map { height: 400px; } }
+.mta-ridership [data-slot="busspeed"] { min-height: 820px; }
+.mta-ridership [data-slot="busspeed"][data-route] { min-height: 760px; }
+.mta-ridership .mta-speed-map { height: 600px; }
+.mta-ridership .mta-speed-map.mta-speed-route { height: 480px; }
+.mta-ridership .mta-speed-key i { background: linear-gradient(90deg, rgb(220,38,38), rgb(250,204,21), rgb(34,160,70)); }
+@media (max-width: 560px) { .mta-ridership [data-slot="busspeed"] { min-height: 760px; } .mta-ridership [data-slot="busspeed"][data-route] { min-height: 695px; } .mta-ridership .mta-speed-map, .mta-ridership .mta-speed-map.mta-speed-route { height: 440px; } }
+.mta-ridership [data-slot="stmap"] { min-height: 615px; }
+.mta-ridership .mta-stmap-map { height: 540px; }
+@media (max-width: 560px) { .mta-ridership [data-slot="stmap"] { min-height: 560px; } .mta-ridership .mta-stmap-map { height: 460px; } }
+.mta-ridership [data-slot="buslanes"] { min-height: 820px; }
+@media (max-width: 560px) { .mta-ridership [data-slot="buslanes"] { min-height: 780px; } }
