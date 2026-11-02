@@ -208,5 +208,23 @@ check('alerts: ended alerts are left out', count($al) === 2 && !in_array('Old de
 check('alerts: delays come before planned work', $al[0]['type'] === 'Delays' && $al[1]['type'] === 'Planned - Stops Skipped');
 check('alerts: plain English text, routes folded (6X is the 6), end time kept', $al[0]['header'] === 'Downtown [6] trains are delayed.' && $al[0]['routes'] === ['6'] && $al[0]['until'] === $t + 600);
 
+// ---- Bus stop heat map: stops in route order, averages per day, gaps kept ----
+check('stops: a month\'s weekdays, Saturdays and Sundays', mta_busstops_days('2026-09') === ['wk' => 22, 'sa' => 4, 'su' => 4]);
+$row = function ($d, $s, $h, $b, $n, $q) { return ['r' => 'B44+', 'd' => $d, 's' => $s, 'h' => $h, 'b' => $b, 'q' => $q] + ($n === null ? [] : ['n' => (string) $n]); };
+$hb = mta_busstops_build([
+    $row('0', '300', '08', 'wk', 220, '5'), $row('0', '100', '08', 'wk', 44, '1'), $row('0', '100', '09', 'sa', 8, '1'),
+    $row('0', '200', '08', 'wk', 66, '7'), $row('0', '200', '09', 'wk', 11, '3'),   // limited and local positions: 3 is its place
+    $row('0', '400', '08', 'wk', null, '4'),                                         // no estimate at all: left out
+    $row('1', '300', '23', 'su', 2, '1'),
+], ['100' => ['First St', 40.6, -73.9], '200' => ['Middle Av'], '300' => ['Last Pl', 40.7, -73.95]], ['wk' => 22, 'sa' => 4, 'su' => 4]);
+$d0 = $hb['dirs'][0] ?? null;
+check('stops: in route order, lowest position wins', $d0 && array_column($d0['stops'], 0) === ['First St', 'Middle Av', 'Last Pl']);
+check('stops: direction named for its last stop', $d0['to'] === 'Last Pl' && $hb['dirs'][1]['to'] === 'Last Pl' && count($hb['dirs']) === 2);
+check('stops: monthly sums become an average day', $d0['stops'][0][1]['wk'][8] === 2.0 && $d0['stops'][2][1]['wk'][8] === 10.0 && $d0['stops'][0][1]['sa'][9] === 2.0);
+check('stops: an hour without an estimate stays empty, not zero', $d0['stops'][0][1]['wk'][7] === null && $d0['stops'][0][1]['su'][8] === null);
+check('stops: each day kind has 24 hours', count($d0['stops'][1][1]['wk']) === 24 && count($d0['stops'][1][1]['su']) === 24);
+check('stops: places kept for the map, none for a stop without one', ($d0['stops'][0][2] ?? null) === 40.6 && ($d0['stops'][2][3] ?? null) === -73.95 && count($d0['stops'][1]) === 2);
+check('stops: small numbers keep one decimal', $hb['dirs'][1]['stops'][0][1]['su'][23] === 0.5);
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

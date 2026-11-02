@@ -246,6 +246,7 @@ function mta_buses_step()
         delete_option('mta_ridership_buses_error');
         mta_buses_clear_cache();
         mta_stations_schedule(60); // station report cards: next cron request
+        mta_busstops_schedule(300); // stop heat maps: re-built only when there's a new month
     } catch (Throwable $e) {
         update_option('mta_ridership_buses_error', gmdate('c') . ' ' . $e->getMessage(), false);
         mta_ridership_retry_later(MTA_BUSES_HOOK, 'mta_buses_schedule');
@@ -374,7 +375,11 @@ add_shortcode('mta_buses', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     mta_ridership_chartjs();
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
-    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.14.1', true);
+    $heat_map = $r && mta_busstops_live(); // the stop heat map draws its map with Leaflet
+    if ($heat_map) {
+        mta_ridership_leaflet();
+    }
+    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', $heat_map ? ['chartjs', 'leaflet'] : ['chartjs'], '1.16.1', true);
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }
@@ -423,8 +428,10 @@ add_shortcode('mta_buses', function () {
             $o .= $sec('Busiest stops', $table(['Stop', 'Boardings on an average weekday'], array_map(function ($x) {
                 return [esc_html($x[0]), number_format($x[1])];
             }, $r['stops'])), 'MTA estimates for ' . esc_html(mta_lines_month($d['stops_month'])) . ' from passenger counters on the buses, both directions. ' .
-                'They count everyone who boards, so they can run higher than fare-based ridership.');
+                (mta_busstops_live() ? 'They show which stops are busiest, not exact counts, and can\'t be compared with riders a day (paid entries).'
+                                     : 'They count everyone who boards, so they can run higher than fare-based ridership.'));
         }
+        $o .= mta_busstops_section($r, $sec);
         $o .= $sec('Speed and reliability', '<p>' . esc_html(trim(($a['speed'] ?? '') . ' ' . ($a['reliable'] ?? ''))) . '</p>' .
             $table(['', $r['label'], 'All local and SBS routes'], [
                 ['Average weekday speed', isset($r['mph']) ? $r['mph'] . ' mph' : '–', $s['mph'] . ' mph'],

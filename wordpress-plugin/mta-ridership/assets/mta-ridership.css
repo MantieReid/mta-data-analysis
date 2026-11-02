@@ -287,3 +287,27 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 @media (max-width: 899px) { .mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 895px; } }
 @media (max-width: 599px) { .mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 1195px; } }
 @media (max-width: 389px) { .mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 1225px; } }
+/* Bus stop heat map (mta-buses.js) */
+.mta-ridership .mta-heat-controls { display: flex; flex-wrap: wrap; gap: 0 .6em; }
+.mta-ridership .mta-heat-controls .mta-view-switch { flex-wrap: wrap; border-radius: 14px; }
+.mta-ridership .mta-heat-info { min-height: 3em; margin: .2em 0 .6em; font-size: .95rem; }
+.mta-ridership .mta-heat-scroll { overflow-x: auto; border: 1px solid var(--mta-border); border-radius: 12px; }
+.mta-ridership table.mta-heat { width: 100%; min-width: 620px; border-collapse: separate; border-spacing: 2px; table-layout: fixed; margin: 0; font-size: .8rem; }
+.mta-ridership .mta-heat th, .mta-ridership .mta-heat td { padding: 0; border: 0; background: none; text-align: center; font-weight: 400; color: var(--mta-muted); }
+.mta-ridership .mta-heat thead th { position: sticky; top: 0; font-size: .72rem; white-space: nowrap; overflow: visible; text-align: left; }
+.mta-ridership .mta-heat td[data-i] { height: 20px; border-radius: 3px; cursor: pointer; }
+.mta-ridership .mta-heat td.on { outline: 3px solid #fff; outline-offset: -1px; }
+.mta-ridership .mta-heat-none, .mta-ridership .mta-heat td.mta-heat-none { background: repeating-linear-gradient(45deg, rgba(127,127,127,.18) 0 3px, transparent 3px 6px); }
+.mta-ridership .mta-heat .mta-heat-stop { position: sticky; left: 0; z-index: 1; width: 190px; background: hsl(var(--background, 222 47% 11%)); text-align: left; }
+.mta-ridership .mta-heat .mta-heat-stop button { display: block; width: 100%; padding: 2px 6px 2px 4px; font: inherit; color: inherit; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: 0; cursor: pointer; }
+.mta-ridership .mta-heat tbody .mta-heat-stop button { color: hsl(var(--foreground, 0 0% 92%)); }
+.mta-ridership .mta-heat .mta-heat-stop button:hover { color: var(--mta-accent); }
+.mta-ridership .mta-heat .mta-heat-day { width: 56px; padding-left: 4px; text-align: right; font-variant-numeric: tabular-nums; }
+.mta-ridership .mta-heat-key { display: flex; flex-wrap: wrap; align-items: center; gap: .4em; margin-top: .6em; font-size: .8rem; color: var(--mta-muted); }
+.mta-ridership .mta-heat-key i { width: 120px; height: 10px; border-radius: 3px; background: linear-gradient(90deg, rgb(34,160,70), rgb(250,204,21), rgb(220,38,38)); }
+.mta-ridership .mta-heat-key b { width: 14px; height: 10px; margin-left: 1em; border-radius: 2px; }
+@media (max-width: 599px) { .mta-ridership .mta-heat .mta-heat-stop { width: 128px; } .mta-ridership table.mta-heat { min-width: 560px; } }
+.mta-ridership .mta-heat-sub { margin: 1.6em 0 .2em; font-size: 1.05rem; }
+.mta-ridership .mta-heat thead th.on { color: var(--mta-accent); font-weight: 700; }
+.mta-ridership .mta-heat-map { height: 480px; }
+@media (max-width: 560px) { .mta-ridership .mta-heat-map { height: 400px; } }
