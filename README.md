@@ -198,6 +198,37 @@ losers, and a report card for each station.
 
 [![Every subway station ranked by riders a day](docs/images/stations-ranked.jpg)](https://mantiereidii.com/stations/)
 
+### Station map: growing stations and working elevators
+
+The Stations page has a map of every station, sized by riders a day, with two views:
+
+- **Growing or shrinking**: this year so far vs the same days last year, green for growing (+15% or more) and red
+  for shrinking (−15% or more). Stations with under 100 riders a day last year are left out.
+- **Elevators working**: the share of hours each station's NYC Transit elevators were in service over the last
+  12 months ([Elevator and Escalator Availability](https://data.ny.gov/d/rc78-7x78)), green for 99%+ and red for
+  85% or less. Stations without NYC Transit elevators are small grey dots.
+
+Tap a station for its numbers and a link to its page. The map uses data the plugin already keeps, so it needs no
+extra MTA queries.
+
+| Growing or shrinking | Elevators working |
+|---|---|
+| [![Every subway station coloured by its change in riders vs last year](docs/images/stations-growing.jpg)](https://mantiereidii.com/stations/) | [![Every subway station coloured by how often its elevators were working](docs/images/stations-elevators.jpg)](https://mantiereidii.com/stations/) |
+
+### Where riders go: subway trip flows
+
+Every station page has a map of where riders who start there get off, hour by hour, on an average weekday,
+Saturday or Sunday. Lines run from the station to its top 60 destinations, thicker and redder for more riders in
+that hour. Press play to watch a day go by, or tap a station for its numbers and a link to its page.
+
+- **Data**: [Subway Origin-Destination Ridership Estimate](https://data.ny.gov/d/28vm-gjqr), latest month. The MTA
+  scales these up from OMNY and MetroCard swipes, so they are estimates, not exact counts.
+- **Averages**: weekday rows are divided by 5. Trips that end at the same station count in the station's total only.
+- Built once a month when the MTA posts a new month, as one small file per station (all 424), loaded only when the
+  map is on screen.
+
+[![Where riders from Jackson Hts-Roosevelt Av go at 7 AM on a weekday](docs/images/subway-trip-flows.jpg)](https://mantiereidii.com/stations/jackson-hts-roosevelt-av-74-st-broadway/)
+
 ## Bus route report cards
 
 `[mta_buses]` ([live](https://mantiereidii.com/bus-routes/)) ranks NYC bus routes (busiest, slowest, least reliable,
@@ -241,6 +272,35 @@ people get on there in the chosen hour. Press play to watch a day go by, or pick
 | [![Every NYC bus stop, coloured by people getting on at 8 AM](docs/images/bus-stops-citywide.jpg)](https://mantiereidii.com/bus-routes/) | [![B44 SBS stops on a map, coloured by people getting on at 7 AM](docs/images/bus-route-map.jpg)](https://mantiereidii.com/bus-routes/b44-sbs/) |
 
 [![Every B44 SBS stop by hour of the day](docs/images/bus-route-grid.jpg)](https://mantiereidii.com/bus-routes/b44-sbs/)
+
+### How fast buses move: bus speed maps
+
+The Bus Routes page has a map of how fast buses move along each stretch of street, hour by hour, and every route
+page has the same map for just that route. Red is slow (3 mph or less), yellow in between, green fast (13 mph or more).
+
+- **Data**: [MTA Bus Route Segment Speeds](https://data.ny.gov/d/kufs-yh3x), latest month, from the buses' GPS: the
+  average time buses take between two main stops (timepoints), by day of the week and hour.
+- **Speed**: road distance ÷ travel time over every trip that hour, including time at stops and red lights. Each
+  row counts by its number of trips; stretches with fewer than 3 trips in an hour are left blank.
+- Local, Limited and Select Bus Service only (express and school trips are left out). Lines are drawn straight from
+  stop to stop, so they follow the streets only roughly.
+
+| Every route at 12 PM on a weekday | One route at 5 PM (B44 SBS) |
+|---|---|
+| [![Every NYC bus route coloured by speed at noon](docs/images/bus-speeds-citywide.jpg)](https://mantiereidii.com/bus-routes/) | [![The B44 SBS coloured by speed at 5 PM](docs/images/bus-speeds-route.jpg)](https://mantiereidii.com/bus-routes/b44-sbs/) |
+
+### Where drivers block buses: bus-lane camera map
+
+The Bus Routes page also maps the tickets that cameras on MTA buses give drivers who block a bus lane, park at a bus
+stop or double park on the route, by bus stop and hour over the last 12 full months (weekdays or weekends).
+
+- **Data**: [MTA Bus Automated Camera Enforcement Violations](https://data.ny.gov/d/kh8p-hcbm). Only tickets
+  actually issued count; exempt vehicles, rejected cases and technical problems are left out.
+- Stops with fewer than 10 tickets a year are left off. Colours are scaled so one extreme stop doesn't turn every
+  other stop green.
+- The cameras ride on buses on some routes only, so more tickets can mean more cameras, not only more blocking.
+
+[![Bus-lane camera tickets by bus stop at 12 PM on weekdays](docs/images/bus-lane-blocking.jpg)](https://mantiereidii.com/bus-routes/)
 
 ## WordPress plugin
 
