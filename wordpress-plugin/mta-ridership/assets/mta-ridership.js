@@ -337,7 +337,7 @@
       var lazy = !!D.lookup_top; // only the top five are in the page; the full list is fetched
       if (!X || !(lazy || X.lookup)) return;
       var list = lazy ? D.lookup_top : X.lookup, total = lazy ? D.lookup_total : list.length;
-      var s = section(root, 'Find your station',
+      var s = root.querySelector('section') || section(root, 'Find your station', // heading and note may already be in the page
         'Type a station name to see how busy it is: average riders a day over the last year (' +
         niceDate(X.from) + ' – ' + niceDate(X.to) + '), its rank among all ' + total + ' stations and its busiest hour.');
       var hoursById = {};
@@ -361,6 +361,7 @@
       input.setAttribute('autocomplete', 'off');
       var results = el('ul', 'mta-find-results');
       results.setAttribute('role', 'listbox');
+      results.setAttribute('aria-label', 'Matching stations');
       wrap.appendChild(input); wrap.appendChild(results);
       s.appendChild(wrap);
       var picks = el('p', 'mta-find-picks', 'Popular: ');
@@ -927,7 +928,23 @@
         chunk(LAZY[k][0]).then(function (d) { LAZY[k][1](d); render[k](slot); }, function () {});
         return;
       }
-      if (render[k]) render[k](slot || root);
+      if (!render[k]) return;
+      if (D.lazy_sections && slot && 'IntersectionObserver' in window) {
+        // Draw each section (and its charts) only when it nears the screen, so the phone isn't busy at load.
+        // Pending slots keep some height so they don't all sit at one spot and start together.
+        if (!slot.childNodes.length) slot.style.minHeight = '400px';
+        var so = new IntersectionObserver(function (ents) {
+          if (!ents[0].isIntersecting) return;
+          so.disconnect();
+          slot.style.minHeight = '';
+          render[k](slot);
+          slot.removeAttribute('data-head');
+        }, { rootMargin: '700px 0px' });
+        so.observe(slot);
+        return;
+      }
+      render[k](slot || root);
+      if (slot) slot.removeAttribute('data-head');
     });
     if (root.querySelector('.mta-source')) return;
     root.appendChild(el('p', 'mta-source',

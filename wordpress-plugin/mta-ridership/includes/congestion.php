@@ -335,10 +335,9 @@ add_shortcode('mta_congestion', function () {
         return '<p>Congestion pricing data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
-    wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
-    wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
+    mta_ridership_leaflet();
+    mta_ridership_chartjs();
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
     wp_enqueue_script('mta-congestion', $base . 'assets/mta-congestion.js', ['chartjs', 'leaflet'], '1.15.0', true);
     wp_add_inline_script('mta-congestion', 'window.MTA_CONGESTION = ' . wp_json_encode($c + ['rates' => mta_congestion_rates()]) . ';', 'before');
 

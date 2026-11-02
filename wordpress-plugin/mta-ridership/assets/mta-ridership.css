@@ -277,3 +277,13 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 .mta-ridership .mta-cal-swatches { display: inline-flex; gap: 3px; }
 .mta-ridership .mta-cal-swatches i { display: block; width: 13px; height: 13px; border-radius: 3px; }
 .mta-cal-tip { position: fixed; z-index: 99999; display: none; pointer-events: none; max-width: 260px; background: #111827; color: #e6edf6; border: 1px solid #334155; border-radius: 8px; padding: 6px 10px; font: 13px/1.45 Inter, system-ui, sans-serif; }
+/* Links in sentences underlined so they don't rely on colour; bigger tap areas for table links and route chips on phones. */
+.mta-ridership p a:not(.mta-find-pick), .mta-ridership li > a:not(.mta-find-pick) { text-decoration: underline; text-underline-offset: 2px; }
+.mta-ridership .mta-table td a { display: inline-block; min-width: 24px; padding: 4px 0; }
+.mta-ridership .mta-find-pick { margin: 0 .4em .4em 0; }
+/* The script builds "Find your station" (or all but its heading, data-head) after the page first shows; keep its room
+   so the sections below don't jump. */
+.mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 836px; }
+@media (max-width: 899px) { .mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 895px; } }
+@media (max-width: 599px) { .mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 1195px; } }
+@media (max-width: 389px) { .mta-ridership [data-slot="lookup"]:empty, .mta-ridership [data-slot="lookup"][data-head] { min-height: 1225px; } }

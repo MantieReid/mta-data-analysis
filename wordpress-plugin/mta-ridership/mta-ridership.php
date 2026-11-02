@@ -305,6 +305,35 @@ function mta_ridership_clear_page_cache()
     }
 }
 
+/**
+ * Leaflet (the map library), from this site (assets/vendor/leaflet, BSD-2 licence) since 2026-11-01. Its stylesheet
+ * loads without holding up the page: only the map, further down, needs it.
+ */
+function mta_ridership_leaflet()
+{
+    $v = plugin_dir_url(__FILE__) . 'assets/vendor/leaflet/';
+    wp_enqueue_style('leaflet', $v . 'leaflet.min.css', [], '1.9.4');
+    wp_enqueue_script('leaflet', $v . 'leaflet.min.js', [], '1.9.4', true);
+}
+
+/** Chart.js, from this site (assets/vendor/chartjs, MIT licence) since 2026-11-01. */
+function mta_ridership_chartjs()
+{
+    wp_enqueue_script('chartjs', plugin_dir_url(__FILE__) . 'assets/vendor/chartjs/chart.umd.min.js', [], '4.4.1', true);
+}
+
+add_filter('style_loader_tag', function ($tag, $handle) {
+    if ($handle === 'leaflet') { // fetch it alongside the page, apply it when it arrives
+        $tag = str_replace("media='all'", "media='print' onload=\"this.media='all'\"", $tag);
+    }
+    // The stylesheet (about 6 KB compressed) goes into the page itself, so the page shows without waiting for it.
+    $css = __DIR__ . '/assets/mta-ridership.css';
+    if ($handle === 'mta-ridership' && is_readable($css)) {
+        $tag = "<style id='mta-ridership-css'>" . file_get_contents($css) . "</style>\n";
+    }
+    return $tag;
+}, 10, 2);
+
 /* ---------- shortcode ---------- */
 
 add_shortcode('mta_ridership', function ($atts) {
@@ -334,13 +363,12 @@ add_shortcode('mta_ridership', function ($atts) {
     $base = plugin_dir_url(__FILE__);
     $deps = ['chartjs'];
     if (in_array('map', $show, true)) { // Leaflet only when the map is on the page
-        wp_enqueue_style('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css', [], '1.9.4');
-        wp_enqueue_script('leaflet', 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js', [], '1.9.4', true);
+        mta_ridership_leaflet();
         $deps[] = 'leaflet';
     }
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
-    wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.16.0', true);
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    mta_ridership_chartjs();
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.17.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     if ($data['extras'] && !in_array('lookup', $show, true)) {
@@ -351,6 +379,7 @@ add_shortcode('mta_ridership', function ($atts) {
     }
     // Live: fetch the big data blocks when they're needed instead of embedding them in the page.
     $payload = mta_ridership_lazy_payload($data, $show);
+    $payload['lazy_sections'] = true; // draw each section when it nears the screen (mta_ridership_preview() to put it back in review)
     wp_add_inline_script('mta-ridership', 'window.MTA_RIDERSHIP = ' . wp_json_encode($payload) . ';', 'before');
 
     $inner = '';
@@ -363,6 +392,10 @@ add_shortcode('mta_ridership', function ($atts) {
                     'metrocard' => 'mta_ridership_ssr_metrocard', 'talk' => 'mta_ridership_ssr_talk',
                     'more' => function () { return mta_ridership_ssr_more('ridership'); }];
             $html = isset($ssr[$k]) ? $ssr[$k]($data) : '';
+            if ($k === 'lookup' && ($head = mta_ridership_ssr_lookup_head($data))) {
+                $inner .= '<div data-slot="lookup" data-head>' . $head . '</div>'; // the script adds the search box under it
+                continue;
+            }
             $inner .= '<div data-slot="' . esc_attr($k) . '"' . ($html ? ' data-ssr' : '') . '>' . $html . '</div>';
         }
         if (true) { // live; mta_ridership_preview() hides it behind ?mta_preview=1

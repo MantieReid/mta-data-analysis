@@ -10,7 +10,7 @@
   // Search routes by number or by the streets/places in their name. Rows: [label, name, slug, riders, mph, group].
   var find = slot('find');
   if (find && D.routes) {
-    find.innerHTML = '<div class="mta-find"><input type="search" class="mta-find-input" placeholder="e.g. M15, Bx12, Fordham, Flatbush…" ' +
+    if (!find.querySelector('.mta-find')) find.innerHTML ='<div class="mta-find"><input type="search" class="mta-find-input" placeholder="e.g. M15, Bx12, Fordham, Flatbush…" ' +
       'aria-label="Search for a bus route" autocomplete="off"><ul class="mta-find-results"></ul></div>';
     var input = find.querySelector('input'), list = find.querySelector('ul');
     var norm = function (t) { return String(t).toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim(); };

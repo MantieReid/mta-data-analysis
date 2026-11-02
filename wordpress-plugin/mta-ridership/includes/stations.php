@@ -298,7 +298,7 @@ add_shortcode('mta_stations', function () {
         return '<p>Station data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }

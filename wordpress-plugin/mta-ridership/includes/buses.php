@@ -372,9 +372,9 @@ add_shortcode('mta_buses', function () {
     }
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_script('chartjs', 'https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js', [], '4.4.1', true);
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.8');
-    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.14.0', true);
+    mta_ridership_chartjs();
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_script('mta-buses', $base . 'assets/mta-buses.js', ['chartjs'], '1.14.1', true);
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }
@@ -445,7 +445,10 @@ add_shortcode('mta_buses', function () {
             '<p class="mta-hero-links">Report cards for every NYC bus route from MTA open data, ' . $range . ' · Not affiliated with the MTA</p><div class="mta-tiles">' .
             $tile(number_format($s['riders']), 'bus riders a day') . $tile($s['mph'] . ' mph', 'average local bus speed') . $tile((string) $s['routes'], 'routes') .
             '</div></header>';
-        $o .= $sec('Find your bus route', '<div data-slot="find"></div>', 'Type a route (M15, Bx12, B46, SIM22…) or a street.');
+        // The search box is in the page itself, so nothing below it moves when the script starts.
+        $o .= $sec('Find your bus route', '<div data-slot="find"><div class="mta-find"><input type="search" class="mta-find-input" ' .
+            'placeholder="e.g. M15, Bx12, Fordham, Flatbush…" aria-label="Search for a bus route" autocomplete="off">' .
+            '<ul class="mta-find-results" aria-label="Matching bus routes"></ul></div></div>', 'Type a route (M15, Bx12, B46, SIM22…) or a street.');
         $routes = $d['routes'];
         if (mta_ridership_look_v2()) {
             $o .= mta_buses_rankings_v2($routes, $s, $link, $sec, $range);

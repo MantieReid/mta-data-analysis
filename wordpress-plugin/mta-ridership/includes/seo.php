@@ -206,6 +206,20 @@ function mta_ridership_ssr_hero($data)
         '</div></header>';
 }
 
+/** The "Find your station" heading and note, in the page so they show at once (the script adds the rest). */
+function mta_ridership_ssr_lookup_head($data)
+{
+    $x = $data['extras'] ?? null;
+    if (empty($x['lookup']) || empty($x['from']) || empty($x['to'])) {
+        return '';
+    }
+    $day = function ($ymd) { return gmdate('M j, Y', strtotime($ymd . ' UTC')); };
+    return '<section class="mta-section"><' . mta_ridership_h() . '>Find your station</' . mta_ridership_h() . '>' .
+        '<p class="mta-note">Type a station name to see how busy it is: average riders a day over the last year (' .
+        esc_html($day($x['from']) . ' – ' . $day($x['to'])) . '), its rank among all ' . count($x['lookup']) .
+        ' stations and its busiest hour.</p></section>';
+}
+
 function mta_ridership_ssr_top5($data)
 {
     // Each name links to its station page.
