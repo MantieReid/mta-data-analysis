@@ -793,25 +793,12 @@ add_shortcode('mta_crime', function () {
     }
     if ($more && !empty($d['monthly'])) {
         $vals = $d['monthly'];
-        $max = max(1, max($vals));
-        $w = 720 / count($vals);
-        $svg = '';
-        $i = 0;
-        foreach ($vals as $m => $c) {
-            $hgt = round($c / $max * 160, 1);
-            $svg .= '<rect x="' . round($i * $w + 1, 1) . '" y="' . (175 - $hgt) . '" width="' . round($w - 2, 1) . '" height="' . $hgt . '" rx="1" fill="#8ab4f8"><title>' .
-                esc_html(gmdate('M Y', strtotime("$m-01 UTC")) . ': ' . number_format($c)) . '</title></rect>';
-            if (substr($m, 5, 2) === '01') {
-                $svg .= '<text x="' . round($i * $w + 1, 1) . '" y="208" fill="#a3adbd" font-size="24">' . substr($m, 0, 4) . '</text>';
-            }
-            $i++;
-        }
         $hi = array_search(max($vals), $vals, true);
         $lo = array_search(min($vals), $vals, true);
         $nice = function ($m) { return gmdate('F Y', strtotime("$m-01 UTC")); };
         $o .= $sec('NYC subway crime by month', '<p>' . esc_html('Over the last ' . count($vals) . ' months, the most major felonies were in ' . $nice($hi) . ' (' . number_format($vals[$hi]) .
             ') and the fewest in ' . $nice($lo) . ' (' . number_format($vals[$lo]) . ').') . '</p>' .
-            '<svg viewBox="0 0 720 215" width="100%" role="img" aria-label="' . esc_attr('Major felonies by month, ' . $nice(array_key_first($vals)) . ' to ' . $nice(array_key_last($vals))) . '">' . $svg . '</svg>',
+            mta_more_month_chart($vals, 'Major felonies by month, ' . $nice(array_key_first($vals)) . ' to ' . $nice(array_key_last($vals))),
             'Major felonies in NYC Transit each month, from the MTA.');
     }
 

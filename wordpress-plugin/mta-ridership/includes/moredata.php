@@ -664,16 +664,23 @@ function mta_more_month_chart(array $vals, $label, $fmt = 'number_format')
     $w = 720 / count($vals);
     $svg = '';
     $i = 0;
+    // Tap or hover a bar to see its month and number (assets/mta-month-chart.js), live since 2026-11-03.
+    $tap = true;
+    if ($tap) {
+        wp_enqueue_script('mta-month-chart', plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/mta-month-chart.js', [], '1.0.0', true);
+    }
     foreach ($vals as $m => $c) {
         $hgt = round($c / $max * 160, 1);
-        $svg .= '<rect x="' . round($i * $w + 1, 1) . '" y="' . (175 - $hgt) . '" width="' . round(max(1, $w - 2), 1) . '" height="' . $hgt . '" rx="1" fill="#8ab4f8"><title>' .
-            esc_html(gmdate('M Y', strtotime("$m-01 UTC")) . ': ' . $fmt($c)) . '</title></rect>';
+        $name = gmdate('M Y', strtotime("$m-01 UTC"));
+        $svg .= '<rect x="' . round($i * $w + 1, 1) . '" y="' . (175 - $hgt) . '" width="' . round(max(1, $w - 2), 1) . '" height="' . $hgt . '" rx="1" fill="#8ab4f8"' .
+            ($tap ? ' data-l="' . esc_attr($name) . '" data-v="' . esc_attr($fmt($c)) . '"' : '') . '><title>' . esc_html($name . ': ' . $fmt($c)) . '</title></rect>';
         if (substr($m, 5, 2) === '01' || $i === 0) {
             $svg .= '<text x="' . round($i * $w + 1, 1) . '" y="208" fill="#a3adbd" font-size="24">' . esc_html(substr($m, 5, 2) === '01' ? substr($m, 0, 4) : gmdate('M', strtotime("$m-01 UTC"))) . '</text>';
         }
         $i++;
     }
-    return '<svg viewBox="0 0 720 215" width="100%" role="img" aria-label="' . esc_attr($label) . '">' . $svg . '</svg>';
+    $svg = '<svg viewBox="0 0 720 215" width="100%" role="img" aria-label="' . esc_attr($label) . '">' . $svg . '</svg>';
+    return $tap ? '<div class="mta-mchart">' . $svg . '</div>' : $svg;
 }
 
 function mta_more_range($a, $b)

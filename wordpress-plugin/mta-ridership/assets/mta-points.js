@@ -9,6 +9,7 @@
   if (el && window.L) {
     var draw = function () {
       var pts = JSON.parse(el.getAttribute('data-points') || '[]');
+      var gmaps = el.getAttribute('data-gmaps') === '1';
       var map = L.map(el, { preferCanvas: true, scrollWheelZoom: false });
       // Esri's dark gray canvas: free to use with attribution, no API key (same as the other maps).
       L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
@@ -17,7 +18,8 @@
       var group = L.featureGroup();
       pts.forEach(function (p) {
         L.circleMarker([p[0], p[1]], { radius: 6, weight: 1, color: '#fff', fillColor: '#8ab4f8', fillOpacity: 0.9 })
-          .bindPopup('<strong>' + esc(p[2]) + '</strong><br>' + esc(p[3])).addTo(group);
+          .bindPopup('<strong>' + esc(p[2]) + '</strong><br>' + esc(p[3]) + (gmaps ? '<br><a href="https://www.google.com/maps/search/?api=1&amp;query=' +
+            encodeURIComponent(p[2] + ', ' + p[3]) + '" target="_blank" rel="noopener">Open in Google Maps</a>' : '')).addTo(group);
       });
       group.addTo(map);
       // Start on New York City, where most of the visitors are; zoom out to see the whole state.

@@ -570,7 +570,7 @@ function mta_tm_ezpass_fetch()
     foreach (mta_more_api('y59h-w6v4', ['$order' => 'state, city, company']) as $r) {
         $c = $r['georeference']['coordinates'] ?? null;
         $out[] = ['name' => mta_tm_title_case(trim($r['company'] ?? '')), 'street' => mta_tm_title_case(trim(($r['street_1'] ?? '') . (empty($r['street_2']) ? '' : ', ' . $r['street_2']))),
-                  'city' => ucwords(strtolower(trim($r['city'] ?? ''))), 'state' => $r['state'] ?? '', 'zip' => substr($r['zip_code'] ?? '', 0, 5),
+                  'city' => ucwords(strtolower(trim($r['city'] ?? ''))), 'state' => $r['state'] ?? '', 'zip' => preg_match('/^\d{3,4}$/', $z = substr($r['zip_code'] ?? '', 0, 5)) ? str_pad($z, 5, '0', STR_PAD_LEFT) : $z, // the data drops leading zeros (CT, NJ)
                   'lat' => $c ? (float) $c[1] : null, 'lon' => $c ? (float) $c[0] : null];
     }
     if (!$out) {
@@ -1382,6 +1382,12 @@ function mta_tm_ezpass_faq($e)
             ['Is this list up to date?', 'It is the state\'s snapshot list' . ($e['as_of'] ? ' from ' . gmdate('F Y', strtotime($e['as_of'])) : '') . '. Call ahead to check a store still sells tags.']];
 }
 
+/** A Google Maps search for a retailer by name and address (Google's documented link format, no key needed). */
+function mta_tm_gmaps_url($name, $address)
+{
+    return 'https://www.google.com/maps/search/?api=1&query=' . rawurlencode($name . ', ' . $address);
+}
+
 function mta_tm_ezpass_page()
 {
     if (!mta_tm_live()) {
@@ -1393,7 +1399,8 @@ function mta_tm_ezpass_page()
     }
     mta_tm_css();
     mta_ridership_leaflet();
-    wp_enqueue_script('mta-points', plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/mta-points.js', ['leaflet'], '1.0.0', true);
+    wp_enqueue_script('mta-points', plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/mta-points.js', ['leaflet'], '1.1.0', true);
+    $gmaps = true; // "Open in Google Maps" links, live since 2026-11-03
     $p = $e['places'];
     $cities = array_unique(array_column($p, 'city'));
     $o = '<header class="mta-hero"><h1>Where to Get an E-ZPass: New York Retailer Locations Map</h1>' .
@@ -1406,11 +1413,14 @@ function mta_tm_ezpass_page()
             $pts[] = [round($r['lat'], 5), round($r['lon'], 5), $r['name'], $r['street'] . ', ' . $r['city'] . ', ' . $r['state'] . ' ' . $r['zip']];
         }
     }
-    $o .= mta_more_sec('E-ZPass retailer map', '<div class="mta-map mta-points-map" style="height:420px;border-radius:12px" data-points="' . esc_attr(wp_json_encode($pts)) . '"></div>',
-        'Tap a dot for the name and address.');
+    $o .= mta_more_sec('E-ZPass retailer map', '<div class="mta-map mta-points-map" style="height:420px;border-radius:12px" data-points="' . esc_attr(wp_json_encode($pts)) . '"' . ($gmaps ? ' data-gmaps="1"' : '') . '></div>',
+        'Tap a dot for the name and address' . ($gmaps ? ', and a link to open it in Google Maps.' : '.'));
     $rows = [];
     foreach ($p as $r) {
-        $rows[] = [esc_html($r['name']) . '<br><small class="mta-note">' . esc_html($r['street']) . '</small>', esc_html($r['city'] . ', ' . $r['state'] . ' ' . $r['zip'])];
+        $addr = $r['street'] . ', ' . $r['city'] . ', ' . $r['state'] . ' ' . $r['zip'];
+        $rows[] = [esc_html($r['name']) . '<br><small class="mta-note">' . esc_html($r['street']) . '</small>' .
+            ($gmaps ? '<br><small><a href="' . esc_url(mta_tm_gmaps_url($r['name'], $addr)) . '" target="_blank" rel="noopener">Open in Google Maps</a></small>' : ''),
+            esc_html($r['city'] . ', ' . $r['state'] . ' ' . $r['zip'])];
     }
     $o .= mta_more_sec('Every E-ZPass retailer', '<p><input type="search" class="mta-points-filter" placeholder="Search by town, ZIP or store" aria-label="Search the list" style="width:100%;max-width:360px"></p>' .
         mta_more_table(['Retailer and address', 'City'], $rows), 'By state, then city.');
