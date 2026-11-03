@@ -425,6 +425,10 @@ add_shortcode('mta_congestion', function () {
             '. See every station on the <a href="' . esc_url(home_url('/mta-ridership/')) . '">NYC subway ridership page</a>.');
     }
 
+    if (function_exists('mta_tm_cbd_sections')) { // miles driven, greenhouse gas, taxi trips and speeds (includes/transitmore.php)
+        $o .= mta_tm_cbd_sections();
+    }
+
     $o .= $sec('How NYC compares with London and Stockholm',
         '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>New York</th><th>London</th><th>Stockholm</th></tr></thead><tbody>' .
         '<tr><td>Started</td><td>2025</td><td>2003</td><td>2007</td></tr>' .

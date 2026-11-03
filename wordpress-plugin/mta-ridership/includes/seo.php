@@ -114,8 +114,9 @@ function mta_ridership_look_v2()
  */
 function mta_ridership_share_image(callable $is_page, $card, $w = 1200, $h = 630)
 {
-    add_filter('wpseo_twitter_image', function ($img) use ($is_page, $card) {
-        return mta_ridership_seo_live() && $is_page() ? mta_share_url($card) : $img;
+    $name = function () use ($card) { return $card instanceof Closure ? $card() : $card; };
+    add_filter('wpseo_twitter_image', function ($img) use ($is_page, $name) {
+        return mta_ridership_seo_live() && $is_page() ? mta_share_url($name()) : $img;
     });
     // Drop Yoast's own og:image here (it would print the site-wide default image first).
     add_filter('wpseo_frontend_presenters', function ($presenters) use ($is_page) {
@@ -126,9 +127,9 @@ function mta_ridership_share_image(callable $is_page, $card, $w = 1200, $h = 630
             return !($p instanceof \Yoast\WP\SEO\Presenters\Open_Graph\Image_Presenter);
         }));
     });
-    add_action('wpseo_head', function () use ($is_page, $card, $w, $h) {
+    add_action('wpseo_head', function () use ($is_page, $name, $w, $h) {
         if (mta_ridership_seo_live() && $is_page()) {
-            echo '<meta property="og:image" content="' . esc_url(mta_share_url($card)) . "\" />\n<meta property=\"og:image:width\" content=\"$w\" />\n" .
+            echo '<meta property="og:image" content="' . esc_url(mta_share_url($name())) . "\" />\n<meta property=\"og:image:width\" content=\"$w\" />\n" .
                  "<meta property=\"og:image:height\" content=\"$h\" />\n<meta property=\"og:image:type\" content=\"image/jpeg\" />\n";
         }
     }, 30);
@@ -407,6 +408,12 @@ function mta_ridership_ssr_more($current)
         $pages['mnr'] = [MTA_MORE_PAGES['mnr'], 'Metro-North on-time performance', 'On-time rates, late and cancelled trains by line and cause, and ridership.'];
         $pages['pay'] = [MTA_MORE_PAGES['pay'], 'MTA salaries and overtime', 'What MTA workers make, the best-paid jobs and overtime, without names.'];
         $pages['bridges'] = [MTA_MORE_PAGES['bridges'], 'NYC bridge and tunnel traffic', 'Crossings a day on each MTA bridge and tunnel, busiest hours and tolls paid.'];
+    }
+    if (function_exists('mta_tm_live') && mta_tm_live()) {
+        $pages['aar'] = [MTA_TM_PAGES['aar'], 'Access-A-Ride report card', 'Trips, on-time pickups, ride times, no-shows, complaints and phone wait times.'];
+        $pages['jobs'] = [MTA_TM_PAGES['jobs'], 'MTA jobs and what they pay', 'How many people work at the MTA, typical pay for 80 jobs, hiring and overtime.'];
+        $pages['sir'] = [MTA_TM_PAGES['sir'], 'Staten Island Railway', 'On-time rate, ridership, trains a day, breakdowns and stations.'];
+        $pages['ezpass'] = [MTA_TM_PAGES['ezpass'], 'Where to get an E-ZPass', 'Map and list of every place in New York that sells E-ZPass tags.'];
     }
     $li = '';
     foreach ($pages as $k => [$slug, $title, $text]) {

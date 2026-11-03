@@ -51,6 +51,7 @@ function mta_ridership_steps()
         'stations'   => ['Station report cards', 'mta_stations_step', 'mta_ridership_stations_step', 'mta_ridership_stations_error', $month_end('mta_ridership_stations'), 60, false],
         'crime'      => ['Subway crime', 'mta_crime_step', 'mta_ridership_crime_step', 'mta_ridership_crime_error', $month_end('mta_ridership_crime'), 60, false],
         'more'       => ['Amenities, art, railroads, pay, bridges', 'mta_more_step', 'mta_ridership_more_step', 'mta_ridership_more_error', $month_end('mta_more_stations'), 60, false],
+        'tm'         => ['Access-A-Ride, railroad stations, jobs, E-ZPass, Staten Island Railway', 'mta_tm_step', 'mta_ridership_tm_step', 'mta_ridership_tm_error', $month_end('mta_tm_aar'), 60, false],
         'map'        => ['Subway map', 'mta_map_step', 'mta_ridership_map_step', 'mta_ridership_map_error', $opt('mta_ridership_map', 'latest'), 3, false],
     ];
     $custom = (array) get_option('mta_ridership_max_age', []); // per-step overrides, in days

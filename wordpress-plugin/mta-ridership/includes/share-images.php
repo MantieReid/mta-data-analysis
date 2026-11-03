@@ -19,14 +19,15 @@ const MTA_SHARE_KEEP   = 2;                     // image versions kept per card,
 /** Card name => [fallback image in assets/, function returning the card or null when its data isn't there]. */
 function mta_share_cards()
 {
-    return [
+    // Other files add their pages' cards with this filter, and say which page URLs show them with "mta_share_page_urls".
+    return apply_filters('mta_share_cards', [
         'ridership'  => ['ridership-share.jpg', 'mta_share_card_ridership'],
         'lines'      => ['lines-share.jpg', 'mta_share_card_lines'],
         'buses'      => ['buses-share.jpg', 'mta_share_card_buses'],
         'stations'   => ['stations-share.jpg', 'mta_share_card_stations'],
         'congestion' => ['congestion-share.jpg', 'mta_share_card_congestion'],
         'crime'      => ['share.jpg', 'mta_share_card_crime'],
-    ];
+    ]);
 }
 
 /** The current image for a card: the latest drawn one, or the fallback in assets/. */
@@ -37,7 +38,7 @@ function mta_share_url($card)
     if ($file && file_exists(mta_share_dir() . '/' . $file)) {
         return wp_upload_dir()['baseurl'] . '/' . MTA_SHARE_DIR . '/' . $file;
     }
-    return plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/' . mta_share_cards()[$card][0];
+    return plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/' . (mta_share_cards()[$card][0] ?? 'share.jpg');
 }
 
 function mta_share_dir()
@@ -319,6 +320,8 @@ function mta_share_clear_cache(array $cards)
             mta_congestion_clear_cache();
         } elseif ($card === 'crime' && function_exists('mta_crime_page') && ($p = mta_crime_page())) {
             rocket_clean_post($p->ID);
+        } elseif (($urls = apply_filters('mta_share_page_urls', [], $card)) && function_exists('rocket_clean_files')) {
+            rocket_clean_files($urls);
         }
     }
 }

@@ -387,5 +387,13 @@ $ro2 = mta_more_rail_otp(['Harlem' => ['2026-09' => ['otp' => 98, 'am' => null, 
 check('more: railroad without a system row averages the branches', $ro2['system']['otp'] === 97.0 && $ro2['series'] === ['2026-09' => 97.0]);
 check('more: money wording', mta_more_money(8607697371) === '$8.6 billion' && mta_more_money(88165437) === '$88 million' && mta_more_money(98228) === '$98,228');
 
+/* ---------- Access-A-Ride, railroad stations, jobs, E-ZPass, Staten Island Railway ---------- */
+
+check('tm: next month and days in a range', mta_tm_next('2025-12') === '2026-01' && mta_tm_days('2025-10', '2026-09') === 365 && mta_tm_days('2024-02', '2024-02') === 29);
+check('tm: change in words', mta_tm_change(110, 100) === '10% more' && mta_tm_change(966, 1000) === '3.4% fewer' && mta_tm_change(5, 0) === '');
+check('tm: the last 12 months of a series', array_keys(mta_tm_last12(['2025-09' => 1, '2025-10' => 2, '2026-09' => 3, '2026-10' => 4], '2026-09')) === ['2025-10', '2026-09']);
+check('tm: station branches map to the on-time data', mta_tm_otp_branch('lirr', 'Greenport') === 'Ronkonkoma' && mta_tm_otp_branch('mnr', 'Danbury') === 'New Haven' && mta_tm_otp_branch('lirr', 'Babylon') === 'Babylon');
+check('tm: ticket type names', mta_tm_sold_as_name('ten_trip') === '10-trip' && mta_tm_sold_as_name('day_pass') === 'Day pass' && mta_tm_sold_as_name('family_fare') === 'Family fare');
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

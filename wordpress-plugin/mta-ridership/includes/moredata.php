@@ -109,6 +109,9 @@ function mta_more_step()
         mta_ridership_retry_later(MTA_MORE_HOOK, 'mta_more_schedule');
     } else {
         delete_option('mta_ridership_more_error');
+        if (function_exists('mta_tm_schedule')) {
+            mta_tm_schedule(600); // then the step after it
+        }
     }
     if (mta_more_live() && function_exists('rocket_clean_domain')) { // station, line, bus and crime pages all show some of it
         rocket_clean_domain();
@@ -1047,6 +1050,9 @@ function mta_more_rail_page($k)
     if (!mta_more_live()) {
         return '';
     }
+    if (function_exists('mta_tm_rail_station_current') && ($st = mta_tm_rail_station_current($k))) { // /lirr/<station>/
+        return mta_tm_rail_station_page($k, $st);
+    }
     $f = mta_more_rail_facts($k);
     if (!$f) {
         return '<p>Railroad data is loading. Check back in a few minutes.</p>';
@@ -1108,6 +1114,10 @@ function mta_more_rail_page($k)
         $o .= mta_more_sec('Crime on ' . mta_more_the($short), '<p>' . esc_html('The MTA counted ' . number_format($crime['year']['n']) . ' major felonies on the ' . $long . ' in the last 12 months, compared with ' .
             number_format($crime['before']['n']) . ' the year before.') . ' <a href="' . esc_url(mta_crime_url()) . '">Subway and railroad crime &rarr;</a></p>',
             'The seven major felonies, which the MTA Police patrol on the railroads.');
+    }
+
+    if (function_exists('mta_tm_rail_station_list')) {
+        $o .= mta_tm_rail_station_list($k);
     }
 
     $faq = '';
@@ -1290,6 +1300,9 @@ add_shortcode('mta_bridges', 'mta_more_bridges_page');
 function mta_more_seo()
 {
     if (!mta_more_live()) {
+        return null;
+    }
+    if (get_query_var('mta_rail_station')) { // a station page sets its own (includes/transitmore.php)
         return null;
     }
     foreach (['lirr', 'mnr'] as $k) {
