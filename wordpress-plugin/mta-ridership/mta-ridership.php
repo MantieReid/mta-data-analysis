@@ -33,6 +33,7 @@ require_once __DIR__ . '/includes/buslanes.php';
 require_once __DIR__ . '/includes/stations.php';
 require_once __DIR__ . '/includes/subwaymap.php';
 require_once __DIR__ . '/includes/crime.php';
+require_once __DIR__ . '/includes/moredata.php';
 require_once __DIR__ . '/includes/status.php';
 require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';

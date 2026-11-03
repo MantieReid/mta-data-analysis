@@ -435,6 +435,7 @@ add_shortcode('mta_buses', function () {
         $o .= mta_busspeeds_section($r, $sec);
         $o .= mta_buslanes_section($sec, $r);
         $o .= mta_buslanes_more_section($sec, $r);
+        $o .= function_exists('mta_more_bus_section') ? mta_more_bus_section($r) : '';
         $o .= $sec('Speed and reliability', '<p>' . esc_html(trim(($a['speed'] ?? '') . ' ' . ($a['reliable'] ?? ''))) . '</p>' .
             $table(['', $r['label'], 'All local and SBS routes'], [
                 ['Average weekday speed', isset($r['mph']) ? $r['mph'] . ' mph' : '–', $s['mph'] . ' mph'],

@@ -448,6 +448,7 @@ add_shortcode('mta_lines', function () {
         $o .= $sec('Report card', '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>' . esc_html($l['name']) .
             '</th><th>Whole subway</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', $range . '. The wait assessment is the MTA\'s measure of how regularly trains are spaced during rush hour at selected points on each line. Major incidents are counted per line, so the subway total is the sum.');
         $o .= function_exists('mta_crime_line_section') ? mta_crime_line_section($l, $sec) : '';
+        $o .= function_exists('mta_more_line_sections') ? mta_more_line_sections($l) : '';
         if (!$map && mta_ridership_seo_live() && function_exists('mta_stations_line_section')) {
             $o .= mta_stations_line_section($l, $sec);
         }
@@ -492,6 +493,7 @@ add_shortcode('mta_lines', function () {
                 $tr . '</tbody></table></div>',
                 'The MTA\'s customer journey measures: the extra time, above the schedule, an average rider spends waiting on the platform and on the train, in minutes:seconds. ' . $range . '.');
         }
+        $o .= function_exists('mta_more_lines_index_sections') ? mta_more_lines_index_sections() : '';
     }
 
     $faq = '';

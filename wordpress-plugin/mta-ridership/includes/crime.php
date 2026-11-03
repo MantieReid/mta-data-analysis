@@ -102,6 +102,9 @@ function mta_crime_step()
         }
         update_option(MTA_CRIME_OPTION, ['updated' => gmdate('c')] + $s, false);
         delete_option('mta_ridership_crime_error');
+        if (function_exists('mta_more_schedule')) {
+            mta_more_schedule(600);
+        }
         if (function_exists('rocket_clean_post')) {
             foreach ([mta_crime_page(), get_page_by_path('mta-ridership', OBJECT, 'page')] as $p) {
                 if ($p) {
@@ -823,6 +826,7 @@ add_shortcode('mta_crime', function () {
     if ($tr) {
         $o .= $sec('The MTA\'s railroads', '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>Last 12 months</th><th>12 months before</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', 'Major felonies on the commuter railroads and the Staten Island Railway, which the MTA Police patrol.');
     }
+    $o .= function_exists('mta_more_crime_sections') ? mta_more_crime_sections() : '';
     $mr = function ($x) { return gmdate('M Y', strtotime($x['from'] . '-01 UTC')) . ' – ' . gmdate('M Y', strtotime($x['latest'] . '-01 UTC')); };
     $wk = $more ? ($d['workers'] ?? null) : null;
     if ($wk && array_sum($wk['year'])) {

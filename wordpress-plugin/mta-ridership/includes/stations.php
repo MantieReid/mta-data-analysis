@@ -406,6 +406,7 @@ function mta_stations_render($st)
     $o .= mta_stations_report_card($st, $sec);
     $o .= mta_flows_section($st, $sec);
     $o .= function_exists('mta_crime_station_section') ? mta_crime_station_section($st, $sec) : '';
+    $o .= function_exists('mta_more_station_sections') ? mta_more_station_sections($st) : '';
 
     if ($lines) {
         // Each line's on-time rate from its own report card: the MTA measures delays per line, not per station.
@@ -541,6 +542,7 @@ function mta_stations_render_ranking()
                 gmdate('F Y', strtotime($rc['equip_to'] . '-01 UTC'))) . ' (MTA availability). Some elevators lead to the street, others only between platforms.');
         }
     }
+    $o .= function_exists('mta_more_restrooms_section') ? mta_more_restrooms_section() : '';
 
     $opts = '<option value="">All boroughs</option>';
     foreach ($boroughs as $b) {

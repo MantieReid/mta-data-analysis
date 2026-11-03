@@ -402,6 +402,12 @@ function mta_ridership_ssr_more($current)
     if (function_exists('mta_crime_live') && mta_crime_live()) {
         $pages['crime'] = [MTA_CRIME_SLUG, 'NYC subway crime', 'Major felonies by year, time of day and station, updated monthly.'];
     }
+    if (function_exists('mta_more_live') && mta_more_live()) {
+        $pages['lirr'] = [MTA_MORE_PAGES['lirr'], 'LIRR on-time performance', 'On-time rates, late and cancelled trains by branch and cause, and ridership.'];
+        $pages['mnr'] = [MTA_MORE_PAGES['mnr'], 'Metro-North on-time performance', 'On-time rates, late and cancelled trains by line and cause, and ridership.'];
+        $pages['pay'] = [MTA_MORE_PAGES['pay'], 'MTA salaries and overtime', 'What MTA workers make, the best-paid jobs and overtime, without names.'];
+        $pages['bridges'] = [MTA_MORE_PAGES['bridges'], 'NYC bridge and tunnel traffic', 'Crossings a day on each MTA bridge and tunnel, busiest hours and tolls paid.'];
+    }
     $li = '';
     foreach ($pages as $k => [$slug, $title, $text]) {
         $p = get_page_by_path($slug, OBJECT, 'page');

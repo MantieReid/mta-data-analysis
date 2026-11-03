@@ -359,5 +359,33 @@ check('crime: kinds of felony in words', mta_crime_type_words(['109' => 20, '106
 check('crime: misdemeanor names', mta_crime_misd_name('OTHER OFFENSES RELATED TO THEFT') === 'Fare evasion and selling swipes' && mta_crime_misd_name('NEW THING') === 'New thing');
 check('crime: monthly felonies kept', count($cs['monthly']) === 24 && end($cs['monthly']) === 30);
 
+/* ---------- more data: amenities, art, line extras, railroads ---------- */
+
+check('more: line codes', mta_more_line_code('J') === 'JZ' && mta_more_line_code('GS') === 'S 42nd' && mta_more_line_code('H') === 'S Rock' && mta_more_line_code('A') === 'A' && mta_more_line_code('SI') === null);
+check('more: station names', mta_more_station_name('207TH STREET-8AV') === '207th Street-8 Av' && mta_more_station_name('LEFFERTS BOULEVARD-OZONE PARK') === 'Lefferts Boulevard-Ozone Park');
+$art = mta_more_art([['station_name' => 'Canal St', 'line' => 'A,C,E', 'artist' => 'X', 'art_title' => 'T1', 'art_image_link' => ['url' => 'https://mta.info/a']],
+                     ['station_name' => 'Canal St', 'line' => '6', 'artist' => 'Y', 'art_title' => 'T2'],
+                     ['station_name' => 'Nowhere', 'line' => '1', 'artist' => 'Z', 'art_title' => 'T3'],
+                     ['station_name' => 'Solo Stop', 'line' => 'Q', 'artist' => 'W', 'art_title' => 'T4', 'art_image_link' => ['url' => 'javascript:alert(1)']]],
+    ['canalst' => [['10', ['A', 'C', 'E']], ['20', ['4', '6']]], 'solostop' => [['30', ['B']]]]);
+check('more: art matched by name and line', $art['art']['10'][0]['title'] === 'T1' && $art['art']['10'][0]['url'] === 'https://mta.info/a' && $art['art']['20'][0]['title'] === 'T2' &&
+    $art['art_unmatched'] === 1 && $art['art']['30'][0]['url'] === '');
+$rt = mta_more_runtimes(
+    [['line' => 'A', 'direction' => 'N', 'o' => 'FAR', 'd' => 'END', 's' => '30', 'distance' => '20', 'a' => '80', 'sch' => '78', 'n' => '10'],
+     ['line' => 'A', 'direction' => 'N', 'o' => 'FAR', 'd' => 'END', 's' => '30', 'distance' => '20', 'a' => '90', 'sch' => '78', 'n' => '30'],
+     ['line' => 'A', 'direction' => 'N', 'o' => 'OTHER', 'd' => 'END', 's' => '25', 'distance' => '15', 'a' => '60', 'sch' => '58', 'n' => '5'],
+     ['line' => 'GS', 'direction' => 'S', 'o' => 'GC', 'd' => 'TS', 's' => '2', 'distance' => '0.4', 'a' => '2', 'n' => '100']],
+    [['line' => 'A', 'direction' => 'N', 'o' => 'FAR', 'd' => 'END', 's' => '30', 'distance' => '20', 'a' => '85', 'sch' => '80', 'n' => '40']]);
+check('more: running times use the busiest pattern, weighted by trains', $rt['A']['N']['actual'] === 87.5 && $rt['A']['N']['trains'] === 40 && $rt['A']['N']['then'] === 85.0 &&
+    $rt['A']['N']['from'] === 'Far' && $rt['S 42nd']['S']['scheduled'] === null && $rt['S 42nd']['S']['then'] === null);
+$ro = mta_more_rail_otp(['Babylon' => ['2026-09' => ['otp' => 90, 'am' => 85, 'pm' => null], '2025-01' => ['otp' => 80, 'am' => null, 'pm' => null]],
+                         'Hudson' => ['2026-09' => ['otp' => 96, 'am' => null, 'pm' => null]],
+                         'System Total' => ['2026-09' => ['otp' => 93, 'am' => 91, 'pm' => 92], '2026-08' => ['otp' => 94, 'am' => 91, 'pm' => 92]]], '2025-10', 'System Total');
+check('more: railroad on-time by branch and system', array_keys($ro['branches']) === ['Hudson', 'Babylon'] && $ro['branches']['Babylon']['before'] === 80.0 &&
+    $ro['system']['otp'] === 93.5 && $ro['series'] === ['2026-08' => 94.0, '2026-09' => 93.0]);
+$ro2 = mta_more_rail_otp(['Harlem' => ['2026-09' => ['otp' => 98, 'am' => null, 'pm' => null]], 'Hudson' => ['2026-09' => ['otp' => 96, 'am' => null, 'pm' => null]]], '2025-10', null);
+check('more: railroad without a system row averages the branches', $ro2['system']['otp'] === 97.0 && $ro2['series'] === ['2026-09' => 97.0]);
+check('more: money wording', mta_more_money(8607697371) === '$8.6 billion' && mta_more_money(88165437) === '$88 million' && mta_more_money(98228) === '$98,228');
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);
