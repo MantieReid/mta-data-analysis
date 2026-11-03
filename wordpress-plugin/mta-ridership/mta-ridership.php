@@ -32,6 +32,7 @@ require_once __DIR__ . '/includes/busspeeds.php';
 require_once __DIR__ . '/includes/buslanes.php';
 require_once __DIR__ . '/includes/stations.php';
 require_once __DIR__ . '/includes/subwaymap.php';
+require_once __DIR__ . '/includes/crime.php';
 require_once __DIR__ . '/includes/status.php';
 require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';
@@ -359,6 +360,9 @@ add_shortcode('mta_ridership', function ($atts) {
         $at('hero', 'lookup');
         $at('top5', 'findings');
         $at('fares', 'metrocard'); // just above the OMNY vs MetroCard chart
+        if (mta_crime_live() && get_option(MTA_CRIME_OPTION)) { // the section is written here; the script draws nothing for it
+            $show[] = 'crime';
+        }
         $show[] = 'faq';
         $show[] = 'talk';
     }
@@ -395,7 +399,7 @@ add_shortcode('mta_ridership', function ($atts) {
             $ssr = ['hero' => 'mta_ridership_ssr_hero', 'top5' => 'mta_ridership_ssr_top5',
                     'findings' => 'mta_ridership_ssr_findings', 'faq' => 'mta_ridership_ssr_faq',
                     'metrocard' => 'mta_ridership_ssr_metrocard', 'talk' => 'mta_ridership_ssr_talk',
-                    'more' => function () { return mta_ridership_ssr_more('ridership'); }];
+                    'more' => function () { return mta_ridership_ssr_more('ridership'); }, 'crime' => 'mta_crime_section'];
             $html = isset($ssr[$k]) ? $ssr[$k]($data) : '';
             if ($k === 'lookup' && ($head = mta_ridership_ssr_lookup_head($data))) {
                 $inner .= '<div data-slot="lookup" data-head>' . $head . '</div>'; // the script adds the search box under it

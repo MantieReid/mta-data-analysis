@@ -49,6 +49,7 @@ function mta_ridership_steps()
         'buslanes'   => ['Bus lane blocking map', 'mta_buslanes_step', 'mta_ridership_buslanes_step', 'mta_ridership_buslanes_error', $month_end('mta_ridership_buslanes'), 75, false],
         'busstops'   => ['Bus stop heat maps', 'mta_busstops_step', 'mta_ridership_busstops_step', 'mta_ridership_busstops_error', $month_end('mta_ridership_busstops'), 75, false],
         'stations'   => ['Station report cards', 'mta_stations_step', 'mta_ridership_stations_step', 'mta_ridership_stations_error', $month_end('mta_ridership_stations'), 60, false],
+        'crime'      => ['Subway crime', 'mta_crime_step', 'mta_ridership_crime_step', 'mta_ridership_crime_error', $month_end('mta_ridership_crime'), 60, false],
         'map'        => ['Subway map', 'mta_map_step', 'mta_ridership_map_step', 'mta_ridership_map_error', $opt('mta_ridership_map', 'latest'), 3, false],
     ];
     $custom = (array) get_option('mta_ridership_max_age', []); // per-step overrides, in days

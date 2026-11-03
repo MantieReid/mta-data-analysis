@@ -405,6 +405,7 @@ function mta_stations_render($st)
 
     $o .= mta_stations_report_card($st, $sec);
     $o .= mta_flows_section($st, $sec);
+    $o .= function_exists('mta_crime_station_section') ? mta_crime_station_section($st, $sec) : '';
 
     if ($lines) {
         // Each line's on-time rate from its own report card: the MTA measures delays per line, not per station.

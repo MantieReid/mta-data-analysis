@@ -399,6 +399,9 @@ function mta_ridership_ssr_more($current)
         'lines'      => ['subway-lines', 'Every subway line ranked', 'Which line is the worst? On-time rates, delays and a report card for each line.'],
         'buses'      => ['bus-routes', 'NYC bus routes ranked', 'The busiest, slowest and least reliable buses, with a report card for each route.'],
     ];
+    if (function_exists('mta_crime_live') && mta_crime_live()) {
+        $pages['crime'] = [MTA_CRIME_SLUG, 'NYC subway crime', 'Major felonies by year, time of day and station, updated monthly.'];
+    }
     $li = '';
     foreach ($pages as $k => [$slug, $title, $text]) {
         $p = get_page_by_path($slug, OBJECT, 'page');

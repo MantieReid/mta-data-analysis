@@ -45,6 +45,35 @@
     });
   }
 
+  // Delayed trains by month, stacked by cause (this line, or the whole subway).
+  var causeTrend = slot('causes-trend'), CAUSE_COLORS = ['#e8590c', '#f59f00', '#d6336c', '#4c8df6', '#20c997', '#adb5bd'];
+  var who = D.line || D.system;
+  if (causeTrend && who.cause_series && D.causes) {
+    chart(causeTrend, {
+      type: 'bar',
+      data: { labels: monthLabels, datasets: D.causes.map(function (c, i) {
+        return { label: c, data: who.cause_series.map(function (m) { return m[i]; }), backgroundColor: CAUSE_COLORS[i] };
+      }) },
+      options: { plugins: { tooltip: { mode: 'index', callbacks: { label: function (c) { return c.dataset.label + ': ' + c.parsed.y.toLocaleString('en-US'); } } } },
+                 scales: { x: { stacked: true }, y: { stacked: true } } }
+    }, true);
+  }
+
+  // Extra time per trip (waiting + riding, above the schedule) by month, in seconds: this line vs the whole subway.
+  var extra = slot('extra');
+  if (extra && D.line) {
+    var secs = function (s) { return s.series.map(function (x) { return x[2] == null ? null : Math.round(x[2] * 60); }); };
+    chart(extra, {
+      type: 'line',
+      data: { labels: monthLabels, datasets: [
+        { label: D.line.name, data: secs(D.line), borderColor: '#2a6fdb', backgroundColor: '#2a6fdb', tension: 0.25 },
+        { label: 'Whole subway', data: secs(D.system), borderColor: '#999', borderDash: [6, 4], pointRadius: 0, tension: 0.25 }
+      ] },
+      options: { plugins: { tooltip: { callbacks: { label: function (c) { return c.dataset.label + ': ' + c.parsed.y + ' sec extra a trip'; } } } },
+                 scales: { y: { beginAtZero: true, ticks: { callback: function (v) { return v + 's'; } } } } }
+    });
+  }
+
   // All lines, least to most on time.
   var rankBox = slot('ranking');
   if (rankBox && D.lines) {

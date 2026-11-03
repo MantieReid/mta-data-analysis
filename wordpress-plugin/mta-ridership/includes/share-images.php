@@ -25,6 +25,7 @@ function mta_share_cards()
         'buses'      => ['buses-share.jpg', 'mta_share_card_buses'],
         'stations'   => ['stations-share.jpg', 'mta_share_card_stations'],
         'congestion' => ['congestion-share.jpg', 'mta_share_card_congestion'],
+        'crime'      => ['share.jpg', 'mta_share_card_crime'],
     ];
 }
 
@@ -125,6 +126,26 @@ function mta_share_card_stations()
         'stats' => [[number_format($all[0]['avg']), 'riders a day at the busiest'], [(string) $n, 'stations']],
         'bars_title' => 'Busiest stations (riders a day)', 'bars' => $bars, 'fmt' => 'number_format',
         'footer' => 'mantiereidii.com/stations  ·  MTA open data, updated daily',
+    ];
+}
+
+function mta_share_card_crime()
+{
+    $f = function_exists('mta_crime_facts') ? mta_crime_facts() : null;
+    if (!$f || empty($f['d']['years'])) {
+        return null;
+    }
+    $y = $f['y'];
+    $bars = [];
+    foreach (array_slice($f['d']['years'], -5, null, true) as $yr => $x) {
+        $bars[] = [(string) $yr, $x['n']];
+    }
+    $bars[] = ['Last 12 months', $y['n']];
+    return [
+        'title' => 'Is the NYC Subway Safe?', 'subtitle' => 'Subway crime by year, time of day and station',
+        'stats' => [[number_format($y['n']), 'major felonies in 12 months'], ['About ' . mta_crime_per_day($y['n'], $y['months']), 'a day']],
+        'bars_title' => 'Major felonies by year', 'bars' => $bars, 'fmt' => function ($v) { return number_format($v); },
+        'footer' => 'mantiereidii.com/subway-crime  ·  MTA and NYPD open data, updated monthly',
     ];
 }
 
@@ -296,6 +317,8 @@ function mta_share_clear_cache(array $cards)
             mta_buses_clear_cache();
         } elseif ($card === 'congestion') {
             mta_congestion_clear_cache();
+        } elseif ($card === 'crime' && function_exists('mta_crime_page') && ($p = mta_crime_page())) {
+            rocket_clean_post($p->ID);
         }
     }
 }

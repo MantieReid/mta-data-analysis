@@ -310,5 +310,54 @@ check('bus lanes: repeat cars per route', $mo['by']['M15-SBS']['cars'] === 11 &&
     $mo['by']['M15-SBS']['top'] === 12 && $mo['by']['Q80']['b'][1] === [2, 6]);
 check('bus lanes: repeat cars citywide use the citywide counts', $mo['all']['cars'] === 12 && $mo['all']['tickets'] === 30 && $mo['all']['b'] === [[8, 8], [3, 9], [0, 0], [1, 13]] && $mo['all']['top'] === 13);
 
+/* ---------- subway crime and line extras ---------- */
+
+$cr = [];
+for ($t = strtotime('2024-10-01 UTC'); $t <= strtotime('2026-09-01 UTC'); $t = strtotime('+1 month', $t)) {
+    $m = gmdate('Y-m-d', $t) . 'T00:00:00.000';
+    $last = $m >= '2025-10';
+    $cr[] = ['month' => $m, 'agency' => 'NYCT', 'felony_type' => 'Robbery', 'felony_count' => '10', 'crimes_per_million_riders' => '0.1'];
+    $cr[] = ['month' => $m, 'agency' => 'NYCT', 'felony_type' => 'Grand Larceny', 'felony_count' => $last ? '20' : '10', 'crimes_per_million_riders' => $last ? '0.2' : '0.1'];
+}
+$cr[] = ['month' => '2026-05-01T00:00:00.000', 'agency' => 'LIRR', 'felony_type' => 'Robbery', 'felony_count' => '2', 'crimes_per_million_riders' => '0.5'];
+$cs = mta_crime_summary($cr);
+check('crime: last 12 months and the 12 before', $cs['latest'] === '2026-09' && $cs['from'] === '2025-10' &&
+    $cs['agencies']['NYCT']['year']['n'] === 360 && $cs['agencies']['NYCT']['before']['n'] === 240);
+check('crime: rate is felonies over riders', $cs['agencies']['NYCT']['year']['rate'] == 0.3 && $cs['agencies']['NYCT']['before']['rate'] == 0.2);
+check('crime: by type, biggest first', array_keys($cs['agencies']['NYCT']['year']['t']) === ['Grand Larceny', 'Robbery'] && $cs['agencies']['NYCT']['year']['t']['Grand Larceny'] === 240);
+check('crime: full calendar years only', array_keys($cs['years']) === [2024, 2025] && $cs['years'][2025]['n'] === 9 * 20 + 3 * 30);
+check('crime: railroads kept apart', $cs['agencies']['LIRR']['year']['n'] === 2 && $cs['agencies']['LIRR']['before']['n'] === 0);
+check('crime: no rows, no summary', mta_crime_summary([]) === null);
+check('crime: change wording', mta_crime_change_text(7.9) === '7.9% more than the 12 months before' && mta_crime_change_text(-3.1) === '3.1% fewer than the 12 months before');
+update_option(MTA_CRIME_OPTION, ['updated' => gmdate('c')] + $cs);
+$cf = mta_crime_faq(mta_crime_facts());
+check('crime: FAQ answers use the numbers', count($cf) === 4 && strpos($cf[0][1], '360 major felonies') !== false && strpos($cf[1][1], 'in 2024') !== false &&
+    strpos($cf[2][1], 'Grand larceny (theft over $1,000): 240') === 0);
+check('lines: weekdays and weekend days', mta_lines_day_counts('2026-02', '2026-02') === [20, 8] && array_sum(mta_lines_day_counts('2025-10', '2026-09')) === 365);
+check('lines: seconds wording', mta_lines_secs(0.75) === '45 sec' && mta_lines_secs(65 / 60) === '1 min 5 sec' && mta_lines_secs(2) === '2 min' && mta_lines_mmss(125 / 60) === '2:05' && mta_lines_mmss(-2 / 60) === '-0:02');
+
+$ns = mta_crime_nypd_summary(
+    [['station_name' => 'A', 'latitude' => '40.7500', 'longitude' => '-73.9900', 'n' => '5'],
+     ['station_name' => 'A2', 'latitude' => '40.7510', 'longitude' => '-73.9900', 'n' => '2'],   // about 110 m away: same station
+     ['station_name' => 'FAR', 'latitude' => '40.8000', 'longitude' => '-73.9900', 'n' => '3'],  // 5.5 km away: unmatched
+     ['station_name' => 'B', 'latitude' => '40.6500', 'longitude' => '-73.9500', 'n' => '9']],
+    [['t' => '02:15:00', 'n' => '4'], ['t' => '02:40:00', 'n' => '1'], ['t' => '17:05:00', 'n' => '6']],
+    [['id' => '1', 'lat' => 40.7501, 'lon' => -73.9901, 'hours' => array_fill(0, 24, 10)], ['id' => '2', 'lat' => 40.6501, 'lon' => -73.9501, 'hours' => array_fill(0, 24, 1)]]);
+check('nypd: stations matched within 400 m', $ns['stations'] === ['2' => 9, '1' => 7] && $ns['unmatched'] === 3 && $ns['total'] === 19);
+check('nypd: felonies and riders by hour', $ns['hours'][2] === 5 && $ns['hours'][17] === 6 && array_sum($ns['hours']) === 11 && $ns['riders'][5] === 11);
+check('crime: felonies a day', mta_crime_per_day(2143, 12) === 6 && mta_crime_per_day(1, 12) === 1);
+
+$nm = mta_crime_nypd_more([['d' => '0', 'n' => '3'], ['d' => '5', 'n' => '7'], ['d' => '5', 'n' => '1']], [['b' => 'BROOKLYN', 'n' => '4'], ['b' => 'MANHATTAN', 'n' => '9'], ['b' => '(null)', 'n' => '2']],
+    [['s' => 'M', 'a' => '25-44', 'n' => '5'], ['s' => 'F', 'a' => '65+', 'n' => '2'], ['s' => 'D', 'a' => 'UNKNOWN', 'n' => '6']], [['o' => 'FRAUDS', 'n' => '2'], ['o' => 'DANGEROUS DRUGS', 'n' => '8']]);
+check('nypd more: days, boroughs, victims, misdemeanors', $nm['dow'] === [3, 0, 0, 0, 0, 8, 0] && array_keys($nm['boro']) === ['Manhattan', 'Brooklyn'] &&
+    $nm['victims']['sex'] === ['men' => 5, 'women' => 2, 'other' => 6] && $nm['victims']['age']['25 – 44'] === 5 && $nm['victims']['age_unknown'] === 6 && array_key_first($nm['misd']) === 'DANGEROUS DRUGS');
+$ms = mta_crime_monthly_summary([['month' => '2026-09-01T00:00:00.000', 'measure' => 'Assault', 'total' => '4.0'], ['month' => '2025-09-01T00:00:00.000', 'measure' => 'Assault', 'total' => '2'],
+    ['month' => '2025-10-01T00:00:00.000', 'measure' => 'Harassment', 'total' => '5'], ['month' => '2024-03-01T00:00:00.000', 'measure' => 'Assault', 'total' => '1']], 'measure');
+check('crime: monthly summary for staff attacks and policing', $ms['latest'] === '2026-09' && $ms['year'] === ['Harassment' => 5, 'Assault' => 4] && $ms['before'] === ['Assault' => 2] &&
+    $ms['years'] === [2024 => 1, 2025 => 7]);
+check('crime: kinds of felony in words', mta_crime_type_words(['109' => 20, '106' => 1, '105' => 4]) === '20 thefts, 1 assault, 4 robberies');
+check('crime: misdemeanor names', mta_crime_misd_name('OTHER OFFENSES RELATED TO THEFT') === 'Fare evasion and selling swipes' && mta_crime_misd_name('NEW THING') === 'New thing');
+check('crime: monthly felonies kept', count($cs['monthly']) === 24 && end($cs['monthly']) === 30);
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

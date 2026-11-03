@@ -38,6 +38,43 @@ function mta_lines_code($line)
 
 add_action(MTA_LINES_HOOK, function () { mta_ridership_run_step('lines'); });
 
+/** Delays month by month and weekday vs weekend, and the extra time riders lose (rush hour vs other times), are live (since 2026-11-03); return mta_ridership_preview() to put them back in review. */
+function mta_lines_more_live()
+{
+    return true;
+}
+
+/** The MTA's six delay causes, in a fixed order for the month-by-month chart. */
+function mta_lines_causes()
+{
+    return ['Infrastructure & Equipment', 'Planned ROW Work', 'Police & Medical', 'Operating Conditions', 'Crew Availability', 'External Factors'];
+}
+
+/** Weekdays and weekend days from the first day of $from to the last day of $to (both Y-m). */
+function mta_lines_day_counts($from, $to)
+{
+    $n = [0, 0];
+    $end = strtotime(gmdate('Y-m-t', strtotime("$to-01 UTC")) . ' UTC');
+    for ($t = strtotime("$from-01 UTC"); $t <= $end; $t += 86400) {
+        $n[(int) gmdate('N', $t) >= 6 ? 1 : 0]++;
+    }
+    return $n;
+}
+
+/** "2:05" from minutes, for tables. */
+function mta_lines_mmss($min)
+{
+    $s = (int) round($min * 60); // the shuttles can beat the schedule: -0:02
+    return ($s < 0 ? '-' : '') . intdiv(abs($s), 60) . ':' . str_pad((string) (abs($s) % 60), 2, '0', STR_PAD_LEFT);
+}
+
+/** "45 sec" or "1 min 5 sec" from minutes. */
+function mta_lines_secs($min)
+{
+    $s = (int) round($min * 60);
+    return $s >= 60 ? intdiv($s, 60) . ' min' . ($s % 60 ? ' ' . ($s % 60) . ' sec' : '') : $s . ' sec';
+}
+
 add_action('init', function () {
     add_rewrite_rule('^' . MTA_LINES_SLUG . '/([a-z0-9-]+)/?$', 'index.php?pagename=' . MTA_LINES_SLUG . '&mta_line=$matches[1]', 'top');
     if (get_option('mta_lines_rewrite') !== '1') {
@@ -93,11 +130,24 @@ function mta_lines_step()
                                              '$where' => $where, '$group' => 'month, line']) as $r) {
             $m[$r['line']][substr($r['month'], 0, 7)]['cj'] = [(float) $r['p'], (float) $r['apt'], (float) $r['att'], (float) $r['o5']];
         }
-        foreach (mta_lines_api('9zbp-wz3y', ['$select' => 'month, line, reporting_category AS c, sum(delays) AS d',
-                                             '$where' => $where, '$group' => 'month, line, c']) as $r) {
+        foreach (mta_lines_api('9zbp-wz3y', ['$select' => 'month, line, reporting_category AS c, day_type AS t, sum(delays) AS d',
+                                             '$where' => $where, '$group' => 'month, line, c, t']) as $r) {
             $mm = substr($r['month'], 0, 7);
             $m[$r['line']][$mm]['delays'][$r['c']] = ($m[$r['line']][$mm]['delays'][$r['c']] ?? 0) + (float) $r['d'];
+            $t = (int) $r['t'] === 2 ? 1 : 0; // day type 1 = weekday, 2 = weekend
+            $m[$r['line']][$mm]['dt'][$t] = ($m[$r['line']][$mm]['dt'][$t] ?? 0) + (float) $r['d'];
         }
+        // Extra time per rider at rush hour and at other times, last 12 months. '' = the whole subway.
+        $cjp = [];
+        foreach (mta_lines_api('r7qk-6tcy', ['$select' => 'line, period, sum(num_passengers) AS p, sum(total_apt) AS apt, sum(total_att) AS att',
+                                             '$where' => "month >= '$year_from-01'", '$group' => 'line, period']) as $r) {
+            foreach ([$r['line'], ''] as $k) {
+                foreach (['p', 'apt', 'att'] as $i => $f) {
+                    $cjp[$k][$r['period']][$i] = ($cjp[$k][$r['period']][$i] ?? 0) + (float) $r[$f];
+                }
+            }
+        }
+        $days = mta_lines_day_counts($year_from, $latest);
         $wait = [];
         foreach (mta_lines_api('s666-h6b7', ['$select' => 'line, period, sum(num_timepoints_passing_wait_assessment) AS a, sum(num_sched_timepoints) AS b',
                                              '$where' => "month >= '$year_from-01'", '$group' => 'line, period']) as $r) {
@@ -136,7 +186,7 @@ function mta_lines_step()
                 }
             }
         }
-        $card = function ($rows, $line) use ($sum, $latest, $year_from, $month, $months, $wait, $incidents) {
+        $card = function ($rows, $line) use ($sum, $latest, $year_from, $month, $months, $wait, $incidents, $cjp, $days) {
             $otp = $sum($rows, 'otp', $year_from, $latest);
             $otp_prev = $sum($rows, 'otp', $month(23), $month(12));
             $cj = $sum($rows, 'cj', $year_from, $latest);
@@ -144,6 +194,8 @@ function mta_lines_step()
             arsort($causes);
             $pct = function ($a) { return isset($a[1]) && $a[1] > 0 ? round($a[0] / $a[1] * 100, 1) : null; };
             $w = $line ? ($wait[$line] ?? []) : null;
+            $dt = $sum($rows, 'dt', $year_from, $latest);
+            $per = function ($x) { return !empty($x[0]) ? [round($x[1] / $x[0], 2), round($x[2] / $x[0], 2)] : null; }; // [wait, ride] minutes
             return [
                 'otp' => $pct($otp), 'otp_prev' => $pct($otp_prev),
                 'late5' => !empty($cj[0]) ? round($cj[3] / $cj[0] * 100, 1) : null,
@@ -154,9 +206,17 @@ function mta_lines_step()
                 'causes' => array_map(function ($v) { return (int) round($v); }, $causes),
                 'wait_peak' => $w ? $pct($w['peak'] ?? []) : null, 'wait_offpeak' => $w ? $pct($w['offpeak'] ?? []) : null,
                 'incidents' => $line ? ($incidents[$line] ?? 0) : array_sum($incidents),
+                // Delayed trains per weekday and per weekend day.
+                'per_day' => [(int) round(($dt[0] ?? 0) / max(1, $days[0])), (int) round(($dt[1] ?? 0) / max(1, $days[1]))],
+                'extra_peak' => $per($cjp[$line ?? '']['peak'] ?? []), 'extra_offpeak' => $per($cjp[$line ?? '']['offpeak'] ?? []),
+                // [on time %, 5+ min late %, extra minutes per rider (wait + ride)] by month.
                 'series' => array_map(function ($mm) use ($rows, $pct) {
                     $c = $rows[$mm]['cj'] ?? null;
-                    return [$pct($rows[$mm]['otp'] ?? []), $c && $c[0] ? round($c[3] / $c[0] * 100, 1) : null];
+                    return [$pct($rows[$mm]['otp'] ?? []), $c && $c[0] ? round($c[3] / $c[0] * 100, 1) : null, $c && $c[0] ? round(($c[1] + $c[2]) / $c[0], 2) : null];
+                }, $months),
+                // Delayed trains by month, one number per cause in mta_lines_causes() order.
+                'cause_series' => array_map(function ($mm) use ($rows) {
+                    return array_map(function ($c) use ($rows, $mm) { return (int) round($rows[$mm]['delays'][$c] ?? 0); }, mta_lines_causes());
                 }, $months),
             ];
         };
@@ -181,6 +241,7 @@ function mta_lines_step()
         delete_option('mta_ridership_lines_error');
         mta_lines_clear_cache();
         mta_buses_schedule(60); // bus route report cards: next cron request
+        mta_crime_schedule(600); // subway crime comes out monthly too
     } catch (Throwable $e) {
         update_option('mta_ridership_lines_error', gmdate('c') . ' ' . $e->getMessage(), false);
         mta_ridership_retry_later(MTA_LINES_HOOK, 'mta_lines_schedule');
@@ -310,8 +371,9 @@ add_shortcode('mta_lines', function () {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     mta_ridership_chartjs();
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
-    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.14.0', true);
-    $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l];
+    wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.15.0', true);
+    $more = mta_lines_more_live() && isset($d['system']['per_day']); // waits for the first run of the new step
+    $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l, 'causes' => mta_lines_causes()];
     if (!$l) {
         $js['lines'] = array_values(array_map(function ($x) { return ['name' => $x['name'], 'otp' => $x['otp'], 'late5' => $x['late5']]; }, $d['lines']));
     }
@@ -319,6 +381,10 @@ add_shortcode('mta_lines', function () {
 
     $s = $d['system'];
     $n = count($d['lines']);
+    $perday = function ($x, $name) {
+        return 'On an average weekday the ' . $name . ' had ' . number_format($x['per_day'][0]) . ' delayed trains; on an average weekend day, ' .
+            number_format($x['per_day'][1]) . '.';
+    };
     $range = esc_html(mta_lines_month($d['from']) . ' – ' . mta_lines_month($d['latest']));
     $tile = function ($big, $small, $cls = '') {
         return '<div class="mta-tile' . $cls . '"><strong>' . esc_html($big) . '</strong><span>' . esc_html($small) . '</span></div>';
@@ -352,8 +418,19 @@ add_shortcode('mta_lines', function () {
         $o .= $map;
         $o .= $sec('How reliable is the ' . $l['name'] . '?', '<p>' . esc_html($a['reliable']) . (isset($a['trend']) ? ' ' . esc_html($a['trend']) : '') . '</p><div data-slot="trend"></div>',
             'Share of trips reaching the last stop within 5 minutes of schedule, by month, vs the whole subway.');
-        $o .= $sec('Why is the ' . $l['name'] . ' delayed?', '<p>' . esc_html($a['why']) . '</p><div data-slot="causes"></div>',
+        $o .= $sec('Why is the ' . $l['name'] . ' delayed?', '<p>' . esc_html($a['why']) . ($more ? ' ' . esc_html($perday($l, $l['name'])) : '') . '</p><div data-slot="causes"></div>' .
+            ($more ? '<' . mta_ridership_h(true) . '>Delayed trains by month</' . mta_ridership_h(true) . '><div data-slot="causes-trend"></div>' : ''),
             'Delayed trains by cause, ' . $range . '. "Planned ROW work" is scheduled track work.');
+        if ($more && $l['extra_ride'] !== null) {
+            $tot = function ($x) { return $x ? mta_lines_secs($x[0] + $x[1]) : '–'; };
+            $o .= $sec('How much extra time does the ' . $l['name'] . ' cost riders?',
+                '<p>' . esc_html('Compared with the schedule, a ' . $l['name'] . ' rider waited on average ' . mta_lines_secs($l['extra_wait']) . ' longer on the platform and spent ' .
+                    mta_lines_secs($l['extra_ride']) . ' longer on the train (whole subway: ' . mta_lines_secs($s['extra_wait'] + $s['extra_ride']) . ' in all).') . '</p>' .
+                '<div class="mta-tiles">' . $tile($tot($l['extra_peak']), 'extra per trip at rush hour') . $tile($tot($l['extra_offpeak']), 'extra per trip at other times') .
+                $tile($l['late5'] . '%', 'trips 5+ min late') . '</div>' .
+                '<' . mta_ridership_h(true) . '>Extra time per trip, by month</' . mta_ridership_h(true) . '><div data-slot="extra"></div>',
+                'The MTA\'s customer journey measures: the extra time, above the schedule, that riders spend waiting and riding. ' . $range . '.');
+        }
         $rows = [
             ['Trips on time', $l['otp'] . '%', $s['otp'] . '%'],
             ['Trips 5+ minutes late', $l['late5'] !== null ? $l['late5'] . '%' : '–', $s['late5'] . '%'],
@@ -370,6 +447,7 @@ add_shortcode('mta_lines', function () {
         }
         $o .= $sec('Report card', '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th></th><th>' . esc_html($l['name']) .
             '</th><th>Whole subway</th></tr></thead><tbody>' . $tr . '</tbody></table></div>', $range . '. The wait assessment is the MTA\'s measure of how regularly trains are spaced during rush hour at selected points on each line. Major incidents are counted per line, so the subway total is the sum.');
+        $o .= function_exists('mta_crime_line_section') ? mta_crime_line_section($l, $sec) : '';
         if (!$map && mta_ridership_seo_live() && function_exists('mta_stations_line_section')) {
             $o .= mta_stations_line_section($l, $sec);
         }
@@ -392,7 +470,28 @@ add_shortcode('mta_lines', function () {
             '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th>#</th><th>Line</th><th>On time</th><th>Change (pts)</th><th>5+ min late</th><th>Top delay cause</th></tr></thead><tbody>' .
             $tr . '</tbody></table></div><div data-slot="ranking"></div>',
             $range . '. On time = reached the last stop within 5 minutes of schedule. Change is vs the 12 months before.');
-        $o .= $sec('Why is the subway delayed?', '<p>' . esc_html($a['why']) . '</p><div data-slot="causes"></div>');
+        $o .= $sec('Why is the subway delayed?', '<p>' . esc_html($a['why']) . ($more ? ' ' . esc_html($perday($s, 'subway')) : '') . '</p><div data-slot="causes"></div>' .
+            ($more ? '<' . mta_ridership_h(true) . '>Delayed trains by month</' . mta_ridership_h(true) . '><div data-slot="causes-trend"></div>' : ''),
+            $more ? 'Delayed trains by cause, ' . $range . '. "Planned ROW work" is scheduled track work.' : '');
+        if ($more) {
+            $ls = array_filter($d['lines'], function ($x) { return $x['extra_ride'] !== null; });
+            uasort($ls, function ($a, $b) { return ($b['extra_wait'] + $b['extra_ride']) <=> ($a['extra_wait'] + $a['extra_ride']); });
+            $tr = '';
+            $i = 0;
+            foreach ($ls as $x) {
+                $pk = $x['extra_peak'];
+                $tr .= '<tr><td>' . ++$i . '</td><td><a href="' . esc_url(mta_lines_url($x['slug'])) . '">' . esc_html(str_replace(' train', '', $x['name'])) . '</a></td><td>' .
+                    mta_lines_mmss($x['extra_wait'] + $x['extra_ride']) . '</td><td>' . mta_lines_mmss($x['extra_wait']) . '</td><td>' .
+                    mta_lines_mmss($x['extra_ride']) . '</td><td>' . ($pk ? mta_lines_mmss($pk[0] + $pk[1]) : '–') . '</td></tr>';
+            }
+            $top = array_values($ls)[0];
+            $o .= $sec('Which line costs riders the most extra time?',
+                '<p>' . esc_html('Riders on the ' . $top['name'] . ' lost the most time: about ' . mta_lines_secs($top['extra_wait'] + $top['extra_ride']) .
+                    ' a trip beyond the schedule, compared with ' . mta_lines_secs($s['extra_wait'] + $s['extra_ride']) . ' across the subway.') . '</p>' .
+                '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th>#</th><th>Line</th><th>Extra a trip</th><th>Wait</th><th>Ride</th><th>Rush hour</th></tr></thead><tbody>' .
+                $tr . '</tbody></table></div>',
+                'The MTA\'s customer journey measures: the extra time, above the schedule, an average rider spends waiting on the platform and on the train, in minutes:seconds. ' . $range . '.');
+        }
     }
 
     $faq = '';
