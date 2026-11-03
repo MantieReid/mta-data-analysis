@@ -295,5 +295,20 @@ check('bus lanes: each route counts only its own cameras', array_keys($lb['by'])
     $lb['by']['Bx12-SBS']['stops'][0][4] === 10 && $lb['by']['Bx12-SBS']['wk'][0][8] === 3 &&
     array_column($lb['by']['M100']['stops'], 4) === [0, 20] && $lb['by']['M100']['wk'][1][8] === 20);
 
+// ---- Bus camera sightings: the newest month waits for its tickets; outcomes and repeat cars per route ----
+check('bus lanes: a month without its tickets yet is left out', mta_buslanes_ready_to('2026-10-01', [['m' => '2026-07-01T00:00:00.000', 'n' => '165000'],
+    ['m' => '2026-08-01T00:00:00.000', 'n' => '112000'], ['m' => '2026-09-01T00:00:00.000', 'n' => '6']]) === '2026-09-01');
+check('bus lanes: a normal month stays', mta_buslanes_ready_to('2026-10-01', [['m' => '2026-08-01', 'n' => '112000'], ['m' => '2026-09-01', 'n' => '90000']]) === '2026-10-01');
+$mo = mta_buslanes_more(
+    [['r' => 'M15+', 'v' => 'VIOLATION ISSUED', 'n' => '30'], ['r' => 'M15+', 'v' => 'EXEMPT - EMERGENCY VEHICLE', 'n' => '5'],
+     ['r' => 'Q10/Q80', 'v' => 'TECHNICAL ISSUE/OTHER', 'n' => '7'], ['r' => 'M15+', 'n' => '2']],
+    [['r' => 'M15+', 'n' => '1', 'cars' => '10'], ['r' => 'M15+', 'n' => '12', 'cars' => '1'], ['r' => 'Q10/Q80', 'n' => '3', 'cars' => '2']],
+    [['n' => '1', 'cars' => '8'], ['n' => '3', 'cars' => '3'], ['n' => '13', 'cars' => '1']]);
+check('bus lanes: outcomes by route and citywide', $mo['by']['M15-SBS']['out']['issued'] === 30 && $mo['by']['M15-SBS']['out']['emerg'] === 5 &&
+    $mo['by']['Q80']['out']['tech'] === 7 && $mo['by']['Q10']['out']['tech'] === 7 && array_sum($mo['all']['out']) === 42);
+check('bus lanes: repeat cars per route', $mo['by']['M15-SBS']['cars'] === 11 && $mo['by']['M15-SBS']['tickets'] === 22 && $mo['by']['M15-SBS']['b'][3] === [1, 12] &&
+    $mo['by']['M15-SBS']['top'] === 12 && $mo['by']['Q80']['b'][1] === [2, 6]);
+check('bus lanes: repeat cars citywide use the citywide counts', $mo['all']['cars'] === 12 && $mo['all']['tickets'] === 30 && $mo['all']['b'] === [[8, 8], [3, 9], [0, 0], [1, 13]] && $mo['all']['top'] === 13);
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);

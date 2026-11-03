@@ -18,6 +18,8 @@ if (!defined('ABSPATH')) {
 const MTA_BUSLANES_HOOK   = 'mta_ridership_buslanes_step';
 const MTA_BUSLANES_OPTION = 'mta_ridership_buslanes';
 const MTA_BUSLANES_MIN    = 10; // stops with fewer tickets a year are left off the map
+const MTA_BUSLANES_MORE   = 'mta_ridership_buslanes_more'; // why sightings were dropped, and repeat cars
+const MTA_BUSLANES_MORE_MIN = 100; // route pages need this many sightings a year for the two charts
 
 add_action(MTA_BUSLANES_HOOK, function () { mta_ridership_run_step('buslanes'); });
 
@@ -35,6 +37,12 @@ function mta_buslanes_live()
 
 /** The map on each route page is live (since 2026-11-02); return mta_ridership_preview() to put it back in review. */
 function mta_buslanes_route_live()
+{
+    return true;
+}
+
+/** The two charts under the map (why sightings were dropped, repeat cars) are live (since 2026-11-02); return mta_ridership_preview() to put them back in review. */
+function mta_buslanes_more_live()
 {
     return true;
 }
@@ -139,6 +147,95 @@ function mta_buslanes_build(array $stops, array $hours, $min = MTA_BUSLANES_MIN)
     return $out;
 }
 
+/**
+ * Pure part, for tests. The MTA adds a month's issued tickets some weeks after its other sightings, so the newest month
+ * can look as if nearly every sighting was dropped. $to: the first day after the year ('Y-m-01'); $months: {m, n} issued
+ * tickets by month. Steps $to back past up to 3 trailing months with under a quarter of the busiest month's tickets.
+ */
+function mta_buslanes_ready_to($to, array $months)
+{
+    $n = [];
+    foreach ($months as $r) {
+        $n[substr((string) ($r['m'] ?? ''), 0, 7)] = (int) ($r['n'] ?? 0);
+    }
+    $max = $n ? max($n) : 0;
+    for ($i = 0; $i < 3; $i++) {
+        $m = gmdate('Y-m', strtotime("$to -1 month UTC"));
+        if (!$max || ($n[$m] ?? 0) >= $max / 4) {
+            break;
+        }
+        $to = $m . '-01';
+    }
+    return $to;
+}
+
+/** What happened to the cameras' sightings, in the order shown, with the MTA's status for each. */
+function mta_buslanes_outcomes()
+{
+    return [
+        'issued' => ['VIOLATION ISSUED', 'Ticket issued'],
+        'tech'   => ['TECHNICAL ISSUE/OTHER', 'Dropped: technical problem or other reason'],
+        'info'   => ['DRIVER/VEHICLE INFO MISSING', 'Dropped: plate or owner details missing'],
+        'comm'   => ['EXEMPT - COMMERCIAL UNDER 20', 'Exempt: commercial vehicle, under 20 minutes'],
+        'emerg'  => ['EXEMPT - EMERGENCY VEHICLE', 'Exempt: emergency vehicle'],
+        'bus'    => ['EXEMPT - BUS/PARATRANSIT', 'Exempt: bus or paratransit van'],
+        'other'  => ['EXEMPT - OTHER', 'Exempt: other reason'],
+    ];
+}
+
+/**
+ * Pure part, for tests. $status: {r, v, n} sightings by route and MTA status; $repeat: {r, n, cars} cars that got n tickets
+ * on route r; $repeat_all: {n, cars} the same citywide (a car ticketed on two routes counts once). Returns
+ * {all: x, by: {label: x}} where x = {out: {issued, tech, ...}, cars, tickets, top (most tickets on one car),
+ * b: [[cars, tickets] for 1, 2-4, 5-9 and 10+ tickets]}.
+ */
+function mta_buslanes_more(array $status, array $repeat, array $repeat_all)
+{
+    $keys = [];
+    foreach (mta_buslanes_outcomes() as $k => $o) {
+        $keys[$o[0]] = $k;
+    }
+    $blank = ['out' => array_fill_keys(array_keys(mta_buslanes_outcomes()), 0), 'cars' => 0, 'tickets' => 0, 'top' => 0, 'b' => [[0, 0], [0, 0], [0, 0], [0, 0]]];
+    $labels = function ($r) {
+        return array_map(function ($x) { return mta_buses_label(strtoupper(trim($x))); }, array_filter(explode('/', (string) ($r['r'] ?? '')), 'strlen'));
+    };
+    $add_cars = function (&$x, $n, $cars) {
+        $b = $n >= 10 ? 3 : ($n >= 5 ? 2 : ($n >= 2 ? 1 : 0));
+        $x['b'][$b][0] += $cars;
+        $x['b'][$b][1] += $n * $cars;
+        $x['cars'] += $cars;
+        $x['tickets'] += $n * $cars;
+        $x['top'] = max($x['top'], $n);
+    };
+    $out = ['all' => $blank, 'by' => []];
+    foreach ($status as $r) {
+        $k = $keys[$r['v'] ?? ''] ?? null;
+        if (!$k) {
+            continue; // no status yet
+        }
+        $out['all']['out'][$k] += (int) $r['n'];
+        foreach ($labels($r) as $l) {
+            $out['by'][$l] = $out['by'][$l] ?? $blank;
+            $out['by'][$l]['out'][$k] += (int) $r['n'];
+        }
+    }
+    foreach ($repeat as $r) {
+        if (($n = (int) ($r['n'] ?? 0)) > 0) {
+            foreach ($labels($r) as $l) {
+                $out['by'][$l] = $out['by'][$l] ?? $blank;
+                $add_cars($out['by'][$l], $n, (int) $r['cars']);
+            }
+        }
+    }
+    foreach ($repeat_all as $r) {
+        if (($n = (int) ($r['n'] ?? 0)) > 0) {
+            $add_cars($out['all'], $n, (int) $r['cars']);
+        }
+    }
+    ksort($out['by'], SORT_NATURAL);
+    return $out;
+}
+
 /** Where one route's ticket file lives ("M15-SBS" => routes/m15-sbs.json). */
 function mta_buslanes_route_file($label)
 {
@@ -173,6 +270,10 @@ function mta_buslanes_step()
         }
         // The last full month: data through Oct 17 means the year ends with September.
         $to = gmdate('Y-m-01', strtotime(substr($last, 0, 7) . '-01 UTC' . (substr($last, 8, 2) === gmdate('t', strtotime("$last UTC")) ? ' +1 month' : '')));
+        // ...then back to the last month whose issued tickets are in (see mta_buslanes_ready_to).
+        $months = $api(['$select' => 'date_trunc_ym(first_occurrence) AS m, count(*) AS n', '$group' => 'm',
+                        '$where' => "violation_status = 'VIOLATION ISSUED' AND first_occurrence >= '" . gmdate('Y-m-01', strtotime("$to -6 months UTC")) . "' AND first_occurrence < '$to'"]);
+        $to = mta_buslanes_ready_to($to, $months);
         $from = gmdate('Y-m-01', strtotime("$to -12 months UTC"));
         $latest = gmdate('Y-m', strtotime("$to -1 month UTC"));
         if (($st['month'] ?? '') !== $latest) {
@@ -216,6 +317,21 @@ function mta_buslanes_step()
                 rocket_clean_domain();
             }
         }
+        // The two charts, over the same year as the map.
+        $more = get_option(MTA_BUSLANES_MORE) ?: [];
+        if (($more['to'] ?? '') !== $to) {
+            $w = "first_occurrence >= '$from' AND first_occurrence < '$to'";
+            $q = function ($query) { return mta_ridership_api('https://data.ny.gov/resource/kh8p-hcbm.json', ['$query' => $query . ' LIMIT 50000']); };
+            $wi = "$w AND violation_status = 'VIOLATION ISSUED' AND vehicle_id IS NOT NULL";
+            $x = mta_buslanes_more(
+                $q("SELECT bus_route_id AS r, violation_status AS v, count(*) AS n WHERE $w GROUP BY r, v"),
+                $q("SELECT vehicle_id, bus_route_id AS r, count(*) AS n WHERE $wi GROUP BY vehicle_id, r |> SELECT r, n, count(*) AS cars GROUP BY r, n"),
+                $q("SELECT vehicle_id, count(*) AS n WHERE $wi GROUP BY vehicle_id |> SELECT n, count(*) AS cars GROUP BY n"));
+            if (!$x['all']['cars']) {
+                throw new Exception('No repeat-car counts returned');
+            }
+            update_option(MTA_BUSLANES_MORE, ['to' => $to, 'from' => substr($from, 0, 7), 'month' => $latest, 'updated' => gmdate('c')] + $x, false);
+        }
         $st['checked'] = gmdate('c');
         update_option(MTA_BUSLANES_OPTION, $st, false);
         delete_option('mta_ridership_buslanes_error');
@@ -257,4 +373,63 @@ function mta_buslanes_section($sec, $r = null)
         'sized and coloured by the tickets issued nearby in that hour over a year: green for few, red for the most. Press play to watch a day; tap a stop for its numbers.</p>' .
         '<div data-slot="buslanes" data-src="' . esc_url($url . '?v=' . $st['month']) . '"></div>',
         $note . 'The cameras ride on buses on some routes only, so more tickets can mean more cameras, not only more blocking.');
+}
+
+/**
+ * Two charts for the Bus Routes page (or one route's page, with $r): what happened to the cameras' sightings, and how
+ * many vehicles got many tickets. '' before the data exists or for routes with few sightings.
+ */
+function mta_buslanes_more_section($sec, $r = null)
+{
+    $m = get_option(MTA_BUSLANES_MORE);
+    if (!mta_buslanes_more_live() || empty($m['month'])) {
+        return '';
+    }
+    $label = $r ? mta_buses_label($r['id']) : '';
+    $x = $r ? ($m['by'][$label] ?? null) : $m['all'];
+    $seen = $x ? array_sum($x['out']) : 0;
+    if (!$x || $seen < ($r ? MTA_BUSLANES_MORE_MIN : 1) || !$x['cars']) {
+        return '';
+    }
+    $f = function ($n) { return number_format($n); };
+    $pct = function ($a, $b) { return $b ? (100 * $a / $b < 1 ? round(100 * $a / $b, 1) : round(100 * $a / $b)) . '%' : '0%'; };
+    $bars = function ($rows) {
+        $max = max(1, max(array_column($rows, 2)));
+        $o = '';
+        foreach ($rows as [$name, $num, $v]) {
+            $o .= '<li><div class="mta-top-row"><span class="mta-top-name">' . esc_html($name) . '</span><span class="mta-top-num">' . esc_html($num) .
+                '</span></div><div class="mta-bar"><span style="width:' . round($v / $max * 100, 1) . '%"></span></div></li>';
+        }
+        return '<ul class="mta-top" style="list-style:none;padding-left:0">' . $o . '</ul>';
+    };
+    $on = $r ? ' on the ' . $label : '';
+    $year = mta_lines_month($m['from']) . ' to ' . mta_lines_month($m['month']);
+
+    $rows = [];
+    foreach (mta_buslanes_outcomes() as $k => $o) {
+        if ($x['out'][$k]) {
+            $rows[] = [$o[1], $f($x['out'][$k]) . ' (' . $pct($x['out'][$k], $seen) . ')', $x['out'][$k]];
+        }
+    }
+    $o = $sec('Why most bus camera sightings' . $on . ' never become tickets',
+        '<p>The cameras' . ($r ? ' on ' . esc_html($label) . ' buses' : ' on MTA buses') . ' caught ' . $f($seen) . ' vehicles blocking a bus lane, a bus stop or double parking. ' .
+        $f($x['out']['issued']) . ' of them (' . $pct($x['out']['issued'], $seen) . ') got a ticket. The rest were dropped after review or were allowed to be there.</p>' . $bars($rows),
+        'Every sighting from ' . esc_html($year) . ', with the reason the MTA gives for each (MTA Bus Automated Camera Enforcement). ' .
+        'Commercial vehicles may stop for up to 20 minutes, so shorter stops are exempt.');
+
+    $names = ['1 ticket', '2 to 4 tickets', '5 to 9 tickets', '10 or more tickets'];
+    $rows = [];
+    foreach ($x['b'] as $i => [$cars, $t]) {
+        if ($cars) {
+            $rows[] = [$names[$i], $f($cars) . ' vehicles · ' . $pct($t, $x['tickets']) . ' of tickets', $t];
+        }
+    }
+    [$cars10, $t10] = $x['b'][3];
+    $o .= $sec('Repeat offenders' . $on,
+        '<p>' . $f($x['cars']) . ' different vehicles got tickets' . esc_html($on) . '. ' .
+        ($cars10 ? $f($cars10) . ' of them (' . $pct($cars10, $x['cars']) . ') got 10 or more each and ran up ' . $pct($t10, $x['tickets']) . ' of all the tickets. ' : '') .
+        'The most any one vehicle got was ' . $f($x['top']) . '.</p>' . $bars($rows),
+        'Tickets issued from ' . esc_html($year) . ', grouped by how many each vehicle got' . ($r ? ' from cameras on this route' : '') . '. ' .
+        'The MTA scrambles plate numbers before publishing, so a vehicle can be counted but not identified.');
+    return $o;
 }

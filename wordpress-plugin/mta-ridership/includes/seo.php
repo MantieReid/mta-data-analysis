@@ -147,8 +147,26 @@ add_filter('body_class', function ($c) {
     if (mta_ridership_look_v2()) {
         $c[] = 'mta-v2';
     }
+    if (mta_ridership_search_live()) {
+        $c[] = 'mta-search'; // every search box gets the highlighted "Find a station" look
+    }
+    if (mta_ridership_panels_live()) {
+        $c[] = 'mta-panels'; // every section sits in that same highlighted panel
+    }
     return $c;
 });
+
+/** Highlighted search boxes on every page: live (since 2026-11-02); return mta_ridership_preview() to put them back in review. */
+function mta_ridership_search_live()
+{
+    return true;
+}
+
+/** Every section in a highlighted panel: live (since 2026-11-02); return mta_ridership_preview() to put it back in review. */
+function mta_ridership_panels_live()
+{
+    return true;
+}
 
 function mta_ridership_station_name($name)
 {

@@ -434,6 +434,7 @@ add_shortcode('mta_buses', function () {
         $o .= mta_busstops_section($r, $sec);
         $o .= mta_busspeeds_section($r, $sec);
         $o .= mta_buslanes_section($sec, $r);
+        $o .= mta_buslanes_more_section($sec, $r);
         $o .= $sec('Speed and reliability', '<p>' . esc_html(trim(($a['speed'] ?? '') . ' ' . ($a['reliable'] ?? ''))) . '</p>' .
             $table(['', $r['label'], 'All local and SBS routes'], [
                 ['Average weekday speed', isset($r['mph']) ? $r['mph'] . ' mph' : '–', $s['mph'] . ' mph'],
@@ -461,6 +462,7 @@ add_shortcode('mta_buses', function () {
         $o .= mta_busstops_all_section($sec);
         $o .= mta_busspeeds_section(null, $sec);
         $o .= mta_buslanes_section($sec);
+        $o .= mta_buslanes_more_section($sec);
         $routes = $d['routes'];
         if (mta_ridership_look_v2()) {
             $o .= mta_buses_rankings_v2($routes, $s, $link, $sec, $range);
