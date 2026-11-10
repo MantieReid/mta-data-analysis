@@ -411,7 +411,7 @@ add_shortcode('mta_buses', function () {
     $o = '';
 
     if ($r) {
-        $o .= '<header class="mta-hero"><h1>' . esc_html($r['label']) . ' Bus: Riders, Speed &amp; Reliability</h1>' .
+        $o .= '<header class="mta-hero"><h1>' . esc_html($r['label']) . ' Bus: Stops, Map, Riders &amp; Speed' . '</h1>' .
             '<p class="mta-hero-links">' . esc_html(trim($r['name'] . ' · ' . $r['type'], ' ·')) . ' · Report card from MTA open data, ' . $range .
             ' · Not affiliated with the MTA · <a href="' . esc_url('https://bustime.mta.info/m/?q=' . rawurlencode(str_replace('+', '-SBS', $r['id']))) . '" rel="noopener">Live bus times on MTA Bus Time &rarr;</a></p>' .
             '<div class="mta-tiles mta-tiles-find">' .
@@ -535,7 +535,7 @@ function mta_buses_seo()
     if (mta_ridership_seo_live()) { // shorter title and description
         if ($r) {
             return ['d' => $d, 'r' => $r, 'url' => mta_buses_url($r['slug']),
-                    'title' => $r['label'] . ' Bus: Riders, Speed & Reliability',
+                    'title' => $r['label'] . ' Bus: Stops, Map, Riders & Speed', // live since 2026-11-04
                     'description' => "{$r['label']} bus" . ($r['name'] ? " ({$r['name']})" : '') . ': ' . number_format($r['riders']) . ' riders a day' .
                         (isset($r['mph']) ? ", {$r['mph']} mph average" : '') . (isset($r['wait']) ? ", {$r['wait']}% of trips arriving when riders expected them" : '') .
                         '. Busiest hours and stops, from MTA open data.'];

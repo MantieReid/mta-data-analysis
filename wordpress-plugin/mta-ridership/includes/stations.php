@@ -403,6 +403,7 @@ function mta_stations_render($st)
             'Average riders entering per hour, last ' . (int) $x['map_days'] . ' days (from ' . esc_html(mta_ridership_nice_date($x['map_from'])) . ').');
     }
 
+    $o .= function_exists('mta_heat_station_section') ? mta_heat_station_section($st, $sec) : '';
     $o .= mta_stations_report_card($st, $sec);
     $o .= mta_flows_section($st, $sec);
     $o .= function_exists('mta_crime_station_section') ? mta_crime_station_section($st, $sec) : '';
@@ -554,6 +555,7 @@ function mta_stations_render_ranking()
             '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($s['name']))) . '</td><td>' . esc_html($s['borough']) . '</td><td data-v="' . (int) $s['avg'] . '">' . number_format($s['avg']) .
             '</td><td data-v="' . ($s['yoy'] ?? '') . '" class="' . ($s['yoy'] !== null && $s['yoy'] < 0 ? 'neg' : 'pos') . '">' . $pct($s['yoy']) . '</td></tr>';
     }
+    $o .= function_exists('mta_heat_ranking_section') ? mta_heat_ranking_section($all, $sec) : '';
     $o .= $sec('Every station ranked',
         '<div class="mta-st-filter"><input type="search" id="mta-st-q" class="mta-find-input" placeholder="Filter the table by name" aria-label="Filter the table by station name">' .
         '<select id="mta-st-b" class="mta-find-input" aria-label="Borough">' . $opts . '</select><span id="mta-st-n" class="mta-note"></span></div>' .

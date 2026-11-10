@@ -664,16 +664,26 @@ function mta_more_month_chart(array $vals, $label, $fmt = 'number_format')
     $w = 720 / count($vals);
     $svg = '';
     $i = 0;
+    // Percentages that barely move (on-time rates around 95%) start the bars just under the lowest month, so the ups and
+    // downs show; the top and the starting value are labelled. In review.
+    $first = (string) call_user_func($fmt, reset($vals));
+    $low = 0;
+    if (substr($first, -1) === '%' && min($vals) > 0.5 * $max) { // zoomed % charts, live since 2026-11-04
+        $low = max(0, floor(min($vals) - max(1, ($max - min($vals)) * 0.5)));
+        $svg .= '<line x1="0" y1="35" x2="720" y2="35" stroke="#3a4558" stroke-dasharray="4 6"/>' .
+            '<text x="720" y="27" text-anchor="end" fill="#a3adbd" font-size="20">' . esc_html(call_user_func($fmt, $max)) . '</text>' .
+            '<text x="720" y="208" text-anchor="end" fill="#a3adbd" font-size="20">' . esc_html('bars start at ' . call_user_func($fmt, $low)) . '</text>';
+    }
     // Tap or hover a bar to see its month and number (assets/mta-month-chart.js), live since 2026-11-03.
     $tap = true;
     if ($tap) {
         wp_enqueue_script('mta-month-chart', plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/mta-month-chart.js', [], '1.0.0', true);
     }
     foreach ($vals as $m => $c) {
-        $hgt = round($c / $max * 160, 1);
+        $hgt = round(max(2, ($c - $low) / max(1e-9, $max - $low) * ($low ? 140 : 160)), 1);
         $name = gmdate('M Y', strtotime("$m-01 UTC"));
         $svg .= '<rect x="' . round($i * $w + 1, 1) . '" y="' . (175 - $hgt) . '" width="' . round(max(1, $w - 2), 1) . '" height="' . $hgt . '" rx="1" fill="#8ab4f8"' .
-            ($tap ? ' data-l="' . esc_attr($name) . '" data-v="' . esc_attr($fmt($c)) . '"' : '') . '><title>' . esc_html($name . ': ' . $fmt($c)) . '</title></rect>';
+            ($tap ? ' data-l="' . esc_attr($name) . '" data-v="' . esc_attr(call_user_func($fmt, $c)) . '"' : '') . '><title>' . esc_html($name . ': ' . call_user_func($fmt, $c)) . '</title></rect>';
         if (substr($m, 5, 2) === '01' || $i === 0) {
             $svg .= '<text x="' . round($i * $w + 1, 1) . '" y="208" fill="#a3adbd" font-size="24">' . esc_html(substr($m, 5, 2) === '01' ? substr($m, 0, 4) : gmdate('M', strtotime("$m-01 UTC"))) . '</text>';
         }

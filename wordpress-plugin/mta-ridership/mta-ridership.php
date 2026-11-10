@@ -2,7 +2,7 @@
 /**
  * Plugin Name: MTA Subway Ridership
  * Description: Daily-updated NYC subway ridership charts (top stations, monthly, hourly, day of week, seasons) from data.ny.gov. Use the shortcode [mta_ridership].
- * Version: 1.17.0
+ * Version: 1.18.0
  * Author: Mantie Reid
  * License: CC BY 4.0
  * License URI: https://creativecommons.org/licenses/by/4.0/
@@ -31,10 +31,15 @@ require_once __DIR__ . '/includes/stationmap.php';
 require_once __DIR__ . '/includes/busspeeds.php';
 require_once __DIR__ . '/includes/buslanes.php';
 require_once __DIR__ . '/includes/stations.php';
+require_once __DIR__ . '/includes/stationheat.php';
 require_once __DIR__ . '/includes/subwaymap.php';
 require_once __DIR__ . '/includes/crime.php';
 require_once __DIR__ . '/includes/moredata.php';
 require_once __DIR__ . '/includes/transitmore.php';
+require_once __DIR__ . '/includes/nyctransit.php';
+require_once __DIR__ . '/includes/nyctransit2.php';
+require_once __DIR__ . '/includes/newdata.php';
+require_once __DIR__ . '/includes/features.php';
 require_once __DIR__ . '/includes/status.php';
 require_once __DIR__ . '/includes/chunks.php';
 require_once __DIR__ . '/includes/datastatus.php';
@@ -379,7 +384,7 @@ add_shortcode('mta_ridership', function ($atts) {
     }
     wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
     mta_ridership_chartjs();
-    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.17.0', true);
+    wp_enqueue_script('mta-ridership', $base . 'assets/mta-ridership.js', $deps, '1.18.0', true);
     $data['trends'] = get_option(MTA_RIDERSHIP_TRENDS_OPTION) ?: null;
     $data['extras'] = get_option(MTA_RIDERSHIP_EXTRAS_OPTION) ?: null;
     if ($data['extras'] && !in_array('lookup', $show, true)) {

@@ -180,13 +180,18 @@ function mta_share_draw(array $card)
     $im = !empty($card['background']) ? imagecreatefrompng($assets . $card['background']) : imagecreatetruecolor(1200, 630);
     imagealphablending($im, true);
     $col = function ($r, $g, $b) use ($im) { return imagecolorallocate($im, $r, $g, $b); };
-    $bg = $col(11, 18, 32);
-    $text = $col(230, 237, 246);
-    $muted = $col(163, 173, 189);
-    $accent = $col(138, 180, 248);
-    $bar_bg = $col(40, 50, 68);
+    // Colours of the site theme (Mantie NYC "Civic light"): light page, near-black text, orange numbers, blue bars.
+    // A card drawn over a dark background picture keeps the dark colours.
+    $dark = !empty($card['background']);
+    $bg = $dark ? $col(11, 18, 32) : $col(244, 248, 251);
+    $text = $dark ? $col(201, 211, 227) : $col(11, 12, 12);
+    $muted = $dark ? $col(163, 173, 189) : $col(80, 90, 95);
+    $accent = $dark ? $col(224, 170, 46) : $col(184, 74, 0);
+    $bar = $dark ? $col(106, 174, 224) : $col(26, 101, 166);
+    $bar_bg = $dark ? $col(40, 50, 68) : $col(216, 225, 232);
     if (empty($card['background'])) {
         imagefilledrectangle($im, 0, 0, 1199, 629, $bg);
+        imagefilledrectangle($im, 0, 0, 1199, 11, $bar); // blue band along the top
     }
     // Pillow draws text from the top of the font's ascender and sizes it in pixels; GD draws from the baseline in
     // points (96 dpi). DejaVu Sans's ascender is 0.928 of the size.
@@ -231,7 +236,7 @@ function mta_share_draw(array $card)
             $put($bx, $y, 20, $label, $reg, $text);
             $put($bx + $bw, $y, 20, call_user_func($card['fmt'], $v), $bold, $accent, true);
             $pill($bx, $y + 28, $bx + $bw, $y + 36, $bar_bg);
-            $pill($bx, $y + 28, $bx + max(8, (int) ($bw * $v / max(1, $top))), $y + 36, $accent);
+            $pill($bx, $y + 28, $bx + max(8, (int) ($bw * $v / max(1, $top))), $y + 36, $bar);
         }
     }
     $put(60, 560, 22, $card['footer'], $reg, $muted);

@@ -340,3 +340,20 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 @media (max-width: 560px) { .mta-ridership [data-slot="stmap"] { min-height: 560px; } .mta-ridership .mta-stmap-map { height: 460px; } }
 .mta-ridership [data-slot="buslanes"] { min-height: 820px; }
 @media (max-width: 560px) { .mta-ridership [data-slot="buslanes"] { min-height: 780px; } }
+
+/* Station heat map, calendar and personalities (stationheat.php) */
+.mta-ridership .mta-hm { display: grid; grid-template-columns: 34px repeat(24, minmax(0, 1fr)); gap: 2px; margin: .6em 0 .4em; align-items: center; }
+.mta-ridership .mta-hm i { display: block; height: 24px; border-radius: 3px; background: linear-gradient(rgba(255,194,51,var(--a)), rgba(255,194,51,var(--a))), var(--mta-card, #121c30); box-shadow: inset 0 0 0 1px rgba(128,128,128,.22); }
+.mta-ridership .mta-hm-hour, .mta-ridership .mta-hm-day { font-size: 10px; color: var(--mta-muted); white-space: nowrap; line-height: 1; }
+.mta-ridership .mta-hm-hour { overflow: visible; }
+.mta-ridership .mta-hm-legend { display: flex; align-items: center; gap: .6em; font-size: .85rem; color: var(--mta-muted); margin: .2em 0 1em; }
+.mta-ridership .mta-hm-sw { display: inline-flex; gap: 3px; }
+.mta-ridership .mta-hm-sw i { display: block; width: 16px; height: 13px; border-radius: 3px; background: linear-gradient(rgba(255,194,51,var(--a)), rgba(255,194,51,var(--a))), var(--mta-card, #121c30); box-shadow: inset 0 0 0 1px rgba(128,128,128,.22); }
+.mta-ridership .mta-cal.mta-cal-st { display: grid; }
+.mta-ridership .mta-pers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: .8em; }
+.mta-ridership .mta-pers-card { border: 1px solid var(--mta-border, rgba(128,128,128,.3)); border-radius: 10px; padding: .8em 1em; }
+.mta-ridership .mta-pers-card h3 { margin: 0 0 .3em; font-size: 1.05rem; }
+.mta-ridership .mta-pers-card small { color: var(--mta-muted); font-weight: 400; margin-left: .4em; }
+.mta-ridership .mta-pers-card p { margin: .3em 0; font-size: .92rem; }
+.mta-ridership .mta-pers-dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: .5em; }
+.mta-ridership .mta-pers-map { display: block; width: 100%; max-width: 640px; height: auto; margin: 1em auto 0; background: rgba(128,128,128,.08); border-radius: 10px; }

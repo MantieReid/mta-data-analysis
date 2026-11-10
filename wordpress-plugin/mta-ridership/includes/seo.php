@@ -415,6 +415,23 @@ function mta_ridership_ssr_more($current)
         $pages['sir'] = [MTA_TM_PAGES['sir'], 'Staten Island Railway', 'On-time rate, ridership, trains a day, breakdowns and stations.'];
         $pages['ezpass'] = [MTA_TM_PAGES['ezpass'], 'Where to get an E-ZPass', 'Map and list of every place in New York that sells E-ZPass tags.'];
     }
+    if (function_exists('mta_nt_live') && mta_nt_live()) {
+        $pages['omny'] = [MTA_NT_PAGES['omny'], 'OMNY fare cap and guide', 'How tap-to-pay and the weekly fare cap work, and how fast OMNY replaced the MetroCard.'];
+        $pages['tolls'] = [MTA_NT_PAGES['tolls'], 'NYC bridge and tunnel tolls', 'What a car or motorcycle pays at every MTA bridge and tunnel in 2026.'];
+        $pages['sif'] = [MTA_NT_PAGES['sif'], 'Staten Island Ferry', 'Riders a day, busiest days and how ridership compares with 2019.'];
+        $pages['ferry'] = [MTA_NT_PAGES['ferry'], 'NYC Ferry ridership', 'Every NYC Ferry route and stop ranked, and the busiest hours.'];
+        $pages['path'] = [MTA_NT_PAGES['path'], 'PATH train', 'Fares, stations and routes, and PATH ridership by month.'];
+        $pages['changes'] = [MTA_NT_PAGES['changes'], 'Subway service changes and delays', 'Delays right now and this weekend\'s planned work on every line.'];
+        $pages['fares'] = [MTA_NT_PAGES['fares'], 'LIRR and Metro-North fare calculator', 'Peak, off-peak, weekly and monthly fares for every station.'];
+        $pages['projects'] = [MTA_NT_PAGES['projects'], 'MTA construction projects', 'Second Avenue Subway, the IBX, new trains: costs and finish dates.'];
+    }
+    if (function_exists('mta_nd_live') && mta_nd_live()) {
+        $pages['nd_cars'] = [MTA_ND_PAGES['cars'], 'NYC subway cars', 'Which trains break down most, broken air conditioning by car and line, and how old every model is.'];
+        $pages['nd_work'] = [MTA_ND_PAGES['work'], 'Subway planned work', 'Which lines and stations get the most planned work, by month and borough.'];
+        $pages['nd_lirr'] = [MTA_ND_PAGES['lirr'], 'LIRR crowding', 'The most packed LIRR trains, branches and hours.'];
+        $pages['nd_buses'] = [MTA_ND_PAGES['buses'], 'NYC bus breakdowns and fare evasion', 'Where buses break down most, how old they are and how many riders don\'t pay.'];
+        $pages['nd_money'] = [MTA_ND_PAGES['money'], 'MTA money', 'Where the MTA\'s money comes from, what it spends it on and how much it owes.'];
+    }
     $li = '';
     foreach ($pages as $k => [$slug, $title, $text]) {
         $p = get_page_by_path($slug, OBJECT, 'page');

@@ -395,5 +395,42 @@ check('tm: the last 12 months of a series', array_keys(mta_tm_last12(['2025-09' 
 check('tm: station branches map to the on-time data', mta_tm_otp_branch('lirr', 'Greenport') === 'Ronkonkoma' && mta_tm_otp_branch('mnr', 'Danbury') === 'New Haven' && mta_tm_otp_branch('lirr', 'Babylon') === 'Babylon');
 check('tm: ticket type names', mta_tm_sold_as_name('ten_trip') === '10-trip' && mta_tm_sold_as_name('day_pass') === 'Day pass' && mta_tm_sold_as_name('family_fare') === 'Family fare');
 
+/* ---------- planned work, fares, projects, search names ---------- */
+
+$tp = 1800000000;
+$rawp = ['entity' => [
+    ['alert' => ['active_period' => [['start' => $tp + 86400, 'end' => $tp + 90000]], 'informed_entity' => [['route_id' => 'C']],
+        'header_text' => ['translation' => [['text' => '[C] runs via [F]', 'language' => 'en']]],
+        'transit_realtime.mercury_alert' => ['alert_type' => 'Planned - Reroute', 'human_readable_active_period' => ['translation' => [['text' => 'Sat and Sun', 'language' => 'en']]]]]],
+    ['alert' => ['active_period' => [['start' => $tp - 100, 'end' => $tp + 100]], 'informed_entity' => [['route_id' => '7X']],
+        'header_text' => ['translation' => [['text' => 'Skips 52 St', 'language' => 'en']]], 'transit_realtime.mercury_alert' => ['alert_type' => 'Planned - Stops Skipped']]],
+    ['alert' => ['active_period' => [['start' => $tp + 20 * 86400, 'end' => $tp + 21 * 86400]], 'informed_entity' => [['route_id' => 'A']],
+        'header_text' => ['translation' => [['text' => 'Far away', 'language' => 'en']]], 'transit_realtime.mercury_alert' => ['alert_type' => 'Planned - Suspended']]],
+    ['alert' => ['active_period' => [], 'informed_entity' => [['route_id' => 'Q']],
+        'header_text' => ['translation' => [['text' => 'Delays', 'language' => 'en']]], 'transit_realtime.mercury_alert' => ['alert_type' => 'Delays']]],
+]];
+$pl = mta_nt_trim_planned($rawp, $tp);
+check('planned: only planned work in the next 8 days, soonest first', count($pl) === 2 && $pl[0]['header'] === 'Skips 52 St' && $pl[1]['routes'] === ['C']);
+check('planned: on now, type and the MTA wording for when', $pl[0]['now'] === true && $pl[1]['now'] === false && $pl[1]['type'] === 'Reroute' && $pl[1]['when'] === 'Sat and Sun');
+check('planned: express routes count as their line', $pl[0]['routes'] === ['7']);
+check('alerts: line codes match the line pages', mta_nt_alert_line('Z') === 'JZ' && mta_nt_alert_line(' GS') === 'S 42nd' && mta_nt_alert_line('A') === 'A');
+
+$lf = mta_nt_lirr_fares();
+$sym = true;
+foreach ($lf as $a => $row) {
+    foreach ($row as $b => $f) {
+        $sym = $sym && $f === $lf[$b][$a];
+    }
+}
+check('fares: the LIRR table is the same both ways', $sym && count($lf) === 8);
+check('fares: LIRR Penn Station to Hicksville (zone 7) and the city fare', $lf[1][7][0] === 15.25 && $lf[1][7][1] === 11.25 && $lf[1][7][6] === 299.75 && $lf[1][1][0] === 7.25);
+check('fares: inside zones 4-14 peak and off-peak are the same', $lf[7][10][0] === $lf[7][10][1]);
+check('fares: Metro-North to Grand Central rises with the zone', mta_nt_mnr_fares()[16][0] === 17.75 && mta_nt_mnr_fares()[3][0] < mta_nt_mnr_fares()[9][0]);
+
+check('projects: late only when the finish slips a month', mta_nt_proj_late(['goal_completion_date' => '2029-09-07', 'estimated_actual_completion_date' => '2029-09-11']) === false
+    && mta_nt_proj_late(['goal_completion_date' => '2026-06-30', 'estimated_actual_completion_date' => '2026-12-31']) === true
+    && !mta_nt_proj_late(['goal_completion_date' => null, 'estimated_actual_completion_date' => '2026-12-31']));
+check('search: short station names', mta_feat_station_name('Times Sq-42 St (N,Q,R,W,S,1,2,3,7)/42 St (A,C,E)') === 'Times Sq-42 St' && mta_feat_station_name('Bay Ridge-95 St (R)') === 'Bay Ridge-95 St');
+
 echo ($count - $failed) . " passed, $failed failed\n";
 exit($failed ? 1 : 0);
