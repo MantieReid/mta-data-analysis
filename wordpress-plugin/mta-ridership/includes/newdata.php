@@ -244,7 +244,7 @@ function mta_nd_car_name($cc)
 
 function mta_nd_cars_fetch()
 {
-    $md = mta_nd_q('e2qc-xgxs', 'SELECT month, car_class, number_of_cars, _12_month_average_mdbf, mdbf ORDER BY month');
+    $md = mta_nd_q('e2qc-xgxs', 'SELECT month, car_class, number_of_cars, number_of_failures, _12_month_average_mdbf, mdbf ORDER BY month');
     if (!$md) {
         throw new Exception('No breakdown data');
     }
@@ -279,11 +279,21 @@ function mta_nd_cars_fetch()
         }
         return implode(' ', mta_nd_line_sort(array_keys($ls)));
     };
+    // Breakdowns a month: the MTA's own count of failures, averaged over the last 12 months of data.
+    $fails = [];
+    $from = mta_more_month($last, 11);
+    foreach ($md as $r) {
+        if (substr($r['month'], 0, 7) >= $from) {
+            $fails[$r['car_class']][0] = ($fails[$r['car_class']][0] ?? 0) + (int) ($r['number_of_failures'] ?? 0);
+            $fails[$r['car_class']][1] = ($fails[$r['car_class']][1] ?? 0) + 1;
+        }
+    }
     $classes = [];
     foreach ($latest as $cc => $r) {
-        $classes[] = ['cc' => $cc, 'mdbf' => (float) $r['_12_month_average_mdbf'], 'cars' => (int) $r['number_of_cars'], 'lines' => $lines_for($cc)];
+        $classes[] = ['cc' => $cc, 'mdbf' => (float) $r['_12_month_average_mdbf'], 'cars' => (int) $r['number_of_cars'], 'lines' => $lines_for($cc),
+                      'per_month' => ($fails[$cc][0] ?? 0) / max(1, $fails[$cc][1] ?? 0)];
     }
-    usort($classes, function ($a, $b) { return $b['mdbf'] <=> $a['mdbf']; });
+    usort($classes, function ($a, $b) { return $b['per_month'] <=> $a['per_month']; });
 
     // Whole fleet: car-weighted, then a 12-month rolling average since single months jump around.
     $sysm = [];
@@ -376,13 +386,15 @@ function mta_nd_cars_page()
     }
     $items = [];
     foreach ($d['classes'] as $c) {
-        $items[] = [mta_nd_car_name($c['cc']), $c['mdbf'], mta_nd_num($c['mdbf']) . ' mi',
-                    'Built ' . (MTA_ND_CAR_INFO[$c['cc']][1] ?? '?') . ' · ' . mta_nd_num($c['cars']) . ' cars' . ($c['lines'] ? ' · runs on ' . $c['lines'] : '')];
+        $pm = $c['per_month'] ?? 0;
+        $items[] = [mta_nd_car_name($c['cc']), $pm, ($pm >= 10 ? mta_nd_num($pm) : number_format($pm, 1)) . ' a month',
+                    'Built ' . (MTA_ND_CAR_INFO[$c['cc']][1] ?? '?') . ' · ' . mta_nd_num($c['cars']) . ' cars' . ($c['lines'] ? ' · runs on ' . $c['lines'] : '') .
+                    ' · ' . mta_nd_num($c['mdbf']) . ' miles between breakdowns'];
     }
-    $best = $d['classes'][0];
-    $worst = end($d['classes']);
+    $fleet_pm = array_sum(array_column($d['classes'], 'per_month'));
     $body = mta_more_sec('Which subway trains break down the most?', mta_more_bars($items),
-        esc_html('Average miles a car runs between breakdowns that delay service, over the 12 months to ' . mta_nd_month_name($d['last']) . '. Higher is better. ' .
+        esc_html('Breakdowns that delayed service, a month on average, over the 12 months to ' . mta_nd_month_name($d['last']) . '. Models with more cars run more miles, ' .
+        'so they have more breakdowns; the miles between breakdowns (the MTA\'s own measure) compares models fairly, and higher is better there. ' .
         'Lines come from the MTA\'s air-conditioning repair records, so a model that had no repairs may show no lines.'));
     $body .= mta_more_sec('Are subway breakdowns getting better?',
         mta_nd_chart(mta_nd_month_points($d['trend']), 'Miles between breakdowns, whole fleet', function ($v) { return mta_nd_num($v) . ' mi'; }),
@@ -438,7 +450,7 @@ function mta_nd_cars_page()
         'Planned retirement = last delivery year plus the planned life the MTA gives the model.');
 
     $tiles = [mta_more_tile(mta_nd_num(array_sum(array_column($d['classes'], 'cars'))), 'subway cars in service'),
-              mta_more_tile(round($best['mdbf'] / max(1, $worst['mdbf'])) . 'x', 'farther between breakdowns: ' . mta_nd_car_name($best['cc']) . ' vs ' . mta_nd_car_name($worst['cc'])),
+              mta_more_tile(mta_nd_num($fleet_pm), 'subway car breakdowns a month'),
               mta_more_tile(mta_nd_num($hot_total), 'AC repairs in 12 months')];
     if ($oldest) {
         $tiles[] = mta_more_tile((string) $oldest[1], 'oldest subway cars still running (' . $oldest[0] . ')');
@@ -735,13 +747,13 @@ function mta_nd_buses_page()
     }
     $items = [];
     foreach ($d['boro'] as $b => $v) {
-        $items[] = [$b, $v[0] / max(1, $v[1]), mta_nd_num($v[0] / max(1, $v[1])) . ' mi', mta_nd_num($v[1]) . ' breakdowns · ' . mta_nd_num($v[0] / 1e6, 1) . ' million miles'];
+        $items[] = [$b, $v[1] / 12, mta_nd_num($v[1] / 12) . ' a month', mta_nd_num($v[0] / max(1, $v[1])) . ' miles between breakdowns · ' . mta_nd_num($v[0] / 1e6, 1) . ' million miles in 12 months'];
     }
-    usort($items, function ($a, $b) { return $a[1] <=> $b[1]; });
+    usort($items, function ($a, $b) { return $b[1] <=> $a[1]; });
     $worst = $items[0][0] ?? '';
     $body = mta_more_sec('Where buses break down the most', mta_more_bars($items),
-        esc_html('Average miles a bus runs between breakdowns that need a road call, by the borough of its depot, ' . mta_nd_month_name($d['y0']) . ' – ' . mta_nd_month_name($d['last']) .
-        '. Higher is better; the borough at the top breaks down most often.'));
+        esc_html('Bus breakdowns that needed a road call, a month on average, by the borough of the bus\'s depot, ' . mta_nd_month_name($d['y0']) . ' – ' . mta_nd_month_name($d['last']) .
+        '. Boroughs with more buses run more miles, so they have more breakdowns; the miles between breakdowns compares them fairly.'));
     $body .= mta_more_sec('Are bus breakdowns getting better?', mta_nd_chart(mta_nd_month_points($d['trend']), 'Miles between bus breakdowns', function ($v) { return mta_nd_num($v) . ' mi'; }),
         'All boroughs, 12-month average. Each bar is one month.');
 
@@ -775,7 +787,7 @@ function mta_nd_buses_page()
     $first_q = array_key_first($d['fare']);
     $tiles = [mta_more_tile(mta_nd_pct($d['fare'][$d['q_last']]), 'of bus riders didn\'t pay (' . $ql . ')'),
               mta_more_tile(mta_nd_pct($d['fare'][$first_q]), 'in ' . str_replace('-', ' ', $first_q)),
-              mta_more_tile($worst, 'borough where buses break down most'),
+              mta_more_tile($worst, 'borough with the most bus breakdowns'),
               mta_more_tile(mta_nd_num(array_sum(array_column($d['fleet'], 'old'))), 'of ' . mta_nd_num(array_sum(array_column($d['fleet'], 'buses'))) . ' buses are over 12 years old')];
     return mta_nd_page('buses', 'NYC Buses: Breakdowns, Bus Age and Fare Evasion', 'How reliable NYC buses are, how old they are and how many riders pay', $tiles, $body,
         ['7mt2-y7ip' => 'Bus Mean Distance Between Failures', 'kf6s-w5a7' => 'Bus System Fleet Age', 'uv5h-dfhp' => 'Bus Fare Evasion'], $d['updated']);
