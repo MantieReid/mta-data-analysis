@@ -315,14 +315,14 @@ function mta_heat_night_section($all, $sec)
     usort($big, function ($a, $b) { return $b['share'] <=> $a['share']; });
     $tr = '';
     foreach (array_slice($big, 0, 15) as $i => $r) {
-        $tr .= '<tr><td>' . ($i + 1) . '</td><td>' . $link($r['s']) . '</td><td>' . $pct($r['share']) . '</td><td>' .
+        $tr .= '<tr><td>' . ($i + 1) . '</td><td>' . $link($r['s']) . '</td><td>' . esc_html(implode(' ', mta_stations_lines_of($r['s']['name']))) . '</td><td>' . $pct($r['share']) . '</td><td>' .
             number_format($r['share'] / $avg, 1) . '×</td><td>' . number_format($r['n']) . '</td></tr>';
     }
     $byCount = $rows;
     usort($byCount, function ($a, $b) { return $b['n'] <=> $a['n']; });
     $quiet = array_slice(array_reverse($big), 0, 5);
     $o = '<p>Across the subway, <strong>' . $pct($avg) . '</strong> of riders enter between 10 PM and 4 AM. These stations get far more of their riders at night than that.</p>' .
-        '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th>#</th><th>Station</th><th>Share at night</th><th>vs average</th><th>Night riders a week</th></tr></thead><tbody>' . $tr . '</tbody></table></div>' .
+        '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th>#</th><th>Station</th><th>Lines</th><th>Share at night</th><th>vs average</th><th>Night riders a week</th></tr></thead><tbody>' . $tr . '</tbody></table></div>' .
         '<p><strong>Most night riders in total:</strong> ' . implode(', ', array_map(function ($r) use ($link) {
             return $link($r['s']) . ' (' . number_format($r['n']) . ' a week)';
         }, array_slice($byCount, 0, 5))) . '.</p>' .
