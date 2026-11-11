@@ -258,11 +258,79 @@ function mta_heat_ranking_section($all, $sec)
             }
             $x = round(($s['lon'] - $minx) / ($maxx - $minx) * ($w - 20) + 10, 1);
             $y = round(($maxy - $s['lat']) / ($maxy - $miny) * ($hgt - 20) + 10, 1);
-            $dots .= '<circle cx="' . $x . '" cy="' . $y . '" r="' . ($s['avg'] > 30000 ? 5 : 3) . '" fill="' . $colors[$t] . '"><title>' .
-                esc_html(mta_stations_display($s['name']) . ': ' . $types[$t][0]) . '</title></circle>';
+            // Each dot links to its station page. A bigger see-through circle makes it easy to tap on a phone.
+            $label = mta_stations_display($s['name']) . ': ' . $types[$t][0];
+            $dots .= '<a href="' . esc_url(mta_stations_link($s['slug'])) . '" aria-label="' . esc_attr($label) . '"><title>' . esc_html($label) . '</title>' .
+                '<circle cx="' . $x . '" cy="' . $y . '" r="8" fill="transparent"/>' .
+                '<circle class="mta-pers-pt" cx="' . $x . '" cy="' . $y . '" r="' . ($s['avg'] > 30000 ? 5 : 3) . '" fill="' . $colors[$t] . '"/></a>';
         }
-        $o .= '<svg class="mta-pers-map" viewBox="0 0 ' . $w . ' ' . $hgt . '" role="img" aria-label="Map of every subway station colored by personality">' . $dots . '</svg>';
+        $o .= '<svg class="mta-pers-map" viewBox="0 0 ' . $w . ' ' . $hgt . '" role="group" aria-label="Map of every subway station colored by personality. Select a dot to open that station.">' . $dots . '</svg>' .
+            '<p class="mta-pers-hint">Tap or click a dot to open that station.</p>';
     }
     return $sec('Station personalities', $o,
         'Each station is tagged from the shape of its week (riders entering by hour and weekday, last ' . (int) $d['weeks'] . ' weeks). Most stations are in residential neighborhoods, so most are morning commuter stops.');
+}
+
+/** Night share for one station's week: entries 10 PM - 4 AM (every day) over all entries. [share, night riders a week, all riders a week]. */
+function mta_heat_night($week)
+{
+    $night = 0;
+    for ($d = 0; $d < 7; $d++) {
+        foreach ([22, 23, 0, 1, 2, 3] as $h) {
+            $night += $week[$d * 24 + $h];
+        }
+    }
+    $tot = array_sum($week);
+    return [$tot ? $night / $tot : 0, $night, $tot];
+}
+
+/** /stations/: stations with the most night-time riders compared with others. */
+function mta_heat_night_section($all, $sec)
+{
+    if (!mta_heat_live() || !($d = mta_heat_data())) {
+        return '';
+    }
+    $rows = [];
+    $sumN = $sumT = 0;
+    foreach ($all as $s) {
+        $w = $d['s'][$s['slug']] ?? null;
+        if (!$w || count($w) !== 168) {
+            continue;
+        }
+        [$share, $n, $t] = mta_heat_night($w);
+        $sumN += $n;
+        $sumT += $t;
+        $rows[] = ['s' => $s, 'share' => $share, 'n' => $n, 't' => $t];
+    }
+    if (!$rows || !$sumT) {
+        return '';
+    }
+    $avg = $sumN / $sumT;
+    $link = function ($s) {
+        return '<a href="' . esc_url(mta_stations_link($s['slug'])) . '">' . esc_html(mta_stations_display($s['name'])) . '</a>';
+    };
+    $pct = function ($x) { return number_format($x * 100, 1) . '%'; };
+    // Small stations swing a lot, so the share ranking needs at least 20,000 riders a week.
+    $big = array_values(array_filter($rows, function ($r) { return $r['t'] >= 20000; }));
+    usort($big, function ($a, $b) { return $b['share'] <=> $a['share']; });
+    $tr = '';
+    foreach (array_slice($big, 0, 15) as $i => $r) {
+        $tr .= '<tr><td>' . ($i + 1) . '</td><td>' . $link($r['s']) . '</td><td>' . $pct($r['share']) . '</td><td>' .
+            number_format($r['share'] / $avg, 1) . '×</td><td>' . number_format($r['n']) . '</td></tr>';
+    }
+    $byCount = $rows;
+    usort($byCount, function ($a, $b) { return $b['n'] <=> $a['n']; });
+    $quiet = array_slice(array_reverse($big), 0, 5);
+    $o = '<p>Across the subway, <strong>' . $pct($avg) . '</strong> of riders enter between 10 PM and 4 AM. These stations get far more of their riders at night than that.</p>' .
+        '<div class="mta-table-wrap"><table class="mta-table"><thead><tr><th>#</th><th>Station</th><th>Share at night</th><th>vs average</th><th>Night riders a week</th></tr></thead><tbody>' . $tr . '</tbody></table></div>' .
+        '<p><strong>Most night riders in total:</strong> ' . implode(', ', array_map(function ($r) use ($link) {
+            return $link($r['s']) . ' (' . number_format($r['n']) . ' a week)';
+        }, array_slice($byCount, 0, 5))) . '.</p>' .
+        '<p><strong>Quietest at night:</strong> ' . implode(', ', array_map(function ($r) use ($link, $pct) {
+            return $link($r['s']) . ' (' . $pct($r['share']) . ')';
+        }, $quiet)) . '. These are mostly residential stops where riders leave in the morning and come home in the evening.</p>' .
+        '<p>Why: nightlife (West Village, the Lower East Side, Bushwick), night games (Mets–Willets Point and Yankee Stadium during the season) and Broadway shows letting out (49 and 50 St).</p>';
+    return '<div id="night-riders"></div>' . $sec('Stations with the most night riders', $o,
+        'Riders entering between 10 PM and 4 AM, every day of the week, as a share of all riders entering, from MTA hourly ridership (' .
+        esc_html($d['from']) . ' to ' . esc_html($d['to']) . '). Stations with fewer than 20,000 riders a week are left out of the ranking. It counts entries, not exits.');
 }
