@@ -298,14 +298,14 @@ add_shortcode('mta_stations', function () {
         return '<p>Station data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.15');
     if (mta_ridership_look_v2()) {
         wp_enqueue_script('mta-tables', $base . 'assets/mta-tables.js', [], '1.15.0', true);
     }
     $st = mta_stations_current();
-    if ($st ? mta_flows_live() : mta_stationmap_live()) { // the station maps are drawn with Leaflet
+    if ($st ? mta_flows_live() : (mta_stationmap_live() || (function_exists('mta_heat_live') && mta_heat_live()))) { // the station maps are drawn with Leaflet
         mta_ridership_leaflet();
-        wp_enqueue_script('mta-station-maps', $base . 'assets/mta-station-maps.js', ['leaflet'], '1.1.5', true);
+        wp_enqueue_script('mta-station-maps', $base . 'assets/mta-station-maps.js', ['leaflet'], '1.2.0', true);
     }
     return $st ? mta_stations_render($st) : mta_stations_render_ranking();
 });

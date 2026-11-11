@@ -357,7 +357,9 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 .mta-ridership .mta-pers-card p { margin: .3em 0; font-size: .92rem; }
 .mta-ridership .mta-pers-dot { display: inline-block; width: 11px; height: 11px; border-radius: 50%; margin-right: .5em; }
 .mta-ridership .mta-pers-map { display: block; width: 100%; max-width: 640px; height: auto; margin: 1em auto 0; background: rgba(128,128,128,.08); border-radius: 10px; }
-.mta-ridership .mta-pers-map a { cursor: pointer; }
-.mta-ridership .mta-pers-map a:hover .mta-pers-pt, .mta-ridership .mta-pers-map a:focus .mta-pers-pt { stroke: currentColor; stroke-width: 2; r: 7; }
-.mta-ridership .mta-pers-map a:focus { outline: none; }
+.mta-ridership .mta-persmap-map { height: 540px; }
+@media (max-width: 560px) { .mta-ridership .mta-persmap-map { height: 460px; } }
+.mta-ridership .mta-heat-controls .mta-pers-key { display: flex; flex-wrap: wrap; gap: 6px; background: none; padding: 0; border: 0; }
+.mta-ridership .mta-heat-controls .mta-pers-key button, .mta-ridership .mta-heat-controls .mta-pers-key button[aria-pressed="true"] { display: inline-flex; align-items: center; gap: 6px; background: var(--mta-card, transparent); color: var(--text, var(--mta-text, #0b0c0c)); border: 1px solid var(--mta-border); border-radius: 999px; padding: 4px 12px; font-weight: 500; box-shadow: none; }
+.mta-ridership .mta-heat-controls .mta-pers-key button[aria-pressed="false"] { opacity: .45; text-decoration: line-through; }
 .mta-ridership .mta-pers-hint { text-align: center; font-size: .85em; opacity: .7; margin: .4em 0 0; }

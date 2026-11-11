@@ -240,32 +240,27 @@ function mta_heat_ranking_section($all, $sec)
     }
     $o .= '</div>';
 
-    // A simple map: one dot per station.
-    $pts = array_values(array_filter($all, function ($s) { return $s['lat'] !== null && $s['lon'] !== null; }));
-    if ($pts) {
-        $minx = min(array_column($pts, 'lon'));
-        $maxx = max(array_column($pts, 'lon'));
-        $miny = min(array_column($pts, 'lat'));
-        $maxy = max(array_column($pts, 'lat'));
-        $kx = cos(deg2rad(40.7));
-        $w = 600;
-        $hgt = round($w * (($maxy - $miny) / (($maxx - $minx) * $kx)));
-        $dots = '';
-        foreach ($pts as $s) {
-            $t = $d['p'][$s['slug']] ?? null;
-            if (!$t) {
-                continue;
-            }
-            $x = round(($s['lon'] - $minx) / ($maxx - $minx) * ($w - 20) + 10, 1);
-            $y = round(($maxy - $s['lat']) / ($maxy - $miny) * ($hgt - 20) + 10, 1);
-            // Each dot links to its station page. A bigger see-through circle makes it easy to tap on a phone.
-            $label = mta_stations_display($s['name']) . ': ' . $types[$t][0];
-            $dots .= '<a href="' . esc_url(mta_stations_link($s['slug'])) . '" aria-label="' . esc_attr($label) . '"><title>' . esc_html($label) . '</title>' .
-                '<circle cx="' . $x . '" cy="' . $y . '" r="8" fill="transparent"/>' .
-                '<circle class="mta-pers-pt" cx="' . $x . '" cy="' . $y . '" r="' . ($s['avg'] > 30000 ? 5 : 3) . '" fill="' . $colors[$t] . '"/></a>';
+    // A real map (Leaflet, drawn by mta-station-maps.js): one dot per station, coloured by personality, sized by riders.
+    // Hover shows the name; a click opens the station page.
+    $pts = [];
+    foreach ($all as $s) {
+        $t = $d['p'][$s['slug']] ?? null;
+        if ($t && isset($types[$t]) && $s['lat'] !== null && $s['lon'] !== null) {
+            $pts[] = [mta_stations_display($s['name']), $s['slug'], implode(' ', mta_stations_lines_of($s['name'])),
+                round($s['lat'], 5), round($s['lon'], 5), (int) $s['avg'], $t];
         }
-        $o .= '<svg class="mta-pers-map" viewBox="0 0 ' . $w . ' ' . $hgt . '" role="group" aria-label="Map of every subway station colored by personality. Select a dot to open that station.">' . $dots . '</svg>' .
-            '<p class="mta-pers-hint">Tap or click a dot to open that station.</p>';
+    }
+    if ($pts) {
+        usort($pts, function ($a, $b) { return $b[5] <=> $a[5]; });
+        $legend = [];
+        foreach ($types as $code => $info) {
+            if (!empty($by[$code])) {
+                $legend[$code] = [$info[0], $colors[$code]];
+            }
+        }
+        $json = wp_json_encode(['s' => $pts, 'types' => $legend, 'base' => trailingslashit(mta_stations_url())]);
+        $o .= '<div data-slot="persmap" class="mta-persmap"><p class="mta-pers-hint">Loading the map…</p></div>' .
+            '<script type="application/json" id="mta-persmap-data">' . str_replace('</', '<\/', $json) . '</script>';
     }
     return $sec('Station personalities', $o,
         'Each station is tagged from the shape of its week (riders entering by hour and weekday, last ' . (int) $d['weeks'] . ' weeks). Most stations are in residential neighborhoods, so most are morning commuter stops.');

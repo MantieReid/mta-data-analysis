@@ -208,4 +208,52 @@
     });
     draw();
   }
+
+  // ---- Stations page: station personalities, one dot per station coloured by its type; a click opens the station ----
+  var pm = slot('persmap'), pmData = document.getElementById('mta-persmap-data');
+  if (pm && pmData) lazy(pm, function () { persMap(pm, JSON.parse(pmData.textContent)); });
+  function persMap(box, d) {
+    var top = d.s.length ? d.s[0][5] : 1, off = {};
+    box.innerHTML = '<div class="mta-heat-controls"><div class="mta-view-switch mta-pers-key" role="group" aria-label="Show or hide station types">' +
+      Object.keys(d.types).map(function (k) {
+        return '<button type="button" data-type="' + k + '" aria-pressed="true"><span class="mta-pers-dot" style="background:' + d.types[k][1] + '"></span>' + esc(d.types[k][0]) + '</button>';
+      }).join('') + '</div></div><div class="mta-map mta-persmap-map"></div>' +
+      '<p class="mta-pers-hint">Hover over a dot to see the station; click or tap it to open the station page. Bigger dots have more riders. Tap a type above to hide or show it.</p>';
+    var el = box.querySelector('.mta-persmap-map');
+    var map = baseMap(el), renderer = L.canvas({ padding: 0.2, tolerance: 6 });
+    map.fitBounds(d.s.map(function (s) { return [s[3], s[4]]; }), { padding: [12, 12] });
+    var group = L.featureGroup().addTo(map);
+    // The data comes busiest first, so smaller stations are drawn on top and stay clickable.
+    var dots = d.s.map(function (s) {
+      var m = L.circleMarker([s[3], s[4]], { renderer: renderer, weight: 1, color: 'rgba(15,23,42,0.85)', fillColor: d.types[s[6]][1], fillOpacity: 0.95 });
+      m.st = s; group.addLayer(m);
+      return m;
+    });
+    group.bindTooltip(function (layer) {
+      var s = layer.st;
+      return '<strong>' + esc(s[0]) + '</strong>' + (s[2] ? ' <span class="mta-tt-lines">' + esc(s[2]) + '</span>' : '') + '<br>' +
+        esc(d.types[s[6]][0]) + '<br>' + s[5].toLocaleString('en-US') + ' riders a day<br><em>Click to open</em>';
+    }, { direction: 'top', className: 'mta-tt' });
+    group.on('click', function (e) { window.location.href = d.base + e.layer.st[1] + '/'; });
+    group.on('mouseover', function (e) { e.layer.setStyle({ color: '#fff', weight: 2 }); el.style.cursor = 'pointer'; });
+    group.on('mouseout', function (e) { e.layer.setStyle({ color: 'rgba(15,23,42,0.85)', weight: 1 }); el.style.cursor = ''; });
+    function draw() {
+      var k = Math.max(1, Math.pow(1.3, map.getZoom() - 11));
+      dots.forEach(function (m) {
+        var hide = off[m.st[6]];
+        if (hide && group.hasLayer(m)) group.removeLayer(m);
+        if (!hide && !group.hasLayer(m)) group.addLayer(m);
+        m.setRadius((3 + 8 * Math.sqrt(m.st[5] / top)) * k);
+      });
+    }
+    map.on('zoomend', draw);
+    box.querySelector('.mta-pers-key').addEventListener('click', function (e) {
+      var b = e.target.closest('button[data-type]');
+      if (!b) return;
+      off[b.dataset.type] = !off[b.dataset.type];
+      b.setAttribute('aria-pressed', String(!off[b.dataset.type]));
+      draw();
+    });
+    draw();
+  }
 })();
