@@ -258,6 +258,18 @@ function mta_buses_page()
     return get_page_by_path(MTA_BUSES_SLUG, OBJECT, 'page');
 }
 
+/** The live bus map (its own app, repo MantieReid/NYC-live-Bus-Map); with a route it opens on that route. */
+function mta_buses_live_url($label = '')
+{
+    return 'https://bus.mantiereidii.com/' . ($label !== '' ? '#' . rawurlencode($label) : '');
+}
+
+/** Links to the live bus map (live since 2026-11-10; false hides them). */
+function mta_buses_live_links()
+{
+    return true;
+}
+
 function mta_buses_url($slug = '')
 {
     return home_url('/' . MTA_BUSES_SLUG . '/' . ($slug ? $slug . '/' : ''));
@@ -413,7 +425,9 @@ add_shortcode('mta_buses', function () {
     if ($r) {
         $o .= '<header class="mta-hero"><h1>' . esc_html($r['label']) . ' Bus: Stops, Map, Riders &amp; Speed' . '</h1>' .
             '<p class="mta-hero-links">' . esc_html(trim($r['name'] . ' · ' . $r['type'], ' ·')) . ' · Report card from MTA open data, ' . $range .
-            ' · Not affiliated with the MTA · <a href="' . esc_url('https://bustime.mta.info/m/?q=' . rawurlencode(str_replace('+', '-SBS', $r['id']))) . '" rel="noopener">Live bus times on MTA Bus Time &rarr;</a></p>' .
+            ' · Not affiliated with the MTA · ' .
+            (mta_buses_live_links() ? '<a href="' . esc_url(mta_buses_live_url($r['label'])) . '">See ' . esc_html($r['label']) . ' buses live on the map &rarr;</a> · ' : '') .
+            '<a href="' . esc_url('https://bustime.mta.info/m/?q=' . rawurlencode(str_replace('+', '-SBS', $r['id']))) . '" rel="noopener">Live bus times on MTA Bus Time &rarr;</a></p>' .
             '<div class="mta-tiles mta-tiles-find">' .
             $tile(number_format($r['riders']), 'riders a day (#' . $r['riders_rank'] . ' of ' . $r['riders_of'] . ')') .
             (isset($r['mph']) ? $tile($r['mph'] . ' mph', 'average weekday speed' . (isset($r['mph_rank']) ? ' (#' . $r['mph_rank'] . ' fastest)' : '')) : '') .
@@ -453,7 +467,8 @@ add_shortcode('mta_buses', function () {
             implode(' ', array_map(function ($x) { return '<a class="mta-find-pick" href="' . esc_url(mta_buses_url($x['slug'])) . '">' . esc_html($x['label']) . '</a>'; }, $same)) . '</p>');
     } else {
         $o .= '<header class="mta-hero"><h1>NYC Bus Routes: Busiest, Slowest &amp; Least Reliable</h1>' .
-            '<p class="mta-hero-links">Report cards for every NYC bus route from MTA open data, ' . $range . ' · Not affiliated with the MTA</p><div class="mta-tiles">' .
+            '<p class="mta-hero-links">Report cards for every NYC bus route from MTA open data, ' . $range . ' · Not affiliated with the MTA' .
+            (mta_buses_live_links() ? ' · <a href="' . esc_url(mta_buses_live_url()) . '">Every bus live on the map &rarr;</a>' : '') . '</p><div class="mta-tiles">' .
             $tile(number_format($s['riders']), 'bus riders a day') . $tile($s['mph'] . ' mph', 'average local bus speed') . $tile((string) $s['routes'], 'routes') .
             '</div></header>';
         // The search box is in the page itself, so nothing below it moves when the script starts.

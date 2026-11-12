@@ -436,12 +436,50 @@ add_action('admin_post_mta_ridership_save', function () {
     $email = sanitize_email(wp_unslash($_POST['alert_email'] ?? ''));
     update_option('mta_ridership_alert_email', is_email($email) ? $email : '', false);
     update_option('mta_ridership_reconcile_days', min(365, max(0, (int) ($_POST['reconcile_days'] ?? 30))), false);
+    $bus_key = preg_replace('/[^A-Za-z0-9-]/', '', wp_unslash($_POST['bustime_key'] ?? ''));
+    if ($bus_key !== '' || !empty($_POST['bustime_remove'])) {
+        mta_ridership_save_bustime_key($bus_key);
+    }
     if (!empty($_POST['refresh_now'])) {
         mta_ridership_run_step('refresh');
     }
     wp_safe_redirect(admin_url('options-general.php?page=mta-ridership&done=1'));
     exit;
 });
+
+/**
+ * MTA Bus Time developer key (live bus locations for the map app). It is never shown back on the page. It is kept in
+ * an option that isn't autoloaded, and in a file outside the web folder that only the site's own user can read, so
+ * the map app's bus relay (map.mantiereidii.com/api/buses.php) can use it without WordPress. Empty = remove it.
+ */
+function mta_ridership_bustime_file()
+{
+    return dirname(rtrim(ABSPATH, '/')) . '/.mta-bustime-key';
+}
+
+function mta_ridership_save_bustime_key($key)
+{
+    $file = mta_ridership_bustime_file();
+    if ($key === '') {
+        delete_option('mta_bustime_key');
+        delete_option('mta_bustime_key_check');
+        if (file_exists($file)) {
+            @unlink($file);
+        }
+        return;
+    }
+    update_option('mta_bustime_key', $key, false);
+    if (@file_put_contents($file, $key, LOCK_EX) !== false) {
+        @chmod($file, 0600);
+    }
+    // Check it with one small request (the list of agencies Bus Time covers).
+    $res = wp_remote_get('https://bustime.mta.info/api/where/agencies-with-coverage.json?key=' . rawurlencode($key), ['timeout' => 20]);
+    $code = is_wp_error($res) ? 0 : (int) wp_remote_retrieve_response_code($res);
+    $body = is_wp_error($res) ? '' : wp_remote_retrieve_body($res);
+    $ok = $code === 200 && strpos($body, '"code":200') !== false;
+    update_option('mta_bustime_key_check', ['ok' => $ok, 'when' => gmdate('c'),
+        'note' => $ok ? 'The MTA accepted the key.' : ($code ? "The MTA answered $code: the key may be wrong or not active yet." : 'Could not reach the MTA to check the key.')], false);
+}
 
 function mta_ridership_admin_page()
 {
@@ -493,6 +531,14 @@ function mta_ridership_admin_page()
                 <input type="email" name="alert_email" class="regular-text" value="<?php echo esc_attr(get_option('mta_ridership_alert_email')); ?>"></label></p>
             <p><label>Re-check the last <input type="number" name="reconcile_days" min="0" max="365" style="width:5em"
                 value="<?php echo esc_attr(mta_ridership_reconcile_days()); ?>"> days of subway history on every run (picks up MTA revisions; 0 = off)</label></p>
+            <?php $bk = get_option('mta_bustime_key');
+            $bc = get_option('mta_bustime_key_check'); ?>
+            <p><label>MTA Bus Time key (for live buses on the map; never shown again once saved):<br>
+                <input type="password" name="bustime_key" class="regular-text" autocomplete="off" placeholder="<?php echo $bk ? 'A key is saved. Paste a new one to replace it.' : 'Paste your key here'; ?>"></label>
+                <?php if ($bk) : ?>
+                    <br><span style="color:<?php echo !empty($bc['ok']) ? '#1a7f37' : '#b32d2e'; ?>"><?php echo esc_html(($bc['note'] ?? 'Saved.') . (isset($bc['when']) ? ' Checked ' . $bc['when'] . ' (UTC).' : '')); ?></span>
+                    <br><label><input type="checkbox" name="bustime_remove" value="1"> Remove the saved key</label>
+                <?php endif; ?></p>
             <p>
                 <?php submit_button('Save', 'secondary', 'save', false); ?>
                 <?php submit_button('Save and refresh data now (takes up to a few minutes)', 'primary', 'refresh_now', false); ?>
