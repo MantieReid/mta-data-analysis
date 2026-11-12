@@ -25,7 +25,7 @@ Adjust paths for another host. Nothing here needs root.
 Every 15 minutes, so the daily refresh runs without a visitor and retries happen promptly:
 
 ```
-*/15 * * * * cd /home/mantiere/public_html && /usr/bin/wp cron event run --due-now --quiet
+*/15 * * * * cd ~/public_html && /usr/bin/wp cron event run --due-now --quiet
 ```
 
 Verify: `crontab -l`, `wp cron event list | grep mta` (the daily refresh should be listed), `wp mta-ridership status`.

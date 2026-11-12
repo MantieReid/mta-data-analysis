@@ -302,6 +302,18 @@ stop or double park on the route, by bus stop and hour over the last 12 full mon
 
 [![Bus-lane camera tickets by bus stop at 12 PM on weekdays](docs/images/bus-lane-blocking.jpg)](https://mantiereidii.com/bus-routes/)
 
+## Live bus map and bus replay
+
+A separate app at [bus.mantiereidii.com](https://bus.mantiereidii.com/) shows every MTA bus in the city on one map,
+updated every 30 seconds from MTA Bus Time. Type a route (`M15`) to see only its buses, or a bus number (`8432`) to
+follow one bus. The [replay](https://bus.mantiereidii.com/replay/) plays back saved days, from Nov 10, 2026 on and
+from 2017 to 2024 using the [Bus Data NYC](https://github.com/Bus-Data-NYC) archive. Every bus route report card
+links to its buses on the live map.
+
+| Live map | Replay of a weekday morning |
+|---|---|
+| [![Every MTA bus on the live map](docs/images/bus-live-map.png)](https://bus.mantiereidii.com/) | [![The bus replay at 8:20 AM with about 3,700 buses](docs/images/bus-replay.png)](https://bus.mantiereidii.com/replay/) |
+
 ## WordPress plugin
 
 See [`wordpress-plugin/README.md`](wordpress-plugin/README.md). In short:
