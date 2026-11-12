@@ -664,7 +664,7 @@ function mta_tm_cbd_fetch()
 
 function mta_tm_css()
 {
-    wp_enqueue_style('mta-ridership', plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php') . 'assets/mta-ridership.css', [], '1.18.1');
 }
 
 function mta_tm_pct($a, $b, $dp = 1)

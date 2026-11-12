@@ -307,9 +307,9 @@ body.mta-v2 .mta-ridership .mta-subhead { font-weight: 600; font-size: 1.05rem; 
 .mta-ridership .mta-heat td[data-i] { height: 20px; border-radius: 3px; cursor: pointer; }
 .mta-ridership .mta-heat td.on { outline: 3px solid #fff; outline-offset: -1px; }
 .mta-ridership .mta-heat-none, .mta-ridership .mta-heat td.mta-heat-none { background: repeating-linear-gradient(45deg, rgba(127,127,127,.18) 0 3px, transparent 3px 6px); }
-.mta-ridership .mta-heat .mta-heat-stop { position: sticky; left: 0; z-index: 1; width: 190px; background: hsl(var(--background, 222 47% 11%)); text-align: left; }
+.mta-ridership .mta-heat .mta-heat-stop { position: sticky; left: 0; z-index: 1; width: 190px; background: var(--mta-card, hsl(var(--background, 222 47% 11%))); text-align: left; }
 .mta-ridership .mta-heat .mta-heat-stop button { display: block; width: 100%; padding: 2px 6px 2px 4px; font: inherit; color: inherit; text-align: left; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; background: none; border: 0; cursor: pointer; }
-.mta-ridership .mta-heat tbody .mta-heat-stop button { color: hsl(var(--foreground, 0 0% 92%)); }
+.mta-ridership .mta-heat tbody .mta-heat-stop button { color: inherit; }
 .mta-ridership .mta-heat .mta-heat-stop button:hover { color: var(--mta-accent); }
 .mta-ridership .mta-heat .mta-heat-day { width: 56px; padding-left: 4px; text-align: right; font-variant-numeric: tabular-nums; }
 .mta-ridership .mta-heat-key { display: flex; flex-wrap: wrap; align-items: center; gap: .4em; margin-top: .6em; font-size: .8rem; color: var(--mta-muted); }

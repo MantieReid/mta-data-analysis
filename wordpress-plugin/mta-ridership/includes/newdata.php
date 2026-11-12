@@ -216,7 +216,7 @@ function mta_nd_month_points(array $series)
 function mta_nd_page($key, $title, $sub, array $tiles, $body, array $links, $updated, $extra = '')
 {
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     $a = [];
     foreach ($links as $id => $name) {
         $a[] = '<a href="https://data.ny.gov/d/' . esc_attr($id) . '" rel="noopener">' . esc_html($name) . '</a>';

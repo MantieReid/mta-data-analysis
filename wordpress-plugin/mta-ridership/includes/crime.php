@@ -655,7 +655,7 @@ add_shortcode('mta_crime', function () {
         return '<p>Subway crime data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     $d = $f['d'];
     $y = $f['y'];
     $b = $f['b'];

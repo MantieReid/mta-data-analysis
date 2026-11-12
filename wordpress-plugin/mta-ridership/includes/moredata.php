@@ -1075,7 +1075,7 @@ function mta_more_rail_page($k)
         return '<p>Railroad data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     [$short, $long] = $f['names'];
     $x = $f['x'];
     $o = '<header class="mta-hero"><h1>' . esc_html($short === 'LIRR' ? 'LIRR On-Time Performance, Delays & Ridership' : 'Metro-North On-Time Performance, Delays & Ridership') . '</h1>' .
@@ -1182,7 +1182,7 @@ function mta_more_pay_page()
         return '<p>Pay data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     $a = $p['all'];
     $y = $p['year'];
     $o = '<header class="mta-hero"><h1>MTA Salaries and Overtime (' . esc_html($y) . ')</h1>' .
@@ -1259,7 +1259,7 @@ function mta_more_bridges_page()
         return '<p>Bridge and tunnel data is loading. Check back in a few minutes.</p>';
     }
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     $tot = array_sum($b['facilities']);
     $days = max(1, $b['days']);
     $top = array_key_first($b['facilities']);

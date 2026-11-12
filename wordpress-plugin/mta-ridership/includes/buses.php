@@ -386,7 +386,7 @@ add_shortcode('mta_buses', function () {
     $r = mta_buses_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     mta_ridership_chartjs();
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     $heat_map = ($r ? mta_busstops_live() : mta_busstops_all_live()) || mta_busspeeds_live() || mta_buslanes_live(); // the stop and speed maps are drawn with Leaflet
     if ($heat_map) {
         mta_ridership_leaflet();

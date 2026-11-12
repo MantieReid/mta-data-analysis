@@ -370,7 +370,7 @@ add_shortcode('mta_lines', function () {
     $l = mta_lines_current();
     $base = plugin_dir_url(dirname(__DIR__) . '/mta-ridership.php');
     mta_ridership_chartjs();
-    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.16.12');
+    wp_enqueue_style('mta-ridership', $base . 'assets/mta-ridership.css', [], '1.18.1');
     wp_enqueue_script('mta-lines', $base . 'assets/mta-lines.js', ['chartjs'], '1.15.0', true);
     $more = mta_lines_more_live() && isset($d['system']['per_day']); // waits for the first run of the new step
     $js = ['months' => $d['months'], 'system' => $d['system'], 'line' => $l, 'causes' => mta_lines_causes()];
