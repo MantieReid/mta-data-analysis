@@ -24,7 +24,7 @@ By [Mantie Reid II](https://mantiereidii.com). Free to reuse with credit ([CC BY
 
 | 2026 vs 2025 | Fares and the MetroCard |
 |---|---|
-| ![Year-over-year change by borough and station](docs/images/2026-vs-2025.jpg) | ![Fare types and the MetroCard's share by month](docs/images/fares-and-metrocard.jpg) |
+| ![Year-over-year change by borough and station](docs/images/2026-vs-2025.jpg) | ![Share of subway entries by fare type](docs/images/fares-and-metrocard.jpg) |
 
 | Riders by hour of day | Riders per month |
 |---|---|
