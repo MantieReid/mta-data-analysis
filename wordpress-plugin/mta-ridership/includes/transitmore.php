@@ -121,11 +121,12 @@ function mta_tm_step()
     $parts = ['mta_tm_aar' => 'mta_tm_aar_fetch', 'mta_tm_rail' => 'mta_tm_rail_fetch', 'mta_tm_jobs' => 'mta_tm_jobs_fetch',
               'mta_tm_ezpass' => 'mta_tm_ezpass_fetch', 'mta_tm_sir' => 'mta_tm_sir_fetch', 'mta_tm_cbd' => 'mta_tm_cbd_fetch'];
     $errors = [];
+    $changed = false;
     foreach ($parts as $opt => $fn) {
         try {
             $x = $fn();
-            if ($x) {
-                update_option($opt, ['updated' => gmdate('c')] + $x, false);
+            if ($x && mta_ridership_save_changed($opt, $x)) {
+                $changed = true;
             }
         } catch (Throwable $e) {
             $errors[] = "$opt: " . $e->getMessage();
@@ -137,8 +138,9 @@ function mta_tm_step()
     } else {
         delete_option('mta_ridership_tm_error');
     }
-    if (mta_tm_live() && !mta_ridership_preview() && function_exists('rocket_clean_domain')) {
-        rocket_clean_domain();
+    if ($changed && mta_tm_live() && !mta_ridership_preview()) { // its pages and the railroad station pages, only on change
+        mta_ridership_clean_urls(array_merge(array_map('mta_tm_url', array_keys(MTA_TM_PAGES)),
+                                             array_map('mta_tm_rail_url', array_keys(MTA_TM_RAIL_SLUGS))));
     }
 }
 

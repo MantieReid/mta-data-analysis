@@ -184,8 +184,8 @@ function mta_busstops_step()
             $st['routes'] = $st['done'];
             $st['updated'] = gmdate('c');
             $st['all'] = mta_busstops_build_all($latest);
-            if (function_exists('rocket_clean_domain')) {
-                rocket_clean_domain();
+            if (function_exists('mta_ridership_clean_urls')) {
+                mta_ridership_clean_urls([mta_buses_url()]); // the bus route pages
             }
         }
         $st['checked'] = gmdate('c');

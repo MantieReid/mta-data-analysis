@@ -94,11 +94,12 @@ function mta_more_step()
     $parts = ['mta_more_stations' => 'mta_more_stations_fetch', 'mta_more_lines' => 'mta_more_lines_fetch', 'mta_more_safety' => 'mta_more_safety_fetch',
               'mta_more_rail' => 'mta_more_rail_fetch', 'mta_more_pay' => 'mta_more_pay_fetch', 'mta_more_bridges' => 'mta_more_bridges_fetch'];
     $errors = [];
+    $changed = false;
     foreach ($parts as $opt => $fn) {
         try {
             $x = $fn();
-            if ($x) {
-                update_option($opt, ['updated' => gmdate('c')] + $x, false);
+            if ($x && mta_ridership_save_changed($opt, $x)) {
+                $changed = true;
             }
         } catch (Throwable $e) {
             $errors[] = "$opt: " . $e->getMessage();
@@ -113,8 +114,9 @@ function mta_more_step()
             mta_tm_schedule(600); // then the step after it
         }
     }
-    if (mta_more_live() && function_exists('rocket_clean_domain')) { // station, line, bus and crime pages all show some of it
-        rocket_clean_domain();
+    if ($changed && mta_more_live()) { // station, line, bus and crime pages all show some of it
+        mta_ridership_clean_urls(array_merge(array_map('mta_more_url', array_keys(MTA_MORE_PAGES)),
+            [mta_stations_url(), mta_lines_url(), mta_buses_url(), mta_crime_url()]));
     }
 }
 

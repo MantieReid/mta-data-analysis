@@ -307,8 +307,8 @@ function mta_share_clear_cache(array $cards)
     if (!function_exists('rocket_clean_post')) {
         return;
     }
-    if (in_array('stations', $cards, true) && function_exists('rocket_clean_domain')) {
-        rocket_clean_domain(); // the stations card is on all of the station pages
+    if (in_array('stations', $cards, true) && function_exists('mta_ridership_clean_urls')) {
+        mta_ridership_clean_urls([mta_stations_url()]); // the stations card is on all of the station pages
         return;
     }
     foreach ($cards as $card) {

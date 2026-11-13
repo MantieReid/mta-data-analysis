@@ -319,6 +319,37 @@ function mta_ridership_clear_page_cache()
 }
 
 /**
+ * Save fresh data in an option and say whether it changed (the 'updated' time is ignored), so pages are only
+ * cleared from the cache when what they show is actually different.
+ */
+function mta_ridership_save_changed($opt, array $x)
+{
+    $old = get_option($opt);
+    if (is_array($old)) {
+        unset($old['updated']);
+    }
+    update_option($opt, ['updated' => gmdate('c')] + $x, false);
+    return $old != $x;
+}
+
+/**
+ * Clear the cached copies of some pages, plus the home page, instead of the whole site. A section's address
+ * (e.g. /stations/) clears every page under it, so after a data update only the pages showing that data are
+ * rebuilt. Only WP Rocket is handled; without it this does nothing.
+ */
+function mta_ridership_clean_urls(array $urls)
+{
+    if (!function_exists('rocket_clean_files')) {
+        return;
+    }
+    $urls[] = home_url('/');
+    rocket_clean_files(array_values(array_unique($urls)));
+    if (function_exists('rocket_clean_home')) {
+        rocket_clean_home();
+    }
+}
+
+/**
  * Leaflet (the map library), from this site (assets/vendor/leaflet, BSD-2 licence) since 2026-11-01. Its stylesheet
  * loads without holding up the page: only the map, further down, needs it.
  */

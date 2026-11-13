@@ -218,8 +218,8 @@ function mta_busspeeds_step()
             $st['month'] = $latest;
             $st['latest'] = $latest; // the status page reads it as a month
             $st['updated'] = gmdate('c');
-            if (function_exists('rocket_clean_domain')) {
-                rocket_clean_domain();
+            if (function_exists('mta_ridership_clean_urls')) {
+                mta_ridership_clean_urls([mta_buses_url()]); // the bus route pages
             }
         }
         $st['checked'] = gmdate('c');

@@ -99,11 +99,12 @@ function mta_nt_step()
     $parts = ['mta_nt_sif' => 'mta_nt_sif_fetch', 'mta_nt_ferry' => 'mta_nt_ferry_fetch', 'mta_nt_regional' => 'mta_nt_regional_fetch', 'mta_nt_omny' => 'mta_nt_omny_fetch',
               'mta_nt_alerts' => 'mta_nt_alerts_fetch', 'mta_nt_projects' => 'mta_nt_projects_fetch'];
     $errors = [];
+    $changed = false;
     foreach ($parts as $opt => $fn) {
         try {
             $x = $fn();
-            if ($x) {
-                update_option($opt, ['updated' => gmdate('c')] + $x, false);
+            if ($x && mta_ridership_save_changed($opt, $x)) {
+                $changed = true;
             }
         } catch (Throwable $e) {
             $errors[] = "$opt: " . $e->getMessage();
@@ -115,8 +116,8 @@ function mta_nt_step()
     } else {
         delete_option('mta_ridership_nt_error');
     }
-    if (mta_nt_live() && !mta_ridership_preview() && function_exists('rocket_clean_domain')) {
-        rocket_clean_domain();
+    if ($changed && mta_nt_live() && !mta_ridership_preview()) { // only its own pages, and only when the data changed
+        mta_ridership_clean_urls(array_map('mta_nt_url', array_keys(MTA_NT_PAGES)));
     }
 }
 

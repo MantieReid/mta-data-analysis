@@ -313,8 +313,8 @@ function mta_buslanes_step()
             }
             $st = ['month' => $latest, 'latest' => $latest, 'from' => substr($from, 0, 7), 'stops' => count($data['stops']),
                    'tickets' => $count($data['stops']), 'routes' => $per, 'updated' => gmdate('c')];
-            if (function_exists('rocket_clean_domain')) {
-                rocket_clean_domain();
+            if (function_exists('mta_ridership_clean_urls')) {
+                mta_ridership_clean_urls([mta_buses_url()]); // the bus route pages
             }
         }
         // The two charts, over the same year as the map.
