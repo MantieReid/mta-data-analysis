@@ -411,7 +411,7 @@ add_shortcode('mta_buses', function () {
     $table = function ($head, $rows) {
         $o = '<div class="mta-table-wrap"><table class="mta-table"><thead><tr>';
         foreach ($head as $h) {
-            $o .= '<th>' . esc_html($h) . '</th>';
+            $o .= '<th style="white-space:normal">' . esc_html($h) . '</th>';
         }
         $o .= '</tr></thead><tbody>';
         foreach ($rows as $row) {
@@ -439,7 +439,7 @@ add_shortcode('mta_buses', function () {
             (true ? ' Riders are paid entries (OMNY taps and MetroCard swipes), so people who board without paying aren\'t counted; ' .
             'riders a day covers ' . esc_html(mta_lines_month($d['from']) . ' – ' . mta_lines_month($d['latest'])) . '.' : ''));
         if (!empty($r['stops'])) {
-            $o .= $sec('Busiest stops', $table(['Stop', 'Boardings on an average weekday'], array_map(function ($x) {
+            $o .= $sec('Busiest stops', $table(['Stop', 'Weekday boardings'], array_map(function ($x) {
                 return [esc_html($x[0]), number_format($x[1])];
             }, $r['stops'])), 'MTA estimates for ' . esc_html(mta_lines_month($d['stops_month'])) . ' from passenger counters on the buses, both directions. ' .
                 (mta_busstops_live() ? 'They show which stops are busiest, not exact counts, and can\'t be compared with riders a day (paid entries).'
