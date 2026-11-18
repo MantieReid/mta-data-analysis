@@ -64,7 +64,7 @@ add_filter('rocket_disable_url_validation', function ($off) {
 register_activation_hook(__FILE__, function () {
     if (!wp_next_scheduled(MTA_RIDERSHIP_HOOK)) {
         // 10:00 UTC daily (~6 AM New York); MTA publishes with a lag, so time of day isn't critical.
-        wp_schedule_event((new DateTime('tomorrow 03:00', new DateTimeZone('America/New_York')))->getTimestamp(), 'daily', MTA_RIDERSHIP_HOOK);
+        wp_schedule_event((new DateTime('today 23:30', new DateTimeZone('America/New_York')))->getTimestamp(), 'daily', MTA_RIDERSHIP_HOOK);
     }
     wp_schedule_single_event(time() + 5, MTA_RIDERSHIP_HOOK); // first fill right away
 });
