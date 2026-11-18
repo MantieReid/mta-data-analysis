@@ -327,7 +327,9 @@ add_action('template_redirect', function () {
     }
     $total = count(mta_stations_all());
     $name = $st ? mta_stations_display($st['name']) : '';
-    $seo_title = $st ? (mta_ridership_seo_live() ? "$name Station: Riders & Busiest Hours" : "$name Station Ridership: Riders a Day & Busiest Hours")
+    // Lines that stop here, for the title: people search "Jay St-MetroTech subway" with the train letters. MTA names end in "(A,C,F,R)".
+    $trains = $st && preg_match('/\(([A-Z0-9, ]+)\)\s*$/', $st['name'], $m) ? ' (' . str_replace(',', ' ', $m[1]) . ')' : '';
+    $seo_title = $st ? (mta_ridership_seo_live() ? "$name Subway Station$trains: Riders & Busiest Hours" : "$name Station Ridership: Riders a Day & Busiest Hours")
                      : (mta_ridership_seo_live() ? "NYC Subway Stations Ranked: Busiest of All $total" : "Busiest NYC Subway Stations: All $total Stations Ranked");
     $desc = $st ? "$name station ($st[borough]): about " . number_format($st['avg']) . " riders a day, #$st[rank] of $total NYC subway stations. " .
                   'Busiest hours, accessibility, elevator and escalator reliability, and where riders go. From MTA open data.'

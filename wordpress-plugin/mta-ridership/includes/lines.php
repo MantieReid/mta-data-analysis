@@ -534,7 +534,7 @@ function mta_lines_seo()
         if ($l) {
             return ['d' => $d, 'l' => $l, 'url' => mta_lines_url($l['slug']),
                     'title' => strpos($l['code'], 'S ') === 0 ? "{$l['name']} Delays & On-Time Rate (" . substr($d['latest'], 0, 4) . ')'
-                                                              : ucfirst($l['name']) . ' Stops, Delays & On-Time Rate (' . substr($d['latest'], 0, 4) . ')',
+                                                              : ucfirst($l['name']) . ' Stops, Map, Delays & On-Time Rate (' . substr($d['latest'], 0, 4) . ')',
                     'description' => "{$l['name']} stops by borough, delays and reliability: {$l['otp']}% of trips on time (subway: {$s['otp']}%), #{$l['rank']} of " . count($d['lines']) .
                         ' lines. From MTA open data.'];
         }
