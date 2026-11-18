@@ -36,6 +36,7 @@ require_once __DIR__ . '/includes/subwaymap.php';
 require_once __DIR__ . '/includes/crime.php';
 require_once __DIR__ . '/includes/moredata.php';
 require_once __DIR__ . '/includes/transitmore.php';
+require_once __DIR__ . '/includes/timetables.php';
 require_once __DIR__ . '/includes/nyctransit.php';
 require_once __DIR__ . '/includes/nyctransit2.php';
 require_once __DIR__ . '/includes/newdata.php';

@@ -517,6 +517,7 @@ function mta_nt_ferry_page()
         array_filter([mta_more_tile(number_format($f['per_day']), 'boardings a day'), mta_more_tile(number_format(round($f['year12'] / 1e6, 1), 1) . 'M', 'rides in 12 months'),
             mta_more_tile((string) count($x['stops']), 'stops'), mta_more_tile((string) count(array_filter($x['routes'], function ($n) { return $n > 10000; })), 'routes')]));
     $o .= '<p class="mta-note">For fares, timetables and service alerts, see the official <a href="https://www.ferry.nyc/" rel="noopener">NYC Ferry site</a>.</p>';
+    $o .= mta_tt_picker('ferry', 'NYC Ferry', 'wall-st-pier-11');
 
     $o .= mta_more_sec('How many people ride NYC Ferry?', '<p>' . esc_html('About ' . number_format($f['per_day']) . ' boardings a day from ' . $f['range'] . ($f['chg'] ? ', ' . $f['chg'] . ' than the 12 months before.' : '.')) . '</p>' .
         mta_more_h3('Boardings a day, by month') . mta_more_month_chart($f['months'], 'NYC Ferry boardings a day by month'), 'Every boarding counts once, so a round trip is two.');

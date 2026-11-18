@@ -1064,7 +1064,7 @@ function mta_tm_rail_station_page($k, $st)
     $branch = $st['branch'] === 'City Terminal Zone' ? 'City Terminal Zone' : $st['branch'] . ' Branch';
     $access = $st['access'] === 'FULL' ? 'Accessible' : ($st['access'] ? ucfirst(strtolower(str_replace('_', ' ', $st['access']))) . ' accessible' : '');
     $o = '<p class="mta-note"><a href="' . esc_url(mta_more_url($k)) . '">' . esc_html($s) . '</a> › ' . esc_html($name) . '</p>' .
-        '<header class="mta-hero"><h1>' . esc_html("$name $s Station: " . (!empty($st['crowd']) ? 'Tickets, Crowding & On-Time Data' : 'Tickets, Destinations & On-Time Data')) . '</h1>' .
+        '<header class="mta-hero"><h1>' . esc_html("$name $s Station: " . (mta_tt_load($k, $st['code']) ? 'Schedule, ' : '') . (!empty($st['crowd']) ? 'Tickets, Crowding & On-Time Data' : 'Tickets, Destinations & On-Time Data')) . '</h1>' .
         '<p class="mta-hero-links">' . esc_html($branch . ($st['zone'] !== '' ? ' · Zone ' . $st['zone'] : '') . ($access ? ' · ' . $access : '') . ' · From MTA open data · Not affiliated with the MTA') . '</p><div class="mta-tiles">' .
         ($f['per_day'] ? mta_more_tile(number_format($f['per_day']), 'tickets a day from here') . mta_more_tile('#' . $st['rank'], 'of ' . $f['count'] . ' ' . $s . ' stations') : '') .
         ($f['peak_share'] !== null ? mta_more_tile($f['peak_share'] . '%', 'of tickets are peak fares') : '') .
@@ -1139,6 +1139,8 @@ function mta_tm_rail_station_page($k, $st)
             '. On time here means less than 3 minutes late, a stricter test than the railroad\'s usual 6 minutes, so the numbers are lower.');
     }
 
+    $o .= mta_tt_section($k, $st['code'], "$name $s");
+
     $eb = $d['elevators'][$k] ?? [];
     $key = $st['branch'] === 'City Terminal Zone' ? ($k === 'lirr' ? 'City Terminal' : 'Grand Central Terminal') : mta_tm_otp_branch($k, $st['branch']);
     if (isset($eb[$key])) {
@@ -1212,7 +1214,8 @@ add_action('template_redirect', function () {
         return;
     }
     $f = mta_tm_rail_station_facts($k, $st);
-    $title = $st['name'] . ' ' . $f['short'] . ' Station: ' . (!empty($st['crowd']) ? 'Tickets, Crowding & On-Time' : 'Tickets, Destinations & On-Time');
+    $title = $st['name'] . ' ' . $f['short'] . ' Station: ' . (mta_tt_load($k, $st['code']) ? (!empty($st['crowd']) ? 'Schedule, Tickets & Crowding' : 'Schedule, Tickets & Destinations')
+        : (!empty($st['crowd']) ? 'Tickets, Crowding & On-Time' : 'Tickets, Destinations & On-Time'));
     $desc = mta_ridership_seo_desc($st['name'] . ' ' . $f['short'] . ' station (' . ($st['branch'] === 'City Terminal Zone' ? 'City Terminal Zone' : $st['branch'] . ' Branch') .
         ($st['zone'] !== '' ? ', zone ' . $st['zone'] : '') . ')' . ($f['per_day'] ? ': about ' . number_format($f['per_day']) . ' tickets a day, #' . $st['rank'] . ' of ' . $f['count'] : '') .
         '. Where riders go, ' . ($f['crowd'] ? 'how crowded trains are by hour, ' : '') . 'on-time rate and accessibility. From MTA open data.');
@@ -1502,6 +1505,7 @@ function mta_tm_sir_page()
         ($f['otp'] !== null ? mta_more_tile($f['otp'] . '%', 'trains on time') : '') . ($f['per_day'] ? mta_more_tile(number_format($f['per_day']), 'rides a day') : '') .
         ($f['trips'] ? mta_more_tile((string) $f['trips'], 'trains a weekday') : '') . ($f['mdbf'] ? mta_more_tile(number_format($f['mdbf']), 'miles between breakdowns') : '') . '</div></header>';
     $o .= '<p class="mta-note">For schedules and service changes, see <a href="https://www.mta.info/schedules" rel="noopener">mta.info</a>.</p>';
+    $o .= mta_tt_picker('sir', 'Staten Island Railway', 'S31');
 
     if ($f['otp'] !== null) {
         $series = [];
